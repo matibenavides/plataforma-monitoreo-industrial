@@ -6,3 +6,7 @@ from django.http import HttpResponse
 
 def iniciosesion(request):
     return render(request, "index.html")
+
+
+def muestramenu(request):
+    return render(request, "menu.html")

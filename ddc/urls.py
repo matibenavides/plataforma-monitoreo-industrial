@@ -22,4 +22,5 @@ from fungicidas import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.iniciosesion),
+    path('menu',views.muestramenu),
 ]
