@@ -5,7 +5,7 @@ from django.http import HttpResponse
 # Create your views here.
 
 def iniciosesion(request):
-    return render(request, "index.html")
+    return render(request, "iniciosesion.html")
 
 
 def muestramenu(request):
