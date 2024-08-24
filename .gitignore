@@ -1,6 +1,7 @@
 entorvirtual/
 .vscode/
-ddc/__pycache__/
-fungicidas/__pycache__
+.ddc/__pycache__/
+.fungicidas/__pycache__/
 db.sqlite3
 __pycache__
+templates/copiamenutest.html/
