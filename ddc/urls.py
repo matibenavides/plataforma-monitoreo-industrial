@@ -23,4 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.iniciosesion),
     path('menu',views.muestramenu),
+
+    #----------# Control de lineas #----------#
+    path('cloracion/', views.cloracion),
 ]

@@ -14,14 +14,13 @@
 
     <link rel="stylesheet" href="{% static 'css/sidebars.css' %}"> <!-- ref css static-->
     <link rel="stylesheet" href="{% static 'css/separador.css' %}">
-    <link rel="stylesheet" href="{% static 'css/arreglomenu.css' %}">
 </head>
 
 <body data-bs-theme="light"> <!-- Cambia modo oscuro o claro con dark - light-->
     <main class="container-fluid" style="padding: 0 0px;"> <!-- Cambios con main es "d-flex flex-nowrap"-->
         <div class="row g-0">
             <!-- Sidebar -->
-            <div class="col-md-3 bg-light p-3 shadow-lg" style="width: 260px; "> <!-- cambio a "flex-shrink-0 p-3"-->
+            <div class="col-md-3 bg-light p-3 shadow-lg" style="width: 260px;"> <!-- cambio a "flex-shrink-0 p-3"-->
                 <a href="/" class="d-flex align-items-center pb-3 mb-3 link-body-emphasis text-decoration-none border-bottom">
                     <svg xmlns="http://www.w3.org/2000/svg" width="36" height="26" fill="currentColor" class="bi bi-clipboard2-data-fill" viewBox="0 0 16 16">
                         <path d="M10 .5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5.5.5 0 0 1-.5.5.5.5 0 0 0-.5.5V2a.5.5 0 0 0 .5.5h5A.5.5 0 0 0 11 2v-.5a.5.5 0 0 0-.5-.5.5.5 0 0 1-.5-.5"/>
@@ -39,67 +38,40 @@
                         <!-- Primer collapse de opciones-->
                         <div class="collapse show" id="home-collapse">
                             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                              <li><a href="menu" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Overview</a></li>
+                              <li><a href="/menu" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Overview</a></li>
                               <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Updates</a></li>
                               <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Reports</a></li>
                             </ul>
                         </div>
                     </li>
-                    <li class="border-top my-3"></li> <!--separador linea fina-->
                     <!-- Segunda lista-->
                     <li class="mb-1">
-                        <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#linea11-collapse" aria-expanded="false">
-                          Linea 11
+                        <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
+                          Control de Lineas
                         </button> 
                         <!-- Segundo collapse de opciones-->
-                        <div class="collapse" id="linea11-collapse">
-                          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            <li><a href="/cloracion" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Cloración</a></li>
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Temperatura</a></li>
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Medición PPM</a></li>
-                          </ul>
-                        </div>
-                    </li>
-
-                    <li class="mb-1">
-                        <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#linea10-collapse" aria-expanded="false">
-                          Linea 10
-                        </button>
-                        <!-- Cuarto collapse de opciones-->
-                        <div class="collapse" id="linea10-collapse">
+                        <div class="collapse" id="dashboard-collapse">
                           <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                             <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Cloración</a></li>
+                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Temperatura</a></li>
+                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">PPM</a></li>
                             <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Productos</a></li>
                             <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Fungicidas</a></li>
                           </ul>
                         </div>
                     </li>
-
-                    
                     <!-- Tercera Lista-->
                     <li class="mb-1">
-                        <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#linea5-collapse" aria-expanded="false">
-                          Linea 5
+                        <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
+                          Orders
                         </button>
                         <!-- Tercer collapse de opciones-->
-                        <div class="collapse" id="linea5-collapse">
+                        <div class="collapse" id="orders-collapse">
                           <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Cloración</a></li>
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Temperatura</a></li>
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Medición PPM</a></li>
-                          </ul>
-                        </div>
-                    </li>
-
-                    <li class="mb-1">
-                        <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#linea1-collapse" aria-expanded="false">
-                          Linea 1
-                        </button>
-                        <!-- Tercer collapse de opciones-->
-                        <div class="collapse" id="linea1-collapse">
-                          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Productos</a></li>
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Fungicidas</a></li>
+                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">New</a></li>
+                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Processed</a></li>
+                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Shipped</a></li>
+                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Returned</a></li>
                           </ul>
                         </div>
                     </li>
@@ -120,20 +92,12 @@
                         </div>
                     </li>
                 </ul>
-                <label class="arreglo">arreglojé</label>
             </div> <!--aca cierra-->
             
             <!-- Termina el sidebar y separador para estructura-->
             
             <!-- Main Content Area -->
             <div class="col-md-9 ">
-                <!-- Gráfico -->
-                <div class="p-3 py-5 mx-5"> <!-- Tocar estos temas py-5 y mx-5 de margin y padding -->
-                    <h4>Gráfico de Datos</h4>
-                    <div id="chart-placeholder" style="height: 300px; background-color: #f5f5f5;">
-                        <!-- Aquí irá tu gráfico más adelante -->
-                    </div>
-                </div>
                 
                 <!-- Tabla de Datos -->
                 <div class="p-3">
@@ -149,9 +113,9 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Dato 1</td>
-                                <td>Dato 2</td>
-                                <td>Dato 3</td>
+                                <td> <input type="text" placeholder="Ingresa dato"></td>
+                                <td> <input type="text" placeholder="Ingresa dato"></td>
+                                <td> <input type="text" placeholder="Ingresa dato"></td>
                             </tr>
                             <!-- Más filas según sea necesario -->
                         </tbody>

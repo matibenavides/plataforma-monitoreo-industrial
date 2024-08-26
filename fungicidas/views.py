@@ -10,3 +10,7 @@ def iniciosesion(request):
 
 def muestramenu(request):
     return render(request, "menu.html")
+
+
+def cloracion(request):
+    return render(request, "cloracion.html")
