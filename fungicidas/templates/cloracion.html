@@ -130,25 +130,76 @@
                 
                 <!-- Tabla de Datos -->
                 <div class="p-3">
-                    <h4>Tabla de Datos</h4>
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Campo 1</th>
-                                <th>Campo 2</th>
-                                <th>Campo 3</th>
-                                <!-- Más campos según sea necesario -->
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td> <input type="text" placeholder="Ingresa dato"></td>
-                                <td> <input type="text" placeholder="Ingresa dato"></td>
-                                <td> <input type="text" placeholder="Ingresa dato"></td>
-                            </tr>
-                            <!-- Más filas según sea necesario -->
-                        </tbody>
-                    </table>
+                    <h4>CONTROL CLORACIÓN LINEAS DE PROCESO</h4>
+                    <ul class="nav nav-tabs justify-content-end" id="myTab" role="tablist">
+                      <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Estanque</button>
+                      </li>
+                      <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Corte Pedicelo</button>
+                      </li>
+                      <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Retorno</button>
+                      </li>
+                      <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="disabled-tab" data-bs-toggle="tab" data-bs-target="#disabled-tab-pane" type="button" role="tab" aria-controls="disabled-tab-pane" aria-selected="false" disabled>Disabled</button>
+                      </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                      <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+                        <div class="table-responsive">
+                          <table class="table">
+                            <thead>
+                              <tr>
+                                <th scope="col">Hora</th>
+                                <th scope="col">PPM</th>
+                                <th scope="col">Ph</th>
+                                <th scope="col">Hipoclorito (ml)</th>
+                                <th scope="col">Acido (ml)</th>
+                                <th scope="col">Observación</th>
+                              </tr>
+                            </thead>
+                            <tbody class="table-group-divider">
+                              <tr>
+                                <th scope="row"><input type="time"></th>
+                                <td><input type="number"></td>
+                                <td><input type="number" placeholder="floatmati"></td>
+                                <td><input type="number"></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="text" name="" id=""></td>
+                              </tr>
+                              <tr>
+                                <th scope="row"><input type="time"></th>
+                                <td><input type="number"></td>
+                                <td><input type="number" placeholder="floatmati"></td>
+                                <td><input type="number"></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="text" name="" id=""></td>
+                              </tr>
+                              <tr>
+                                <th scope="row"><input type="time"></th>
+                                <td><input type="number"></td>
+                                <td><input type="number" placeholder="floatmati"></td>
+                                <td><input type="number"></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="text" name="" id=""></td>
+                              </tr>
+                              <tr>
+                                <th scope="row"><input type="time"></th>
+                                <td><input type="number"></td>
+                                <td><input type="number" placeholder="floatmati"></td>
+                                <td><input type="number"></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="text" name="" id=""></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">...</div>
+                      <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">...</div>
+                      <div class="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab" tabindex="0">...</div>
+                    </div>
                 </div>
             </div>
         </div>
