@@ -19,7 +19,7 @@
 
 <body data-bs-theme="light"> <!-- Cambia modo oscuro o claro con dark - light-->
     <main class="container-fluid" style="padding: 0 0px;"> <!-- Cambios con main es "d-flex flex-nowrap"-->
-        <div class="row g-0">
+        <div class="row g-0" style="flex-wrap: nowrap;">
             <!-- Sidebar -->
             <div class="col-md-3 bg-light p-3 shadow-lg" style="width: 260px; "> <!-- cambio a "flex-shrink-0 p-3"-->
                 <a href="/" class="d-flex align-items-center pb-3 mb-3 link-body-emphasis text-decoration-none border-bottom">
@@ -126,12 +126,12 @@
             <!-- Termina el sidebar y separador para estructura-->
             
             <!-- Main Content Area -->
-            <div class="col-md-9 ">
+            <div class="col-12 col-sm-10 col-md-9 container-fluid">
                 
                 <!-- Tabla de Datos -->
                 <div class="p-3">
                     <h4>CONTROL CLORACIÓN LINEAS DE PROCESO</h4>
-                    <ul class="nav nav-tabs justify-content-end" id="myTab" role="tablist">
+                    <ul class="nav nav-tabs " id="myTab" role="tablist">
                       <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Estanque</button>
                       </li>
@@ -141,9 +141,7 @@
                       <li class="nav-item" role="presentation">
                         <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Retorno</button>
                       </li>
-                      <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="disabled-tab" data-bs-toggle="tab" data-bs-target="#disabled-tab-pane" type="button" role="tab" aria-controls="disabled-tab-pane" aria-selected="false" disabled>Disabled</button>
-                      </li>
+        
                     </ul>
                     <div class="tab-content" id="myTabContent">
                       <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
@@ -162,43 +160,320 @@
                             <tbody class="table-group-divider">
                               <tr>
                                 <th scope="row"><input type="time"></th>
-                                <td><input type="number"></td>
-                                <td><input type="number" placeholder="floatmati"></td>
-                                <td><input type="number"></td>
-                                <td><input type="number" name="" id=""></td>
-                                <td><input type="text" name="" id=""></td>
+                                <td><input type="number" placeholder="Ej: 100" name="" id=""></td>
+                                <td><input type="number" placeholder="Ej: 7.0" name="" id=""></td>
+                                <td><input type="number"placeholder="Ej: 1500 (ml)" name="" id=""></td>
+                                <td><input type="number"placeholder="Ej: 700 (ml)" name="" id=""></td>
+                                <td><input type="text" placeholder="Escriba sus observaciones" name="" id=""></td>
                               </tr>
                               <tr>
                                 <th scope="row"><input type="time"></th>
-                                <td><input type="number"></td>
-                                <td><input type="number" placeholder="floatmati"></td>
-                                <td><input type="number"></td>
                                 <td><input type="number" name="" id=""></td>
-                                <td><input type="text" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
                               </tr>
                               <tr>
                                 <th scope="row"><input type="time"></th>
-                                <td><input type="number"></td>
-                                <td><input type="number" placeholder="floatmati"></td>
-                                <td><input type="number"></td>
                                 <td><input type="number" name="" id=""></td>
-                                <td><input type="text" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
                               </tr>
                               <tr>
                                 <th scope="row"><input type="time"></th>
-                                <td><input type="number"></td>
-                                <td><input type="number" placeholder="floatmati"></td>
-                                <td><input type="number"></td>
                                 <td><input type="number" name="" id=""></td>
-                                <td><input type="text" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                              </tr>
+                              <tr>
+                                <th scope="row"><input type="time"></th>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                              </tr>
+                              <tr>
+                                <th scope="row"><input type="time"></th>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                              </tr>
+                              <tr>
+                                <th scope="row"><input type="time"></th>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                              </tr>
+                              <tr>
+                                <th scope="row"><input type="time"></th>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                              </tr>
+                              <tr>
+                                <th scope="row"><input type="time"></th>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                              </tr>
+                              <tr>
+                                <th scope="row"><input type="time"></th>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                              </tr>
+                              <tr>
+                                <th scope="row"><input type="time"></th>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                              </tr>
+                            </tbody>
+                            <tfoot class="table-group-divider ">
+                              <td>
+                                <!-- <div >
+                                  <label>Lote Producto Hipoclorito:</label>
+                                  <input type="number" name="" id="">
+                                </div> -->          <!-- Arreglar esta wea quiebra la tabla es mejor otra tabla abajo para no romper el input time-->
+                              </td>
+                            </tfoot>
+
+                          </table>
+                        </div>
+                        <!-- Separador para lotes de productos-->
+                        <!-- <section style="background-color: green; border: 20px;"> <hr>  </section> -->
+                        
+                      </div>
+                      <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                        <div class="table-responsive">
+                          <table class="table">
+                            <thead>
+                              <tr>
+                                <th scope="col">Hora</th>
+                                <th scope="col">PPM</th>
+                                <th scope="col">Ph</th>
+                                <th scope="col">Hipoclorito (ml)</th>
+                                <th scope="col">Acido (ml)</th>
+                                <th scope="col">Observación</th>
+                              </tr>
+                            </thead>
+                            <tbody class="table-group-divider">
+                              <tr>
+                                <th scope="row"><input type="time"></th>
+                                <td><input type="number" placeholder="Ej: 100" name="" id=""></td>
+                                <td><input type="number" placeholder="Ej: 7.0" name="" id=""></td>
+                                <td><input type="number"placeholder="Ej: 1500 (ml)" name="" id=""></td>
+                                <td><input type="number"placeholder="Ej: 700 (ml)" name="" id=""></td>
+                                <td><input type="text" placeholder="Escriba sus observaciones" name="" id=""></td>
+                              </tr>
+                              <tr>
+                                <th scope="row"><input type="time"></th>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                              </tr>
+                              <tr>
+                                <th scope="row"><input type="time"></th>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                              </tr>
+                              <tr>
+                                <th scope="row"><input type="time"></th>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                              </tr>
+                              <tr>
+                                <th scope="row"><input type="time"></th>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                              </tr>
+                              <tr>
+                                <th scope="row"><input type="time"></th>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                              </tr>
+                              <tr>
+                                <th scope="row"><input type="time"></th>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                              </tr>
+                              <tr>
+                                <th scope="row"><input type="time"></th>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                              </tr>
+                              <tr>
+                                <th scope="row"><input type="time"></th>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                              </tr>
+                              <tr>
+                                <th scope="row"><input type="time"></th>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                              </tr>
+                              <tr>
+                                <th scope="row"><input type="time"></th>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
                               </tr>
                             </tbody>
                           </table>
                         </div>
                       </div>
-                      <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">...</div>
-                      <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">...</div>
-                      <div class="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab" tabindex="0">...</div>
+                      <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
+                        <div class="table-responsive">
+                          <table class="table">
+                            <thead>
+                              <tr>
+                                <th scope="col">Hora</th>
+                                <th scope="col">PPM</th>
+                                <th scope="col">Ph</th>
+                                <th scope="col">Hipoclorito (ml)</th>
+                                <th scope="col">Acido (ml)</th>
+                                <th scope="col">Observación</th>
+                              </tr>
+                            </thead>
+                            <tbody class="table-group-divider">
+                              <tr>
+                                <th scope="row"><input type="time"></th>
+                                <td><input type="number" placeholder="Ej: 100" name="" id=""></td>
+                                <td><input type="number" placeholder="Ej: 7.0" name="" id=""></td>
+                                <td><input type="number"placeholder="Ej: 1500 (ml)" name="" id=""></td>
+                                <td><input type="number"placeholder="Ej: 700 (ml)" name="" id=""></td>
+                                <td><input type="text" placeholder="Escriba sus observaciones" name="" id=""></td>
+                              </tr>
+                              <tr>
+                                <th scope="row"><input type="time"></th>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                              </tr>
+                              <tr>
+                                <th scope="row"><input type="time"></th>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                              </tr>
+                              <tr>
+                                <th scope="row"><input type="time"></th>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                              </tr>
+                              <tr>
+                                <th scope="row"><input type="time"></th>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                              </tr>
+                              <tr>
+                                <th scope="row"><input type="time"></th>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                              </tr>
+                              <tr>
+                                <th scope="row"><input type="time"></th>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                              </tr>
+                              <tr>
+                                <th scope="row"><input type="time"></th>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                              </tr>
+                              <tr>
+                                <th scope="row"><input type="time"></th>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                              </tr>
+                              <tr>
+                                <th scope="row"><input type="time"></th>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                              </tr>
+                              <tr>
+                                <th scope="row"><input type="time"></th>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                                <td><input type="number" name="" id=""></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
                     </div>
                 </div>
             </div>
