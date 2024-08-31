@@ -15,11 +15,76 @@ input[type=number] {
     border: none;
     border-bottom: 1px solid #7b8b9b;
     width: 10rem;
+    background: none; 
+    outline: none;
 }
 
 input[type=text] {
   border: none;
   border-bottom: 1px solid #7b8b9b;
+  background: none;
+  outline: none;
 }
 
-hr { border: none; height: 10px; /* Establece el color del hr */ color: #333; /* Antiguos IE */ background-color: #333; /* Navegadores Modernos */ }
+input[type=time] {
+  background: none;
+  border: 0;
+  border-radius: 5%;
+  -webkit-border-radius: 5%;
+  -moz-border-radius: 5%;
+  -ms-border-radius: 5%;
+  -o-border-radius: 5%;
+  
+}
+
+/* -------------------------------------------------------Diseño de letras------------------------------------------------------- */
+/* // <uniquifier>: Use a unique and descriptive class name
+// <weight>: Use a value from 300 to 900 */
+
+.rubik-titulo {
+  font-family: "Rubik", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.rubik-texto {
+  font-family: "Rubik", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+}
+
+/* -------------------------------------------------------Diseño de letras------------------------------------------------------- */
+.fondo {
+  background-color: #F7F2FF;
+}
+
+.fondo-lotes {
+  background-color: #efe7ff;
+  border-radius: 4px;
+  margin-top: 5px;
+  padding: 5px !important;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  padding: 0 !important;
+}
+
+
+.tamano-numero {
+  max-width: 100px;
+  text-align: center;
+}
+
+.bordes {
+  background-color: brown;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  margin: 5px;
+  padding: 1rem;
+}

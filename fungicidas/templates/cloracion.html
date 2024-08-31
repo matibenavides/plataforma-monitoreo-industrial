@@ -15,13 +15,17 @@
     <link rel="stylesheet" href="{% static 'css/sidebars.css' %}"> <!-- ref css static-->
     <link rel="stylesheet" href="{% static 'css/separador.css' %}">
     <link rel="stylesheet" href="{% static 'css/arreglomenu.css' %}">
+    <!-- FontGoogle -->
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+    </style>
 </head>
 
 <body data-bs-theme="light"> <!-- Cambia modo oscuro o claro con dark - light-->
     <main class="container-fluid" style="padding: 0 0px;"> <!-- Cambios con main es "d-flex flex-nowrap"-->
-        <div class="row g-0" style="flex-wrap: nowrap;">
+        <div class="row g-0 fondo" style="flex-wrap: nowrap;">
             <!-- Sidebar -->
-            <div class="col-md-3 bg-light p-3 shadow-lg" style="width: 260px; "> <!-- cambio a "flex-shrink-0 p-3"-->
+            <div class="col-md-3 bg-light p-3 shadow-lg rubik-texto" style="width: 260px; "> <!-- cambio a "flex-shrink-0 p-3"-->
                 <a href="/" class="d-flex align-items-center pb-3 mb-3 link-body-emphasis text-decoration-none border-bottom">
                     <svg xmlns="http://www.w3.org/2000/svg" width="36" height="26" fill="currentColor" class="bi bi-clipboard2-data-fill" viewBox="0 0 16 16">
                         <path d="M10 .5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5.5.5 0 0 1-.5.5.5.5 0 0 0-.5.5V2a.5.5 0 0 0 .5.5h5A.5.5 0 0 0 11 2v-.5a.5.5 0 0 0-.5-.5.5.5 0 0 1-.5-.5"/>
@@ -130,8 +134,8 @@
                 
                 <!-- Tabla de Datos -->
                 <div class="p-3">
-                    <h4>CONTROL CLORACIÓN LINEAS DE PROCESO</h4>
-                    <ul class="nav nav-tabs " id="myTab" role="tablist">
+                    <h4 class="rubik-titulo"><strong>CONTROL CLORACIÓN LINEAS DE PROCESO</strong></h4>
+                    <ul class="nav nav-tabs rubik-titulo" id="myTab" role="tablist">
                       <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Estanque</button>
                       </li>
@@ -143,10 +147,10 @@
                       </li>
         
                     </ul>
-                    <div class="tab-content" id="myTabContent">
-                      <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+                    <div class="tab-content rubik-titulo" id="myTabContent">
+                      <class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
                         <div class="table-responsive">
-                          <table class="table">
+                          <table class="table table-hover table-sm" style="text-align: center;">
                             <thead>
                               <tr>
                                 <th scope="col">Hora</th>
@@ -158,111 +162,161 @@
                               </tr>
                             </thead>
                             <tbody class="table-group-divider">
-                              <tr>
+                              <tr >
                                 <th scope="row"><input type="time"></th>
-                                <td><input type="number" placeholder="Ej: 100" name="" id=""></td>
-                                <td><input type="number" placeholder="Ej: 7.0" name="" id=""></td>
-                                <td><input type="number"placeholder="Ej: 1500 (ml)" name="" id=""></td>
-                                <td><input type="number"placeholder="Ej: 700 (ml)" name="" id=""></td>
-                                <td><input type="text" placeholder="Escriba sus observaciones" name="" id=""></td>
+                                <td><input class="tamano-numero" type="number" placeholder="Ej: 100" name="" id="" oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);"></td>
+                                <td><input class="tamano-numero" type="number" placeholder="Ej: 7.0" name="" id="" oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);"></td>
+                                <td><input class="tamano-numero" type="number"placeholder="Ej: 1500 (ml)" name="" id="" oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);"></td>
+                                <td><input class="tamano-numero" type="number"placeholder="Ej: 700 (ml)" name="" id="" oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);"></td>
+                                <td><input type="text" placeholder="Escriba su observacion" name="" id="" maxlength="200"></td> <!--pensar en un textarea pero me rompe el diseño-->
                               </tr>
                               <tr>
                                 <th scope="row"><input type="time"></th>
-                                <td><input type="number" name="" id=""></td>
-                                <td><input type="number" name="" id=""></td>
-                                <td><input type="number" name="" id=""></td>
-                                <td><input type="number" name="" id=""></td>
-                                <td><input type="number" name="" id=""></td>
+                                <td><input class="tamano-numero" type="number" placeholder="Ej: 100" name="" id="" oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);"></td>
+                                <td><input class="tamano-numero" type="number" placeholder="Ej: 7.0" name="" id="" oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);"></td>
+                                <td><input class="tamano-numero" type="number"placeholder="Ej: 1500 (ml)" name="" id="" oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);"></td>
+                                <td><input class="tamano-numero" type="number"placeholder="Ej: 700 (ml)" name="" id="" oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);"></td>
+                                <td><input type="text" placeholder="Escriba su observacion" name="" id="" maxlength="200"></td>
                               </tr>
                               <tr>
                                 <th scope="row"><input type="time"></th>
-                                <td><input type="number" name="" id=""></td>
-                                <td><input type="number" name="" id=""></td>
-                                <td><input type="number" name="" id=""></td>
-                                <td><input type="number" name="" id=""></td>
-                                <td><input type="number" name="" id=""></td>
+                                <td><input class="tamano-numero" type="number" placeholder="Ej: 100" name="" id="" oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);"></td>
+                                <td><input class="tamano-numero" type="number" placeholder="Ej: 7.0" name="" id="" oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);"></td>
+                                <td><input class="tamano-numero" type="number"placeholder="Ej: 1500 (ml)" name="" id="" oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);"></td>
+                                <td><input class="tamano-numero" type="number"placeholder="Ej: 700 (ml)" name="" id="" oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);"></td>
+                                <td><input type="text" placeholder="Escriba su observacion" name="" id="" maxlength="200"></td>
                               </tr>
                               <tr>
                                 <th scope="row"><input type="time"></th>
-                                <td><input type="number" name="" id=""></td>
-                                <td><input type="number" name="" id=""></td>
-                                <td><input type="number" name="" id=""></td>
-                                <td><input type="number" name="" id=""></td>
-                                <td><input type="number" name="" id=""></td>
+                                <td><input class="tamano-numero" type="number" placeholder="Ej: 100" name="" id="" oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);"></td>
+                                <td><input class="tamano-numero" type="number" placeholder="Ej: 7.0" name="" id="" oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);"></td>
+                                <td><input class="tamano-numero" type="number"placeholder="Ej: 1500 (ml)" name="" id="" oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);"></td>
+                                <td><input class="tamano-numero" type="number"placeholder="Ej: 700 (ml)" name="" id="" oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);"></td>
+                                <td><input type="text" placeholder="Escriba su observacion" name="" id="" maxlength="200"></td>
                               </tr>
                               <tr>
                                 <th scope="row"><input type="time"></th>
-                                <td><input type="number" name="" id=""></td>
-                                <td><input type="number" name="" id=""></td>
-                                <td><input type="number" name="" id=""></td>
-                                <td><input type="number" name="" id=""></td>
-                                <td><input type="number" name="" id=""></td>
+                                <td><input class="tamano-numero" type="number" placeholder="Ej: 100" name="" id="" oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);"></td>
+                                <td><input class="tamano-numero" type="number" placeholder="Ej: 7.0" name="" id="" oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);"></td>
+                                <td><input class="tamano-numero" type="number"placeholder="Ej: 1500 (ml)" name="" id="" oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);"></td>
+                                <td><input class="tamano-numero" type="number"placeholder="Ej: 700 (ml)" name="" id="" oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);"></td>
+                                <td><input type="text" placeholder="Escriba su observacion" name="" id="" maxlength="200"></td>
                               </tr>
                               <tr>
                                 <th scope="row"><input type="time"></th>
-                                <td><input type="number" name="" id=""></td>
-                                <td><input type="number" name="" id=""></td>
-                                <td><input type="number" name="" id=""></td>
-                                <td><input type="number" name="" id=""></td>
-                                <td><input type="number" name="" id=""></td>
+                                <td><input class="tamano-numero" type="number" placeholder="Ej: 100" name="" id="" oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);"></td>
+                                <td><input class="tamano-numero" type="number" placeholder="Ej: 7.0" name="" id="" oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);"></td>
+                                <td><input class="tamano-numero" type="number"placeholder="Ej: 1500 (ml)" name="" id="" oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);"></td>
+                                <td><input class="tamano-numero" type="number"placeholder="Ej: 700 (ml)" name="" id="" oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);"></td>
+                                <td><input type="text" placeholder="Escriba su observacion" name="" id="" maxlength="200"></td>
                               </tr>
                               <tr>
                                 <th scope="row"><input type="time"></th>
-                                <td><input type="number" name="" id=""></td>
-                                <td><input type="number" name="" id=""></td>
-                                <td><input type="number" name="" id=""></td>
-                                <td><input type="number" name="" id=""></td>
-                                <td><input type="number" name="" id=""></td>
+                                <td><input class="tamano-numero" type="number" placeholder="Ej: 100" name="" id="" oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);"></td>
+                                <td><input class="tamano-numero" type="number" placeholder="Ej: 7.0" name="" id="" oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);"></td>
+                                <td><input class="tamano-numero" type="number"placeholder="Ej: 1500 (ml)" name="" id="" oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);"></td>
+                                <td><input class="tamano-numero" type="number"placeholder="Ej: 700 (ml)" name="" id="" oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);"></td>
+                                <td><input type="text" placeholder="Escriba su observacion" name="" id="" maxlength="200"></td>
                               </tr>
                               <tr>
                                 <th scope="row"><input type="time"></th>
-                                <td><input type="number" name="" id=""></td>
-                                <td><input type="number" name="" id=""></td>
-                                <td><input type="number" name="" id=""></td>
-                                <td><input type="number" name="" id=""></td>
-                                <td><input type="number" name="" id=""></td>
+                                <td><input class="tamano-numero" type="number" placeholder="Ej: 100" name="" id="" oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);"></td>
+                                <td><input class="tamano-numero" type="number" placeholder="Ej: 7.0" name="" id="" oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);"></td>
+                                <td><input class="tamano-numero" type="number"placeholder="Ej: 1500 (ml)" name="" id="" oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);"></td>
+                                <td><input class="tamano-numero" type="number"placeholder="Ej: 700 (ml)" name="" id="" oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);"></td>
+                                <td><input type="text" placeholder="Escriba su observacion" name="" id="" maxlength="200"></td>
                               </tr>
                               <tr>
                                 <th scope="row"><input type="time"></th>
-                                <td><input type="number" name="" id=""></td>
-                                <td><input type="number" name="" id=""></td>
-                                <td><input type="number" name="" id=""></td>
-                                <td><input type="number" name="" id=""></td>
-                                <td><input type="number" name="" id=""></td>
+                                <td><input class="tamano-numero" type="number" placeholder="Ej: 100" name="" id="" oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);"></td>
+                                <td><input class="tamano-numero" type="number" placeholder="Ej: 7.0" name="" id="" oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);"></td>
+                                <td><input class="tamano-numero" type="number"placeholder="Ej: 1500 (ml)" name="" id="" oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);"></td>
+                                <td><input class="tamano-numero" type="number"placeholder="Ej: 700 (ml)" name="" id="" oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);"></td>
+                                <td><input type="text" placeholder="Escriba su observacion" name="" id="" maxlength="200"></td>
                               </tr>
                               <tr>
                                 <th scope="row"><input type="time"></th>
-                                <td><input type="number" name="" id=""></td>
-                                <td><input type="number" name="" id=""></td>
-                                <td><input type="number" name="" id=""></td>
-                                <td><input type="number" name="" id=""></td>
-                                <td><input type="number" name="" id=""></td>
+                                <td><input class="tamano-numero" type="number" placeholder="Ej: 100" name="" id="" oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);"></td>
+                                <td><input class="tamano-numero" type="number" placeholder="Ej: 7.0" name="" id="" oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);"></td>
+                                <td><input class="tamano-numero" type="number"placeholder="Ej: 1500 (ml)" name="" id="" oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);"></td>
+                                <td><input class="tamano-numero" type="number"placeholder="Ej: 700 (ml)" name="" id="" oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);"></td>
+                                <td><input type="text" placeholder="Escriba su observacion" name="" id="" maxlength="200"></td>
                               </tr>
                               <tr>
                                 <th scope="row"><input type="time"></th>
-                                <td><input type="number" name="" id=""></td>
-                                <td><input type="number" name="" id=""></td>
-                                <td><input type="number" name="" id=""></td>
-                                <td><input type="number" name="" id=""></td>
-                                <td><input type="number" name="" id=""></td>
+                                <td><input class="tamano-numero" type="number" placeholder="Ej: 100" name="" id="" oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);"></td>
+                                <td><input class="tamano-numero" type="number" placeholder="Ej: 7.0" name="" id="" oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);"></td>
+                                <td><input class="tamano-numero" type="number"placeholder="Ej: 1500 (ml)" name="" id="" oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);"></td>
+                                <td><input class="tamano-numero" type="number"placeholder="Ej: 700 (ml)" name="" id="" oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);"></td>
+                                <td><input type="text" placeholder="Escriba su observacion" name="" id="" maxlength="200"></td>
                               </tr>
                             </tbody>
                             <tfoot class="table-group-divider ">
-                              <td>
-                                <!-- <div >
-                                  <label>Lote Producto Hipoclorito:</label>
-                                  <input type="number" name="" id="">
-                                </div> -->          <!-- Arreglar esta wea quiebra la tabla es mejor otra tabla abajo para no romper el input time-->
+                              <td hidden>
                               </td>
                             </tfoot>
-
                           </table>
                         </div>
-                        <!-- Separador para lotes de productos-->
-                        <!-- <section style="background-color: green; border: 20px;"> <hr>  </section> -->
-                        
-                      </div>
-                      <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                        <!-- Acá parte el cambio de tabla de lotes y totales-->
+                        <div class="d-flex justify-content-between fondo-lotes" style="width: 100%; flex-wrap: nowrap;">
+                          <!-- Primer div -->
+                          <div class="col text-center bordes" style="background-color: blue; flex-grow: 1; overflow: hidden;">
+                            <div class="col-auto d-flex align-items-center p-0">
+                              <strong style="padding-right: 15px;">Lote Producto Hipoclorito:</strong>
+                              <input type="number" min="1" max="10" style="max-width: 100px;" oninput="if(this.value.length > 10) this.value = this.value.slice(0, 10);" name="" id="" >
+                            </div>
+                            <div class="col-auto d-flex align-items-center">
+                              <strong>Lote Producto Ác. Fosfórico:</strong>
+                              <input type="number" maxlength="10" style="max-width: 100px;" oninput="if(this.value.length > 10) this.value = this.value.slice(0, 10);" name="" id="">
+                            </div>
+                          </div>
+                      
+                          <!-- Segundo div -->
+                          <div class="col text-center bordes" style="background-color: rgb(78, 78, 211); flex-grow: 1; overflow: hidden; max-width: 250px;">
+                            <div class="col-auto d-flex align-items-center">
+                              <strong class="me-2" style="padding-right: 15px;">Total Gasto Hipoclorito:</strong>
+                              <input type="number"  style="max-width: 70px;" name="" id="" disabled>
+                            </div>
+                            <div class="col-auto d-flex align-items-center">
+                              <strong class="me-2">Total Gasto Ác. Fosfórico:</strong>
+                              <input type="number"  style="max-width: 70px;" name="" id="" disabled>
+                            </div>
+                          </div>
+                      
+                          <!-- Tercer div -->
+                          <div class="col  text-center" style="background-color: rgb(78, 211, 89); max-width: 130px;  flex-grow: 1; overflow: hidden;">
+                            <div class="form-check pb-2">
+                              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                              <label class="form-check-label" for="flexRadioDefault1">
+                                Turno A
+                              </label>
+                            </div>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                              <label class="form-check-label" for="flexRadioDefault2">
+                                Turno B
+                              </label>
+                            </div>
+
+                            <select class="form-select form-select-sm mb-3" >
+                              <option selected>Especie</option>
+                              <option value="1">Cerezas</option>
+                              <option value="2">Peras</option>
+                              <option value="3">Ciruelas</option>
+                              <option value="3">Nectarine</option>
+                            </select>
+                          </div>
+
+                          <!-- Cuarto div -->
+                          <div class="col text-center" style="background-color: rgb(231, 67, 55); flex-grow: 1; overflow: hidden;">
+                            <div class="col-auto d-flex align-items-center">
+                              <strong class="me-2">acá van dos botones</strong>
+                              <input type="number"  style="max-width: 70px;" name="" id="" disabled>
+                            </div>
+                          </div>
+                        </div> <!-- este pal cuarto div-->
+                      </div> <!-- este es el div que une toda la tabla (de HOME) digo (Estanque)-->
+                      <div class="col p-2 text-center tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
                         <div class="table-responsive">
                           <table class="table">
                             <thead>
