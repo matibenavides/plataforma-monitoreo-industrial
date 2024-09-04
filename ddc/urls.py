@@ -26,4 +26,8 @@ urlpatterns = [
 
     #----------# Control de lineas #----------#
     path('cloracion/', views.cloracion),
+
+    #----------# Nuevo slide branch #----------#
+    path('slide/', views.slide),
+
 ]

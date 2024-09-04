@@ -14,3 +14,6 @@ def muestramenu(request):
 
 def cloracion(request):
     return render(request, "cloracion.html")
+
+def slide(request):   # Este es una vista para mostrar el slide.html y probar su funcionamiento ante un nuevo cambio de slide.
+    return render(request, "slide.html")
