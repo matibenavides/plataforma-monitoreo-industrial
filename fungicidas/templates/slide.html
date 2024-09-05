@@ -1,46 +1,293 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nuevo slide</title>
 
     <!-- Bootstrap -->
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="{% static 'css/sidebars.css' %}"> <!-- ref css static-->
+    <link rel="stylesheet" href="{% static 'css/menu.css' %}">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+    </style>
 </head>
-<body>
-    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Enable both scrolling & backdrop</button>
-    <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Backdrop with scrolling</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-            <p>Try scrolling the rest of the page to see this option in action.</p>
-        </div>
-    </div>
 
+<body class="pt-5">
+    <nav class="navbar bg-body-tertiary fixed-top">
+        <div class="container-fluid">
 
-    <!-- Solucion 2 para dejar dentro el slider nada más que hacer -->
-    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Fungicidas</button>
-    <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Backdrop with scrolling</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-            <p>Try scrolling the rest of the page to see this option in action.</p>
-        </div>
-    </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+                aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <strong class="navbar-brand fs-5 fw-semibold" href="#">
+                <h4>Plataforma Monitoreo Industrial</h4>
+            </strong>
+            <a href="/" class="logo" style="padding-right: 10px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="26" fill="currentColor"
+                    class="bi bi-clipboard2-data-fill" viewBox="0 0 16 16">
+                    <path
+                        d="M10 .5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5.5.5 0 0 1-.5.5.5.5 0 0 0-.5.5V2a.5.5 0 0 0 .5.5h5A.5.5 0 0 0 11 2v-.5a.5.5 0 0 0-.5-.5.5.5 0 0 1-.5-.5" />
+                    <path
+                        d="M4.085 1H3.5A1.5 1.5 0 0 0 2 2.5v12A1.5 1.5 0 0 0 3.5 16h9a1.5 1.5 0 0 0 1.5-1.5v-12A1.5 1.5 0 0 0 12.5 1h-.585q.084.236.085.5V2a1.5 1.5 0 0 1-1.5 1.5h-5A1.5 1.5 0 0 1 4 2v-.5q.001-.264.085-.5M10 7a1 1 0 1 1 2 0v5a1 1 0 1 1-2 0zm-6 4a1 1 0 1 1 2 0v1a1 1 0 1 1-2 0zm4-3a1 1 0 0 1 1 1v3a1 1 0 1 1-2 0V9a1 1 0 0 1 1-1" />
+                </svg>
+            </a>
+            <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar"
+                aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas-header rubik-titulo">
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Fungicidas</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body rubik-texto">
+                    <ul class="list-unstyled ps-0">
+                        <!-- Primera lista-->
+                        <li class="mb-1">
+                            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                                data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
+                                Home
+                            </button>
+                            <!-- Primer collapse de opciones-->
+                            <div class="collapse" id="home-collapse">
+                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                    <li><a href="/menu"
+                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Overview</a>
+                                    </li>
+                                    <li><a href="#"
+                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Updates</a>
+                                    </li>
+                                    <li><a href="#"
+                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Reports</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="border-top my-3"></li> <!--separador linea fina-->
+                        <!-- Segunda lista-->
+                        <li class="mb-1">
+                            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                                data-bs-toggle="collapse" data-bs-target="#linea11-collapse" aria-expanded="false">
+                                Linea 11
+                            </button>
+                            <!-- Segundo collapse de opciones-->
+                            <div class="collapse show" id="linea11-collapse">
+                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                    <li><a href="/cloracion"
+                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Cloración</a>
+                                    </li>
+                                    <li><a href="#"
+                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Temperatura</a>
+                                    </li>
+                                    <li><a href="#"
+                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Medición
+                                            PPM</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <!-- Tercera lista-->
+                        <li class="mb-1">
+                            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                                data-bs-toggle="collapse" data-bs-target="#linea10-collapse" aria-expanded="false">
+                                Linea 10
+                            </button>
+                            <!-- Cuarto collapse de opciones-->
+                            <div class="collapse" id="linea10-collapse">
+                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                    <li><a href="#"
+                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Cloración</a>
+                                    </li>
+                                    <li><a href="#"
+                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Productos</a>
+                                    </li>
+                                    <li><a href="#"
+                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Fungicidas</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <!-- Tercera Lista-->
+                        <li class="mb-1">
+                            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                                data-bs-toggle="collapse" data-bs-target="#linea5-collapse" aria-expanded="false">
+                                Linea 5
+                            </button>
+                            <!-- Tercer collapse de opciones-->
+                            <div class="collapse" id="linea5-collapse">
+                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                    <li><a href="#"
+                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Cloración</a>
+                                    </li>
+                                    <li><a href="#"
+                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Temperatura</a>
+                                    </li>
+                                    <li><a href="#"
+                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Medición
+                                            PPM</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <!-- Cuarta Lista-->
+                        <li class="mb-1">
+                            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                                data-bs-toggle="collapse" data-bs-target="#linea1-collapse" aria-expanded="false">
+                                Linea 1
+                            </button>
+                            <!-- Tercer collapse de opciones-->
+                            <div class="collapse" id="linea1-collapse">
+                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                    <li><a href="#"
+                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Productos</a>
+                                    </li>
+                                    <li><a href="#"
+                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Fungicidas</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <!-- Quinta Lista-->
+                        <li class="border-top my-3"></li> <!-- Borde separador-->
+                        <li class="mb-1">
+                            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                                data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
+                                Account
+                            </button>
+                            <!-- Cuarto collapse de opciones-->
+                            <div class="collapse" id="account-collapse">
+                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                    <li><a href="#"
+                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">New...</a>
+                                    </li>
+                                    <li><a href="#"
+                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Profile</a>
+                                    </li>
+                                    <li><a href="#"
+                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Settings</a>
+                                    </li>
+                                    <li><a href="#"
+                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Sign
+                                            out</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                    <form class="d-flex mt-3" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                </div>
+            </div> <!-- offcanvas enlaces dentro-->
+        </div> <!-- Contenido de offcanvas + boton-->
+    </nav>
 
-    <a href="/" class="d-block align-items-center pb-3 mb-3 link-body-emphasis text-decoration-none">
-        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="26" fill="currentColor" class="bi bi-clipboard2-data-fill" viewBox="0 0 16 16">
-            <path d="M10 .5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5.5.5 0 0 1-.5.5.5.5 0 0 0-.5.5V2a.5.5 0 0 0 .5.5h5A.5.5 0 0 0 11 2v-.5a.5.5 0 0 0-.5-.5.5.5 0 0 1-.5-.5"/>
-            <path d="M4.085 1H3.5A1.5 1.5 0 0 0 2 2.5v12A1.5 1.5 0 0 0 3.5 16h9a1.5 1.5 0 0 0 1.5-1.5v-12A1.5 1.5 0 0 0 12.5 1h-.585q.084.236.085.5V2a1.5 1.5 0 0 1-1.5 1.5h-5A1.5 1.5 0 0 1 4 2v-.5q.001-.264.085-.5M10 7a1 1 0 1 1 2 0v5a1 1 0 1 1-2 0zm-6 4a1 1 0 1 1 2 0v1a1 1 0 1 1-2 0zm4-3a1 1 0 0 1 1 1v3a1 1 0 1 1-2 0V9a1 1 0 0 1 1-1"/>
-        </svg>
-        <span class="fs-5 fw-semibold">Fungicidas</span>
-        <div style="display: block;"> a</div>
-    </a>
+    <section>
+        <div class="container">
+            <h1>pepe</h1>
+        </div>
+    </section>
+    <section>
+        <div class="container">
+            <h1>pepe</h1>
+        </div>
+    </section>
+    <section>
+        <div class="container">
+            <h1>pepe</h1>
+        </div>
+    </section>
+    <section>
+        <div class="container">
+            <h1>pepe</h1>
+        </div>
+    </section>
+    <section>
+        <div class="container">
+            <h1>pepe</h1>
+        </div>
+    </section>
+    <section>
+        <div class="container">
+            <h1>pepe</h1>
+        </div>
+    </section>
+    <section>
+        <div class="container">
+            <h1>pepe</h1>
+        </div>
+    </section>
+    <section>
+        <div class="container">
+            <h1>pepe</h1>
+        </div>
+    </section>
+    <section>
+        <div class="container">
+            <h1>pepe</h1>
+        </div>
+    </section>
+    <section>
+        <div class="container">
+            <h1>pepe</h1>
+        </div>
+    </section>
+    <section>
+        <div class="container">
+            <h1>pepe</h1>
+        </div>
+    </section>
+    <section>
+        <div class="container">
+            <h1>pepe</h1>
+        </div>
+    </section>
+    <section>
+        <div class="container">
+            <h1>pepe</h1>
+        </div>
+    </section>
+    <section>
+        <div class="container">
+            <h1>pepe</h1>
+        </div>
+    </section>
+    <section>
+        <div class="container">
+            <h1>pepe</h1>
+        </div>
+    </section>
+    <section>
+        <div class="container">
+            <h1>pepe</h1>
+        </div>
+    </section>
+    <section>
+        <div class="container">
+            <h1>pepe</h1>
+        </div>
+    </section>
+    <section>
+        <div class="container">
+            <h1>pepe</h1>
+        </div>
+    </section>
+    <section>
+        <div class="container">
+            <h1>pepe</h1>
+        </div>
+    </section>
+    <section>
+        <div class="container">
+            <h1>pepe</h1>
+        </div>
+    </section>
 </body>
+
 </html>
