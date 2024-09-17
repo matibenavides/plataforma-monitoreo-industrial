@@ -193,15 +193,15 @@
             <h4 class="rubik-titulo"><strong>CONTROL CLORACIÓN LINEAS DE PROCESO</strong></h4>
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane"
+                    <button class="nav-link active rubik-titulo" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane"
                         type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Estanque</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane"
+                    <button class="nav-link rubik-titulo" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane"
                         type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Corta Pedicelo</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane"
+                    <button class="nav-link rubik-titulo" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane"
                         type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Retorno</button>
                 </li>
                 <li class="nav-item" role="presentation">
@@ -210,7 +210,7 @@
                         disabled>Disabled</button>
                 </li>
             </ul>
-            <div class="tab-content" id="myTabContent">
+            <div class="tab-content border border-top-0 border-primary rounded-bottom" id="myTabContent"> <!-- border radius ver esto mati-->
                 <!-- div de "HOME" UP-->
                 <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
                     tabindex="0">
@@ -226,8 +226,8 @@
                                     <th scope="col">Observación</th>
                                 </tr>
                             </thead>
-                            <tbody class="table-group-divider">
-                                <tr>
+                            <tbody class="table-group-divider border-primary">
+                                <tr class="border-info-subtle">
                                     <th scope="row"><input type="time"></th>
                                     <td><input class="tamano-numero" type="number" placeholder="Ej: 100" name="" id=""
                                             oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
@@ -243,10 +243,10 @@
                                             id=""
                                             oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
                                     </td>
-                                    <td><input type="text" placeholder="Escriba su observacion" name="" id=""
-                                            maxlength="200"></td>
+                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
+
                                 </tr>
-                                <tr>
+                                <tr class="border-info-subtle">
                                     <th scope="row"><input type="time"></th>
                                     <td><input class="tamano-numero" type="number" placeholder="Ej: 100" name="" id=""
                                             oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
@@ -262,10 +262,9 @@
                                             id=""
                                             oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
                                     </td>
-                                    <td><input type="text" placeholder="Escriba su observacion" name="" id=""
-                                            maxlength="200"></td>
+                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
                                 </tr>
-                                <tr>
+                                <tr class="border-info-subtle">
                                     <th scope="row"><input type="time"></th>
                                     <td><input class="tamano-numero" type="number" placeholder="Ej: 100" name="" id=""
                                             oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
@@ -281,10 +280,9 @@
                                             id=""
                                             oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
                                     </td>
-                                    <td><input type="text" placeholder="Escriba su observacion" name="" id=""
-                                            maxlength="200"></td>
+                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
                                 </tr>
-                                <tr>
+                                <tr class="border-info-subtle">
                                     <th scope="row"><input type="time"></th>
                                     <td><input class="tamano-numero" type="number" placeholder="Ej: 100" name="" id=""
                                             oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
@@ -300,10 +298,9 @@
                                             id=""
                                             oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
                                     </td>
-                                    <td><input type="text" placeholder="Escriba su observacion" name="" id=""
-                                            maxlength="200"></td>
+                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
                                 </tr>
-                                <tr>
+                                <tr class="border-info-subtle">
                                     <th scope="row"><input type="time"></th>
                                     <td><input class="tamano-numero" type="number" placeholder="Ej: 100" name="" id=""
                                             oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
@@ -319,10 +316,9 @@
                                             id=""
                                             oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
                                     </td>
-                                    <td><input type="text" placeholder="Escriba su observacion" name="" id=""
-                                            maxlength="200"></td>
+                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
                                 </tr>
-                                <tr>
+                                <tr class="border-info-subtle">
                                     <th scope="row"><input type="time"></th>
                                     <td><input class="tamano-numero" type="number" placeholder="Ej: 100" name="" id=""
                                             oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
@@ -338,10 +334,9 @@
                                             id=""
                                             oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
                                     </td>
-                                    <td><input type="text" placeholder="Escriba su observacion" name="" id=""
-                                            maxlength="200"></td>
+                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
                                 </tr>
-                                <tr>
+                                <tr class="border-info-subtle">
                                     <th scope="row"><input type="time"></th>
                                     <td><input class="tamano-numero" type="number" placeholder="Ej: 100" name="" id=""
                                             oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
@@ -357,10 +352,9 @@
                                             id=""
                                             oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
                                     </td>
-                                    <td><input type="text" placeholder="Escriba su observacion" name="" id=""
-                                            maxlength="200"></td>
+                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
                                 </tr>
-                                <tr>
+                                <tr class="border-info-subtle">
                                     <th scope="row"><input type="time"></th>
                                     <td><input class="tamano-numero" type="number" placeholder="Ej: 100" name="" id=""
                                             oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
@@ -376,10 +370,9 @@
                                             id=""
                                             oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
                                     </td>
-                                    <td><input type="text" placeholder="Escriba su observacion" name="" id=""
-                                            maxlength="200"></td>
+                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
                                 </tr>
-                                <tr>
+                                <tr class="border-info-subtle">
                                     <th scope="row"><input type="time"></th>
                                     <td><input class="tamano-numero" type="number" placeholder="Ej: 100" name="" id=""
                                             oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
@@ -395,10 +388,9 @@
                                             id=""
                                             oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
                                     </td>
-                                    <td><input type="text" placeholder="Escriba su observacion" name="" id=""
-                                            maxlength="200"></td>
+                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
                                 </tr>
-                                <tr>
+                                <tr class="border-info-subtle">
                                     <th scope="row"><input type="time"></th>
                                     <td><input class="tamano-numero" type="number" placeholder="Ej: 100" name="" id=""
                                             oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
@@ -414,10 +406,9 @@
                                             id=""
                                             oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
                                     </td>
-                                    <td><input type="text" placeholder="Escriba su observacion" name="" id=""
-                                            maxlength="200"></td>
+                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
                                 </tr>
-                                <tr>
+                                <tr class="border-info-subtle">
                                     <th scope="row"><input type="time"></th>
                                     <td><input class="tamano-numero" type="number" placeholder="Ej: 100" name="" id=""
                                             oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
@@ -433,8 +424,7 @@
                                             id=""
                                             oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
                                     </td>
-                                    <td><input type="text" placeholder="Escriba su observacion" name="" id=""
-                                            maxlength="200"></td>
+                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
                                 </tr>
                             </tbody>
                             <tfoot class="table-group-divider ">
@@ -476,8 +466,7 @@
                                             id=""
                                             oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
                                     </td>
-                                    <td><input type="text" placeholder="Escriba su observacion" name="" id=""
-                                            maxlength="200"></td>
+                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
                                     <!--pensar en un textarea pero me rompe el diseño-->
                                 </tr>
                                 <tr>
@@ -496,8 +485,7 @@
                                             id=""
                                             oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
                                     </td>
-                                    <td><input type="text" placeholder="Escriba su observacion" name="" id=""
-                                            maxlength="200"></td>
+                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
                                 </tr>
                                 <tr>
                                     <th scope="row"><input type="time"></th>
@@ -515,8 +503,7 @@
                                             id=""
                                             oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
                                     </td>
-                                    <td><input type="text" placeholder="Escriba su observacion" name="" id=""
-                                            maxlength="200"></td>
+                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
                                 </tr>
                                 <tr>
                                     <th scope="row"><input type="time"></th>
@@ -534,8 +521,7 @@
                                             id=""
                                             oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
                                     </td>
-                                    <td><input type="text" placeholder="Escriba su observacion" name="" id=""
-                                            maxlength="200"></td>
+                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
                                 </tr>
                                 <tr>
                                     <th scope="row"><input type="time"></th>
