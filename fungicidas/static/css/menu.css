@@ -29,7 +29,7 @@ input[type=number]::-webkit-outer-spin-button {
     margin: 0;
 }
 
-input[type=number] {
+.numerito {
     -moz-appearance: textfield;
     appearance: unset;
     border: none;
@@ -46,7 +46,7 @@ input[type=number] {
     height: 33px;
 }
 
-input[type=number]:focus {
+.numerito:focus {
   border-bottom-color:#0b58d7;
 }
 
@@ -99,4 +99,12 @@ textarea::-webkit-scrollbar{
 textarea:focus{
   border-bottom-color:#0b58d7;
 
+}
+
+.variedad {
+  margin-top: 3rem; /* 3rem son 48px, faltan 2 px*/
+}
+
+.hijo {
+  margin: 0 auto;
 }
