@@ -13,6 +13,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
 
     <link rel="stylesheet" href="{% static 'css/sidebars.css' %}"> <!-- ref css static-->
     <link rel="stylesheet" href="{% static 'css/menu.css' %}">
@@ -22,7 +24,7 @@
     </style>
 </head>
 
-<body class="pt-5">
+<body class="pt-5 fondo" >
     <nav class="navbar bg-body-tertiary fixed-top">
         <div class="container-fluid">
 
@@ -186,772 +188,778 @@
                 </div>
             </div> <!-- offcanvas enlaces dentro-->
         </div> <!-- Contenido de offcanvas + boton-->
-    </nav>
+    </nav> <!-- Contenido de offcanvas + boton-->
 
     <div class="container  mt-3">
         <section class="p-3">
-            <h4 class="rubik-titulo"><strong>CONTROL CLORACIÓN LINEAS DE PROCESO</strong></h4>
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active rubik-titulo" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane"
-                        type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Estanque</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link rubik-titulo" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane"
-                        type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Corta Pedicelo</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link rubik-titulo" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane"
-                        type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Retorno</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="disabled-tab" data-bs-toggle="tab" data-bs-target="#disabled-tab-pane"
-                        type="button" role="tab" aria-controls="disabled-tab-pane" aria-selected="false"
-                        disabled>Disabled</button>
-                </li>
-            </ul>
-            <div class="tab-content  " id="myTabContent"> <!-- border radius ver esto mati-->
-                <!-- div de "HOME" UP-->
-                <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
-                    tabindex="0">
-                    <div class="table-responsive shadow-lg  mb-5 bg-body-tertiary rounded-5 rounded-top"> <!-- DIV que contiene la tabla de Estanque-->
-                        <table class="table table-hover table-sm" style="text-align: center;">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Hora</th>
-                                    <th scope="col">PPM</th>
-                                    <th scope="col">Ph</th>
-                                    <th scope="col">Hipoclorito (ml)</th>
-                                    <th scope="col">Acido (ml)</th>
-                                    <th scope="col">Observación</th>
-                                </tr>
-                            </thead>
-                            <tbody class="table-group-divider border-primary"> 
-                                <tr class="border-info-subtle">
-                                    <th scope="row"><input type="time"></th>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
-                                            oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
-                                            oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
+                <form action="/insertar" method="post">
+                        {% csrf_token %}
+                        <h4 class="rubik-titulo"><strong>CONTROL CLORACIÓN LINEAS DE PROCESO</strong></h4>
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                <button class="nav-link active rubik-titulo" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane"
+                                        type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Estanque</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                <button class="nav-link rubik-titulo" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane"
+                                        type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Corta Pedicelo</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                <button class="nav-link rubik-titulo" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane"
+                                        type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Retorno</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="disabled-tab" data-bs-toggle="tab" data-bs-target="#disabled-tab-pane"
+                                        type="button" role="tab" aria-controls="disabled-tab-pane" aria-selected="false"
+                                        disabled>Disabled</button>
+                                </li>
+                        </ul>
+                        <div class="tab-content  " id="myTabContent"> <!-- border radius ver esto mati-->
+                                <!-- div de "HOME" UP-->
+                                <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
+                                tabindex="0">
+                                <div class="table-responsive shadow-lg  mb-5 bg-body-tertiary rounded-5 rounded-top"> <!-- DIV que contiene la tabla de Estanque-->
+                                        <table class="table table-hover table-sm" style="text-align: center;">
+                                        <thead>
+                                                <tr>
+                                                <th scope="col">Hora</th>
+                                                <th scope="col">PPM</th>
+                                                <th scope="col">Ph</th>
+                                                <th scope="col">Hipoclorito (ml)</th>
+                                                <th scope="col">Acido (ml)</th>
+                                                <th scope="col">Observación</th>
+                                                </tr>
+                                        </thead>
+                                        <tbody class="table-group-divider border-primary"> 
+                                                <tr class="border-info-subtle">
+                                                <th scope="row"><input type="time"></th>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
+                                                        oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
+                                                        oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
 
-                                </tr>
-                                <tr class="border-info-subtle">
-                                    <th scope="row"><input type="time"></th>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
-                                            oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
-                                            oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
-                                </tr>
-                                <tr class="border-info-subtle">
-                                    <th scope="row"><input type="time"></th>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
-                                            oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
-                                            oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
-                                </tr>
-                                <tr class="border-info-subtle">
-                                    <th scope="row"><input type="time"></th>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
-                                            oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
-                                            oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
-                                </tr>
-                                <tr class="border-info-subtle">
-                                    <th scope="row"><input type="time"></th>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
-                                            oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
-                                            oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
-                                </tr>
-                                <tr class="border-info-subtle">
-                                    <th scope="row"><input type="time"></th>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
-                                            oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
-                                            oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
-                                </tr>
-                                <tr class="border-info-subtle">
-                                    <th scope="row"><input type="time"></th>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
-                                            oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
-                                            oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
-                                </tr>
-                                <tr class="border-info-subtle">
-                                    <th scope="row"><input type="time"></th>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
-                                            oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
-                                            oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
-                                </tr>
-                                <tr class="border-info-subtle">
-                                    <th scope="row"><input type="time"></th>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
-                                            oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
-                                            oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
-                                </tr>
-                                <tr class="border-info-subtle">
-                                    <th scope="row"><input type="time"></th>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
-                                            oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
-                                            oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
-                                </tr>
-                                <tr class="border-info-subtle">
-                                    <th scope="row"><input type="time"></th>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
-                                            oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
-                                            oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
-                                </tr>
-                            </tbody>
-                            
-                        </table>
-                    </div>
-                    <!-- ESPACIO LUEGO DE TABLA -->
-                    <div class="container" style="display: flex; justify-content: space-between;">
-                        <div class=" border border-primary border-3 rounded-3">
-                                <div class="card">
-                                        <h5 class="card-header">Turno y Especie</h5>
-                                        <div class="card-body pb-4">
-                                                <div class="form-floating">
-                                                        <select class="form-select" id="floatingSelectGrid">
-                                                          <option selected>Selecciona una opción</option>
-                                                          <option value="A">A</option>
-                                                          <option value="B">B</option>
-                                                        </select>
-                                                        <label for="floatingSelectGrid">Turno</label>
-                                                </div>
-                                                <div class="form-floating variedad">
-                                                        <select class="form-select" id="selectvarieda">
-                                                          <option selected>Selecciona una opción</option>
-                                                          <option value="ciruela"> Ciruela</option>
-                                                          <option value="cereza"> Cereza</option>
-                                                          <option value="pera"> Pera</option>
-                                                          <option value="nectarine"> Nectarine</option>
-                                                        </select>
-                                                        <label for="selectvarieda">Variedad</label>
-                                                </div>
-                                                
-                                        </div>
+                                                </tr>
+                                                <tr class="border-info-subtle">
+                                                <th scope="row"><input type="time"></th>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
+                                                        oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
+                                                        oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
+                                                </tr>
+                                                <tr class="border-info-subtle">
+                                                <th scope="row"><input type="time"></th>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
+                                                        oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
+                                                        oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
+                                                </tr>
+                                                <tr class="border-info-subtle">
+                                                <th scope="row"><input type="time"></th>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
+                                                        oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
+                                                        oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
+                                                </tr>
+                                                <tr class="border-info-subtle">
+                                                <th scope="row"><input type="time"></th>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
+                                                        oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
+                                                        oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
+                                                </tr>
+                                                <tr class="border-info-subtle">
+                                                <th scope="row"><input type="time"></th>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
+                                                        oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
+                                                        oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
+                                                </tr>
+                                                <tr class="border-info-subtle">
+                                                <th scope="row"><input type="time"></th>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
+                                                        oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
+                                                        oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
+                                                </tr>
+                                                <tr class="border-info-subtle">
+                                                <th scope="row"><input type="time"></th>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
+                                                        oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
+                                                        oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
+                                                </tr>
+                                                <tr class="border-info-subtle">
+                                                <th scope="row"><input type="time"></th>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
+                                                        oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
+                                                        oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
+                                                </tr>
+                                                <tr class="border-info-subtle">
+                                                <th scope="row"><input type="time"></th>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
+                                                        oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
+                                                        oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
+                                                </tr>
+                                                <tr class="border-info-subtle">
+                                                <th scope="row"><input type="time"></th>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
+                                                        oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
+                                                        oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
+                                                </tr>
+                                        </tbody>
+                                        
+                                        </table>
                                 </div>
-                        </div>
-                        <div class=" border border-primary border-3 rounded-3">
-                                <div class="card">
-                                        <h5 class="card-header">Lote Producto</h5>
-                                        <div class="card-body">
-                                                        <div class="mb-3">
-                                                                <label for="lotehipoclorito" class="form-label">Hipoclorito</label>
-                                                                <input type="number" class="form-control" id="lotehipoclorito" placeholder="Ej: 80124036"
-                                                                oninput="if(this.value.length > 10) this.value = this.value.slice(0, 10);">
+                                <!-- ESPACIO LUEGO DE TABLA -->
+                                <div class="container" style="display: flex; justify-content: space-between;">
+                                        <div class=" shadow p-3 mb-5 bg-body-tertiary rounded">
+                                                <div class="card">
+                                                        <h5 class="card-header">Turno y Especie</h5>
+                                                        <div class="card-body pb-4">
+                                                                <div class="form-floating">
+                                                                        <select class="form-select" id="floatingSelectGrid">
+                                                                        <option selected>Selecciona una opción</option>
+                                                                        <option value="A">A</option>
+                                                                        <option value="B">B</option>
+                                                                        </select>
+                                                                        <label for="floatingSelectGrid">Turno</label>
+                                                                </div>
+                                                                <div class="form-floating variedad">
+                                                                        <select class="form-select" id="selectvarieda">
+                                                                        <option selected>Selecciona una opción</option>
+                                                                        <option value="ciruela"> Ciruela</option>
+                                                                        <option value="cereza"> Cereza</option>
+                                                                        <option value="pera"> Pera</option>
+                                                                        <option value="nectarine"> Nectarine</option>
+                                                                        </select>
+                                                                        <label for="selectvarieda">Variedad</label>
+                                                                </div>
+                                                                
                                                         </div>
-                                                        <div class="mb-3">
-                                                                <label for="loteacido" class="form-label">Ácido Fosfórico</label>
-                                                                <input type="number" class="form-control" id="loteacido" placeholder="Ej: 245769985"
-                                                                oninput="if(this.value.length > 10) this.value = this.value.slice(0, 10);">
+                                                </div>
+                                        </div>
+                                        <div class=" shadow p-3 mb-5 bg-body-tertiary rounded">
+                                                <div class="card">
+                                                        <h5 class="card-header">Lote Producto</h5>
+                                                        <div class="card-body">
+                                                                        <div class="mb-3">
+                                                                                <label for="lotehipoclorito" class="form-label">Hipoclorito</label>
+                                                                                <input type="number" class="form-control" id="lotehipoclorito" placeholder="Ej: 80124036"
+                                                                                oninput="if(this.value.length > 10) this.value = this.value.slice(0, 10);">
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                                <label for="loteacido" class="form-label">Ácido Fosfórico</label>
+                                                                                <input type="number" class="form-control" id="loteacido" placeholder="Ej: 245769985"
+                                                                                oninput="if(this.value.length > 10) this.value = this.value.slice(0, 10);">
+                                                                        </div>
                                                         </div>
-                                        </div>
-                                </div>
-                        </div>
-                        <div class=" border border-primary border-3 rounded-3">
-                                <div class="card">
-                                        <h5 class="card-header">Total Gasto</h5>
-                                        <div class="card-body">
-                                                <div class="mb-3">
-                                                        <label for="gastohipoclorito" class="form-label">Hipoclorito (ml)</label>
-                                                        <input type="number" class="form-control" id="gastohipoclorito" placeholder="Ej: 10000 ml" disabled>
-                                                </div>
-                                                <div class="mb-3">
-                                                        <label for="gastoacido" class="form-label">Ácido Fosfórico (ml)</label>
-                                                        <input type="number" class="form-control" id="gastoacido" placeholder="Ej: 10000 ml" disabled>
                                                 </div>
                                         </div>
-                                </div>
-                        </div>
-                        
-                        <div class=" border border-primary border-3 rounded-3" style="align-self: flex-start;">
-                                <div class="card">
-                                        <h5 class="card-header">Confirmación de Datos</h5>
-                                        <div class="card-body " >
-                                                <div class="form-floating ">
-                                                        <button class="btn btn-primary" type="submit">Guardar Borrador</button>
+                                        <div class=" shadow p-3 mb-5 bg-body-tertiary rounded">
+                                                <div class="card">
+                                                        <h5 class="card-header">Total Gasto</h5>
+                                                        <div class="card-body">
+                                                                <div class="mb-3">
+                                                                        <label for="gastohipoclorito" class="form-label">Hipoclorito (ml)</label>
+                                                                        <input type="number" class="form-control" id="gastohipoclorito" placeholder="Ej: 10000 ml" disabled>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                        <label for="gastoacido" class="form-label">Ácido Fosfórico (ml)</label>
+                                                                        <input type="number" class="form-control" id="gastoacido" placeholder="Ej: 10000 ml" disabled>
+                                                                </div>
+                                                        </div>
                                                 </div>
-                                                <div class="form-floating ">
-                                                        <button class="btn btn-primary" type="submit">Enviar Datos</button>
-                                                </div>
-                                                
                                         </div>
-                                </div>
-                        </div>
-                        
+                                        
+                                        <div class=" shadow p-3 mb-5 bg-body-tertiary rounded" style="align-self: flex-start;">
+                                                <div class="card">
+                                                        <h5 class="card-header">Confirmación de Datos</h5>
+                                                        <div class="card-body " >
+                                                                <div class="form-floating" style="margin-left: 19px;">
+                                                                        <button class="btn btn-outline-warning" type="submit" name="accion" value="guardar_borrador_estanque">
+                                                                                <i class="bi bi-file-earmark-text"></i> Guardar Borrador
+                                                                        </button>
+                                                                </div>
+                                                                <div class="form-floating" style="margin-top: 25px; margin-left: 37px;">
+                                                                        <button class="btn btn-outline-primary" type="submit" name="accion" value="enviar_datos_estanque">
+                                                                                <i class="bi bi-send"></i> Enviar Datos
+                                                                        </button>
+                                                                </div>                                                
+                                                        </div>
+                                                </div>
+                                        </div>
+                                        
 
-                    </div>
-                </div> <!-- div de "HOME" DOWN-->
-                <!-- div de "PROFILE" UP-->
-                <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
-                    tabindex="0">
-                    <div class="table-responsive">
-                        <table class="table table-hover table-sm" style="text-align: center;">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Hora</th>
-                                    <th scope="col">PPM</th>
-                                    <th scope="col">Ph</th>
-                                    <th scope="col">Hipoclorito (ml)</th>
-                                    <th scope="col">Acido (ml)</th>
-                                    <th scope="col">Observación</th>
-                                </tr>
-                            </thead>
-                            <tbody class="table-group-divider border-primary">
-                                <tr class="border-info-subtle">
-                                    <th scope="row"><input type="time"></th>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
-                                            oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
-                                            oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
-                                    <!--pensar en un textarea pero me rompe el diseño-->
-                                </tr>
-                                <tr class="border-info-subtle">
-                                    <th scope="row"><input type="time"></th>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
-                                            oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
-                                            oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
-                                </tr>
-                                <tr class="border-info-subtle">
-                                    <th scope="row"><input type="time"></th>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
-                                            oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
-                                            oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
-                                </tr>
-                                <tr class="border-info-subtle">
-                                    <th scope="row"><input type="time"></th>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
-                                            oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
-                                            oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
-                                </tr>
-                                <tr class="border-info-subtle">
-                                    <th scope="row"><input type="time"></th>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
-                                            oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
-                                            oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
-                                </tr>
-                                <tr class="border-info-subtle">
-                                    <th scope="row"><input type="time"></th>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
-                                            oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
-                                            oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
-                                </tr>
-                                <tr class="border-info-subtle">
-                                    <th scope="row"><input type="time"></th>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
-                                            oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
-                                            oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
-                                </tr>
-                                <tr class="border-info-subtle">
-                                    <th scope="row"><input type="time"></th>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
-                                            oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
-                                            oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
-                                </tr>
-                                <tr class="border-info-subtle">
-                                    <th scope="row"><input type="time"></th>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
-                                            oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
-                                            oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
-                                </tr>
-                                <tr class="border-info-subtle">
-                                    <th scope="row"><input type="time"></th>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
-                                            oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
-                                            oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
-                                </tr>
-                                <tr class="border-info-subtle">
-                                    <th scope="row"><input type="time"></th>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
-                                            oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
-                                            oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
-                                </tr>
-                            </tbody>
-                            
-                        </table>
-                    </div>
-                </div> <!-- div de "PROFILE" DOWN-->
-                <!-- div de "CONTACT" UP-->
-                <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab"
-                    tabindex="0">
-                    <div class="table-responsive">
-                        <table class="table table-hover table-sm" style="text-align: center;">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Hora</th>
-                                    <th scope="col">PPM</th>
-                                    <th scope="col">Ph</th>
-                                    <th scope="col">Hipoclorito (ml)</th>
-                                    <th scope="col">Acido (ml)</th>
-                                    <th scope="col">Observación</th>
-                                </tr>
-                            </thead>
-                            <tbody class="table-group-divider border-primary">
-                                <tr class="border-info-subtle">
-                                    <th scope="row"><input type="time"></th>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
-                                            oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
-                                            oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
-                                </tr>
-                                <tr class="border-info-subtle">
-                                    <th scope="row"><input type="time"></th>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
-                                            oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
-                                            oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
-                                </tr>
-                                <tr class="border-info-subtle">
-                                    <th scope="row"><input type="time"></th>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
-                                            oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
-                                            oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
-                                </tr>
-                                <tr class="border-info-subtle">
-                                    <th scope="row"><input type="time"></th>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
-                                            oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
-                                            oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
-                                </tr>
-                                <tr class="border-info-subtle">
-                                    <th scope="row"><input type="time"></th>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
-                                            oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
-                                            oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
-                                </tr>
-                                <tr class="border-info-subtle">
-                                    <th scope="row"><input type="time"></th>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
-                                            oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
-                                            oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
-                                </tr>
-                                <tr class="border-info-subtle">
-                                    <th scope="row"><input type="time"></th>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
-                                            oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
-                                            oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
-                                </tr>
-                                <tr class="border-info-subtle">
-                                    <th scope="row"><input type="time"></th>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
-                                            oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
-                                            oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
-                                </tr>
-                                <tr class="border-info-subtle">
-                                    <th scope="row"><input type="time"></th>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
-                                            oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
-                                            oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
-                                </tr>
-                                <tr class="border-info-subtle">
-                                    <th scope="row"><input type="time"></th>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
-                                            oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
-                                            oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
-                                </tr>
-                                <tr class="border-info-subtle">
-                                    <th scope="row"><input type="time"></th>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
-                                            oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
-                                            oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
-                                            id=""
-                                            oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
-                                    </td>
-                                    <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
-                                </tr>
-                            </tbody>
+                                </div>
+                                </div> <!-- div de "HOME" DOWN-->
+                                <!-- div de "PROFILE" UP-->
+                                <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
+                                tabindex="0">
+                                <div class="table-responsive">
+                                        <table class="table table-hover table-sm" style="text-align: center;">
+                                        <thead>
+                                                <tr>
+                                                <th scope="col">Hora</th>
+                                                <th scope="col">PPM</th>
+                                                <th scope="col">Ph</th>
+                                                <th scope="col">Hipoclorito (ml)</th>
+                                                <th scope="col">Acido (ml)</th>
+                                                <th scope="col">Observación</th>
+                                                </tr>
+                                        </thead>
+                                        <tbody class="table-group-divider border-primary">
+                                                <tr class="border-info-subtle">
+                                                <th scope="row"><input type="time"></th>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
+                                                        oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
+                                                        oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
+                                                <!--pensar en un textarea pero me rompe el diseño-->
+                                                </tr>
+                                                <tr class="border-info-subtle">
+                                                <th scope="row"><input type="time"></th>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
+                                                        oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
+                                                        oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
+                                                </tr>
+                                                <tr class="border-info-subtle">
+                                                <th scope="row"><input type="time"></th>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
+                                                        oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
+                                                        oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
+                                                </tr>
+                                                <tr class="border-info-subtle">
+                                                <th scope="row"><input type="time"></th>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
+                                                        oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
+                                                        oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
+                                                </tr>
+                                                <tr class="border-info-subtle">
+                                                <th scope="row"><input type="time"></th>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
+                                                        oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
+                                                        oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
+                                                </tr>
+                                                <tr class="border-info-subtle">
+                                                <th scope="row"><input type="time"></th>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
+                                                        oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
+                                                        oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
+                                                </tr>
+                                                <tr class="border-info-subtle">
+                                                <th scope="row"><input type="time"></th>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
+                                                        oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
+                                                        oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
+                                                </tr>
+                                                <tr class="border-info-subtle">
+                                                <th scope="row"><input type="time"></th>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
+                                                        oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
+                                                        oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
+                                                </tr>
+                                                <tr class="border-info-subtle">
+                                                <th scope="row"><input type="time"></th>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
+                                                        oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
+                                                        oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
+                                                </tr>
+                                                <tr class="border-info-subtle">
+                                                <th scope="row"><input type="time"></th>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
+                                                        oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
+                                                        oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
+                                                </tr>
+                                                <tr class="border-info-subtle">
+                                                <th scope="row"><input type="time"></th>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
+                                                        oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
+                                                        oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
+                                                </tr>
+                                        </tbody>
+                                        
+                                        </table>
+                                </div>
+                                </div> <!-- div de "PROFILE" DOWN-->
+                                <!-- div de "CONTACT" UP-->
+                                <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab"
+                                tabindex="0">
+                                <div class="table-responsive">
+                                        <table class="table table-hover table-sm" style="text-align: center;">
+                                        <thead>
+                                                <tr>
+                                                <th scope="col">Hora</th>
+                                                <th scope="col">PPM</th>
+                                                <th scope="col">Ph</th>
+                                                <th scope="col">Hipoclorito (ml)</th>
+                                                <th scope="col">Acido (ml)</th>
+                                                <th scope="col">Observación</th>
+                                                </tr>
+                                        </thead>
+                                        <tbody class="table-group-divider border-primary">
+                                                <tr class="border-info-subtle">
+                                                <th scope="row"><input type="time"></th>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
+                                                        oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
+                                                        oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
+                                                </tr>
+                                                <tr class="border-info-subtle">
+                                                <th scope="row"><input type="time"></th>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
+                                                        oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
+                                                        oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
+                                                </tr>
+                                                <tr class="border-info-subtle">
+                                                <th scope="row"><input type="time"></th>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
+                                                        oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
+                                                        oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
+                                                </tr>
+                                                <tr class="border-info-subtle">
+                                                <th scope="row"><input type="time"></th>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
+                                                        oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
+                                                        oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
+                                                </tr>
+                                                <tr class="border-info-subtle">
+                                                <th scope="row"><input type="time"></th>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
+                                                        oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
+                                                        oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
+                                                </tr>
+                                                <tr class="border-info-subtle">
+                                                <th scope="row"><input type="time"></th>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
+                                                        oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
+                                                        oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
+                                                </tr>
+                                                <tr class="border-info-subtle">
+                                                <th scope="row"><input type="time"></th>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
+                                                        oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
+                                                        oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
+                                                </tr>
+                                                <tr class="border-info-subtle">
+                                                <th scope="row"><input type="time"></th>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
+                                                        oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
+                                                        oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
+                                                </tr>
+                                                <tr class="border-info-subtle">
+                                                <th scope="row"><input type="time"></th>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
+                                                        oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
+                                                        oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
+                                                </tr>
+                                                <tr class="border-info-subtle">
+                                                <th scope="row"><input type="time"></th>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
+                                                        oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
+                                                        oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
+                                                </tr>
+                                                <tr class="border-info-subtle">
+                                                <th scope="row"><input type="time"></th>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 100" name="" id=""
+                                                        oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 7.0" name="" id=""
+                                                        oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name=""
+                                                        id=""
+                                                        oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                                </td>
+                                                <td><textarea cols="20" rows="1" placeholder="Escriba su observación" maxlength="200" name="" id></textarea></td>
+                                                </tr>
+                                        </tbody>
 
-                        </table>
-                    </div>
-                </div> <!-- div de "CONTACT" DOWN-->
-                <!-- div de "DISABLED" UP-->
-                <div class="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab"
-                    tabindex="0">...</div> <!-- div de "DISABLED" DOWN-->
-            </div>
+                                        </table>
+                                </div>
+                                </div> <!-- div de "CONTACT" DOWN-->
+                                <!-- div de "DISABLED" UP-->
+                                <div class="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab"
+                                tabindex="0">...</div> <!-- div de "DISABLED" DOWN-->
+                        </div>
+                </form>
         </section>
     </div>
 

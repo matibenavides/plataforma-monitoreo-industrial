@@ -8,6 +8,9 @@
     --bs-offcanvas-width: 300px; /* Ajusta el ancho como prefieras */
 }
 
+.fondo {
+  background-color: #F7F2FF;
+}
 
 .rubik-titulo {
   font-family: "Rubik", sans-serif;
