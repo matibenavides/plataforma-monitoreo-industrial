@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'fungicidas',
-    'fontawesomefree' # Dependencia para icono de hojita
 ]
 
 MIDDLEWARE = [
@@ -75,10 +74,17 @@ WSGI_APPLICATION = 'ddc.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# import pymysql
+# pymysql.version_info = (1, 4, 3, "final", 0)
+# pymysql.install_as_MySQLdb()
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+        # 'NAME' : '',
+        # 'USER' : '',
+        # 'PASSWORD' : ''
     }
 }
 
