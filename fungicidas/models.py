@@ -1,4 +1,5 @@
 from django.db import models
+import datetime
 
 # Create your models here.
 
@@ -76,13 +77,13 @@ class Cloracion(models.Model): # id_clo ()
     sector_id = models.ForeignKey(Sector, on_delete=models.CASCADE)
     especies_id = models.ForeignKey(Especies, on_delete=models.CASCADE)
     dia_id = models.ForeignKey(Dia, on_delete=models.CASCADE)
-    hor_clo = models.TimeField() # Hora 
+    hor_clo = models.TimeField(blank=True, null=True, default=datetime.time(0, 0)) # Hora 
     ppm_clo = models.IntegerField(null=True, blank=True) # PPM
     phe_clo = models.FloatField(null=True, blank=True) # PH cloración
     hcl_clo = models.IntegerField(null=True, blank=True) # Hipoclorito cloración
     aci_clo = models.IntegerField(null=True, blank=True) # Acido cloración
-    loh_clo = models.IntegerField(null=True, blank=True) # Lote Hipoclorito
-    loa_clo = models.IntegerField(null=True, blank=True) # Lote Acido
+    loh_clo = models.BigIntegerField(null=True, blank=True) # Lote Hipoclorito
+    loa_clo = models.BigIntegerField(null=True, blank=True) # Lote Acido
     obs_clo = models.TextField(max_length=200) # Observación
 
     def __str__(self):

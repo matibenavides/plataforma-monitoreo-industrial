@@ -30,4 +30,9 @@ urlpatterns = [
     #----------# Nuevo slide branch #----------#
     path('slide/', views.slide),
 
+
+    #----------# Cloración Estanque #----------#
+
+    path('guarda_estanque', views.registrarEstanque)
+
 ]
