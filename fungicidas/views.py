@@ -45,7 +45,7 @@ def registrarEstanque(request):
 
     turno_obj, created = Turnos.objects.get_or_create(id=int(turno_id))  # Obtener el objeto y el estado de creación
     especie_obj, created = Especies.objects.get_or_create(id=int(especie_id))  # Obtener el objeto y el estado de creación
-    
+
 
     for i in range(1, 12): # 11 Filas de inputs
         hora = request.POST.get(f'hora_{i}') or None # Mención al name con formato hora_1 / 2 etc.
@@ -57,15 +57,15 @@ def registrarEstanque(request):
 
         total_hipo += hipoclorito
         total_acido += acido
-
+        # Sacar este campo, parece sobrar. además de sumar esto con javaScript en el mismo formulario. pensar en los campos de total de ambas para futuro   
         
-
-        cloracion = Cloracion(
+        # Recorre
+        cloracion = Cloracion( 
             lineas_id= Lineas.objects.get(id=1), # id=1 es de linea 11
             turnos_id= turno_obj,
             trabajador_id= Trabajador.objects.get(id=1), # id=1 es el de mati, este campo variará
             sector_id = Sector.objects.get(id=1), # id=1 Es el sector Estanque
-            especies_id = especie_obj,
+            especies_id = especie_obj, 
             dia_id = dia_obj,
             hor_clo = hora,
             ppm_clo = ppm,
