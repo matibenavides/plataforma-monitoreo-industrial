@@ -65,29 +65,38 @@ class Dia(models.Model): # Clase para la fecha de cada planilla
         return str(self.dia_dia)
     
 
+#-------------------------------Grupo control de datos------------------------#
+
+class Bloque(models.Model):
+    loh_gru = models.BigIntegerField(null=True, blank=True) # Lote Hipoclorito
+    loa_gru = models.BigIntegerField(null=True, blank=True) # Lote Acido
+    dia_id = models.ForeignKey(Dia, on_delete=models.CASCADE)
+    lineas_id = models.ForeignKey(Lineas, on_delete=models.CASCADE)
+    turnos_id = models.ForeignKey(Turnos, on_delete=models.CASCADE)
+    sector_id = models.ForeignKey(Sector, on_delete=models.CASCADE)
+    especies_id = models.ForeignKey(Especies, on_delete=models.CASCADE)
+    trabajador_id = models.ForeignKey(Trabajador, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.loh_gru) + " - " + str(self.loa_gru) + " - " + str(self.dia_id) + " - " + str(self.lineas_id) + " - " + str(self.turnos_id) + " - " + str(self.sector_id) + " - " + str(self.especies_id) + " - " + str(self.trabajador_id)
+
+
 # ----------------------Tablas de Planillas---------------------------------- #
 
 
 
 # Cloración Lineas de Proceso
 class Cloracion(models.Model): # id_clo ()
-    lineas_id = models.ForeignKey(Lineas, on_delete=models.CASCADE)
-    turnos_id = models.ForeignKey(Turnos, on_delete=models.CASCADE)
-    trabajador_id = models.ForeignKey(Trabajador, on_delete=models.CASCADE)
-    sector_id = models.ForeignKey(Sector, on_delete=models.CASCADE)
-    especies_id = models.ForeignKey(Especies, on_delete=models.CASCADE)
-    dia_id = models.ForeignKey(Dia, on_delete=models.CASCADE)
+    bloque_id = models.ForeignKey(Bloque, on_delete=models.CASCADE)
     hor_clo = models.TimeField(blank=True, null=True, default=datetime.time(0, 0)) # Hora 
     ppm_clo = models.IntegerField(null=True, blank=True) # PPM
     phe_clo = models.FloatField(null=True, blank=True) # PH cloración
     hcl_clo = models.IntegerField(null=True, blank=True) # Hipoclorito cloración
     aci_clo = models.IntegerField(null=True, blank=True) # Acido cloración
-    loh_clo = models.BigIntegerField(null=True, blank=True) # Lote Hipoclorito
-    loa_clo = models.BigIntegerField(null=True, blank=True) # Lote Acido
     obs_clo = models.TextField(max_length=200) # Observación
 
     def __str__(self):
-        return str(self.lineas_id) + " - " + str(self.turnos_id) + " - " + str(self.trabajador_id) + " - " + str(self.sector_id) + " - " + str(self.especies_id) + " - " + str(self.dia_id) + " - " + str(self.hor_clo) + " - " + str(self.ppm_clo) + " - " + str(self.phe_clo) + " - " + str(self.hcl_clo) + " - " + str(self.aci_clo) + " - " + str(self.loh_clo) + " - " + str(self.loa_clo) + " - " + str(self.obs_clo)
+        return str(self.bloque_id) + " - " + str(self.hor_clo) + " - " + str(self.ppm_clo) + " - " + str(self.phe_clo) + " - " + str(self.hcl_clo) + " - " + str(self.aci_clo) + " - " + str(self.loh_clo) + " - " + str(self.loa_clo) + " - " + str(self.obs_clo)
     
 
     
