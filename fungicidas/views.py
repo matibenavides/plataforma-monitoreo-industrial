@@ -78,4 +78,5 @@ def registrarEstanque(request):
         )
         cloracion.save()
 
+
     return render(request, "slide.html")

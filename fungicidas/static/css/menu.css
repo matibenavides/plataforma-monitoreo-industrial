@@ -49,6 +49,7 @@ input[type=number]::-webkit-outer-spin-button {
     height: 33px;
 }
 
+
 .numerito:focus {
   border-bottom-color:#0b58d7;
 }
@@ -58,6 +59,11 @@ input[type=text] {
   border-bottom: 2px solid #7b8b9b;
   background: none;
   outline: none;
+}
+
+textarea:focus{
+  border-bottom-color:#0b58d7;
+
 }
 
 input[type=time] {
@@ -99,10 +105,7 @@ textarea::-webkit-scrollbar{
   width: 0;
 }
 
-textarea:focus{
-  border-bottom-color:#0b58d7;
 
-}
 
 .especie {
   margin-top: 3rem; /* 3rem son 48px, faltan 2 px*/
