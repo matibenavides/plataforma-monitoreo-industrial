@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class FungicidasConfig(AppConfig):
+class TemperaturasConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'Fungicidas'
+    name = 'Temperaturas'

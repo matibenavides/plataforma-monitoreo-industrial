@@ -15,24 +15,27 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
-from fungicidas import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',views.iniciosesion),
-    path('menu',views.muestramenu),
+    path('', include('Login.urls')),
+    path('', include('Cloraciones.urls')),
 
-    #----------# Control de lineas #----------#
-    path('cloracion/', views.cloracion),
 
+
+
+
+
+    
+    
+
+    
     #----------# Nuevo slide branch #----------#
-    path('slide/', views.slide),
-
+   
 
     #----------# Cloración Estanque #----------#
 
-    path('guarda_estanque', views.registrarEstanque)
-
+    
 ]
