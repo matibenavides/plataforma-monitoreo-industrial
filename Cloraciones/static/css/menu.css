@@ -1,0 +1,116 @@
+@media (max-width: 480px) { /* Cambia 768px por el tamaño deseado */
+    .logo { 
+        display: none; /* Oculta el elemento */
+    }
+}
+
+.offcanvas {
+    --bs-offcanvas-width: 300px; /* Ajusta el ancho como prefieras */
+}
+
+.fondo {
+  background-color: #F7F2FF;
+}
+
+.rubik-titulo {
+  font-family: "Rubik", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.rubik-texto {
+  font-family: "Rubik", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.numerito {
+    -moz-appearance: textfield;
+    appearance: unset;
+    border: none;
+    border-bottom: 2px solid #7b8b9b;
+    width: 10rem;
+    background: none;
+    outline: none;
+    transition: border-bottom-color 1s;
+    -webkit-transition: border-bottom-color 1s;
+    -moz-transition: border-bottom-color 1s;
+    -ms-transition: border-bottom-color 1s;
+    -o-transition: border-bottom-color 1s;
+    font-family: "Rubik", sans-serif;
+    height: 33px;
+}
+
+
+.numerito:focus {
+  border-bottom-color:#0b58d7;
+}
+
+input[type=text] {
+  border: none;
+  border-bottom: 2px solid #7b8b9b;
+  background: none;
+  outline: none;
+}
+
+textarea:focus{
+  border-bottom-color:#0b58d7;
+
+}
+
+input[type=time] {
+  background: none;
+  border: 0;
+  border-radius: 5%;
+  -webkit-border-radius: 5%;
+  -moz-border-radius: 5%;
+  -ms-border-radius: 5%;
+  -o-border-radius: 5%;
+  
+}
+
+.tamano-numero {
+  max-width: 100px;
+  text-align: center;
+}
+
+textarea {
+  background: none;
+  border: none;
+  outline: none;
+  border-bottom: 2px solid #7b8b9b;
+  transition: border-bottom-color 1s;
+  -webkit-transition: border-bottom-color 1s;
+  -moz-transition: border-bottom-color 1s;
+  -ms-transition: border-bottom-color 1s;
+  -o-transition: border-bottom-color 1s;
+  font-family: "Rubik", sans-serif;
+  resize: none;
+  height: 33px;
+}
+
+textarea::placeholder{
+  text-align: center;
+}
+
+textarea::-webkit-scrollbar{
+  width: 0;
+}
+
+
+
+.especie {
+  margin-top: 3rem; /* 3rem son 48px, faltan 2 px*/
+}
+
+.hijo {
+  margin: 0 auto;
+}

@@ -37,8 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'fungicidas',
-    'fontawesomefree' # Dependencia para icono de hojita
+    'Login',
+    'Cloraciones',
+    'Productos',
+    'Fungicidas',
+    'Temperaturas',
+    'PPM',
 ]
 
 MIDDLEWARE = [
@@ -75,13 +79,22 @@ WSGI_APPLICATION = 'ddc.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+import pymysql
+pymysql.version_info = (1, 4, 3, "final", 0)
+pymysql.install_as_MySQLdb()
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME' : '',
+        'USER' : '',
+        'PASSWORD' : '',
+        'HOST': '',
+        'PORT': ''
     }
 }
 
+# 'NAME': BASE_DIR / 'db.sqlite3',
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators

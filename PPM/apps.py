@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class FungicidasConfig(AppConfig):
+class PpmConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'Fungicidas'
+    name = 'PPM'
