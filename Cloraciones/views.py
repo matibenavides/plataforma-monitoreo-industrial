@@ -8,6 +8,9 @@ from datetime import date
 def cloracion(request):
     return render(request, "cloracion.html")
 
+def mostrarBase(request):
+    return render(request, "base/basecloracion.html")
+
 def slide(request):   # Este es una vista para mostrar el slide.html y probar su funcionamiento ante un nuevo cambio de slide.
     return render(request, "slide.html")
 

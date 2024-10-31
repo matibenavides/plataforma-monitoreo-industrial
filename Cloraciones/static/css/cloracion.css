@@ -5,7 +5,7 @@
 }
 
 .offcanvas {
-    --bs-offcanvas-width: 300px; /* Ajusta el ancho como prefieras */
+    --bs-offcanvas-width: 300px; /* Ajusta el ancho  */
 }
 
 .fondo {
@@ -87,20 +87,23 @@ textarea {
   border: none;
   outline: none;
   border-bottom: 2px solid #7b8b9b;
-  transition: border-bottom-color 1s;
-  -webkit-transition: border-bottom-color 1s;
-  -moz-transition: border-bottom-color 1s;
-  -ms-transition: border-bottom-color 1s;
-  -o-transition: border-bottom-color 1s;
+  transition: all 0.3s ease;
   font-family: "Rubik", sans-serif;
+  
+  min-height: 33px;
+  height: 33px; /* Altura inicial explícita */
+  width: 200px; /* Ajusta este valor según necesites */
+  overflow: hidden;
   resize: none;
-  height: 33px;
+  box-sizing: border-box;
+  padding: 5px 0; /* Añade un poco de padding vertical */
 }
 
-textarea::placeholder{
-  text-align: center;
+/* Asegura que el placeholder se vea completo */
+textarea::placeholder {
+  white-space: nowrap; /* Evita que el placeholder se rompa en múltiples líneas */
+  overflow: visible; /* Permite que el placeholder sea visible completamente */
 }
-
 textarea::-webkit-scrollbar{
   width: 0;
 }

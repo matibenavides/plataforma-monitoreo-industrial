@@ -7,7 +7,8 @@ from . import views
 urlpatterns = [
     path('cloracion/', views.cloracion),
     path('slide/', views.slide),
-    path('guarda_estanque', views.registrarEstanque)
+    path('guarda_estanque', views.registrarEstanque),
+    path('base/', views.mostrarBase),
 
 
 
