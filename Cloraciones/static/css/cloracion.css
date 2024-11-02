@@ -82,6 +82,8 @@ input[type=time] {
   text-align: center;
 }
 
+
+
 textarea {
   background: none;
   border: none;
@@ -117,3 +119,28 @@ textarea::-webkit-scrollbar{
 .hijo {
   margin: 0 auto;
 }
+
+/* ----------------------------------- Estanque */
+.card_color_est {
+  background-color: #fafff2 !important;  
+}
+/* ----------------------------------- Corta Pedicelo */
+.card_color_cor {
+  background-color: #f0ffd8 !important;  
+}
+/* ----------------------------------- Retorno */
+.card_color_ret {
+  background-color: #ecffce !important;  
+}
+
+.card-header {
+  text-align: center;
+}
+
+.card-body.guardados {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* #fafff2   #f2fffa   #fff2ff */
