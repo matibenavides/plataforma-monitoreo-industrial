@@ -4,7 +4,6 @@ from datetime import date
 from django.core.paginator import Paginator
 
 
-
 # Create your views here.
 
 def mostrarCloracion(request):
@@ -114,6 +113,60 @@ def registrarCortaPedicelo(request):
         datos = {
             'msg' : '¡Formulario agregado!',
             'sector' : 'Corta Pedicelo'
+        }
+
+    return render(request, 'base/cloracion.html', datos)
+
+def registrarRetorno(request):
+    if request.method == 'POST':
+
+        #Fecha actual
+        dia_actual = date.today()
+        dia_obj, created = Dia.objects.get_or_create(dia_dia=dia_actual)
+
+        lote_hipo = request.POST['lotehipo']
+        lote_acido = request.POST['loteacid']
+        linea_id = Lineas.objects.get(id=1) # id= 1 es Linea 11
+        turno = Turnos.objects.get(id=request.POST['turnoop'])
+        sector = Sector.objects.get(id=3) # id=2 Es el sector Corta Pedicelo
+        especie = Especies.objects.get(id=request.POST['especieop'])
+        trabajador = Trabajador.objects.get(id=1) # id=1 el trabajador Matias
+
+        bloque = Bloque.objects.create(
+            loh_gru = lote_hipo,
+            loa_gru = lote_acido,
+            dia_id = dia_obj,
+            lineas_id = linea_id,
+            turnos_id = turno,
+            sector_id = sector,
+            especies_id = especie,
+            trabajador_id = trabajador
+            )
+        bloque.save()
+
+        for i in range(1, 12):
+
+            hora = request.POST.get(f'hora_{i}') or None
+            ppm = request.POST.get(f'ppm_{i}') or None
+            ph = request.POST.get(f'ph_{i}') or None
+            hipoclorito = int(request.POST.get(f'hipo_{i}', 0) or 0)
+            acido = int(request.POST.get(f'acid_{i}', 0) or 0)
+            observacion = request.POST.get(f'obs_{i}') 
+
+
+            cloracion = Cloracion.objects.create(
+                bloque_id = bloque,
+                hor_clo = hora,
+                ppm_clo = ppm,
+                phe_clo = ph,
+                hcl_clo = hipoclorito,
+                aci_clo = acido,
+                obs_clo = observacion
+            )
+
+        datos = {
+            'msg' : '¡Formulario agregado!',
+            'sector' : 'Retorno'
         }
 
     return render(request, 'base/cloracion.html', datos)
