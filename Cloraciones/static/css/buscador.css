@@ -1,0 +1,18 @@
+.form-inputs{
+    position:relative;
+}
+.form-inputs .form-control{
+    height:45px; 
+    width: 400px;
+}
+
+.form-inputs i{
+    position:absolute;
+    right:10px;
+    top:11px;
+}
+
+.btn-outline-primary .btn-link {
+    color: inherit;
+    text-decoration: none;
+}
