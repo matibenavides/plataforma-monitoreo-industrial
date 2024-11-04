@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import * 
 from datetime import date
+from django.core.paginator import Paginator
 
 
 
@@ -8,23 +9,6 @@ from datetime import date
 
 def mostrarCloracion(request):
     return render(request, "base/cloracion.html")
-
-
-def mostrarlistaonce(request):
-    bloquesLista = Bloque.objects.all()
-    
-    # Lista de diccionario con datos especificos, para formatear
-    bloques_modificados = []
-    for bloque in bloquesLista:
-        bloques_modificados.append({
-            "turno": bloque.turnos_id.nom_tur.upper(),  
-            "trabajador": f"{bloque.trabajador_id.nom_tra.capitalize()} {bloque.trabajador_id.app_tra.capitalize()}",
-            "fecha": bloque.dia_id,
-            "especie": bloque.especies_id.nom_esp.capitalize(),
-            "sector": bloque.sector_id.nom_sec.capitalize(), 
-        })
-
-    return render(request, "form/listaonce.html", {"listas": bloques_modificados})
 
 def registrarEstanque(request):
     if request.method == 'POST':
@@ -134,4 +118,27 @@ def registrarCortaPedicelo(request):
 
     return render(request, 'base/cloracion.html', datos)
 
+
+def mostrarlistaonce(request):
+    bloquesLista = Bloque.objects.all().order_by('-id') # Muestra todos los datos ordenados de manera descendente (-id) 
+    
+    # Lista de diccionario con datos especificos, para formatear
+    bloques_modificados = []
+    for bloque in bloquesLista:
+        bloques_modificados.append({
+            "id": bloque.id,
+            "turno": bloque.turnos_id.nom_tur.upper(),  
+            "trabajador": f"{bloque.trabajador_id.nom_tra.capitalize()} {bloque.trabajador_id.app_tra.capitalize()}",
+            "fecha": bloque.dia_id,
+            "especie": bloque.especies_id.nom_esp.capitalize(),
+            "sector": bloque.sector_id.nom_sec.capitalize(), 
+        })
+
+        paginator = Paginator(bloques_modificados , 10)
+        pagina = request.GET.get("page") or 1
+        listas = paginator.get_page(pagina)
+        pagina_actual = int(pagina)
+        paginas = range(1, listas.paginator.num_pages + 1) 
+
+    return render(request, "base/listaonce.html", {"listas": listas, "paginas": paginas, "pagina_actual": pagina_actual})
 
