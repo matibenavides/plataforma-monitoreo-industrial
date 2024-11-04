@@ -32,7 +32,7 @@
     <div class="row">
       <section class="p-3">
         <h4 class="rubik-titulo">
-          <strong>Archivos de Control Operativo</strong>
+          <strong class="ps-4">Archivos de Control Operativo</strong>
         </h4>
         
         <div class="container-fluid">
@@ -77,7 +77,7 @@
         <div class="table-responsive shadow-lg mb-4 bg-body-tertiary rounded-4">
             <table class="table table-hover text-center ">
                 <thead>
-                    <tr>
+                    <tr class="border-info-subtle">
                         <th>#</th>
                         <th>Turno</th>
                         <th>Trabajador</th>
@@ -88,9 +88,9 @@
                         <th>pe</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="table-group-divider border-primary">
                     {% for l in listas %}
-                    <tr>
+                    <tr class="border-info-subtle">
                         <td>{{ l.id }}</td> <!-- forloop.counter -->
                         <td>{{ l.turno }}</td>
                         <td>{{ l.trabajador }}</td>
