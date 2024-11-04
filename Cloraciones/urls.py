@@ -5,11 +5,10 @@ from . import views
 # Gestion de rutas para App Cloraciones
 
 urlpatterns = [
-    path('cloracion/', views.cloracion),
-    path('slide/', views.slide),
+    path('cloracion/', views.mostrarCloracion),
     path('guarda_estanque', views.registrarEstanque),
-    path('base/', views.mostrarBase),
-
-
+    path('archivos/', views.mostrarlistaonce),
+    
+    path('guarda_cortapedicelo', views.registrarCortaPedicelo),
 
 ]

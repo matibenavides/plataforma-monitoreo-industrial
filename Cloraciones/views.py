@@ -5,68 +5,133 @@ from datetime import date
 
 
 # Create your views here.
-def cloracion(request):
-    return render(request, "cloracion.html")
 
-def mostrarBase(request):
-    return render(request, "base/basecloracion.html")
-
-def slide(request):   # Este es una vista para mostrar el slide.html y probar su funcionamiento ante un nuevo cambio de slide.
-    return render(request, "slide.html")
+def mostrarCloracion(request):
+    return render(request, "base/cloracion.html")
 
 
-def guardarEstanque(request):
-    return render(request, "slide.html")
+def mostrarlistaonce(request):
+    bloquesLista = Bloque.objects.all()
+    
+    # Lista de diccionario con datos especificos, para formatear
+    bloques_modificados = []
+    for bloque in bloquesLista:
+        bloques_modificados.append({
+            "turno": bloque.turnos_id.nom_tur.upper(),  
+            "trabajador": f"{bloque.trabajador_id.nom_tra.capitalize()} {bloque.trabajador_id.app_tra.capitalize()}",
+            "fecha": bloque.dia_id,
+            "especie": bloque.especies_id.nom_esp.capitalize(),
+            "sector": bloque.sector_id.nom_sec.capitalize(), 
+        })
 
+    return render(request, "form/listaonce.html", {"listas": bloques_modificados})
 
 def registrarEstanque(request):
-    total_hipo = 0
-    total_acido = 0
+    if request.method == 'POST':
 
-    turno_id = request.POST['turnoop']
-    especie_id = request.POST['especieop']
-    lote_hipoclorito = request.POST['lotehipo']
-    lote_acido = request.POST['loteacid']
-    
-    #Fecha actúal
-    dia_actual = date.today()
-    dia_obj, created = Dia.objects.get_or_create(dia_dia=dia_actual)
+        #Fecha actual
+        dia_actual = date.today()
+        dia_obj, created = Dia.objects.get_or_create(dia_dia=dia_actual)
 
+        lote_hipo = request.POST['lotehipo']
+        lote_acido = request.POST['loteacid']
+        linea_id = Lineas.objects.get(id=1) # id= 1 es Linea 11
+        turno = Turnos.objects.get(id=request.POST['turnoop'])
+        sector = Sector.objects.get(id=1) # id=1 Es el sector Estanque
+        especie = Especies.objects.get(id=request.POST['especieop'])
+        trabajador = Trabajador.objects.get(id=1) # id=1 el trabajador Matias
 
-    turno_obj, created = Turnos.objects.get_or_create(id=int(turno_id))  # Obtener el objeto y el estado de creación
-    especie_obj, created = Especies.objects.get_or_create(id=int(especie_id))  # Obtener el objeto y el estado de creación
-
-
-    for i in range(1, 12): # 11 Filas de inputs
-        hora = request.POST.get(f'hora_{i}') or None # Mención al name con formato hora_1 / 2 etc.
-        ppm = request.POST.get(f'ppm_{i}') or None
-        ph = request.POST.get(f'ph_{i}') or None
-        hipoclorito = int(request.POST.get(f'hipo_{i}', 0) or 0)  # 0 en caso de no poseer valores
-        acido = int(request.POST.get(f'acid_{i}', 0) or 0) 
-        observacion = request.POST.get(f'obs_{i}')
-
-        total_hipo += hipoclorito
-        total_acido += acido
-        # Sacar este campo, parece sobrar. además de sumar esto con javaScript en el mismo formulario. pensar en los campos de total de ambas para futuro   
-        
-        # Recorre
-        cloracion = Cloracion( 
-            lineas_id= Lineas.objects.get(id=1), # id=1 es de linea 11
-            turnos_id= turno_obj,
-            trabajador_id= Trabajador.objects.get(id=1), # id=1 es el de mati, este campo variará
-            sector_id = Sector.objects.get(id=1), # id=1 Es el sector Estanque
-            especies_id = especie_obj, 
+        bloque = Bloque.objects.create(
+            loh_gru = lote_hipo,
+            loa_gru = lote_acido,
             dia_id = dia_obj,
-            hor_clo = hora,
-            ppm_clo = ppm,
-            phe_clo = ph,
-            hcl_clo = hipoclorito,
-            aci_clo = acido,
-            loh_clo = lote_hipoclorito,
-            loa_clo = lote_acido,
-            obs_clo = observacion
-        )
-        cloracion.save()
+            lineas_id = linea_id,
+            turnos_id = turno,
+            sector_id = sector,
+            especies_id = especie,
+            trabajador_id = trabajador
+            )
+        bloque.save()
+
+        for i in range(1, 12):
+
+            hora = request.POST.get(f'hora_{i}') or None
+            ppm = request.POST.get(f'ppm_{i}') or None
+            ph = request.POST.get(f'ph_{i}') or None
+            hipoclorito = int(request.POST.get(f'hipo_{i}', 0) or 0)
+            acido = int(request.POST.get(f'acid_{i}', 0) or 0)
+            observacion = request.POST.get(f'obs_{i}') 
 
 
-    return render(request, "slide.html")
+            cloracion = Cloracion.objects.create(
+                bloque_id = bloque,
+                hor_clo = hora,
+                ppm_clo = ppm,
+                phe_clo = ph,
+                hcl_clo = hipoclorito,
+                aci_clo = acido,
+                obs_clo = observacion
+            )
+
+        datos = {
+            'msg' : '¡Formulario agregado!',
+            'sector' : 'Estanque'
+        }
+
+    return render(request, 'base/cloracion.html', datos)
+
+def registrarCortaPedicelo(request):
+    if request.method == 'POST':
+
+        #Fecha actual
+        dia_actual = date.today()
+        dia_obj, created = Dia.objects.get_or_create(dia_dia=dia_actual)
+
+        lote_hipo = request.POST['lotehipo']
+        lote_acido = request.POST['loteacid']
+        linea_id = Lineas.objects.get(id=1) # id= 1 es Linea 11
+        turno = Turnos.objects.get(id=request.POST['turnoop'])
+        sector = Sector.objects.get(id=2) # id=2 Es el sector Corta Pedicelo
+        especie = Especies.objects.get(id=request.POST['especieop'])
+        trabajador = Trabajador.objects.get(id=1) # id=1 el trabajador Matias
+
+        bloque = Bloque.objects.create(
+            loh_gru = lote_hipo,
+            loa_gru = lote_acido,
+            dia_id = dia_obj,
+            lineas_id = linea_id,
+            turnos_id = turno,
+            sector_id = sector,
+            especies_id = especie,
+            trabajador_id = trabajador
+            )
+        bloque.save()
+
+        for i in range(1, 12):
+
+            hora = request.POST.get(f'hora_{i}') or None
+            ppm = request.POST.get(f'ppm_{i}') or None
+            ph = request.POST.get(f'ph_{i}') or None
+            hipoclorito = int(request.POST.get(f'hipo_{i}', 0) or 0)
+            acido = int(request.POST.get(f'acid_{i}', 0) or 0)
+            observacion = request.POST.get(f'obs_{i}') 
+
+
+            cloracion = Cloracion.objects.create(
+                bloque_id = bloque,
+                hor_clo = hora,
+                ppm_clo = ppm,
+                phe_clo = ph,
+                hcl_clo = hipoclorito,
+                aci_clo = acido,
+                obs_clo = observacion
+            )
+
+        datos = {
+            'msg' : '¡Formulario agregado!',
+            'sector' : 'Corta Pedicelo'
+        }
+
+    return render(request, 'base/cloracion.html', datos)
+
+
