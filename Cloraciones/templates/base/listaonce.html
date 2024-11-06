@@ -18,7 +18,6 @@
   <!-- ref css static-->
   <link rel="stylesheet" href="{% static 'css/sidebars.css' %}" />
   <link rel="stylesheet" href="{% static 'css/buscador.css' %}">
-  <link rel="stylesheet" href="{% static 'css/cloracion.css' %}" />
 
   <style>
     @import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
@@ -42,25 +41,36 @@
               <!-- Grupo izquierdo: Buscador y Filtro -->
               <div class="d-flex gap-3 align-items-center">
                 <!-- Buscador -->
-                <div class="d-flex form-inputs" style="width: 250px;">
-                  <input class="form-control" type="search" placeholder="Buscar archivo...">
-                  <i class="bi bi-search"></i>
-                </div>
+
+                
+                
+                <form action="" method="GET">
+                  {% csrf_token %}
+                  <div class="d-flex form-inputs" style="width: 250px;">
+                    <input class="form-control" type="text" placeholder="Buscar archivo..." name="buscar" value="{{ request.GET.buscar }}">
+                    <button class="btn" type="submit">
+                      <i class="bi bi-search"></i>
+                    </button>
+                  </div>
+                </form>
+
+                
         
                 <!-- Filtro -->
                 <div class="dropdown">
-                  <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Filtrar por..
+                  <button class="btn btn-outline-primary btn-sm " type="button" data-bs-toggle="dropdown" aria-expanded="false" >
+                    <i class="bi bi-info-square"></i>
                   </button>
                   <ul class="dropdown-menu">
-                    <li><button class="dropdown-item" type="button">Sector</button></li>
-                    <li><button class="dropdown-item" type="button">Especie</button></li>
-                    <li><button class="dropdown-item" type="button">Fecha</button></li>
-                    <li><button class="dropdown-item" type="button">Trabajador</button></li>
-                    <li><button class="dropdown-item" type="button">Turno</button></li>
+                    <li><button class="dropdown-item" type="button" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Puedes buscar por Estanque, Corta Pedicelo o Retorno">Sector</button></li>
+                    <li><button class="dropdown-item" type="button" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Puedes buscar por la Fruta a tu elección">Especie</button></li>
+                    <li><button class="dropdown-item" type="button" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Buscar por fecha específica">Fecha</button></li>
+                    <li><button class="dropdown-item" type="button" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Buscar por nombre del trabajador">Trabajador</button></li>
+                    <li><button class="dropdown-item" type="button" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Busqueda entre A / B">Turno</button></li>
                   </ul>
                 </div>
               </div>
+
         
               <!-- Botón de Cloración alineado a la derecha -->
               <div>
@@ -84,8 +94,7 @@
                         <th>Sector</th>
                         <th>Especie</th>
                         <th>Fecha</th>
-                        <th>pe</th>
-                        <th>pe</th>
+                        <th>Acción</th>
                     </tr>
                 </thead>
                 <tbody class="table-group-divider border-primary">
@@ -97,8 +106,16 @@
                         <td>{{ l.sector }}</td>
                         <td>{{ l.especie }}</td>
                         <td>{{ l.fecha }}</td>
-                        <td><a href="edicionCurso/{{c.codigo}}" class="btn btn-info">Editar</a></td>
-                        <td><a href="eliminacionCurso/{{c.codigo}}" class="btn btn-danger btnEliminacion">Eliminar</a></td>
+                        <td><button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#visualizar">
+                              <i class="bi bi-eye"></i>
+                            </button>
+                            <button type="button" class="btn btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#editar">
+                              <i class="bi bi-pencil-square"></i>
+                            </button>
+                            <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#eliminar">
+                              <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
                     </tr>
                     {% endfor %}
 
@@ -107,14 +124,17 @@
         </div>
         {% include "form/paginacion.html" %}
       </section>
+
+      {% include "form/modalVisualizar.html" %}
+      {% include "form/modalEditar.html" %}
+      {% include "form/modalEliminar.html" %}
     </div>
-  </div>
 
 
-  
 
-        
-   
+
+  <script src="{% static 'js/modal.js' %}"></script>
+  <script src="{% static 'js/tooltip.js' %}"></script>
 </body>
 
 </html>

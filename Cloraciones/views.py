@@ -210,19 +210,3 @@ def mostrarlistaonce(request):
 
     return render(request, "base/listaonce.html", {"listas": listas, "paginas": paginas, "pagina_actual": pagina_actual})
 
-
-def buscarOnce(request):
-    busqueda = request.GET.get("buscar")
-    listas = Bloque.objects.all()
-
-    if busqueda:
-        listas = Bloque.objects.filter(
-            Q(turnos_id__nom_tur__icontains = busqueda) |
-            Q(trabajador_id__nom_tra__icontains = busqueda) |
-            Q(sector_id__nom_sec__icontains = busqueda) |
-            Q(especies_id__nom_esp__icontains = busqueda) |
-            Q(dia_id__dia_dia__icontains = busqueda)
-        ).distinct()
-
-
-    return render(request, "base/listaonce.html", {"listas": listas})

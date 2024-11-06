@@ -8,11 +8,15 @@
 
 .form-inputs i{
     position:absolute;
-    right:10px;
+    right:5px;
     top:11px;
 }
 
 .btn-outline-primary .btn-link {
     color: inherit;
     text-decoration: none;
+}
+
+.fondo {
+  background-color: #F7F2FF;
 }

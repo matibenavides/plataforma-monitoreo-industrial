@@ -16,4 +16,5 @@ urlpatterns = [
     #----- Vista hacia Listado de registros -----#
     path('archivos/', views.mostrarlistaonce),
 
+
 ]
