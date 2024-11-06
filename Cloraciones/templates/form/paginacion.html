@@ -3,12 +3,12 @@
         <ul class="pagination mb-0">
             {% comment %} Primera página {% endcomment %}
             <li class="page-item {% if not listas.has_previous %}disabled{% endif %}">
-                <a class="page-link" href="?page=1">Primera</a>
+                <a class="page-link" href="?page=1{% if request.GET.buscar %}&buscar={{ request.GET.buscar }}{% endif %}">Primera</a>
             </li>
 
             {% comment %} Flecha anterior {% endcomment %}
             <li class="page-item {% if not listas.has_previous %}disabled{% endif %}">
-                <a class="page-link" href="{% if listas.has_previous %}?page={{ listas.previous_page_number }}{% else %}#{% endif %}">
+                <a class="page-link" href="{% if listas.has_previous %}?page={{ listas.previous_page_number }}{% else %}#{% endif %}{% if request.GET.buscar %}&buscar={{ request.GET.buscar }}{% endif %}">
                     &laquo;
                 </a>
             </li>
@@ -17,7 +17,7 @@
             {% for pagina in paginas %}
                 {% if pagina_actual == pagina or pagina == 1 or pagina == listas.paginator.num_pages or pagina == pagina_actual|add:-1 or pagina == pagina_actual|add:1 %}
                     <li class="page-item {% if pagina_actual == pagina %}active{% endif %}">
-                        <a class="page-link" href="?page={{ pagina }}">{{ pagina }}</a>
+                        <a class="page-link" href="?page={{ pagina }}{% if request.GET.buscar %}&buscar={{ request.GET.buscar }}{% endif %}">{{ pagina }}</a>
                     </li>
                 {% elif pagina == pagina_actual|add:-2 or pagina == pagina_actual|add:2 %}
                     <li class="page-item disabled">
@@ -28,14 +28,14 @@
 
             {% comment %} Flecha siguiente {% endcomment %}
             <li class="page-item {% if not listas.has_next %}disabled{% endif %}">
-                <a class="page-link" href="{% if listas.has_next %}?page={{ listas.next_page_number }}{% else %}#{% endif %}">
+                <a class="page-link" href="{% if listas.has_next %}?page={{ listas.next_page_number }}{% else %}#{% endif %}{% if request.GET.buscar %}&buscar={{ request.GET.buscar }}{% endif %}">
                     &raquo;
                 </a>
             </li>
 
             {% comment %} Última página {% endcomment %}
             <li class="page-item {% if not listas.has_next %}disabled{% endif %}">
-                <a class="page-link" href="?page={{ listas.paginator.num_pages }}">Última</a>
+                <a class="page-link" href="?page={{ listas.paginator.num_pages }}{% if request.GET.buscar %}&buscar={{ request.GET.buscar }}{% endif %}">Última</a>
             </li>
         </ul>
     </nav>
