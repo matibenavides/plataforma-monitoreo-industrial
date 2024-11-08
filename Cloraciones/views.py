@@ -41,7 +41,11 @@ def registrarEstanque(request):
 
             hora = request.POST.get(f'hora_{i}') or None
             ppm = request.POST.get(f'ppm_{i}') or None
-            ph = request.POST.get(f'ph_{i}') or None
+
+            # Convierto ph a float para tomar el dato n.n, según función js para escribir digitos en un type="text" y automaticamente agregar punto 
+            ph_str = request.POST.get(f'ph_{i}')
+            ph = float(ph_str) if ph_str else None
+
             hipoclorito = int(request.POST.get(f'hipo_{i}', 0) or 0)
             acido = int(request.POST.get(f'acid_{i}', 0) or 0)
             observacion = request.POST.get(f'obs_{i}') 
@@ -95,7 +99,10 @@ def registrarCortaPedicelo(request):
 
             hora = request.POST.get(f'hora_{i}') or None
             ppm = request.POST.get(f'ppm_{i}') or None
-            ph = request.POST.get(f'ph_{i}') or None
+
+            ph_str = request.POST.get(f'ph_{i}')
+            ph = float(ph_str) if ph_str else None
+
             hipoclorito = int(request.POST.get(f'hipo_{i}', 0) or 0)
             acido = int(request.POST.get(f'acid_{i}', 0) or 0)
             observacion = request.POST.get(f'obs_{i}') 
@@ -149,7 +156,10 @@ def registrarRetorno(request):
 
             hora = request.POST.get(f'hora_{i}') or None
             ppm = request.POST.get(f'ppm_{i}') or None
-            ph = request.POST.get(f'ph_{i}') or None
+
+            ph_str = request.POST.get(f'ph_{i}')
+            ph = float(ph_str) if ph_str else None
+
             hipoclorito = int(request.POST.get(f'hipo_{i}', 0) or 0)
             acido = int(request.POST.get(f'acid_{i}', 0) or 0)
             observacion = request.POST.get(f'obs_{i}') 

@@ -66,15 +66,25 @@ textarea:focus{
 
 }
 
-input[type=time] {
+input[type="time"] {
+  -moz-appearance: textfield;
+  appearance: unset;
+  border: none;
+  border-bottom: 2px solid #7b8b9b;
+  width: 4.5rem;
   background: none;
-  border: 0;
-  border-radius: 5%;
-  -webkit-border-radius: 5%;
-  -moz-border-radius: 5%;
-  -ms-border-radius: 5%;
-  -o-border-radius: 5%;
-  
+  outline: none;
+  transition: border-bottom-color 1s;
+  -webkit-transition: border-bottom-color 1s;
+  -moz-transition: border-bottom-color 1s;
+  -ms-transition: border-bottom-color 1s;
+  -o-transition: border-bottom-color 1s;
+  font-family: "Rubik", sans-serif;
+  height: 33px;
+}
+
+input[type="time"]:focus {
+  border-bottom-color: #0b58d7;
 }
 
 .tamano-numero {
