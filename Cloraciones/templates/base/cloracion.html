@@ -49,6 +49,8 @@
         </div>
         {% endif %}
 
+        {% include "form/toastRequired.html" %}
+
         <ul class="nav nav-tabs" id="myTab" role="tablist">
           <li class="nav-item " role="presentation">
             <button class="nav-link active rubik-titulo" id="home-tab" data-bs-toggle="tab"
@@ -86,7 +88,7 @@
     </div>
   </div>
 
-
+  <script src="{% static 'js/localstorage.js' %}"></script>
   <script src="{% static 'js/formateo.js' %}"></script>
   <script src="{% static 'js/toast.js' %}"></script>
   <script src="{% static 'js/textarea.js' %}"></script>

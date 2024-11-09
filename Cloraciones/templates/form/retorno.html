@@ -1,6 +1,6 @@
 <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab"  tabindex="0">
     <div class="col-12 mb-4">
-        <form action="/guarda_retorno" method="post">
+        <form id="form-retorno"  action="/guarda_retorno" method="post">
             {% csrf_token %}
             <div class="table-responsive shadow-lg mb-5 bg-body-tertiary rounded-bottom-5">
                 <table class="table table-hover table-sm" style="text-align: center;">
@@ -237,7 +237,7 @@
                             <div class="card-body pb-4">
                                 <div class="form-floating">
                                     <select name="turnoop" id="floatingSelectGrid" class="form-select" required>
-                                        <option selected>Selecciona una opción</option>
+                                        <option selected value="">Selecciona una opción</option>
                                         <option value="1">A</option>
                                         <option value="2">B</option>
                                     </select>
@@ -245,7 +245,7 @@
                                 </div>
                                 <div class="form-floating especie">
                                     <select name="especieop" id="selectespecie" class="form-select" required>
-                                        <option selected>Selecciona una opción</option>
+                                        <option selected value="">Selecciona una opción</option>
                                         <option value="1">Ciruela</option>
                                         <option value="2">Cereza</option>
                                         <option value="3">Pera</option>
@@ -306,12 +306,12 @@
                             <h5 class="card-header">Confirmación de Datos</h5>
                             <div class="card-body guardados">
                                 <div class="form-floating mb-3">
-                                    <button class="btn btn-outline-warning" type="submit" name="accion" value="guardar_borrador_retorno">
+                                    <button class="btn btn-outline-warning" type="button"  onclick="guardarBorrador('retorno')">
                                         <i class="bi bi-file-earmark-text"></i> Guardar Borrador
                                     </button>
                                 </div>
                                 <div class="form-floating">
-                                    <button class="btn btn-outline-primary" type="submit" name="accion" value="enviar_datos_retorno">
+                                    <button class="btn btn-outline-primary" type="submit" onclick="enviarDatos(event, 'retorno')" value="enviar_datos_retorno">
                                         <i class="bi bi-send"></i> Enviar Datos
                                     </button>
                                 </div>
