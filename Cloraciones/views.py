@@ -5,6 +5,7 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 
 
+
 # Create your views here.
 
 def mostrarCloracion(request):
@@ -25,7 +26,7 @@ def registrarEstanque(request):
         especie = Especies.objects.get(id=request.POST['especieop'])
         trabajador = Trabajador.objects.get(id=1) # id=1 el trabajador Matias
 
-        bloque = Bloque.objects.create(
+        bloque = GrupoCloracion.objects.create(
             loh_gru = lote_hipo,
             loa_gru = lote_acido,
             dia_id = dia_obj,
@@ -52,7 +53,7 @@ def registrarEstanque(request):
 
 
             cloracion = Cloracion.objects.create(
-                bloque_id = bloque,
+                grupoclo_id = bloque,
                 hor_clo = hora,
                 ppm_clo = ppm,
                 phe_clo = ph,
@@ -83,7 +84,7 @@ def registrarCortaPedicelo(request):
         especie = Especies.objects.get(id=request.POST['especieop'])
         trabajador = Trabajador.objects.get(id=1) # id=1 el trabajador Matias
 
-        bloque = Bloque.objects.create(
+        bloque = GrupoCloracion.objects.create(
             loh_gru = lote_hipo,
             loa_gru = lote_acido,
             dia_id = dia_obj,
@@ -109,7 +110,7 @@ def registrarCortaPedicelo(request):
 
 
             cloracion = Cloracion.objects.create(
-                bloque_id = bloque,
+                grupoclo_id = bloque,
                 hor_clo = hora,
                 ppm_clo = ppm,
                 phe_clo = ph,
@@ -136,11 +137,11 @@ def registrarRetorno(request):
         lote_acido = request.POST['loteacid']
         linea_id = Lineas.objects.get(id=1) # id= 1 es Linea 11
         turno = Turnos.objects.get(id=request.POST['turnoop'])
-        sector = Sector.objects.get(id=3) # id=2 Es el sector Corta Pedicelo
+        sector = Sector.objects.get(id=3) # id=3 Es el sector Retorno
         especie = Especies.objects.get(id=request.POST['especieop'])
         trabajador = Trabajador.objects.get(id=1) # id=1 el trabajador Matias
 
-        bloque = Bloque.objects.create(
+        bloque = GrupoCloracion.objects.create(
             loh_gru = lote_hipo,
             loa_gru = lote_acido,
             dia_id = dia_obj,
@@ -166,7 +167,7 @@ def registrarRetorno(request):
 
 
             cloracion = Cloracion.objects.create(
-                bloque_id = bloque,
+                grupoclo_id = bloque,
                 hor_clo = hora,
                 ppm_clo = ppm,
                 phe_clo = ph,
@@ -185,7 +186,7 @@ def registrarRetorno(request):
 
 def mostrarlistaonce(request):
     busqueda = request.GET.get("buscar")
-    bloquesLista = Bloque.objects.all().order_by('-id') # Muestra todos los datos ordenados de manera descendente (-id) 
+    bloquesLista = GrupoCloracion.objects.all().order_by('-id') # Muestra todos los datos ordenados de manera descendente (-id) 
     
     if busqueda:
         bloquesLista = bloquesLista.filter(
@@ -219,4 +220,27 @@ def mostrarlistaonce(request):
 
 
     return render(request, "base/listaonce.html", {"listas": listas, "paginas": paginas, "pagina_actual": pagina_actual})
+
+
+# def visualizarDatos(request, bloque_id):
+#     bloque = get_object_or_404(Bloque, id=bloque_id)
+#     registros_cloracion = Cloracion.objects.filter(bloque_id=bloque)
+
+#     registros_data = []
+#     for registro in registros_cloracion:
+#         registros_data.append({
+#             "hora": registro.hor_clo,
+#             "ppm": registro.ppm_clo,
+#             "ph": registro.phe_clo,
+#             "hipoclorito": registro.hcl_clo,
+#             "acido": registro.aci_clo,
+#             "observacion": registro.obs_clo,
+#         })
+
+#     data = {
+#         "bloque_id": bloque.id,
+#         "registros_cloracion": registros_data
+#     }
+#     return JsonResponse(data)
+
 

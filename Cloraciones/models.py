@@ -67,7 +67,7 @@ class Dia(models.Model): # Clase para la fecha de cada planilla
 
 #-------------------------------Grupo control de datos------------------------#
 
-class Bloque(models.Model):
+class GrupoCloracion(models.Model):
     loh_gru = models.BigIntegerField(null=True, blank=True) # Lote Hipoclorito
     loa_gru = models.BigIntegerField(null=True, blank=True) # Lote Acido
     dia_id = models.ForeignKey(Dia, on_delete=models.CASCADE)
@@ -81,13 +81,43 @@ class Bloque(models.Model):
         return str(self.loh_gru) + " - " + str(self.loa_gru) + " - " + str(self.dia_id) + " - " + str(self.lineas_id) + " - " + str(self.turnos_id) + " - " + str(self.sector_id) + " - " + str(self.especies_id) + " - " + str(self.trabajador_id)
 
 
+
+class GrupoProductos(models.Model):
+    obs_grp = models.TextField(max_length=200)
+    dia_id = models.ForeignKey(Dia, on_delete=models.CASCADE)
+    lineas_id = models.ForeignKey(Lineas, on_delete=models.CASCADE)
+    turnos_id = models.ForeignKey(Turnos, on_delete=models.CASCADE)
+    sector_id = models.ForeignKey(Sector, on_delete=models.CASCADE)
+    especies_id = models.ForeignKey(Especies, on_delete=models.CASCADE)
+    trabajador_id = models.ForeignKey(Trabajador, on_delete=models.CASCADE)
+    variedad_id = models.ForeignKey(Variedad, on_delete=models.CASCADE)
+    fungicidas_id = models.ForeignKey(Fungicidas, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.obs_grp) + " - " + str(self.dia_id) + " - " +str(self.lineas_id) + " - " + str(self.turnos_id) + " - " + str(self.sector_id) + " - " + str(self.especies_id) + " - " + str(self.trabajador_id) + " - " + str(self.variedad_id) + " - " + str(self.fungicidas_id)
+
+
+
+class GrupoTemperatura(models.Model):
+    obs_grt = models.TextField(max_length=200)
+    dia_id = models.ForeignKey(Dia, on_delete=models.CASCADE)
+    lineas_id = models.ForeignKey(Lineas, on_delete=models.CASCADE)
+    turnos_id = models.ForeignKey(Turnos, on_delete=models.CASCADE)
+    trabajador_id = models.ForeignKey(Trabajador, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.obs_grt) + " - " + str(self.dia_id) + " - " + str(self.lineas_id) + " - " + str(self.turnos_id) + " - " + str(self.trabajador_id)
+
+
+
+
 # ----------------------Tablas de Planillas---------------------------------- #
 
 
 
 # Cloración Lineas de Proceso
 class Cloracion(models.Model): # id_clo ()
-    bloque_id = models.ForeignKey(Bloque, on_delete=models.CASCADE)
+    grupoclo_id = models.ForeignKey(GrupoCloracion, on_delete=models.CASCADE)
     hor_clo = models.TimeField(blank=True, null=True, default=datetime.time(0, 0)) # Hora 
     ppm_clo = models.IntegerField(null=True, blank=True) # PPM
     phe_clo = models.FloatField(null=True, blank=True) # PH cloración
@@ -96,19 +126,13 @@ class Cloracion(models.Model): # id_clo ()
     obs_clo = models.TextField(max_length=200) # Observación
 
     def __str__(self):
-        return str(self.bloque_id) + " - " + str(self.hor_clo) + " - " + str(self.ppm_clo) + " - " + str(self.phe_clo) + " - " + str(self.hcl_clo) + " - " + str(self.aci_clo) + " - " + str(self.loh_clo) + " - " + str(self.loa_clo) + " - " + str(self.obs_clo)
+        return str(self.grupoclo_id) + " - " + str(self.hor_clo) + " - " + str(self.ppm_clo) + " - " + str(self.phe_clo) + " - " + str(self.hcl_clo) + " - " + str(self.aci_clo) + " - " + str(self.loh_clo) + " - " + str(self.loa_clo) + " - " + str(self.obs_clo)
     
 
     
 # Control de Productos
 class Productos(models.Model):
-    lineas_id = models.ForeignKey(Lineas, on_delete=models.CASCADE)
-    turnos_id = models.ForeignKey(Turnos, on_delete=models.CASCADE)
-    trabajador_id = models.ForeignKey(Trabajador, on_delete=models.CASCADE)
-    especies_id = models.ForeignKey(Especies, on_delete=models.CASCADE)
-    variedad_id = models.ForeignKey(Variedad, on_delete=models.CASCADE)
-    fungicidas_id = models.ForeignKey(Fungicidas, on_delete=models.CASCADE)
-    dia_id = models.ForeignKey(Dia, on_delete=models.CASCADE)
+    grupopro_id = models.ForeignKey(GrupoProductos, on_delete=models.CASCADE)
     hor_pro = models.TimeField()
     cod_pro = models.IntegerField(null=False) 
     dof_pro = models.IntegerField(null=True, blank=True) # Dosificación Fungicida
@@ -118,10 +142,9 @@ class Productos(models.Model):
     kil_pro = models.IntegerField(null=True, blank=True) # Kilos de producción
     bin_pro = models.IntegerField(null=True, blank=True) # Numero de bins
     ren_pro = models.IntegerField(null=True, blank=True) # Rendimiento
-    obs_pro = models.TextField(max_length=200) # Observación
 
     def __str__(self):
-        return str(self.lineas_id) + " - " + str(self.turnos_id) + " - " + str(self.trabajador_id) + " - " + str(self.especies_id) + " - " + str(self.variedad_id) + " - " + str(self.fungicidas_id) + " - " + str(self.dia_id) + " - " + str(self.hor_pro) + " - " + str(self.cod_pro) + " - " + str(self.dof_pro) + " - " + str(self.dor_pro) + " - " + str(self.doa_pro) + " - " + str(self.gas_pro) + " - " + str(self.kil_pro) + " - " + str(self.bin_pro) + " - " + str(self.ren_pro) + " - " + str(self.obs_pro)
+        return str(self.grupopro_id) + " - " + str(self.lineas_id) + " - " + str(self.turnos_id) + " - " + str(self.trabajador_id) + " - " + str(self.especies_id) + " - " + str(self.variedad_id) + " - " + str(self.fungicidas_id) + " - " + str(self.dia_id) + " - " + str(self.hor_pro) + " - " + str(self.cod_pro) + " - " + str(self.dof_pro) + " - " + str(self.dor_pro) + " - " + str(self.doa_pro) + " - " + str(self.gas_pro) + " - " + str(self.kil_pro) + " - " + str(self.bin_pro) + " - " + str(self.ren_pro)
 
 
 # Dosificación de Fungicidas
@@ -145,19 +168,16 @@ class Dosificacion(models.Model):
     
 # Temperaturas
 class Temperatura(models.Model):
-    lineas_id = models.ForeignKey(Lineas, on_delete=models.CASCADE)
-    trabajador_id = models.ForeignKey(Trabajador, on_delete=models.CASCADE)
-    turnos_id = models.ForeignKey(Turnos, on_delete=models.CASCADE)
-    dia_id = models.ForeignKey(Dia, on_delete=models.CASCADE)
+    grupotem_id = models.ForeignKey(GrupoTemperatura, on_delete=models.CASCADE)
     hor_tem = models.TimeField()
     pul_tem = models.FloatField(null=True, blank=True) # Pulpa entrada
     agu_tem = models.FloatField(null=True, blank=True) # Agua Vaciado
     amb_tem = models.FloatField(null=True, blank=True) # Ambiente Camara
     est_tem = models.FloatField(null=True, blank=True) # Estanque Fungicida
-    obs_tem = models.TextField(max_length=200)
+    
 
     def __str__(self):
-        return str(self.lineas_id) + " - " + str(self.trabajador_id) + " - " + str(self.turnos_id) + " - " + str(self.dia_id) + " - " + str(self.hor_tem) + " - " + str(self.pul_tem) + " - " + str(self.agu_tem) + " - " + str(self.amb_tem) + " - " + str(self.est_tem) + " - " + str(self.obs_tem)
+        return str(self.grupotem_id) + " - " + str(self.lineas_id) + " - " + str(self.trabajador_id) + " - " + str(self.turnos_id) + " - " + str(self.dia_id) + " - " + str(self.hor_tem) + " - " + str(self.pul_tem) + " - " + str(self.agu_tem) + " - " + str(self.amb_tem) + " - " + str(self.est_tem)
     
 
 # Medición PPM
