@@ -25,10 +25,10 @@
                               oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3); formateo(this);">
                       </td>
                       <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name="hipo_1"
-                              id="" oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                              id="su_hi_1" oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6); calculosumhi();">
                       </td>
                       <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name="acid_1"
-                              id="" oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                              id="su_ac_1" oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6); calculosumac();">
                       </td>
                       <td><textarea cols="18" rows="1" placeholder="Escriba su observación" maxlength="200" name="obs_1"></textarea></td>
                     </tr>
@@ -42,12 +42,12 @@
                                 oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3); formateo(this);">
                         </td>
                         <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name="hipo_2"
-                                id=""
-                                oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                id="su_hi_2"
+                                oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6); calculosumhi();">
                         </td>
                         <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name="acid_2"
-                                id=""
-                                oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                id="su_ac_2"
+                                oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6); calculosumac();">
                         </td>
                         <td><textarea cols="18" rows="1" placeholder="Escriba su observación" maxlength="200" name="obs_2" id></textarea></td>
                     </tr>
@@ -61,12 +61,12 @@
                                 oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3); formateo(this);">
                         </td>
                         <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name="hipo_3"
-                                id=""
-                                oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                id="su_hi_3"
+                                oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6); calculosumhi();">
                         </td>
                         <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name="acid_3"
-                                id=""
-                                oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                id="su_ac_3"
+                                oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6); calculosumac();">
                         </td>
                         <td><textarea cols="18" rows="1" placeholder="Escriba su observación" maxlength="200" name="obs_3" id></textarea></td>
                     </tr>
@@ -80,12 +80,12 @@
                                 oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3); formateo(this);">
                         </td>
                         <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name="hipo_4"
-                                id=""
-                                oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                id="su_hi_4"
+                                oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6); calculosumhi();">
                         </td>
                         <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name="acid_4"
-                                id=""
-                                oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                id="su_ac_4"
+                                oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6); calculosumac();">
                         </td>
                         <td><textarea cols="18" rows="1" placeholder="Escriba su observación" maxlength="200" name="obs_4" id></textarea></td>
                     </tr>
@@ -99,12 +99,12 @@
                                 oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3); formateo(this);">
                         </td>
                         <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name="hipo_5"
-                                id=""
-                                oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                id="su_hi_5"
+                                oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6); calculosumhi();">
                         </td>
                         <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name="acid_5"
-                                id=""
-                                oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                id="su_ac_5"
+                                oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6); calculosumac();">
                         </td>
                         <td><textarea cols="18" rows="1" placeholder="Escriba su observación" maxlength="200" name="obs_5" id></textarea></td>
                     </tr>
@@ -118,12 +118,12 @@
                                 oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3); formateo(this);">
                         </td>
                         <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name="hipo_6"
-                                id=""
-                                oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                id="su_hi_6"
+                                oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6); calculosumhi();">
                         </td>
                         <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name="acid_6"
-                                id=""
-                                oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                id="su_ac_6"
+                                oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6); calculosumac();">
                         </td>
                         <td><textarea cols="18" rows="1" placeholder="Escriba su observación" maxlength="200" name="obs_6" id></textarea></td>
                     </tr>
@@ -137,12 +137,12 @@
                                 oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3); formateo(this);">
                         </td>
                         <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name="hipo_7"
-                                id=""
-                                oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                id="su_hi_7"
+                                oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6); calculosumhi();">
                         </td>
                         <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name="acid_7"
-                                id=""
-                                oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                id="su_ac_7"
+                                oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6); calculosumac();">
                         </td>
                         <td><textarea cols="18" rows="1" placeholder="Escriba su observación" maxlength="200" name="obs_7" id></textarea></td>
                     </tr>
@@ -156,12 +156,12 @@
                                 oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3); formateo(this);">
                         </td>
                         <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name="hipo_8"
-                                id=""
-                                oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                id="su_hi_8"
+                                oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6); calculosumhi();">
                         </td>
                         <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name="acid_8"
-                                id=""
-                                oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                id="su_ac_8"
+                                oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6); calculosumac();">
                         </td>
                         <td><textarea cols="18" rows="1" placeholder="Escriba su observación" maxlength="200" name="obs_8" id></textarea></td>
                     </tr>
@@ -175,12 +175,12 @@
                                 oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3); formateo(this);">
                         </td>
                         <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name="hipo_9"
-                                id=""
-                                oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                id="su_hi_9"
+                                oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6); calculosumhi();">
                         </td>
                         <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name="acid_9"
-                                id=""
-                                oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                id="su_ac_9"
+                                oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6); calculosumac();">
                         </td>
                         <td><textarea cols="18" rows="1" placeholder="Escriba su observación" maxlength="200" name="obs_9" id></textarea></td>
                     </tr>
@@ -194,12 +194,12 @@
                                 oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3); formateo(this);">
                         </td>
                         <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name="hipo_10"
-                                id=""
-                                oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                id="su_hi_10"
+                                oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6); calculosumhi();">
                         </td>
                         <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name="acid_10"
-                                id=""
-                                oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                id="su_ac_10"
+                                oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6); calculosumac();">
                         </td>
                         <td><textarea cols="18" rows="1" placeholder="Escriba su observación" maxlength="200" name="obs_10" id></textarea></td>
                     </tr>
@@ -213,12 +213,12 @@
                                 oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3); formateo(this);">
                         </td>
                         <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 1500 (ml)" name="hipo_11"
-                                id=""
-                                oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                id="su_hi_11"
+                                oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6); calculosumhi();">
                         </td>
                         <td><input class="tamano-numero numerito" type="number" placeholder="Ej: 700 (ml)" name="acid_11"
-                                id=""
-                                oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);">
+                                id="su_ac_11"
+                                oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6); calculosumac();">
                         </td>
                         <td><textarea cols="18" rows="1" placeholder="Escriba su observación" maxlength="200" name="obs_11" id></textarea></td>
                     </tr>
