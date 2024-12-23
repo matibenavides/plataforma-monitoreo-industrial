@@ -51,29 +51,39 @@
 
         {% include "form/toastRequired.html" %}
 
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-          <li class="nav-item " role="presentation">
-            <button class="nav-link active rubik-titulo" id="home-tab" data-bs-toggle="tab"
-              data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane"
-              aria-selected="true">
-              Estanque
-            </button>
-          </li>
-          <li class="nav-item " role="presentation">
-            <button class="nav-link rubik-titulo " id="profile-tab" data-bs-toggle="tab"
-              data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane"
-              aria-selected="false">
-              Corta Pedicelo
-            </button>
-          </li>
-          <li class="nav-item " role="presentation">
-            <button class="nav-link rubik-titulo " id="contact-tab" data-bs-toggle="tab"
-              data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane"
-              aria-selected="false">
-              Retorno
-            </button>
-          </li>
-        </ul>
+        
+        <div class="d-flex justify-content-between align-items-center">
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active rubik-titulo" id="home-tab" data-bs-toggle="tab"
+                data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane"
+                aria-selected="true">
+                Estanque
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link rubik-titulo" id="profile-tab" data-bs-toggle="tab"
+                data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane"
+                aria-selected="false">
+                Corta Pedicelo
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link rubik-titulo" id="contact-tab" data-bs-toggle="tab"
+                data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane"
+                aria-selected="false">
+                Retorno
+              </button>
+            </li>
+          </ul>
+          <button class="btn btn-outline-primary btn-sm" type="submit" name="accion" value="enviar_datos_estanque">
+            <i class="bi bi-send"></i>
+            <a class="btn-link text-decoration-none" href="/archivos">Listado</a>
+          </button>
+        </div>
+        
+
+        
 
         
 
