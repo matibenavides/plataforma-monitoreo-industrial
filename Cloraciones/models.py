@@ -11,6 +11,11 @@ class Trabajador(models.Model):
     nac_tra = models.DateField() # Nacimiento Trabajador
     rut_tra = models.IntegerField(null=True, blank=True, unique=True) # Rut Trabajador ( Unico y permite quedarse en blanco por el momento)
 
+
+    class Meta:
+        verbose_name = 'Trabajador'
+        verbose_name_plural = 'Trabajadores'
+
     # Metodo para visualización panel admin
     def __str__(self):
         return str(self.nom_tra) + " - " + str(self.app_tra) + " - " + str(self.apm_tra) + " - " + str(self.nac_tra) + " - " + str(self.rut_tra)
@@ -19,6 +24,10 @@ class Trabajador(models.Model):
 class Especies(models.Model):
     nom_esp = models.TextField(max_length=20) # Nombre Especie
 
+    class Meta:
+        verbose_name = 'Especie'
+        verbose_name_plural = 'Especies'
+
     def __str__(self):
         return str(self.nom_esp)
     
@@ -26,6 +35,9 @@ class Variedad(models.Model):
     especies_id = models.ForeignKey(Especies, on_delete=models.CASCADE)
     nom_var = models.TextField(max_length=20) #Nombre Variedad
 
+    class Meta:
+        verbose_name = 'Variedad'
+        verbose_name_plural = 'Variedades'
 
     def __str__(self):
         return str(self.especies_id) + " - " + str(self.nom_var)
@@ -34,12 +46,20 @@ class Variedad(models.Model):
 class Fungicidas(models.Model): 
     nom_fun = models.TextField(max_length=30) # Nombre Fungicida
 
+    class Meta:
+        verbose_name = 'Fungicida'
+        verbose_name_plural = 'Fungicidas'
+
     def __str__(self):
         return str(self.nom_fun)
     
 
 class Turnos(models.Model):
     nom_tur = models.TextField(max_length=20) # Nombre Turno
+
+    class Meta:
+        verbose_name = 'Turno'
+        verbose_name_plural = 'Turnos'
 
     def __str__(self):
         return str(self.nom_tur)
@@ -48,11 +68,19 @@ class Turnos(models.Model):
 class Sector(models.Model):
     nom_sec = models.TextField(max_length=20) # Nombre Sector
 
+    class Meta:
+        verbose_name = 'Sector'
+        verbose_name_plural = 'Sectores'
+
     def __str__(self):
         return str(self.nom_sec)
     
 class Lineas(models.Model):
     num_lin = models.IntegerField(null=False) # Nombre Linea (Dato obligatorio, añadir linea operativa)
+
+    class Meta:
+        verbose_name = 'Linea'
+        verbose_name_plural = 'Lineas'
 
     def __str__(self):
         return str(self.num_lin)
@@ -60,6 +88,10 @@ class Lineas(models.Model):
 
 class Dia(models.Model): # Clase para la fecha de cada planilla
     dia_dia = models.DateField(db_index=True)
+
+    class Meta:
+        verbose_name = 'Dia'
+        verbose_name_plural = 'Dias'
 
     def __str__(self):
         return str(self.dia_dia)
@@ -77,6 +109,9 @@ class GrupoCloracion(models.Model):
     especies_id = models.ForeignKey(Especies, on_delete=models.CASCADE)
     trabajador_id = models.ForeignKey(Trabajador, on_delete=models.CASCADE)
 
+    class Meta:
+        verbose_name = 'Grupo Cloracion'
+
     def __str__(self):
         return str(self.loh_gru) + " - " + str(self.loa_gru) + " - " + str(self.dia_id) + " - " + str(self.lineas_id) + " - " + str(self.turnos_id) + " - " + str(self.sector_id) + " - " + str(self.especies_id) + " - " + str(self.trabajador_id)
 
@@ -93,6 +128,9 @@ class GrupoProductos(models.Model):
     variedad_id = models.ForeignKey(Variedad, on_delete=models.CASCADE)
     fungicidas_id = models.ForeignKey(Fungicidas, on_delete=models.CASCADE)
 
+    class Meta:
+        verbose_name = 'Grupo Producto'
+
     def __str__(self):
         return str(self.obs_grp) + " - " + str(self.dia_id) + " - " +str(self.lineas_id) + " - " + str(self.turnos_id) + " - " + str(self.sector_id) + " - " + str(self.especies_id) + " - " + str(self.trabajador_id) + " - " + str(self.variedad_id) + " - " + str(self.fungicidas_id)
 
@@ -105,9 +143,11 @@ class GrupoTemperatura(models.Model):
     turnos_id = models.ForeignKey(Turnos, on_delete=models.CASCADE)
     trabajador_id = models.ForeignKey(Trabajador, on_delete=models.CASCADE)
 
+    class Meta:
+        verbose_name = 'Grupo Temperatura'
+
     def __str__(self):
         return str(self.obs_grt) + " - " + str(self.dia_id) + " - " + str(self.lineas_id) + " - " + str(self.turnos_id) + " - " + str(self.trabajador_id)
-
 
 
 
@@ -125,8 +165,12 @@ class Cloracion(models.Model): # id_clo ()
     aci_clo = models.IntegerField(null=True, blank=True) # Acido cloración
     obs_clo = models.TextField(max_length=200) # Observación
 
+    class Meta:
+        verbose_name = 'Cloracion'
+        verbose_name_plural = 'Cloraciones'
+
     def __str__(self):
-        return str(self.grupoclo_id) + " - " + str(self.hor_clo) + " - " + str(self.ppm_clo) + " - " + str(self.phe_clo) + " - " + str(self.hcl_clo) + " - " + str(self.aci_clo) + " - " + str(self.loh_clo) + " - " + str(self.loa_clo) + " - " + str(self.obs_clo)
+        return str(self.grupoclo_id) + " - " + str(self.hor_clo) + " - " + str(self.ppm_clo) + " - " + str(self.phe_clo) + " - " + str(self.hcl_clo) + " - " + str(self.aci_clo) + str(self.obs_clo)
     
 
     
@@ -142,6 +186,10 @@ class Productos(models.Model):
     kil_pro = models.IntegerField(null=True, blank=True) # Kilos de producción
     bin_pro = models.IntegerField(null=True, blank=True) # Numero de bins
     ren_pro = models.IntegerField(null=True, blank=True) # Rendimiento
+    
+    class Meta:
+        verbose_name = 'Producto'
+        verbose_name_plural = 'Productos'
 
     def __str__(self):
         return str(self.grupopro_id) + " - " + str(self.lineas_id) + " - " + str(self.turnos_id) + " - " + str(self.trabajador_id) + " - " + str(self.especies_id) + " - " + str(self.variedad_id) + " - " + str(self.fungicidas_id) + " - " + str(self.dia_id) + " - " + str(self.hor_pro) + " - " + str(self.cod_pro) + " - " + str(self.dof_pro) + " - " + str(self.dor_pro) + " - " + str(self.doa_pro) + " - " + str(self.gas_pro) + " - " + str(self.kil_pro) + " - " + str(self.bin_pro) + " - " + str(self.ren_pro)
@@ -163,6 +211,10 @@ class Dosificacion(models.Model):
     cer_dos = models.IntegerField(null=True, blank=True) # Dilución en cera
     obs_dos = models.TextField(max_length=200)
 
+    class Meta:
+        verbose_name = 'Dosificacion'
+        verbose_name_plural = 'Dosificaciones'
+
     def __str__(self):
         return str(self.lineas_id) + " - " + str(self.trabajador_id) + " - " + str(self.especies_id) + " - " + str(self.variedad_id) + " - " + str(self.fungicidas_id) + " - " + str(self.dia_id) + " - " + str(self.hor_dos) + " - " + str(self.pei_dos) + " - " + str(self.pef_dos) + " - " + str(self.ccp_dos) + " - " + str(self.agu_dos) + " - " + str(self.cer_dos) + " - " + str(self.obs_dos)
     
@@ -174,6 +226,10 @@ class Temperatura(models.Model):
     agu_tem = models.FloatField(null=True, blank=True) # Agua Vaciado
     amb_tem = models.FloatField(null=True, blank=True) # Ambiente Camara
     est_tem = models.FloatField(null=True, blank=True) # Estanque Fungicida
+
+    class Meta:
+        verbose_name = 'Temperatura'
+        verbose_name_plural = 'Temperaturas'
     
 
     def __str__(self):
@@ -190,6 +246,9 @@ class PPM(models.Model):
     dat_ppm = models.IntegerField(null=True, blank=True)
     phe_ppm = models.FloatField()
     obs_ppm = models.TextField(max_length=200)
+
+    class Meta:
+        verbose_name = 'PPM'
 
     def __str__(self):
         return str(self.lineas_id) + " - " + str(self.trabajador_id) + " - " + str(self.turnos_id) + " - " + str(self.dia_id) + " - " + str(self.hor_ppm) + " - " + str(self.dat_ppm) + " - " + str(self.phe_ppm) + " - " + str(self.obs_ppm)
