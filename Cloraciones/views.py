@@ -9,7 +9,7 @@ from django.db.models import Q
 # Create your views here.
 
 def mostrarCloracion(request):
-    return render(request, "base/cloracion.html")
+    return render(request, "cloraciones/base/cloracion.html")
 
 def registrarEstanque(request):
     if request.method == 'POST':
@@ -67,7 +67,7 @@ def registrarEstanque(request):
             'sector' : 'Estanque'
         }
 
-    return render(request, 'base/cloracion.html', datos)
+    return render(request, 'cloraciones/base/cloracion.html', datos)
 
 def registrarCortaPedicelo(request):
     if request.method == 'POST':
@@ -124,7 +124,7 @@ def registrarCortaPedicelo(request):
             'sector' : 'Corta Pedicelo'
         }
 
-    return render(request, 'base/cloracion.html', datos)
+    return render(request, 'cloraciones/base/cloracion.html', datos)
 
 def registrarRetorno(request):
     if request.method == 'POST':
@@ -181,7 +181,7 @@ def registrarRetorno(request):
             'sector' : 'Retorno'
         }
 
-    return render(request, 'base/cloracion.html', datos)
+    return render(request, 'cloraciones/base/cloracion.html', datos)
 
 
 def mostrarlistaonce(request):
@@ -219,7 +219,7 @@ def mostrarlistaonce(request):
 
 
 
-    return render(request, "base/listaonce.html", {"listas": listas, "paginas": paginas, "pagina_actual": pagina_actual})
+    return render(request, "cloraciones/base/listaonce.html", {"listas": listas, "paginas": paginas, "pagina_actual": pagina_actual})
 
 
 # def visualizarDatos(request, bloque_id):
