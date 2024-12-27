@@ -16,9 +16,9 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
 
   <!-- ref css static-->
-  <link rel="stylesheet" href="{% static 'css/sidebars.css' %}" />
-  <link rel="stylesheet" href="{% static 'css/buscador.css' %}">
-  <link rel="stylesheet" href="{% static 'css/cloracion.css' %}" />
+  <link rel="stylesheet" href="{% static 'cloraciones/css/sidebars.css' %}" />
+  <link rel="stylesheet" href="{% static 'cloraciones/css/buscador.css' %}">
+  <link rel="stylesheet" href="{% static 'cloraciones/css/cloracion.css' %}" />
 
   <style>
     @import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
@@ -26,7 +26,7 @@
 </head>
 
 <body class="pt-5 fondo">
-  {% include "base/navbar.html" %}
+  {% include "cloraciones/base/navbar.html" %}
 
   <div class="container mt-3">
     <div class="row">
@@ -123,19 +123,19 @@
                 </tbody>
             </table>
         </div>
-        {% include "form/paginacion.html" %}
+        {% include "cloraciones/form/paginacion.html" %}
       </section>
 
-      {% include "form/modalVisualizar.html" %}
-      {% include "form/modalEditar.html" %}
-      {% include "form/modalEliminar.html" %}
+      {% include "cloraciones/form/modalVisualizar.html" %}
+      {% include "cloraciones/form/modalEditar.html" %}
+      {% include "cloraciones/form/modalEliminar.html" %}
     </div>
 
 
 
 
-  <script src="{% static 'js/modal.js' %}"></script>
-  <script src="{% static 'js/tooltip.js' %}"></script>
+  <script src="{% static 'cloraciones/js/modal.js' %}"></script>
+  <script src="{% static 'cloraciones/js/tooltip.js' %}"></script>
 </body>
 
 </html>
