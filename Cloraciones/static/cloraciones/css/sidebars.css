@@ -67,3 +67,6 @@ main {
 }
 
 
+.offcanvas {
+  --bs-offcanvas-width: 300px; /* Ajusta el ancho  */
+}
