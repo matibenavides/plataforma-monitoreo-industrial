@@ -17,15 +17,71 @@
 
   <!-- ref css static-->
   <link rel="stylesheet" href="{% static 'cloraciones/css/sidebars.css' %}" />
+  <link rel="stylesheet" href="{% static 'cloraciones/css/cloracion.css' %}" />
+
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
+  </style>
 
 
 </head>
-<body>
+<body class="pt-5 fondo">
     {% include "cloraciones/base/navbar.html" %}
 
-    <h1> Control de temperaturas </h1>
-    <h1> Control de temperaturas </h1>
-    <h1> Control de temperaturas </h1>
-    <h1> Control de temperaturas </h1>
+    <div class="container mt-3">
+      <div class="row">
+        <section class="p-3">
+          <h4 class="rubik-titulo">
+            <strong>Control de Temperaturas Cerezas</strong>
+          </h4>
+  
+          {% if msg %}
+          <div class="toast-container position-fixed top-0 end-0 p-3">
+            <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+              <div class="toast-header">
+                <strong class="me-auto">{{ sector }}</strong>
+                <small>Justo ahora</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+              </div>
+              <div class="toast-body">
+                  {{ msg }}
+              </div>
+            </div>
+          </div>
+          {% endif %}
+  
+          {% include "cloraciones/form/toastRequired.html" %}
+  
+          
+          <div class="d-flex justify-content-between align-items-center">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link active rubik-titulo" id="home-tab" data-bs-toggle="tab"
+                  data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane"
+                  aria-selected="true">
+                  General (°C)
+                </button>
+              </li>
+            </ul>
+            <button class="btn btn-outline-primary btn-sm" type="submit" name="accion" >
+              <i class="bi bi-send"></i>
+              <a class="btn-link text-decoration-none" href="/archivos">Listado</a>
+            </button>
+          </div>
+          
+  
+          
+  
+          
+  
+          <div class="tab-content" id="myTabContent">
+            {% include "temperaturas/form/tablatemperatura.html" %}
+          </div>
+        </section>
+      </div>
+    </div>
+
+
+    <script src="{% static 'temperaturas/js/formateonumero.js' %}"></script>
 </body>
 </html>
