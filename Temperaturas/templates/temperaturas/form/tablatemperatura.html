@@ -1,0 +1,261 @@
+<div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"tabindex="0">
+    <div class="col-12 mb-4">
+        <form id="form-estanque" action="/guarda_estanque" method="post">
+            {% csrf_token %}
+            <div class="table-responsive shadow-lg mb-5 bg-body-tertiary rounded-bottom-5">
+                <table class="table table-hover table-sm" style="text-align: center;">
+                  <thead>
+                    <tr>
+                      <th scope="col">Hora</th>
+                      <th scope="col">T° Pulpa Entrada</th>
+                      <th scope="col">T° Agua Vaciado</th>
+                      <th scope="col">T° Ambiente Camara</th>
+                      <th scope="col">T° Estanque fungicida</th>
+                      
+                    </tr>
+                  </thead>
+                  <tbody class="table-group-divider border-primary">
+
+                    <tr class="border-info-subtle">
+                      <th scope="row"><input type="time" name="hora_1"></th>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 7.1" name="pul_1" id="" maxlength="4"
+                              oninput="formatearNumero(this)"> 
+                      </td>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 14.5" name="agu_1" id="" maxlength="4"  
+                              oninput="formatearNumero(this)">
+                      </td>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 8.9" name="amb_1" id="" maxlength="4"
+                              oninput="formatearNumero(this)">
+                      </td>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 1.2" name="est_1" id="" maxlength="4"
+                              oninput="formatearNumero(this)">
+                      </td>
+                    </tr>
+
+                    <tr class="border-info-subtle">
+                      <th scope="row"><input type="time" name="hora_2"></th>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 7.1" name="pul_2" id="" maxlength="4"
+                              oninput="formatearNumero(this)"> 
+                      </td>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 14.5" name="agu_2" id="" maxlength="4"  
+                              oninput="formatearNumero(this)">
+                      </td>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 8.9" name="amb_2" id="" maxlength="4"
+                              oninput="formatearNumero(this)">
+                      </td>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 1.2" name="est_2" id="" maxlength="4"
+                              oninput="formatearNumero(this)">
+                      </td>
+                    </tr>
+
+                    <tr class="border-info-subtle">
+                      <th scope="row"><input type="time" name="hora_3"></th>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 7.1" name="pul_3" id="" maxlength="4"
+                              oninput="formatearNumero(this)"> 
+                      </td>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 14.5" name="agu_3" id="" maxlength="4"  
+                              oninput="formatearNumero(this)">
+                      </td>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 8.9" name="amb_3" id="" maxlength="4"
+                              oninput="formatearNumero(this)">
+                      </td>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 1.2" name="est_3" id="" maxlength="4"
+                              oninput="formatearNumero(this)">
+                      </td>
+                    </tr>
+
+                    <tr class="border-info-subtle">
+                      <th scope="row"><input type="time" name="hora_4"></th>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 7.1" name="pul_4" id="" maxlength="4"
+                              oninput="formatearNumero(this)"> 
+                      </td>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 14.5" name="agu_4" id="" maxlength="4"  
+                              oninput="formatearNumero(this)">
+                      </td>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 8.9" name="amb_4" id="" maxlength="4"
+                              oninput="formatearNumero(this)">
+                      </td>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 1.2" name="est_4" id="" maxlength="4"
+                              oninput="formatearNumero(this)">
+                      </td>
+                    </tr>
+
+                    <tr class="border-info-subtle">
+                      <th scope="row"><input type="time" name="hora_5"></th>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 7.1" name="pul_5" id="" maxlength="4"
+                              oninput="formatearNumero(this)"> 
+                      </td>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 14.5" name="agu_5" id="" maxlength="4"  
+                              oninput="formatearNumero(this)">
+                      </td>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 8.9" name="amb_5" id="" maxlength="4"
+                              oninput="formatearNumero(this)">
+                      </td>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 1.2" name="est_5" id="" maxlength="4"
+                              oninput="formatearNumero(this)">
+                      </td>
+                    </tr>
+
+                    <tr class="border-info-subtle">
+                      <th scope="row"><input type="time" name="hora_6"></th>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 7.1" name="pul_6" id="" maxlength="4"
+                              oninput="formatearNumero(this)"> 
+                      </td>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 14.5" name="agu_6" id="" maxlength="4"  
+                              oninput="formatearNumero(this)">
+                      </td>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 8.9" name="amb_6" id="" maxlength="4"
+                              oninput="formatearNumero(this)">
+                      </td>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 1.2" name="est_6" id="" maxlength="4"
+                              oninput="formatearNumero(this)">
+                      </td>
+                    </tr>
+
+                    <tr class="border-info-subtle">
+                      <th scope="row"><input type="time" name="hora_7"></th>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 7.1" name="pul_7" id="" maxlength="4"
+                              oninput="formatearNumero(this)"> 
+                      </td>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 14.5" name="agu_7" id="" maxlength="4"  
+                              oninput="formatearNumero(this)">
+                      </td>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 8.9" name="amb_7" id="" maxlength="4"
+                              oninput="formatearNumero(this)">
+                      </td>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 1.2" name="est_7" id="" maxlength="4"
+                              oninput="formatearNumero(this)">
+                      </td>
+                    </tr>
+
+                    <tr class="border-info-subtle">
+                      <th scope="row"><input type="time" name="hora_8"></th>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 7.1" name="pul_8" id="" maxlength="4"
+                              oninput="formatearNumero(this)"> 
+                      </td>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 14.5" name="agu_8" id="" maxlength="4"  
+                              oninput="formatearNumero(this)">
+                      </td>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 8.9" name="amb_8" id="" maxlength="4"
+                              oninput="formatearNumero(this)">
+                      </td>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 1.2" name="est_8" id="" maxlength="4"
+                              oninput="formatearNumero(this)">
+                      </td>
+                    </tr>
+
+                    <tr class="border-info-subtle">
+                      <th scope="row"><input type="time" name="hora_9"></th>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 7.1" name="pul_9" id="" maxlength="4"
+                              oninput="formatearNumero(this)"> 
+                      </td>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 14.5" name="agu_9" id="" maxlength="4"  
+                              oninput="formatearNumero(this)">
+                      </td>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 8.9" name="amb_9" id="" maxlength="4"
+                              oninput="formatearNumero(this)">
+                      </td>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 1.2" name="est_9" id="" maxlength="4"
+                              oninput="formatearNumero(this)">
+                      </td>
+                    </tr>
+
+                    <tr class="border-info-subtle">
+                      <th scope="row"><input type="time" name="hora_10"></th>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 7.1" name="pul_10" id="" maxlength="4"
+                              oninput="formatearNumero(this)"> 
+                      </td>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 14.5" name="agu_10" id="" maxlength="4"  
+                              oninput="formatearNumero(this)">
+                      </td>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 8.9" name="amb_10" id="" maxlength="4"
+                              oninput="formatearNumero(this)">
+                      </td>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 1.2" name="est_10" id="" maxlength="4"
+                              oninput="formatearNumero(this)">
+                      </td>
+                    </tr>
+
+                    <tr class="border-info-subtle">
+                      <th scope="row"><input type="time" name="hora_11"></th>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 7.1" name="pul_11" id="" maxlength="4"
+                              oninput="formatearNumero(this)"> 
+                      </td>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 14.5" name="agu_11" id="" maxlength="4"  
+                              oninput="formatearNumero(this)">
+                      </td>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 8.9" name="amb_11" id="" maxlength="4"
+                              oninput="formatearNumero(this)">
+                      </td>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: 1.2" name="est_11" id="" maxlength="4"
+                              oninput="formatearNumero(this)">
+                      </td>
+                    </tr>
+                    
+                  </tbody>
+                </table>
+            </div>
+
+            <!-- Segunda fila de campos -->
+            <div class="row g-4">
+                <!-- Turno -->
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="shadow p-3 mb-3 bg-body-tertiary rounded card_color_est">
+                        <div class="card">
+                            <h5 class="card-header">Turno</h5>
+                            <div class="card-body pb-4">
+                                <div class="form-floating">
+                                    <select name="turnoop" id="selecturno" class="form-select" required>
+                                        <option selected value="">Selecciona una opción</option>
+                                        <option value="1">A</option>
+                                        <option value="2">B</option>
+                                    </select>
+                                    <label for="selecturno">Turno</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Observación -->
+                <div class="col-12 col-sm-6 col-lg-6">
+                    <div class="shadow p-3 mb-3 bg-body-tertiary rounded card_color_est">
+                        <div class="card">
+                            <h5 class="card-header">Observación</h5>
+                            <div class="card-body">
+                                <div class="mb-3 form-control">
+                                    <textarea class="form-control" id="observacion" rows="4" style="height: 80px"
+                                        placeholder="Ingrese sus comentarios aquí" name="observacion"> {% lorem %} </textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Confirmación de Datos -->
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="shadow p-3 mb-3 bg-body-tertiary rounded card_color_est">
+                        <div class="card">
+                            <h5 class="card-header">Confirmación de Datos</h5>
+                            <div class="card-body guardados">
+                                <div class="form-floating mb-3">                                  <!--cambiar esto en js para adelante --> 
+                                    <button class="btn btn-outline-warning" type="button" onclick="guardarBorrador('estanque')"> 
+                                        <i class="bi bi-file-earmark-text"></i> Guardar Borrador
+                                    </button>
+                                </div>
+                                <div class="form-floating">
+                                    <button class="btn btn-outline-primary" type="submit" onclick="enviarDatos(event, 'estanque')" value="enviar_datos_estanque">
+                                        <i class="bi bi-send"></i> Enviar Datos
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    
+</div>
+
