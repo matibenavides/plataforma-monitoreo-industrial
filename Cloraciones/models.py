@@ -221,7 +221,7 @@ class Dosificacion(models.Model):
 # Temperaturas
 class Temperatura(models.Model):
     grupotem_id = models.ForeignKey(GrupoTemperatura, on_delete=models.CASCADE)
-    hor_tem = models.TimeField()
+    hor_tem = models.TimeField(blank=True, null=True, default=datetime.time(0, 0))
     pul_tem = models.FloatField(null=True, blank=True) # Pulpa entrada
     agu_tem = models.FloatField(null=True, blank=True) # Agua Vaciado
     amb_tem = models.FloatField(null=True, blank=True) # Ambiente Camara
@@ -242,7 +242,7 @@ class PPM(models.Model):
     trabajador_id = models.ForeignKey(Trabajador, on_delete=models.CASCADE)
     turnos_id = models.ForeignKey(Turnos, on_delete=models.CASCADE)
     dia_id = models.ForeignKey(Dia, on_delete=models.CASCADE)
-    hor_ppm = models.TimeField()
+    hor_ppm = models.TimeField(blank=True, null=True, default=datetime.time(0, 0))
     dat_ppm = models.IntegerField(null=True, blank=True)
     phe_ppm = models.FloatField()
     obs_ppm = models.TextField(max_length=200)
