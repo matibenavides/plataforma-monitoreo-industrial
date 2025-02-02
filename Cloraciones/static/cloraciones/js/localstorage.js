@@ -2,10 +2,7 @@
 function cargarBorrador(seccion) {
     const form = document.getElementById(`form-${seccion}`);
     
-    if (!form) {
-        console.error('Formulario con id form-${seccion} no encontrado.');
-        return;
-    }
+    
     
     // Obtiene los datos del borrador en formato JSON
     const data = JSON.parse(localStorage.getItem(`borrador-${seccion}`)) || {};
@@ -109,4 +106,5 @@ window.onload = function() {
     cargarBorrador("estanque");
     cargarBorrador("corta-pedicelo");
     cargarBorrador("retorno");
+    cargarBorrador("temperatura")
 };
