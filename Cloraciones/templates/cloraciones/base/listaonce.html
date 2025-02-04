@@ -107,15 +107,16 @@
                         <td>{{ l.sector }}</td>
                         <td>{{ l.especie }}</td>
                         <td>{{ l.fecha }}</td>
-                        <td><button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#visualizar">
-                              <i class="bi bi-eye"></i>
+                        <td><button type="button" class="btn btn-outline-primary btn-s" data-bs-toggle="modal" data-bs-target="#visualizar">
+                              <a href="{% url 'visualizar' grupo_id=l.id %}"><i class="bi bi-eye"></i></a>
                             </button>
-                            <button type="button" class="btn btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#editar">
-                              <i class="bi bi-pencil-square"></i>
+                            <button type="button" class="btn btn-outline-success btn-s" data-bs-toggle="modal" data-bs-target="#pdf">
+                              <i class="bi bi-filetype-pdf"></i>
                             </button>
-                            <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#eliminar">
+                            <button type="button" class="btn btn-outline-danger btn-s" data-bs-toggle="modal" data-bs-target="#eliminar">
                               <i class="bi bi-trash"></i>
                             </button>
+                            
                         </td>
                     </tr>
                     {% endfor %}
@@ -126,8 +127,6 @@
         {% include "cloraciones/form/paginacion.html" %}
       </section>
 
-      {% include "cloraciones/form/modalVisualizar.html" %}
-      {% include "cloraciones/form/modalEditar.html" %}
       {% include "cloraciones/form/modalEliminar.html" %}
     </div>
 

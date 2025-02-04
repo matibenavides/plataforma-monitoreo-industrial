@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import * 
 from datetime import date
 from django.core.paginator import Paginator
@@ -184,7 +184,7 @@ def registrarRetorno(request):
     return render(request, 'cloraciones/base/cloracion.html', datos)
 
 
-def mostrarlistaonce(request):
+def mostrarListaonce(request):
     busqueda = request.GET.get("buscar")
     bloquesLista = GrupoCloracion.objects.all().order_by('-id') # Muestra todos los datos ordenados de manera descendente (-id) 
     
@@ -220,6 +220,13 @@ def mostrarlistaonce(request):
 
 
     return render(request, "cloraciones/base/listaonce.html", {"listas": listas, "paginas": paginas, "pagina_actual": pagina_actual})
+
+
+
+def visualizarDatos(request, grupo_id):
+    grupo = get_object_or_404(GrupoCloracion, pk=grupo_id)
+    registros_cloracion = Cloracion.objects.filter(grupoclo_id=grupo)
+    return render(request, 'cloraciones/form/registrodatos.html', {'grupo': grupo, 'registros_cloracion': registros_cloracion})
 
 
 # def visualizarDatos(request, bloque_id):

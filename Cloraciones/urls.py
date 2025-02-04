@@ -14,6 +14,7 @@ urlpatterns = [
     path('guarda_retorno', views.registrarRetorno),
 
     #----- Vista hacia Listado de registros -----#
-    path('archivos/', views.mostrarlistaonce),
+    path('archivos/', views.mostrarListaonce),
+    path('registro/<int:grupo_id>/', views.visualizarDatos, name="visualizar"),
 
 ]
