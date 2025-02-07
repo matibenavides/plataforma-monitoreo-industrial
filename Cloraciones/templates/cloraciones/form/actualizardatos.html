@@ -32,7 +32,7 @@
         <div class="row">
             <section class="p-3">
                 <h4 class="rubik-titulo">
-                    <strong>Registro de Datos</strong>
+                    <strong>Actualización de Datos</strong>
                 </h4>
 
                 <div class="d-flex justify-content-between align-items-center">
@@ -71,22 +71,20 @@
                                         <tbody class="table-group-divider border-primary">
                                             {% for cloracion in registros_cloracion %}
                                             <tr class="border-info-subtle">
-                                                <input type="hidden" name="cloracion_id_{{ forloop.counter }}" value="{{ cloracion.id }}">
-
-                                                <th scope="row"><input type="time" name="hora_{{ forloop.counter }}" value="{{ cloracion.hor_clo }}"></th>
-                                                <td><input class="tamano-numero numerito" type="number" value="{{ cloracion.ppm_clo}}" name="ppm_{{ forloop.counter }}" id=""
-                                                        oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
+                                                <th scope="row"><input type="time" name="hora_1" value="{{ cloracion.hor_clo }}"></th>
+                                                <td><input class="tamano-numero numerito" type="number" value="{{ cloracion.ppm_clo}}" name="ppm_1" id=""
+                                                        oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);" >
                                                 </td>
-                                                <td><input class="tamano-numero numerito" type="text" value="{{ cloracion.phe_clo}}" name="ph_{{ forloop.counter }}" id=""  
+                                                <td><input class="tamano-numero numerito" type="text" value="{{ cloracion.phe_clo}}" name="ph_1" id=""  
                                                         oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3); formateo(this);" >
                                                 </td>
-                                                <td><input class="tamano-numero numerito" type="number" value="{{ cloracion.hcl_clo}}" name="hipo_{{ forloop.counter }}" data-table="estanque" data-type="hipoclorito"
+                                                <td><input class="tamano-numero numerito" type="number" value="{{ cloracion.hcl_clo}}" name="hipo_1" data-table="estanque" data-type="hipoclorito"
                                                         id="su_hi_1" oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6); calculosumhi(this);" >
                                                 </td>
-                                                <td><input class="tamano-numero numerito" type="number" value="{{ cloracion.aci_clo}}" name="acid_{{ forloop.counter }}" data-table="estanque" data-type="acido"
+                                                <td><input class="tamano-numero numerito" type="number" value="{{ cloracion.aci_clo}}" name="acid_1" data-table="estanque" data-type="acido"
                                                         id="su_ac_1" oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6); calculosumac(this);" >
                                                 </td>
-                                                <td><textarea cols="18" rows="1" name="obs_{{ forloop.counter }}" maxlength="200" >{{ cloracion.obs_clo}}</textarea></td>
+                                                <td><textarea cols="18" rows="1" name="obs_1" maxlength="200" >{{ cloracion.obs_clo}}</textarea></td>
                                             </tr>
                                             {% endfor %}
 
@@ -103,23 +101,19 @@
                                                 <div class="card-body pb-4">
                                                     <div class="form-floating">
                                                         <select name="turnoop" id="selecturno" class="form-select">
-                                                            {% for turno in turnos %}
-                                                                <option value="{{ turno.id }}" 
-                                                                        {% if turno.id == grupo.turnos_id.id %}selected{% endif %}>
-                                                                    {{ turno.nom_tur }}
-                                                                </option>
-                                                            {% endfor %}
+                                                            <option selected value="">{{ grupo.turnos_id.nom_tur }}</option>
+                                                            <option value="1">A</option>
+                                                            <option value="2">B</option>
                                                         </select>
                                                         <label for="selecturno">Turno</label>
                                                     </div>
                                                     <div class="form-floating especie">
-                                                        <select name="especieop" id="selectespecie" class="form-select" >
-                                                            {% for especie in especies %}
-                                                                <option value="{{ especie.id }}"
-                                                                    {% if especie.id == grupo.especies_id.id %}selected{% endif %}>
-                                                                    {{ especie.nom_esp }}
-                                                                </option>
-                                                            {% endfor %}
+                                                        <select name="especieop" id="selectespecie" class="form-select">
+                                                            <option selected value="">{{ grupo.especies_id.nom_esp }}</option>
+                                                            <option value="1">Ciruela</option>
+                                                            <option value="2">Cereza</option>
+                                                            <option value="3">Pera</option>
+                                                            <option value="4">Nectarine</option>
                                                         </select>
                                                         <label for="selectespecie">Especie</label>
                                                     </div>
@@ -136,12 +130,12 @@
                                                 <div class="card-body">
                                                     <div class="mb-3">
                                                         <label for="lotehipoclorito" class="form-label">Hipoclorito</label>
-                                                        <input type="number" class="form-control" id="lotehipoclorito" placeholder="Ej: 80124036" value="{{ grupo.loh_gru }}" 
+                                                        <input type="number" class="form-control" id="lotehipoclorito" placeholder="Ej: 80124036" value="{{ grupo.loh_gru }}"
                                                             oninput="if(this.value.length > 10) this.value = this.value.slice(0, 10);" required name="lotehipo">
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="loteacido" class="form-label">Ácido Fosfórico</label>
-                                                        <input type="number" class="form-control" id="loteacido" placeholder="Ej: 245769985" value="{{ grupo.loa_gru }}" 
+                                                        <input type="number" class="form-control" id="loteacido" placeholder="Ej: 245769985" value="{{ grupo.loa_gru }}"
                                                         oninput="if(this.value.length > 10) this.value = this.value.slice(0, 10);" required name="loteacid">
                                                     </div>
                                                 </div>
@@ -180,13 +174,12 @@
                                                             <i class="bi bi-arrow-repeat"></i> Confirmar Cambios
                                                         </button>
                                                     </div>
-                                                    <!-- <div class="form-floating">
-                                                        <button class="btn btn-outline-danger" type="button">
+                                                    {% comment %} <div class="form-floating">
+                                                        <button class="btn btn-outline-danger" type="submit">
                                                             <i class="bi bi-trash"></i> Eliminar Registros
                                                         </button>
-                                                    </div> -->
+                                                    </div> {% endcomment %}
                                                 </div>
-                                                
                                             </div>
                                         </div>
                                     </div>
@@ -200,8 +193,7 @@
             </section>
         </div>
     </div>
-    
-    <script src="{% static 'cloraciones/js/formateo.js' %}"></script>
+
     <script src="{% static 'cloraciones/js/calculo.js' %}"></script>
     <script src="{% static 'cloraciones/js/textarea.js' %}"></script>
 </body>

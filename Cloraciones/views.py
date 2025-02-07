@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import * 
 from datetime import date
 from django.core.paginator import Paginator
@@ -225,29 +225,115 @@ def mostrarListaonce(request):
 
 def visualizarDatos(request, grupo_id):
     grupo = get_object_or_404(GrupoCloracion, pk=grupo_id)
-    registros_cloracion = Cloracion.objects.filter(grupoclo_id=grupo)
-    return render(request, 'cloraciones/form/registrodatos.html', {'grupo': grupo, 'registros_cloracion': registros_cloracion})
+    registros_cloracion = Cloracion.objects.filter(grupoclo_id=grupo).order_by('id')
+
+    turnos = Turnos.objects.all()
+    especies = Especies.objects.all()
 
 
-# def visualizarDatos(request, bloque_id):
-#     bloque = get_object_or_404(Bloque, id=bloque_id)
-#     registros_cloracion = Cloracion.objects.filter(bloque_id=bloque)
 
-#     registros_data = []
-#     for registro in registros_cloracion:
-#         registros_data.append({
-#             "hora": registro.hor_clo,
-#             "ppm": registro.ppm_clo,
-#             "ph": registro.phe_clo,
-#             "hipoclorito": registro.hcl_clo,
-#             "acido": registro.aci_clo,
-#             "observacion": registro.obs_clo,
-#         })
+    return render(request, 'cloraciones/form/registrodatos.html', {'grupo': grupo, 'registros_cloracion': registros_cloracion, 'turnos': turnos, 'especies': especies})
 
-#     data = {
-#         "bloque_id": bloque.id,
-#         "registros_cloracion": registros_data
-#     }
-#     return JsonResponse(data)
+def actualizarRegistro(request, grupo_id):
+    grupo = get_object_or_404(GrupoCloracion, pk=grupo_id)
+    
+
+    try:
+        lote_hipo = request.POST['lotehipo']
+        lote_acido = request.POST['loteacid']
+        turno = Turnos.objects.get(id=request.POST['turnoop'])
+        especie = Especies.objects.get(id=request.POST['especieop'])
+        
+        grupoupdate = GrupoCloracion.objects.get(id=grupo_id)
+
+        grupoupdate.loh_gru = lote_hipo
+        grupoupdate.loa_gru = lote_acido
+        grupoupdate.turnos_id = turno
+        grupoupdate.especies_id = especie
+        grupoupdate.save()
+
+        for i in range(1, 12):
+
+            registro_id = request.POST.get(f'cloracion_id_{i}') # Es el campo hidden para identificar el orden de ids
+            
+            if registro_id:
+                registro = Cloracion.objects.get(id=registro_id)
+
+                hora = request.POST.get(f'hora_{i}') or None
+                ppm = request.POST.get(f'ppm_{i}') or None
+                ph_str = request.POST.get(f'ph_{i}')
+                ph = float(ph_str) if ph_str else None
+                hipoclorito = int(request.POST.get(f'hipo_{i}', 0) or 0)
+                acido = int(request.POST.get(f'acid_{i}', 0) or 0)
+                observacion = request.POST.get(f'obs_{i}')
+
+                
+                registro.hor_clo = hora
+                registro.ppm_clo = ppm
+                registro.phe_clo = ph
+                registro.hcl_clo = hipoclorito
+                registro.aci_clo = acido
+                registro.obs_clo = observacion
+                registro.save()
+
+        datos = {
+            'msg' : '¡Formulario actualizado!',
+            'sector' : grupo.sector_id.nom_sec
+        }
+        return render(request, 'cloraciones/base/cloracion.html', datos)
+        
+        
+
+    except Exception as e:
+        print(f"Error al actualizar: {e}")
+        datos = {
+            'msg' : '¡Error al actualizar formulario!',
+            'sector' : 'Error'
+        }
+
+        return render(request, 'cloraciones/base/cloracion.html', datos)
+
+    
 
 
+
+# def actualizarRegistro(request, grupo_id):
+#     grupo = get_object_or_404(GrupoCloracion, pk=grupo_id)
+#     registros_cloracion = Cloracion.objects.filter(grupoclo_id=grupo)
+
+#     if request.method == 'POST':
+#         # Update grupo data
+#         grupo.loh_gru = request.POST['lotehipo']
+#         grupo.loa_gru = request.POST['loteacid']
+#         grupo.turnos_id = Turnos.objects.get(id=request.POST['turnoop'])
+#         grupo.especies_id = Especies.objects.get(id=request.POST['especieop'])
+#         grupo.save()
+
+#         # Update each cloracion record
+#         for i in range(1, 12):
+#             registro = registros_cloracion[i-1]
+            
+#             hora = request.POST.get(f'hora_{i}') or None
+#             ppm = request.POST.get(f'ppm_{i}') or None
+#             ph_str = request.POST.get(f'ph_{i}')
+#             ph = float(ph_str) if ph_str else None
+#             hipoclorito = int(request.POST.get(f'hipo_{i}', 0) or 0)
+#             acido = int(request.POST.get(f'acid_{i}', 0) or 0)
+#             observacion = request.POST.get(f'obs_{i}') or None
+
+#             registro.hor_clo = hora
+#             registro.ppm_clo = ppm 
+#             registro.phe_clo = ph
+#             registro.hcl_clo = hipoclorito
+#             registro.aci_clo = acido
+#             registro.obs_clo = observacion
+#             registro.save()
+
+#         # Redirección después de POST exitoso
+#         return redirect('visualizar', grupo_id=grupo.id)  # Asegúrate de usar el nombre de la URL correcto
+
+#     # Si es GET, renderiza el formulario de actualización
+#     return render(request, 'cloraciones/form/actualizardatos.html', {
+#         'grupo': grupo, 
+#         'registros_cloracion': registros_cloracion
+#     })
