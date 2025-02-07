@@ -275,13 +275,57 @@ def actualizarRegistro(request, grupo_id):
                 registro.aci_clo = acido
                 registro.obs_clo = observacion
                 registro.save()
-
-        datos = {
-            'msg' : '¡Formulario actualizado!',
-            'sector' : grupo.sector_id.nom_sec
-        }
-        return render(request, 'cloraciones/base/cloracion.html', datos)
         
+
+        #---- Codigo de mostrarListaOnce ----#
+        # El sentido de la reutilización del código es para enviar los datos filtrados a la vista,
+        #  junto al mensaje de actualización de registros
+
+
+        busqueda = request.GET.get("buscar")
+        bloquesLista = GrupoCloracion.objects.all().order_by('-id') # Muestra todos los datos ordenados de manera descendente (-id) 
+        
+        if busqueda:
+            bloquesLista = bloquesLista.filter(
+                Q(turnos_id__nom_tur__icontains = busqueda) |
+                Q(trabajador_id__nom_tra__icontains = busqueda) |
+                Q(sector_id__nom_sec__icontains = busqueda) |
+                Q(especies_id__nom_esp__icontains = busqueda) |
+                Q(dia_id__dia_dia__icontains = busqueda)
+            ).distinct()
+
+        # Lista de diccionario con datos especificos, para formatear
+        bloques_modificados = []
+        for bloque in bloquesLista:
+            bloques_modificados.append({
+                "id": bloque.id,
+                "turno": bloque.turnos_id.nom_tur.upper(),  
+                "trabajador": f"{bloque.trabajador_id.nom_tra.capitalize()} {bloque.trabajador_id.app_tra.capitalize()}",
+                "fecha": bloque.dia_id,
+                "especie": bloque.especies_id.nom_esp.capitalize(),
+                "sector": bloque.sector_id.nom_sec.capitalize(), 
+            })
+            
+
+        paginator = Paginator(bloques_modificados , 10)
+        pagina = request.GET.get("page") or 1
+        listas = paginator.get_page(pagina)
+        pagina_actual = int(pagina)
+        paginas = range(1, listas.paginator.num_pages + 1)
+
+        #--- Diccionario de datos para enviar a la vista ---#
+        datos = {
+            'msg' : (f'¡Los registros de {grupo.sector_id.nom_sec} han sido actualizado!'),
+            'sector' : (f'Formulario {grupo.id}'),
+            'listas': listas,
+            'paginas': paginas,
+            'pagina_actual': pagina_actual
+        }
+        return render(request, 'cloraciones/base/listaonce.html', datos)
+        
+        ## Quiero poner en el titulo en vez de Estanque, que seria el sector, que diga
+        # ID ( 118 )
+
         
 
     except Exception as e:

@@ -34,6 +34,22 @@
         <h4 class="rubik-titulo">
           <strong class="ps-4">Archivos de Control Operativo</strong>
         </h4>
+
+        <!-- Toast para presentación de actualización de datos -->
+        {% if msg %}
+        <div class="toast-container position-fixed top-0 end-0 p-3">
+          <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+              <strong class="me-auto">{{ sector }}</strong>
+              <small>Justo ahora</small>
+              <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                {{ msg }}
+            </div>
+          </div>
+        </div>
+        {% endif %}
         
         <div class="container-fluid">
           <div class="row p-2 pt-3">
@@ -107,9 +123,11 @@
                         <td>{{ l.sector }}</td>
                         <td>{{ l.especie }}</td>
                         <td>{{ l.fecha }}</td>
-                        <td><button type="button" class="btn btn-outline-primary btn-s" data-bs-toggle="modal" data-bs-target="#visualizar">
-                              <a href="{% url 'visualizar' grupo_id=l.id %}"><i class="bi bi-eye"></i></a>
-                            </button>
+                        <td>
+                            <a href="{% url 'visualizar' grupo_id=l.id %}" class="btn btn-outline-primary btn-s">
+                              <i class="bi bi-eye"></i>
+                            </a>
+                            
                             <button type="button" class="btn btn-outline-success btn-s" data-bs-toggle="modal" data-bs-target="#pdf">
                               <i class="bi bi-filetype-pdf"></i>
                             </button>
@@ -132,7 +150,7 @@
 
 
 
-
+  <script src="{% static 'cloraciones/js/toast.js' %}"></script>
   <script src="{% static 'cloraciones/js/modal.js' %}"></script>
   <script src="{% static 'cloraciones/js/tooltip.js' %}"></script>
 </body>
