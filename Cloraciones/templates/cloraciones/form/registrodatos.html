@@ -177,14 +177,17 @@
                                                 <div class="card-body guardados">
                                                     <div class="form-floating mb-3">
                                                         <button class="btn btn-outline-info" type="submit">
-                                                            <i class="bi bi-arrow-repeat"></i> Confirmar Cambios
+                                                            <i class="bi bi-arrow-repeat"></i> Actualizar Datos
                                                         </button>
                                                     </div>
-                                                    <!-- <div class="form-floating">
-                                                        <button class="btn btn-outline-danger" type="button">
+                                                    <div class="form-floating">
+                                                        <button type="button" class="btn btn-outline-danger btn-s" data-bs-toggle="modal" data-bs-target="#eliminar">
                                                             <i class="bi bi-trash"></i> Eliminar Registros
                                                         </button>
-                                                    </div> -->
+                                                        
+                                                        {% include "cloraciones/list/modalEliminarRegistro.html" %}
+                                                    </div>
+                                                    
                                                 </div>
                                                 
                                             </div>

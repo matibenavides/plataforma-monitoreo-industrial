@@ -216,29 +216,48 @@ def mostrarListaonce(request):
     pagina_actual = int(pagina)
     paginas = range(1, listas.paginator.num_pages + 1) 
 
+    
 
+    datos = {
+        'listas': listas,
+        'paginas': paginas,
+        'pagina_actual': pagina_actual,
+    }
 
-
-    return render(request, "cloraciones/base/listaonce.html", {"listas": listas, "paginas": paginas, "pagina_actual": pagina_actual})
+    return render(request, "cloraciones/base/listaonce.html", datos)
 
 
 
 def visualizarDatos(request, grupo_id):
-    grupo = get_object_or_404(GrupoCloracion, pk=grupo_id)
-    registros_cloracion = Cloracion.objects.filter(grupoclo_id=grupo).order_by('id')
+    try:
+        grupo = get_object_or_404(GrupoCloracion, pk=grupo_id)
+        registros_cloracion = Cloracion.objects.filter(grupoclo_id=grupo).order_by('id')
 
-    turnos = Turnos.objects.all()
-    especies = Especies.objects.all()
+        turnos = Turnos.objects.all()
+        especies = Especies.objects.all()
 
+        datos = {
+            'grupo': grupo,
+            'registros_cloracion': registros_cloracion,
+            'turnos': turnos,
+            'especies': especies
+        }
 
+        return render(request, 'cloraciones/form/registrodatos.html', datos)
+    except:
+        datos = {
+            'msg' : '¡Error, el formulario no existe!',
+            'sector' : 'Error'
+        }
 
-    return render(request, 'cloraciones/form/registrodatos.html', {'grupo': grupo, 'registros_cloracion': registros_cloracion, 'turnos': turnos, 'especies': especies})
-
-def actualizarRegistro(request, grupo_id):
-    grupo = get_object_or_404(GrupoCloracion, pk=grupo_id)
+        return render(request, 'cloraciones/base/cloracion.html', datos)
     
 
+
+def actualizarRegistro(request, grupo_id):
+    
     try:
+        grupo = get_object_or_404(GrupoCloracion, pk=grupo_id)
         lote_hipo = request.POST['lotehipo']
         lote_acido = request.POST['loteacid']
         turno = Turnos.objects.get(id=request.POST['turnoop'])
@@ -322,62 +341,112 @@ def actualizarRegistro(request, grupo_id):
             'pagina_actual': pagina_actual
         }
         return render(request, 'cloraciones/base/listaonce.html', datos)
-        
-        ## Quiero poner en el titulo en vez de Estanque, que seria el sector, que diga
-        # ID ( 118 )
 
         
 
     except Exception as e:
         print(f"Error al actualizar: {e}")
         datos = {
-            'msg' : '¡Error al actualizar formulario!',
+            'msg' : '¡Error, el formulario no existe!',
             'sector' : 'Error'
         }
 
         return render(request, 'cloraciones/base/cloracion.html', datos)
+    
+
+def eliminarRegistro(request, grupo_id):
+   try:
+        # !Importante mati: implementar autenticación de django
+        # Para evitar que cualquiera ingrese al registro.
+        grupo = get_object_or_404(GrupoCloracion, pk=grupo_id)
+        grupo.delete()
+
+
+        #---- Codigo de mostrarListaOnce ----#
+        busqueda = request.GET.get("buscar")
+        bloquesLista = GrupoCloracion.objects.all().order_by('-id') # Muestra todos los datos ordenados de manera descendente (-id) 
+        
+        if busqueda:
+            bloquesLista = bloquesLista.filter(
+                Q(turnos_id__nom_tur__icontains = busqueda) |
+                Q(trabajador_id__nom_tra__icontains = busqueda) |
+                Q(sector_id__nom_sec__icontains = busqueda) |
+                Q(especies_id__nom_esp__icontains = busqueda) |
+                Q(dia_id__dia_dia__icontains = busqueda)
+            ).distinct()
+
+        # Lista de diccionario con datos especificos, para formatear
+        bloques_modificados = []
+        for bloque in bloquesLista:
+            bloques_modificados.append({
+                "id": bloque.id,
+                "turno": bloque.turnos_id.nom_tur.upper(),  
+                "trabajador": f"{bloque.trabajador_id.nom_tra.capitalize()} {bloque.trabajador_id.app_tra.capitalize()}",
+                "fecha": bloque.dia_id,
+                "especie": bloque.especies_id.nom_esp.capitalize(),
+                "sector": bloque.sector_id.nom_sec.capitalize(), 
+            })
+            
+
+        paginator = Paginator(bloques_modificados , 10)
+        pagina = request.GET.get("page") or 1
+        listas = paginator.get_page(pagina)
+        pagina_actual = int(pagina)
+        paginas = range(1, listas.paginator.num_pages + 1)
+
+    
+        datos = {
+            'msg' : (f'¡Formulario eliminado!'),
+            'sector' : 'Eliminado',
+            'listas': listas,
+            'paginas': paginas,
+            'pagina_actual': pagina_actual
+        }
+        return render(request, 'cloraciones/base/listaonce.html', datos)
+
+   except:
+        #---- Codigo de mostrarListaOnce ----#
+        busqueda = request.GET.get("buscar")
+        bloquesLista = GrupoCloracion.objects.all().order_by('-id') # Muestra todos los datos ordenados de manera descendente (-id) 
+        
+        if busqueda:
+            bloquesLista = bloquesLista.filter(
+                Q(turnos_id__nom_tur__icontains = busqueda) |
+                Q(trabajador_id__nom_tra__icontains = busqueda) |
+                Q(sector_id__nom_sec__icontains = busqueda) |
+                Q(especies_id__nom_esp__icontains = busqueda) |
+                Q(dia_id__dia_dia__icontains = busqueda)
+            ).distinct()
+
+        # Lista de diccionario con datos especificos, para formatear
+        bloques_modificados = []
+        for bloque in bloquesLista:
+            bloques_modificados.append({
+                "id": bloque.id,
+                "turno": bloque.turnos_id.nom_tur.upper(),  
+                "trabajador": f"{bloque.trabajador_id.nom_tra.capitalize()} {bloque.trabajador_id.app_tra.capitalize()}",
+                "fecha": bloque.dia_id,
+                "especie": bloque.especies_id.nom_esp.capitalize(),
+                "sector": bloque.sector_id.nom_sec.capitalize(), 
+            })
+            
+
+        paginator = Paginator(bloques_modificados , 10)
+        pagina = request.GET.get("page") or 1
+        listas = paginator.get_page(pagina)
+        pagina_actual = int(pagina)
+        paginas = range(1, listas.paginator.num_pages + 1)
+
+
+        
+        datos = {
+            'msg' : (f'Error el Formulario, no existe.'),
+            'sector' : 'Error',
+            'listas': listas,
+            'paginas': paginas,
+            'pagina_actual': pagina_actual
+        }
+        return render(request, 'cloraciones/base/listaonce.html', datos)
 
     
 
-
-
-# def actualizarRegistro(request, grupo_id):
-#     grupo = get_object_or_404(GrupoCloracion, pk=grupo_id)
-#     registros_cloracion = Cloracion.objects.filter(grupoclo_id=grupo)
-
-#     if request.method == 'POST':
-#         # Update grupo data
-#         grupo.loh_gru = request.POST['lotehipo']
-#         grupo.loa_gru = request.POST['loteacid']
-#         grupo.turnos_id = Turnos.objects.get(id=request.POST['turnoop'])
-#         grupo.especies_id = Especies.objects.get(id=request.POST['especieop'])
-#         grupo.save()
-
-#         # Update each cloracion record
-#         for i in range(1, 12):
-#             registro = registros_cloracion[i-1]
-            
-#             hora = request.POST.get(f'hora_{i}') or None
-#             ppm = request.POST.get(f'ppm_{i}') or None
-#             ph_str = request.POST.get(f'ph_{i}')
-#             ph = float(ph_str) if ph_str else None
-#             hipoclorito = int(request.POST.get(f'hipo_{i}', 0) or 0)
-#             acido = int(request.POST.get(f'acid_{i}', 0) or 0)
-#             observacion = request.POST.get(f'obs_{i}') or None
-
-#             registro.hor_clo = hora
-#             registro.ppm_clo = ppm 
-#             registro.phe_clo = ph
-#             registro.hcl_clo = hipoclorito
-#             registro.aci_clo = acido
-#             registro.obs_clo = observacion
-#             registro.save()
-
-#         # Redirección después de POST exitoso
-#         return redirect('visualizar', grupo_id=grupo.id)  # Asegúrate de usar el nombre de la URL correcto
-
-#     # Si es GET, renderiza el formulario de actualización
-#     return render(request, 'cloraciones/form/actualizardatos.html', {
-#         'grupo': grupo, 
-#         'registros_cloracion': registros_cloracion
-#     })
