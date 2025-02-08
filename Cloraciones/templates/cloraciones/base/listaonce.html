@@ -116,6 +116,8 @@
                 </thead>
                 <tbody class="table-group-divider border-primary">
                     {% for l in listas %}
+
+                    
                     <tr class="border-info-subtle">
                         <td>{{ l.id }}</td> <!-- forloop.counter -->
                         <td>{{ l.turno }}</td>
@@ -135,6 +137,8 @@
                               <i class="bi bi-trash"></i>
                             </button>
                             
+                            {% include "cloraciones/list/modalEliminarLista.html" %}
+                            
                         </td>
                     </tr>
                     {% endfor %}
@@ -145,7 +149,7 @@
         {% include "cloraciones/form/paginacion.html" %}
       </section>
 
-      {% include "cloraciones/form/modalEliminar.html" %}
+      
     </div>
 
 
