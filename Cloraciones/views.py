@@ -347,7 +347,7 @@ def actualizarRegistro(request, grupo_id):
     except Exception as e:
         print(f"Error al actualizar: {e}")
         datos = {
-            'msg' : '¡Error, el formulario no existe!',
+            'msg' : '¡Error, el formulario no se pudo actualizar!',
             'sector' : 'Error'
         }
 
