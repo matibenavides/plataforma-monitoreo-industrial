@@ -45,10 +45,9 @@
                         </button>
                     </li>
                     </ul>
-                    <button class="btn btn-outline-primary btn-sm" type="submit" name="accion" >
-                    <i class="bi bi-send"></i>
-                    <a class="btn-link text-decoration-none" href="/archivos">Listado</a>
-                    </button>
+                    <a class="btn btn-outline-primary btn-sm text-decoration-none" href="/archivos">
+                        <i class="bi bi-list-ul"></i> Listado
+                    </a>
                 </div>
     
                 <div class="tab-content" id="myTabContent">
@@ -176,13 +175,15 @@
                                                 <h5 class="card-header">Confirmación de Datos</h5>
                                                 <div class="card-body guardados">
                                                     <div class="form-floating mb-3">
-                                                        <button class="btn btn-outline-info" type="submit">
+                                                        <button type="button" class="btn btn-outline-info btn-s" data-bs-toggle="modal" data-bs-target="#actualizar">
                                                             <i class="bi bi-arrow-repeat"></i> Actualizar Datos
                                                         </button>
+
+                                                        {% include "cloraciones/list/modalActualizarDatos.html" %}
                                                     </div>
                                                     <div class="form-floating">
                                                         <button type="button" class="btn btn-outline-danger btn-s" data-bs-toggle="modal" data-bs-target="#eliminar">
-                                                            <i class="bi bi-trash"></i> Eliminar Registros
+                                                            <i class="bi bi-trash"></i> Eliminar Formulario
                                                         </button>
                                                         
                                                         {% include "cloraciones/list/modalEliminarRegistro.html" %}
