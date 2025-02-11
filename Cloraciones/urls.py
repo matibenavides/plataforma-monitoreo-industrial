@@ -18,6 +18,6 @@ urlpatterns = [
     path('registro/<int:grupo_id>/', views.visualizarDatos, name="visualizar"),
     path('actualizar_registro/<int:grupo_id>/', views.actualizarRegistro, name="actualizar"),
     path('eliminar_registro/<int:grupo_id>/', views.eliminarRegistro, name="eliminar"),
-    # path('exportar/', views.exportarExcel, name="exportar"), futuro
+    path('pdf/<int:grupo_id>/', views.DescargarPDF, name="pdf"),
 
 ]

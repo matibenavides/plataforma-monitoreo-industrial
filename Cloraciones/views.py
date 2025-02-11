@@ -4,6 +4,11 @@ from datetime import date
 from django.core.paginator import Paginator
 from django.db.models import Q
 
+#weasyprint / pdf
+from django.template.loader import get_template
+from django.http import HttpResponse
+from weasyprint import HTML
+
 
 
 # Create your views here.
@@ -450,3 +455,40 @@ def eliminarRegistro(request, grupo_id):
 
     
 
+def DescargarPDF(request, grupo_id):
+    try:
+        grupo = get_object_or_404(GrupoCloracion, pk=grupo_id)
+        registros_cloracion = Cloracion.objects.filter(grupoclo_id=grupo).order_by('id')
+
+        turnos = Turnos.objects.all()
+        especies = Especies.objects.all()
+
+        #Para generar el PDF
+        template = get_template('cloraciones/form/descargarpdf.html')
+        # renderiza el template con los datos
+        html = template.render({
+            'grupo': grupo,
+            'registros_cloracion': registros_cloracion,
+            'turnos': turnos,
+            'especies': especies
+        })
+        # genero un response que sea de tipo pdf
+        response = HttpResponse(content_type='application/pdf')
+
+        #Contruimos el nombre del archivo
+        filename = f'L{grupo.lineas_id.num_lin}_{grupo.trabajador_id.nom_tra}_{grupo.dia_id.dia_dia}.pdf'
+        response['Content-Disposition'] = f'attachment; filename="{filename}"'
+
+        html = HTML(string=html, base_url=request.build_absolute_uri())
+        result = html.write_pdf(encoding='utf-8', presentational_hints=True)
+        response.write(result)
+        return response
+        
+        # return render(request, 'cloraciones/form/descargarpdf.html', datos)
+    except:
+        datos = {
+            'msg' : '¡Error, el PDF no existe!',
+            'sector' : 'Error'
+        }
+
+        return render(request, 'cloraciones/base/cloracion.html', datos)
