@@ -126,13 +126,15 @@
                         <td>{{ l.especie }}</td>
                         <td>{{ l.fecha }}</td>
                         <td>
+
                             <a href="{% url 'visualizar' grupo_id=l.id %}" class="btn btn-outline-primary btn-s">
                               <i class="bi bi-eye"></i>
                             </a>
-                            
-                            <button type="button" class="btn btn-outline-success btn-s" data-bs-toggle="modal" data-bs-target="#pdf">
+
+                            <a href="{% url 'pdf' grupo_id=l.id %}" class="btn btn-outline-success btn-s">
                               <i class="bi bi-filetype-pdf"></i>
-                            </button>
+                            </a>
+
                             <button type="button" class="btn btn-outline-danger btn-s" data-bs-toggle="modal" data-bs-target="#eliminar">
                               <i class="bi bi-trash"></i>
                             </button>
@@ -151,7 +153,6 @@
 
       
     </div>
-
 
 
   <script src="{% static 'cloraciones/js/toast.js' %}"></script>
