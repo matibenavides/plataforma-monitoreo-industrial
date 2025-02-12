@@ -240,12 +240,14 @@ def visualizarDatos(request, grupo_id):
 
         turnos = Turnos.objects.all()
         especies = Especies.objects.all()
+        fecha = grupo.dia_id.dia_dia.strftime("%Y-%m-%d")
 
         datos = {
             'grupo': grupo,
             'registros_cloracion': registros_cloracion,
             'turnos': turnos,
-            'especies': especies
+            'especies': especies,
+            'fecha': fecha
         }
 
         return render(request, 'cloraciones/form/registrodatos.html', datos)
@@ -267,6 +269,9 @@ def actualizarRegistro(request, grupo_id):
         lote_acido = request.POST['loteacid']
         turno = Turnos.objects.get(id=request.POST['turnoop'])
         especie = Especies.objects.get(id=request.POST['especieop'])
+        fecha = request.POST['fecha']
+
+        dia_obj, created = Dia.objects.get_or_create(dia_dia=fecha)
         
         grupoupdate = GrupoCloracion.objects.get(id=grupo_id)
 
@@ -274,6 +279,7 @@ def actualizarRegistro(request, grupo_id):
         grupoupdate.loa_gru = lote_acido
         grupoupdate.turnos_id = turno
         grupoupdate.especies_id = especie
+        grupoupdate.dia_id = dia_obj
         grupoupdate.save()
 
         for i in range(1, 12):
