@@ -1,0 +1,170 @@
+@page {
+    size: A4;
+    margin: 20mm;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 2px solid #003ca4;
+    margin-bottom: 20px;
+}
+
+header .logo img {
+    width: 100px;
+}
+
+header .titulo {
+    flex: 1;
+    text-align: center;
+    margin-right: 10px;
+}
+
+header .datos {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;
+}
+
+header .datos div {
+    font-size: 11px;
+}
+
+section.info {
+    display: flex;
+    justify-content: flex-start;
+    gap: 50px;
+    padding: 10px 0;
+    border-bottom: 2px solid #0057f0;
+    font-size: 11px;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+    margin-bottom: 20px;
+}
+
+table, th, td {
+    border: 1px solid #9eeaf9;
+}
+
+th, td {
+    padding: 8px;
+    text-align: center;
+}
+
+thead th {
+    background-color: #f7f2ff;
+    font-weight: 600;
+}
+
+.totals-section {
+    display: flex;
+    justify-content: flex-end;
+    margin: 15px 0;
+    font-size: 11px;
+}
+
+.totals-box {
+    width: 50%;
+    border-left: 2px solid #0057f0;
+    padding: 10px;
+    background-color: #f7f2ff;
+    border-radius: 4px;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+
+.total-row:last-child {
+    border-bottom: none;
+}
+
+.product-lot {
+    background-color: #f7f2ff;
+    border-left: 2px solid #0057f0;
+    border-radius: 4px;
+    padding: 15px;
+    margin: 20px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.product-lot h3 {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #ddd;
+}
+
+.lot-info {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.lot-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+footer {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid #0057f0;
+}
+
+footer .firmas {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+footer .firmas div {
+    text-align: center;
+    width: 200px;
+}
+
+footer .firmas span {
+    display: block;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #333;
+    padding-bottom: 20px;
+}
+
+.no-break {
+    page-break-inside: avoid;
+}
+
+.salto {
+    padding-left: 10px;
+}
+
+.espacio {
+    padding-left: 20px;
+}
+
+.ajuste {
+    /*{ Este ajuste lo cambiare, cuando tenga el dato del 'supervisor'. */
+    padding-top: 18px;
+}

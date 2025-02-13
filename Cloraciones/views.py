@@ -469,6 +469,18 @@ def DescargarPDF(request, grupo_id):
         turnos = Turnos.objects.all()
         especies = Especies.objects.all()
 
+        for registro in registros_cloracion:
+            if registro.ppm_clo is None:
+                registro.ppm_clo = '-'
+            if registro.phe_clo is None:
+                registro.phe_clo = '-'
+            if registro.hor_clo is None:
+                registro.hor_clo = '-'
+        
+        #Suma de todos los hipocloritos y acidos
+        total_hipo = sum([registro.hcl_clo for registro in registros_cloracion])
+        total_acido = sum([registro.aci_clo for registro in registros_cloracion])
+
         #Para generar el PDF
         template = get_template('cloraciones/form/descargarpdf.html')
         # renderiza el template con los datos
@@ -476,7 +488,9 @@ def DescargarPDF(request, grupo_id):
             'grupo': grupo,
             'registros_cloracion': registros_cloracion,
             'turnos': turnos,
-            'especies': especies
+            'especies': especies,
+            'total_hipo': total_hipo,
+            'total_acido': total_acido
         })
         # genero un response que sea de tipo pdf
         response = HttpResponse(content_type='application/pdf')
