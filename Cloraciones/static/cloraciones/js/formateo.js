@@ -1,17 +1,23 @@
 function formateo(input) {
-    var inputField = document.querySelector('input')
-
-  input.onkeyup = function(){
-    var removeChar = this.value.replace(/[^0-9\.]/g, '')
-
+  
+  function formatValue() {
+    var removeChar = input.value.replace(/[^0-9\.]/g, '')
     var removeDot = removeChar.replace(/\,/g, '')
-    this.value = removeDot
-
-    var formatedNumber = this.value.replace(/\B(?=(\d{1})+(?!\d))/g, '.');
-    this.value = formatedNumber
-  }
+    input.value = removeDot
+    var formatedNumber = input.value.replace(/\B(?=(\d{1})+(?!\d))/g, '.');
+    input.value = formatedNumber
   }
 
   
+  formatValue();
 
   
+  input.onkeyup = formatValue;
+}
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  
+  var inputs = document.querySelectorAll('input[type="text"]');
+  inputs.forEach(input => formateo(input));
+});
