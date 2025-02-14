@@ -6,7 +6,7 @@ from . import views
 
 urlpatterns = [
     #----- Vista hacia plantilla Cloracion -----#
-    path('cloracion/', views.mostrarCloracion),
+    path('cloracion/', views.mostrarCloracion, name="cloracion"),
 
     #----- Vista que guarda los registros de 'cloracion/' -----#
     path('guarda_estanque', views.registrarEstanque),
