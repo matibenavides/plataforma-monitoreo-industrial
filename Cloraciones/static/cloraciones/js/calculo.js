@@ -29,7 +29,16 @@ function calculosumac(inputElement) {
     sumatotal.value = total;
 }
 
+function calcularSumaInicial() {
+    // Simular un evento input en cualquiera de los campos para triggear la suma
+    const primerInput = document.getElementById('su_hi_1');
+    if(primerInput) {
+        calculosumhi(primerInput);
+        calculosumac(primerInput);
+    }
 
+    
+}
 /// Concepto inicial ///
 /// Primer función pensando en la toma y suma de datos, no es útil para multiples tablas de inputs
 

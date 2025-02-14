@@ -156,3 +156,7 @@ textarea::-webkit-scrollbar{
   color: inherit;
   text-decoration: none;
 }
+
+a {
+  text-decoration: none;
+}

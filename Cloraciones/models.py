@@ -163,7 +163,7 @@ class Cloracion(models.Model): # id_clo ()
     phe_clo = models.FloatField(null=True, blank=True) # PH cloración
     hcl_clo = models.IntegerField(null=True, blank=True) # Hipoclorito cloración
     aci_clo = models.IntegerField(null=True, blank=True) # Acido cloración
-    obs_clo = models.TextField(max_length=200) # Observación
+    obs_clo = models.TextField(max_length=200, blank=True, null=True) # Observación
 
     class Meta:
         verbose_name = 'Cloracion'
@@ -209,7 +209,7 @@ class Dosificacion(models.Model):
     ccp_dos = models.IntegerField(null=False) # cc de Producto
     agu_dos = models.IntegerField(null=True, blank=True) # Dilución en agua
     cer_dos = models.IntegerField(null=True, blank=True) # Dilución en cera
-    obs_dos = models.TextField(max_length=200)
+    obs_dos = models.TextField(max_length=200, blank=True, null=True)
 
     class Meta:
         verbose_name = 'Dosificacion'
@@ -245,7 +245,7 @@ class PPM(models.Model):
     hor_ppm = models.TimeField(blank=True, null=True, default=datetime.time(0, 0))
     dat_ppm = models.IntegerField(null=True, blank=True)
     phe_ppm = models.FloatField()
-    obs_ppm = models.TextField(max_length=200)
+    obs_ppm = models.TextField(max_length=200, blank=True, null=True)
 
     class Meta:
         verbose_name = 'PPM'
