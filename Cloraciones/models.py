@@ -1,10 +1,12 @@
 from django.db import models
 import datetime
+# from django.contrib.auth.models import User
                                                                                     
 # Create your models here.
 
 
 class Trabajador(models.Model):
+    # user = models.OneToOneField(User, on_delete=models.CASCADE) Agregar esto cuando tenga más de un usuario en el auth_user
     nom_tra = models.TextField(max_length=20) #Nombre Trabajador
     app_tra = models.TextField(max_length=20) # Apellido Paterno Trabajador
     apm_tra = models.TextField(max_length=20) # Apellido Materno Trabajador

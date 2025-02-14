@@ -22,26 +22,46 @@
             -webkit-appearance: none;
             margin: 0;
         }
-    </style> <!-- Elimina boton de input number-->
+    </style> 
 
     
     <!-- Custom styles for this template -->
   </head>
   <body class="d-flex align-items-center py-4 bg-body-tertiary">
+
+    {% if messages %}
+      {% for message in messages %}
+      <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="toast-header">
+            <img src="{% static 'img/logosolo.png' %}" class="rounded me-2" alt="..." style="width: 20px;">
+            <strong class="me-auto">DDC</strong>
+            <small>Justo ahora</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div class="toast-body">
+            {{ message }}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    {% endif %}
+
+
     <main class="form-signin w-100 m-auto">
-      <form action="/menu" method="post">
+      <form action="{% url 'inicio' %}" method="post">
         {% csrf_token %}
-        <!-- <img class="mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">-->
+         <img class="mb-4" src="{% static 'img/logosolo.png' %}" alt="Logo" width="72" height="65">
         
         <h1 class="h3 mb-3 fw-normal">Inicie Sesión</h1>
 
         <div class="form-floating">
-          <input type="number" maxlength="9"  class="form-control"  id="floatingInput" placeholder="Sin puntos, ni guión"
-          oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>
-          <label for="floatingInput">RUT</label>
+          <input type="text" maxlength="9"  class="form-control"  id="floatingInput" placeholder="Sin puntos, ni guión"
+          oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" name="usuario" required>
+          <label for="floatingInput">Nombre</label>
         </div>
         <div class="form-floating">
-          <input type="password" class="form-control" id="floatingPassword" placeholder="Contraseña" required>
+          <input type="password" class="form-control" id="floatingPassword" placeholder="Contraseña" name="contraseña" required>
           <label for="floatingPassword">Contraseña</label>
         </div>
 
@@ -56,6 +76,6 @@
       </form>
     </main>
 
-
+    <script src="{% static 'cloraciones/js/toast.js' %}"></script>
     </body>
 </html>
