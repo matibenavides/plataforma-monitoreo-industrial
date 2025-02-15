@@ -3,6 +3,7 @@ from .models import *
 from datetime import date
 from django.core.paginator import Paginator
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 
 #weasyprint / pdf
 from django.template.loader import get_template
@@ -13,9 +14,11 @@ from weasyprint import HTML
 
 # Create your views here.
 
+@login_required(login_url='inicio')
 def mostrarCloracion(request):
     return render(request, "cloraciones/base/cloracion.html")
 
+@login_required(login_url='inicio')
 def registrarEstanque(request):
     if request.method == 'POST':
 
@@ -74,6 +77,7 @@ def registrarEstanque(request):
 
     return render(request, 'cloraciones/base/cloracion.html', datos)
 
+@login_required(login_url='inicio')
 def registrarCortaPedicelo(request):
     if request.method == 'POST':
 
@@ -131,6 +135,7 @@ def registrarCortaPedicelo(request):
 
     return render(request, 'cloraciones/base/cloracion.html', datos)
 
+@login_required(login_url='inicio')
 def registrarRetorno(request):
     if request.method == 'POST':
 
@@ -188,7 +193,7 @@ def registrarRetorno(request):
 
     return render(request, 'cloraciones/base/cloracion.html', datos)
 
-
+@login_required(login_url='inicio')
 def mostrarListaonce(request):
     busqueda = request.GET.get("buscar")
     bloquesLista = GrupoCloracion.objects.all().order_by('-id') # Muestra todos los datos ordenados de manera descendente (-id) 
@@ -232,7 +237,7 @@ def mostrarListaonce(request):
     return render(request, "cloraciones/base/listaonce.html", datos)
 
 
-
+@login_required(login_url='inicio')
 def visualizarDatos(request, grupo_id):
     try:
         grupo = get_object_or_404(GrupoCloracion, pk=grupo_id)
@@ -260,7 +265,7 @@ def visualizarDatos(request, grupo_id):
         return render(request, 'cloraciones/base/cloracion.html', datos)
     
 
-
+@login_required(login_url='inicio')
 def actualizarRegistro(request, grupo_id):
     
     try:
@@ -364,7 +369,7 @@ def actualizarRegistro(request, grupo_id):
 
         return render(request, 'cloraciones/base/cloracion.html', datos)
     
-
+@login_required(login_url='inicio')
 def eliminarRegistro(request, grupo_id):
    try:
         # !Importante mati: implementar autenticación de django
@@ -460,7 +465,7 @@ def eliminarRegistro(request, grupo_id):
         return render(request, 'cloraciones/base/listaonce.html', datos)
 
     
-
+@login_required(login_url='inicio')
 def DescargarPDF(request, grupo_id):
     try:
         grupo = get_object_or_404(GrupoCloracion, pk=grupo_id)

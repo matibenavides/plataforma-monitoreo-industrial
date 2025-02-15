@@ -1,16 +1,17 @@
 from django.shortcuts import render
 from datetime import date
 from Cloraciones.models import *
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
 
-
+@login_required(login_url='inicio')
 def mostrarTemperatura(request):
     return render(request, "temperaturas/base/temperatura.html")
 
 
-
+@login_required(login_url='inicio')
 def registrarTemperatura(request):
     if request.method == 'POST':
 
