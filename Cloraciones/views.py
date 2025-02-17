@@ -15,8 +15,14 @@ from weasyprint import HTML
 # Create your views here.
 
 @login_required(login_url='inicio')
-def mostrarCloracion(request):
-    return render(request, "cloraciones/base/cloracion.html")
+def mostrarCloracion(request, linea_id):
+
+    linea = Lineas.objects.get(id=linea_id)
+
+    datos = {
+        'linea': linea,
+    } 
+    return render(request, "cloraciones/base/cloracion.html", datos)
 
 @login_required(login_url='inicio')
 def registrarEstanque(request):
@@ -28,7 +34,7 @@ def registrarEstanque(request):
 
         lote_hipo = request.POST['lotehipo']
         lote_acido = request.POST['loteacid']
-        linea_id = Lineas.objects.get(id=1) # id= 1 es Linea 11
+        linea_id = Lineas.objects.get(id=request.POST['linea_id'])
         turno = Turnos.objects.get(id=request.POST['turnoop'])
         sector = Sector.objects.get(id=1) # id=1 Es el sector Estanque
         especie = Especies.objects.get(id=request.POST['especieop'])
@@ -87,7 +93,7 @@ def registrarCortaPedicelo(request):
 
         lote_hipo = request.POST['lotehipo']
         lote_acido = request.POST['loteacid']
-        linea_id = Lineas.objects.get(id=1) # id= 1 es Linea 11
+        linea_id = Lineas.objects.get(id=request.POST['linea_id'])
         turno = Turnos.objects.get(id=request.POST['turnoop'])
         sector = Sector.objects.get(id=2) # id=2 Es el sector Corta Pedicelo
         especie = Especies.objects.get(id=request.POST['especieop'])
@@ -145,7 +151,7 @@ def registrarRetorno(request):
 
         lote_hipo = request.POST['lotehipo']
         lote_acido = request.POST['loteacid']
-        linea_id = Lineas.objects.get(id=1) # id= 1 es Linea 11
+        linea_id = Lineas.objects.get(id=request.POST['linea_id'])
         turno = Turnos.objects.get(id=request.POST['turnoop'])
         sector = Sector.objects.get(id=3) # id=3 Es el sector Retorno
         especie = Especies.objects.get(id=request.POST['especieop'])
@@ -204,7 +210,8 @@ def mostrarListaonce(request):
             Q(trabajador_id__nom_tra__icontains = busqueda) |
             Q(sector_id__nom_sec__icontains = busqueda) |
             Q(especies_id__nom_esp__icontains = busqueda) |
-            Q(dia_id__dia_dia__icontains = busqueda)
+            Q(dia_id__dia_dia__icontains = busqueda) |
+            Q(lineas_id__num_lin__icontains = busqueda)
         ).distinct()
 
     # Lista de diccionario con datos especificos, para formatear
@@ -217,6 +224,7 @@ def mostrarListaonce(request):
             "fecha": bloque.dia_id,
             "especie": bloque.especies_id.nom_esp.capitalize(),
             "sector": bloque.sector_id.nom_sec.capitalize(), 
+            "linea": bloque.lineas_id.num_lin,
         })
         
 
@@ -326,7 +334,8 @@ def actualizarRegistro(request, grupo_id):
                 Q(trabajador_id__nom_tra__icontains = busqueda) |
                 Q(sector_id__nom_sec__icontains = busqueda) |
                 Q(especies_id__nom_esp__icontains = busqueda) |
-                Q(dia_id__dia_dia__icontains = busqueda)
+                Q(dia_id__dia_dia__icontains = busqueda) |
+                Q(lineas_id__num_lin__icontains = busqueda)
             ).distinct()
 
         # Lista de diccionario con datos especificos, para formatear
@@ -338,7 +347,8 @@ def actualizarRegistro(request, grupo_id):
                 "trabajador": f"{bloque.trabajador_id.nom_tra.capitalize()} {bloque.trabajador_id.app_tra.capitalize()}",
                 "fecha": bloque.dia_id,
                 "especie": bloque.especies_id.nom_esp.capitalize(),
-                "sector": bloque.sector_id.nom_sec.capitalize(), 
+                "sector": bloque.sector_id.nom_sec.capitalize(),
+                "linea": bloque.lineas_id.num_lin, 
             })
             
 
@@ -388,7 +398,8 @@ def eliminarRegistro(request, grupo_id):
                 Q(trabajador_id__nom_tra__icontains = busqueda) |
                 Q(sector_id__nom_sec__icontains = busqueda) |
                 Q(especies_id__nom_esp__icontains = busqueda) |
-                Q(dia_id__dia_dia__icontains = busqueda)
+                Q(dia_id__dia_dia__icontains = busqueda) |
+                Q(lineas_id__num_lin__icontains = busqueda)
             ).distinct()
 
         # Lista de diccionario con datos especificos, para formatear
@@ -400,7 +411,8 @@ def eliminarRegistro(request, grupo_id):
                 "trabajador": f"{bloque.trabajador_id.nom_tra.capitalize()} {bloque.trabajador_id.app_tra.capitalize()}",
                 "fecha": bloque.dia_id,
                 "especie": bloque.especies_id.nom_esp.capitalize(),
-                "sector": bloque.sector_id.nom_sec.capitalize(), 
+                "sector": bloque.sector_id.nom_sec.capitalize(),
+                "linea": bloque.lineas_id.num_lin, 
             })
             
 
@@ -431,7 +443,8 @@ def eliminarRegistro(request, grupo_id):
                 Q(trabajador_id__nom_tra__icontains = busqueda) |
                 Q(sector_id__nom_sec__icontains = busqueda) |
                 Q(especies_id__nom_esp__icontains = busqueda) |
-                Q(dia_id__dia_dia__icontains = busqueda)
+                Q(dia_id__dia_dia__icontains = busqueda) |
+                Q(lineas_id__num_lin__icontains = busqueda)
             ).distinct()
 
         # Lista de diccionario con datos especificos, para formatear
@@ -444,6 +457,7 @@ def eliminarRegistro(request, grupo_id):
                 "fecha": bloque.dia_id,
                 "especie": bloque.especies_id.nom_esp.capitalize(),
                 "sector": bloque.sector_id.nom_sec.capitalize(), 
+                "linea": bloque.lineas_id.num_lin, 
             })
             
 
