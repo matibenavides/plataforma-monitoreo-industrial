@@ -34,12 +34,12 @@ class formularioRegistro(UserCreationForm):
 
 class TrabajadorForm(forms.ModelForm):
     naci = forms.DateInput
-
+    #Mati fui a comer, recuerda implementar el required a los datos 
     class Meta:
         model = Trabajador
         fields = ('nom_tra', 'app_tra', 'apm_tra', 'nac_tra', 'rut_tra')
         widgets = {
-            'nac_tra': forms.DateInput(format='%Y-%m-%d',attrs = { 'type': 'date', 'class': 'input-group-field', })
+            'nac_tra': forms.DateInput(format='%Y-%m-%d',attrs = { 'type': 'date', 'class': 'input-group-field', 'required': True })
         }
 
     def __init__(self, *args, **kwargs):
@@ -47,15 +47,15 @@ class TrabajadorForm(forms.ModelForm):
 
         self.fields['nom_tra'].widget.attrs['class'] = 'form-control'
         self.fields['nom_tra'].label = ''
-        self.fields['nom_tra'].widget = forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Nombre del Trabajador'})
+        self.fields['nom_tra'].widget = forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Nombre del Trabajador','required': True})
 
         self.fields['app_tra'].widget.attrs['class'] = 'form-control'
         self.fields['app_tra'].label = ''
-        self.fields['app_tra'].widget = forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Apellido Paterno'})
+        self.fields['app_tra'].widget = forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Apellido Paterno','required': True})
 
         self.fields['apm_tra'].widget.attrs['class'] = 'form-control'
         self.fields['apm_tra'].label = ''
-        self.fields['apm_tra'].widget = forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Apellido Materno'})
+        self.fields['apm_tra'].widget = forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Apellido Materno','required': True})
 
         self.fields['nac_tra'].widget.attrs['class'] = 'form-control'
         self.fields['nac_tra'].label = 'Fecha de nacimiento'
@@ -63,5 +63,6 @@ class TrabajadorForm(forms.ModelForm):
 
         self.fields['rut_tra'].widget.attrs['class'] = 'form-control'
         self.fields['rut_tra'].label = ''
-        self.fields['rut_tra'].widget = forms.NumberInput(attrs={'class': 'form-control', 'placeholder':'Ingrese su RUT, sin puntos, ni guión'})
+        self.fields['rut_tra'].widget = forms.NumberInput(attrs={'class': 'form-control', 'placeholder':'Ingrese su RUT, sin puntos, ni guión', 'maxlength': '9',
+            'required': True})
 

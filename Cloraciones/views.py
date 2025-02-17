@@ -38,7 +38,7 @@ def registrarEstanque(request):
         turno = Turnos.objects.get(id=request.POST['turnoop'])
         sector = Sector.objects.get(id=1) # id=1 Es el sector Estanque
         especie = Especies.objects.get(id=request.POST['especieop'])
-        trabajador = Trabajador.objects.get(id=1) # id=1 el trabajador Matias
+        trabajador = request.user.trabajador # Toma el usuario logeado junto a los datos de la tabla Trabajador.
 
         bloque = GrupoCloracion.objects.create(
             loh_gru = lote_hipo,
@@ -97,7 +97,7 @@ def registrarCortaPedicelo(request):
         turno = Turnos.objects.get(id=request.POST['turnoop'])
         sector = Sector.objects.get(id=2) # id=2 Es el sector Corta Pedicelo
         especie = Especies.objects.get(id=request.POST['especieop'])
-        trabajador = Trabajador.objects.get(id=1) # id=1 el trabajador Matias
+        trabajador = request.user.trabajador
 
         bloque = GrupoCloracion.objects.create(
             loh_gru = lote_hipo,
@@ -155,7 +155,7 @@ def registrarRetorno(request):
         turno = Turnos.objects.get(id=request.POST['turnoop'])
         sector = Sector.objects.get(id=3) # id=3 Es el sector Retorno
         especie = Especies.objects.get(id=request.POST['especieop'])
-        trabajador = Trabajador.objects.get(id=1) # id=1 el trabajador Matias
+        trabajador = request.user.trabajador
 
         bloque = GrupoCloracion.objects.create(
             loh_gru = lote_hipo,
