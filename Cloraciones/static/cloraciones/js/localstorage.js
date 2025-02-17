@@ -85,7 +85,7 @@ function enviarDatos(event, seccion) {
     Array.from(form.elements).forEach(input => {
         if (input.required && !input.value) {
             allFieldsValid = false;
-            mostrarToastRequired("Asegúrate de completar los campos obligatorios, como: Turno, Especie y Lotes de Producto.");
+            mostrarToastRequired("Asegúrate de completar los campos obligatorios");
         }
     });
 

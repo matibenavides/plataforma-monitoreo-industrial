@@ -3,12 +3,20 @@ from datetime import date
 from Cloraciones.models import *
 from django.contrib.auth.decorators import login_required
 
+from django.core.paginator import Paginator
+from django.db.models import Q
 # Create your views here.
 
 
 @login_required(login_url='inicio')
-def mostrarTemperatura(request):
-    return render(request, "temperaturas/base/temperatura.html")
+def mostrarTemperatura(request, linea_id):
+
+    linea = Lineas.objects.get(id=linea_id)
+
+    datos = {
+        'linea': linea,
+    } 
+    return render(request, "temperaturas/base/temperatura.html", datos)
 
 
 @login_required(login_url='inicio')
@@ -24,15 +32,15 @@ def registrarTemperatura(request):
 
 
         obser = request.POST['observacion']
-        linea = Lineas.objects.get(id=1)
+        linea_id = Lineas.objects.get(id=request.POST['linea_id'])
         turno = Turnos.objects.get(id=request.POST['turnoop'])
-        trabajador = Trabajador.objects.get(id=1)
+        trabajador = request.user.trabajador
 
         # Creo el grupo de temperatura
         grupotemp = GrupoTemperatura.objects.create(
             obs_grt = obser,
             dia_id = dia_obj,
-            lineas_id = linea,
+            lineas_id = linea_id,
             turnos_id = turno,
             trabajador_id = trabajador
         )
@@ -75,4 +83,40 @@ def registrarTemperatura(request):
 
 
 
+@login_required(login_url='inicio')
+def mostrarListaTemperatura(request):
+    busqueda = request.GET.get("buscar")
+    grupoLista = GrupoTemperatura.objects.all().order_by('-id')
+
+    if busqueda:
+        grupoLista = grupoLista.filter(
+            Q(turnos_id__nom_tur__icontains = busqueda) |
+            Q(lineas_id__num_lin__icontains = busqueda) |
+            Q(trabajador_id__nom_tra__icontains = busqueda) |
+            Q(dia_id__dia_dia__icontains = busqueda) 
+        ).distinct()
+
+    grupo_modificado = []
+    for grupo in grupoLista:
+        grupo_modificado.append({
+            "id":  grupo.id,
+            "turno": grupo.turnos_id.nom_tur.upper(),
+            "trabajador":f"{grupo.trabajador_id.nom_tra.capitalize()} {grupo.trabajador_id.app_tra.capitalize()}",
+            "fecha": grupo.dia_id,
+            "linea": grupo.lineas_id.num_lin,
+        })
+
+    paginator = Paginator(grupo_modificado, 10)
+    pagina = request.GET.get("page") or 1
+    listas = paginator.get_page(pagina)
+    pagina_actual = int(pagina)
+    paginas = range(1, listas.paginator.num_pages + 1)
+
+    datos = {
+        'listas': listas,
+        'paginas': paginas,
+        'pagina_actual': pagina_actual,
+    }
+
+    return render(request, "temperaturas/base/listatemperatura.html", datos)
 
