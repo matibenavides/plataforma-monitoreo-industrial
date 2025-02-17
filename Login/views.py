@@ -58,7 +58,7 @@ def registroUsuario(request):
         if form.is_valid() and formTrabajador.is_valid():
             usuario = form.save()
             trabajador = formTrabajador.save(commit=False)
-            trabajador.usuario = usuario #asigno el usuario con el trabajador (sus datos)
+            trabajador.user = usuario #asigno el usuario con el trabajador (sus datos)
             trabajador.save()
 
             #autentico y logeo
