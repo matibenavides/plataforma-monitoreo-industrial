@@ -153,3 +153,91 @@ def visualizarTemperatura(request, grupo_id):
         }
 
         return render(request, 'temperaturas/base/temperatura.html', datos)
+
+
+@login_required(login_url='inicio')
+def actualizarTemperatura(request, grupo_id):
+    try:
+        grupo = get_object_or_404(GrupoTemperatura, pk=grupo_id)
+        fecha = request.POST['fecha']
+        turno = Turnos.objects.get(id=request.POST['turnoop'])
+        observacion = request.POST['observacion']
+
+        dia_obj, created = Dia.objects.get_or_create(dia_dia=fecha)
+
+        grupoupdate = GrupoTemperatura.objects.get(id=grupo_id)
+
+        grupoupdate.dia_id = dia_obj
+        grupoupdate.turnos_id = turno
+        grupoupdate.obs_grt = observacion
+        grupoupdate.save()
+
+        for i in range(1, 12):
+
+            registro_id = request.POST.get(f'temperatura_id_{i}')
+
+            if registro_id:
+                registro = Temperatura.objects.get(id=registro_id)
+
+                hora = request.POST.get(f'hora_{i}') or None
+                pulen = request.POST.get(f'pul_{i}')
+                aguva = request.POST.get(f'agu_{i}')
+                ambca = request.POST.get(f'amb_{i}')
+                estfu = request.POST.get(f'est_{i}')
+
+                pul = float(pulen) if pulen else None
+                agu = float(aguva) if aguva else None
+                amb = float(ambca) if ambca else None
+                est = float(estfu) if estfu else None
+
+                registro.hor_tem = hora
+                registro.pul_tem = pul
+                registro.agu_tem = agu
+                registro.amb_tem = amb
+                registro.est_tem = est
+                registro.save()
+
+        #-- Reutilización de código para mostrar listado con los registros, nuevamente
+        busqueda = request.GET.get("buscar")
+        grupoLista = GrupoTemperatura.objects.all().order_by('-id')
+
+        if busqueda:
+            grupoLista = grupoLista.filter(
+                Q(turnos_id__nom_tur__icontains = busqueda) |
+                Q(lineas_id__num_lin__icontains = busqueda) |
+                Q(trabajador_id__nom_tra__icontains = busqueda) |
+                Q(dia_id__dia_dia__icontains = busqueda) 
+            ).distinct()
+
+        grupo_modificado = []
+        for grupo in grupoLista:
+            grupo_modificado.append({
+                "id":  grupo.id,
+                "turno": grupo.turnos_id.nom_tur.upper(),
+                "trabajador":f"{grupo.trabajador_id.nom_tra.capitalize()} {grupo.trabajador_id.app_tra.capitalize()}",
+                "fecha": grupo.dia_id,
+                "linea": grupo.lineas_id.num_lin,
+            })
+
+        paginator = Paginator(grupo_modificado, 10)
+        pagina = request.GET.get("page") or 1
+        listas = paginator.get_page(pagina)
+        pagina_actual = int(pagina)
+        paginas = range(1, listas.paginator.num_pages + 1)
+
+        datos = {
+            'msg' : (f'¡Los registros de Temperatura han sido actualizado!'),
+            'sector' : (f'Formulario {grupo.id}'),
+            'listas': listas,
+            'paginas': paginas,
+            'pagina_actual': pagina_actual
+        }
+        return render(request, 'temperaturas/base/listatemperatura.html', datos)
+
+    except Exception as e:
+        print(f'Error al actualizar: {e}')
+        datos = {
+            'msg' : '¡Error, el formulario de temperatura, no pudo actualizar!',
+            'sector' : 'Error'
+        }
+        return render(request, 'temperaturas/base/temperatura.html', datos)
