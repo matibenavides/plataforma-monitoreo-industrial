@@ -1,10 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from datetime import date
 from Cloraciones.models import *
 from django.contrib.auth.decorators import login_required
 
 from django.core.paginator import Paginator
 from django.db.models import Q
+
+from django.template.loader import get_template
+from django.http import HttpResponse
+from weasyprint import HTML
 # Create your views here.
 
 
@@ -120,3 +124,32 @@ def mostrarListaTemperatura(request):
 
     return render(request, "temperaturas/base/listatemperatura.html", datos)
 
+
+@login_required(login_url='inicio')
+def visualizarTemperatura(request, grupo_id):
+    try:
+        grupo = get_object_or_404(GrupoTemperatura, pk=grupo_id)
+        registros_temperatura = Temperatura.objects.filter(grupotem_id = grupo).order_by('id')
+
+        turnos = Turnos.objects.all()
+        fecha = grupo.dia_id.dia_dia.strftime("%Y-%m-%d")
+        observacion = grupo.obs_grt
+
+        datos = {
+            'grupo': grupo,
+            'registros_temperatura': registros_temperatura,
+            'turnos': turnos,
+            'fecha': fecha,
+            'observacion': observacion
+        }
+
+        return render(request, 'temperaturas/form/registroTemperatura.html', datos)
+
+    
+    except:
+        datos = {
+            'msg' : '¡Error, el formulario no existe!',
+            'sector' : 'Error'
+        }
+
+        return render(request, 'temperaturas/base/temperatura.html', datos)
