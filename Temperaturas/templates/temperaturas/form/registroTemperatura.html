@@ -35,9 +35,6 @@
                     <strong>Registro de Datos Temperatura°C</strong>
                 </h4>
                 
-                <!-- Esta url de actualizar es de la app Cloraciones, debe ser cambiada para nueva función temperatura-->
-                 <!-- Tambien se debe cambiar el include del modalEliminar ya que llama path de app cloraciones-->
-                  <!-- la solución es crear un nuevo archivo html, modal que llame a un nuevo path y realizar esa función-->
                 <form action="{% url 'actualizartemperatura' grupo_id=grupo.id %}" method="post">
                     {% csrf_token %}
                     
@@ -161,11 +158,11 @@
                                                                 {% include "cloraciones/list/modalActualizarDatos.html" %}
                                                             </div>
                                                             <div class="form-floating">
-                                                                <button type="button" class="btn btn-outline-danger btn-s" data-bs-toggle="modal" data-bs-target="#eliminar">
+                                                                <button type="button" class="btn btn-outline-danger btn-s" data-bs-toggle="modal" data-bs-target="#eliminartemperatura">
                                                                     <i class="bi bi-trash"></i> Eliminar Formulario
                                                                 </button>
 
-                                                                {% comment %} {% include "cloraciones/list/modalEliminarRegistro.html" %} {% endcomment %}
+                                                                {% include "temperaturas/list/modalEliminarTemperatura.html" %}
                                                             </div>
                                                         </div>
                                                     </div>
