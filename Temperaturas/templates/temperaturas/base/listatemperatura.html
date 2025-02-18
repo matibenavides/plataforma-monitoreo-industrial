@@ -124,7 +124,7 @@
                         <td>{{ l.trabajador }}</td>            
                         <td>{{ l.fecha }}</td>
                         <td>
-                                        <!-- Por mientras está ruta, debe ser cambiada para la nueva función-->
+                                        
                             <a href="{% url 'registrotemperatura' grupo_id=l.id %}" class="btn btn-outline-primary btn-s">
                               <i class="bi bi-eye"></i>
                             </a>
@@ -137,7 +137,7 @@
                               <i class="bi bi-trash"></i>
                             </button>
                             
-                            {% include "cloraciones/list/modalEliminarLista.html" %}
+                            {% include "temperaturas/list/modalEliminarTemperaturaLista.html" %}
                             
                         </td>
                     </tr>
