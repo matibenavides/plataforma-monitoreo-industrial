@@ -11,5 +11,7 @@ urlpatterns = [
      #----- Vista hacia Listado de registros -----#
     path('archivos_temperatura/', views.mostrarListaTemperatura, name="listatemperatura"),
     path('registro_temperatura/<int:grupo_id>', views.visualizarTemperatura, name="registrotemperatura"),
+    path('actualizar_temperatura/<int:grupo_id>/', views.actualizarTemperatura, name="actualizartemperatura"),
+
     
 ]
