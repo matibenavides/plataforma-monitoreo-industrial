@@ -324,3 +324,53 @@ def eliminarTemperatura(request, grupo_id):
             'pagina_actual': pagina_actual
         }
         return render(request, 'temperaturas/base/listatemperatura.html', datos)
+    
+
+@login_required(login_url='inicio')
+def DescargarPDFTemperatura(request, grupo_id):
+    try:
+        grupo = get_object_or_404(GrupoTemperatura, pk=grupo_id)
+        registros_temperatura = Temperatura.objects.filter(grupotem_id=grupo)
+
+        turnos = Turnos.objects.all()
+        # registro.pul_tem.replace(None, '-')
+
+        for registro in registros_temperatura:
+            if registro.hor_tem is None:
+                registro.hor_tem = '-'
+            if registro.pul_tem is None:
+                registro.pul_tem = '-'
+            if registro.agu_tem is None:
+                registro.agu_tem = '-'
+            if registro.amb_tem is None:
+                registro.amb_tem = '-'
+            if registro.est_tem is None:
+                registro.est_tem = '-'
+            
+        #PDF
+        template = get_template('temperaturas/form/descargarpdfTemp.html')
+        #Renderiza los datos
+        html = template.render({
+            'grupo': grupo,
+            'registros_temperatura': registros_temperatura,
+            'turnos': turnos,
+
+        })
+        #Respuesta tipo pdf
+        response = HttpResponse(content_type='application/pdf')
+
+        #Damos nombre al archivo
+        filename = f'Temperatura_L{grupo.lineas_id.num_lin}_{grupo.trabajador_id.nom_tra}_{grupo.dia_id.dia_dia}.pdf'
+        response['Content-Disposition'] = f'attachment; filename="{filename}"'
+
+        html = HTML(string=html, base_url=request.build_absolute_uri())
+        result = html.write_pdf(encoding='utf-8', presentational_hints=True)
+        response.write(result)
+        return response
+
+    except:
+        datos = {
+            'msg' : '¡Error, el PDF no existe!',
+            'sector' : 'Error'
+        }
+        return render(request, 'temperaturas/base/temperatura.html', datos)
