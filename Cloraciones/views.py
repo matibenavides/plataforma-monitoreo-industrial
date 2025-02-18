@@ -514,8 +514,8 @@ def DescargarPDF(request, grupo_id):
         # genero un response que sea de tipo pdf
         response = HttpResponse(content_type='application/pdf')
 
-        #Contruimos el nombre del archivo
-        filename = f'L{grupo.lineas_id.num_lin}_{grupo.trabajador_id.nom_tra}_{grupo.dia_id.dia_dia}.pdf'
+        #Construimos el nombre del archivo
+        filename = f'Cloracion_L{grupo.lineas_id.num_lin}_{grupo.trabajador_id.nom_tra}_{grupo.dia_id.dia_dia}.pdf'
         response['Content-Disposition'] = f'attachment; filename="{filename}"'
 
         html = HTML(string=html, base_url=request.build_absolute_uri())
