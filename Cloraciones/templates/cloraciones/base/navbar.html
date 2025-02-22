@@ -8,7 +8,7 @@
         <strong class="navbar-brand fs-5 fw-semibold" href="#">
             <h4>Plataforma Monitoreo Industrial del navbar ( borrar esto) </h4>
         </strong>
-        <a href="/" class="logo" style="padding-right: 10px;">
+        <a href="{% url 'logout' %}" class="logo" style="padding-right: 10px;">
             <svg xmlns="http://www.w3.org/2000/svg" width="36" height="26" fill="currentColor"
                 class="bi bi-clipboard2-data-fill" viewBox="0 0 16 16">
                 <path
@@ -45,7 +45,9 @@
                                 </li>
                             </ul>
                         </div>
+
                     </li>
+
                     <li class="border-top my-3"></li> <!--separador linea fina-->
                     <!-- Segunda lista-->
                     <li class="mb-1">
@@ -56,19 +58,16 @@
                         <!-- Segundo collapse de opciones-->
                         <div class="collapse show" id="linea11-collapse">
                             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                <li><a href="/cloracion"
+                                <li><a href="{% url 'cloracion' linea_id=1 %}"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">Cloración</a>
                                 </li>
-                                <li><a href="/temperatura"
+                                <li><a href="{% url 'temperatura' linea_id=1 %}"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">Temperatura</a>
                                 </li>
                                 <li><a href="#"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">Medición
                                         PPM
                                     </a>
-                                </li>
-                                <li><a href="/archivos"
-                                    class="link-body-emphasis d-inline-flex text-decoration-none rounded">Archivos de Control</a>
                                 </li>
                             </ul>
                         </div>
@@ -82,7 +81,7 @@
                         <!-- Cuarto collapse de opciones-->
                         <div class="collapse" id="linea10-collapse">
                             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                <li><a href="#"
+                                <li><a href="{% url 'cloracion' linea_id=2 %}"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">Cloración</a>
                                 </li>
                                 <li><a href="#"
@@ -103,10 +102,10 @@
                         <!-- Tercer collapse de opciones-->
                         <div class="collapse" id="linea5-collapse">
                             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                <li><a href="#"
+                                <li><a href="{% url 'cloracion' linea_id=3 %}"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">Cloración</a>
                                 </li>
-                                <li><a href="#"
+                                <li><a href="{% url 'temperatura' linea_id=3 %}"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">Temperatura</a>
                                 </li>
                                 <li><a href="#"
@@ -135,6 +134,37 @@
                     </li>
                     <!-- Quinta Lista-->
                     <li class="border-top my-3"></li> <!-- Borde separador-->
+                    
+                    <li class="mb-1">
+                        <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                            data-bs-toggle="collapse" data-bs-target="#reports-collapse" aria-expanded="true">
+                            Reportes
+                        </button>
+                        <!-- Primer collapse de opciones-->
+                        <div class="collapse" id="reports-collapse">
+                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                <li><a href="/archivos"
+                                        class="link-body-emphasis d-inline-flex text-decoration-none rounded">Control Cloraciones</a>
+                                </li>
+                                <li><a href="/archivos_temperatura"
+                                        class="link-body-emphasis d-inline-flex text-decoration-none rounded">Control Temperatura</a>
+                                </li>
+                                <li><a href="#"
+                                        class="link-body-emphasis d-inline-flex text-decoration-none rounded">Control Medición de PPM</a>
+                                </li>
+                                <li><a href="#"
+                                        class="link-body-emphasis d-inline-flex text-decoration-none rounded">Control Productos</a>
+                                </li>
+                                <li><a href="#"
+                                        class="link-body-emphasis d-inline-flex text-decoration-none rounded">Control Fungicidas</a>
+                                </li> 
+                            </ul>
+                        </div>
+
+                    </li>
+
+                    <li class="border-top my-3"></li> <!-- Borde separador-->
+                    
                     <li class="mb-1">
                         <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
                             data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
@@ -143,7 +173,7 @@
                         <!-- Cuarto collapse de opciones-->
                         <div class="collapse" id="account-collapse">
                             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                <li><a href="#"
+                                <li><a href="{% url 'registro' %}"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">New...</a>
                                 </li>
                                 <li><a href="#"
@@ -152,7 +182,7 @@
                                 <li><a href="#"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">Settings</a>
                                 </li>
-                                <li><a href="#"
+                                <li><a href="{% url 'logout' %}"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">Sign
                                         out</a></li>
                             </ul>

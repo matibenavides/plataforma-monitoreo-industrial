@@ -19,4 +19,12 @@ function formatearNumero(input) {
     
     // Actualizar el valor del input
     input.value = valor;
+
+
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+  
+    var inputs = document.querySelectorAll('input[type="text"]');
+    inputs.forEach(input => formatearNumero(input));
+});
