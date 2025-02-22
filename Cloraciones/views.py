@@ -3,6 +3,7 @@ from .models import *
 from datetime import date
 from django.core.paginator import Paginator
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 
 #weasyprint / pdf
 from django.template.loader import get_template
@@ -13,9 +14,17 @@ from weasyprint import HTML
 
 # Create your views here.
 
-def mostrarCloracion(request):
-    return render(request, "cloraciones/base/cloracion.html")
+@login_required(login_url='inicio')
+def mostrarCloracion(request, linea_id):
 
+    linea = Lineas.objects.get(id=linea_id)
+
+    datos = {
+        'linea': linea,
+    } 
+    return render(request, "cloraciones/base/cloracion.html", datos)
+
+@login_required(login_url='inicio')
 def registrarEstanque(request):
     if request.method == 'POST':
 
@@ -25,11 +34,11 @@ def registrarEstanque(request):
 
         lote_hipo = request.POST['lotehipo']
         lote_acido = request.POST['loteacid']
-        linea_id = Lineas.objects.get(id=1) # id= 1 es Linea 11
+        linea_id = Lineas.objects.get(id=request.POST['linea_id'])
         turno = Turnos.objects.get(id=request.POST['turnoop'])
         sector = Sector.objects.get(id=1) # id=1 Es el sector Estanque
         especie = Especies.objects.get(id=request.POST['especieop'])
-        trabajador = Trabajador.objects.get(id=1) # id=1 el trabajador Matias
+        trabajador = request.user.trabajador # Toma el usuario logeado junto a los datos de la tabla Trabajador.
 
         bloque = GrupoCloracion.objects.create(
             loh_gru = lote_hipo,
@@ -74,6 +83,7 @@ def registrarEstanque(request):
 
     return render(request, 'cloraciones/base/cloracion.html', datos)
 
+@login_required(login_url='inicio')
 def registrarCortaPedicelo(request):
     if request.method == 'POST':
 
@@ -83,11 +93,11 @@ def registrarCortaPedicelo(request):
 
         lote_hipo = request.POST['lotehipo']
         lote_acido = request.POST['loteacid']
-        linea_id = Lineas.objects.get(id=1) # id= 1 es Linea 11
+        linea_id = Lineas.objects.get(id=request.POST['linea_id'])
         turno = Turnos.objects.get(id=request.POST['turnoop'])
         sector = Sector.objects.get(id=2) # id=2 Es el sector Corta Pedicelo
         especie = Especies.objects.get(id=request.POST['especieop'])
-        trabajador = Trabajador.objects.get(id=1) # id=1 el trabajador Matias
+        trabajador = request.user.trabajador
 
         bloque = GrupoCloracion.objects.create(
             loh_gru = lote_hipo,
@@ -131,6 +141,7 @@ def registrarCortaPedicelo(request):
 
     return render(request, 'cloraciones/base/cloracion.html', datos)
 
+@login_required(login_url='inicio')
 def registrarRetorno(request):
     if request.method == 'POST':
 
@@ -140,11 +151,11 @@ def registrarRetorno(request):
 
         lote_hipo = request.POST['lotehipo']
         lote_acido = request.POST['loteacid']
-        linea_id = Lineas.objects.get(id=1) # id= 1 es Linea 11
+        linea_id = Lineas.objects.get(id=request.POST['linea_id'])
         turno = Turnos.objects.get(id=request.POST['turnoop'])
         sector = Sector.objects.get(id=3) # id=3 Es el sector Retorno
         especie = Especies.objects.get(id=request.POST['especieop'])
-        trabajador = Trabajador.objects.get(id=1) # id=1 el trabajador Matias
+        trabajador = request.user.trabajador
 
         bloque = GrupoCloracion.objects.create(
             loh_gru = lote_hipo,
@@ -188,7 +199,7 @@ def registrarRetorno(request):
 
     return render(request, 'cloraciones/base/cloracion.html', datos)
 
-
+@login_required(login_url='inicio')
 def mostrarListaonce(request):
     busqueda = request.GET.get("buscar")
     bloquesLista = GrupoCloracion.objects.all().order_by('-id') # Muestra todos los datos ordenados de manera descendente (-id) 
@@ -199,7 +210,8 @@ def mostrarListaonce(request):
             Q(trabajador_id__nom_tra__icontains = busqueda) |
             Q(sector_id__nom_sec__icontains = busqueda) |
             Q(especies_id__nom_esp__icontains = busqueda) |
-            Q(dia_id__dia_dia__icontains = busqueda)
+            Q(dia_id__dia_dia__icontains = busqueda) |
+            Q(lineas_id__num_lin__icontains = busqueda)
         ).distinct()
 
     # Lista de diccionario con datos especificos, para formatear
@@ -212,6 +224,7 @@ def mostrarListaonce(request):
             "fecha": bloque.dia_id,
             "especie": bloque.especies_id.nom_esp.capitalize(),
             "sector": bloque.sector_id.nom_sec.capitalize(), 
+            "linea": bloque.lineas_id.num_lin,
         })
         
 
@@ -232,7 +245,7 @@ def mostrarListaonce(request):
     return render(request, "cloraciones/base/listaonce.html", datos)
 
 
-
+@login_required(login_url='inicio')
 def visualizarDatos(request, grupo_id):
     try:
         grupo = get_object_or_404(GrupoCloracion, pk=grupo_id)
@@ -260,7 +273,7 @@ def visualizarDatos(request, grupo_id):
         return render(request, 'cloraciones/base/cloracion.html', datos)
     
 
-
+@login_required(login_url='inicio')
 def actualizarRegistro(request, grupo_id):
     
     try:
@@ -321,7 +334,8 @@ def actualizarRegistro(request, grupo_id):
                 Q(trabajador_id__nom_tra__icontains = busqueda) |
                 Q(sector_id__nom_sec__icontains = busqueda) |
                 Q(especies_id__nom_esp__icontains = busqueda) |
-                Q(dia_id__dia_dia__icontains = busqueda)
+                Q(dia_id__dia_dia__icontains = busqueda) |
+                Q(lineas_id__num_lin__icontains = busqueda)
             ).distinct()
 
         # Lista de diccionario con datos especificos, para formatear
@@ -333,7 +347,8 @@ def actualizarRegistro(request, grupo_id):
                 "trabajador": f"{bloque.trabajador_id.nom_tra.capitalize()} {bloque.trabajador_id.app_tra.capitalize()}",
                 "fecha": bloque.dia_id,
                 "especie": bloque.especies_id.nom_esp.capitalize(),
-                "sector": bloque.sector_id.nom_sec.capitalize(), 
+                "sector": bloque.sector_id.nom_sec.capitalize(),
+                "linea": bloque.lineas_id.num_lin, 
             })
             
 
@@ -364,7 +379,7 @@ def actualizarRegistro(request, grupo_id):
 
         return render(request, 'cloraciones/base/cloracion.html', datos)
     
-
+@login_required(login_url='inicio')
 def eliminarRegistro(request, grupo_id):
    try:
         # !Importante mati: implementar autenticación de django
@@ -383,7 +398,8 @@ def eliminarRegistro(request, grupo_id):
                 Q(trabajador_id__nom_tra__icontains = busqueda) |
                 Q(sector_id__nom_sec__icontains = busqueda) |
                 Q(especies_id__nom_esp__icontains = busqueda) |
-                Q(dia_id__dia_dia__icontains = busqueda)
+                Q(dia_id__dia_dia__icontains = busqueda) |
+                Q(lineas_id__num_lin__icontains = busqueda)
             ).distinct()
 
         # Lista de diccionario con datos especificos, para formatear
@@ -395,7 +411,8 @@ def eliminarRegistro(request, grupo_id):
                 "trabajador": f"{bloque.trabajador_id.nom_tra.capitalize()} {bloque.trabajador_id.app_tra.capitalize()}",
                 "fecha": bloque.dia_id,
                 "especie": bloque.especies_id.nom_esp.capitalize(),
-                "sector": bloque.sector_id.nom_sec.capitalize(), 
+                "sector": bloque.sector_id.nom_sec.capitalize(),
+                "linea": bloque.lineas_id.num_lin, 
             })
             
 
@@ -426,7 +443,8 @@ def eliminarRegistro(request, grupo_id):
                 Q(trabajador_id__nom_tra__icontains = busqueda) |
                 Q(sector_id__nom_sec__icontains = busqueda) |
                 Q(especies_id__nom_esp__icontains = busqueda) |
-                Q(dia_id__dia_dia__icontains = busqueda)
+                Q(dia_id__dia_dia__icontains = busqueda) |
+                Q(lineas_id__num_lin__icontains = busqueda)
             ).distinct()
 
         # Lista de diccionario con datos especificos, para formatear
@@ -439,6 +457,7 @@ def eliminarRegistro(request, grupo_id):
                 "fecha": bloque.dia_id,
                 "especie": bloque.especies_id.nom_esp.capitalize(),
                 "sector": bloque.sector_id.nom_sec.capitalize(), 
+                "linea": bloque.lineas_id.num_lin, 
             })
             
 
@@ -460,7 +479,7 @@ def eliminarRegistro(request, grupo_id):
         return render(request, 'cloraciones/base/listaonce.html', datos)
 
     
-
+@login_required(login_url='inicio')
 def DescargarPDF(request, grupo_id):
     try:
         grupo = get_object_or_404(GrupoCloracion, pk=grupo_id)
@@ -495,8 +514,8 @@ def DescargarPDF(request, grupo_id):
         # genero un response que sea de tipo pdf
         response = HttpResponse(content_type='application/pdf')
 
-        #Contruimos el nombre del archivo
-        filename = f'L{grupo.lineas_id.num_lin}_{grupo.trabajador_id.nom_tra}_{grupo.dia_id.dia_dia}.pdf'
+        #Construimos el nombre del archivo
+        filename = f'Cloracion_L{grupo.lineas_id.num_lin}_{grupo.trabajador_id.nom_tra}_{grupo.dia_id.dia_dia}.pdf'
         response['Content-Disposition'] = f'attachment; filename="{filename}"'
 
         html = HTML(string=html, base_url=request.build_absolute_uri())

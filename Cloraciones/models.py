@@ -1,10 +1,12 @@
 from django.db import models
 import datetime
+from django.contrib.auth.models import User
                                                                                     
 # Create your models here.
 
 
 class Trabajador(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE) 
     nom_tra = models.TextField(max_length=20) #Nombre Trabajador
     app_tra = models.TextField(max_length=20) # Apellido Paterno Trabajador
     apm_tra = models.TextField(max_length=20) # Apellido Materno Trabajador
@@ -18,7 +20,7 @@ class Trabajador(models.Model):
 
     # Metodo para visualización panel admin
     def __str__(self):
-        return str(self.nom_tra) + " - " + str(self.app_tra) + " - " + str(self.apm_tra) + " - " + str(self.nac_tra) + " - " + str(self.rut_tra)
+        return str(self.user) + " - " + str(self.nom_tra) + " - " + str(self.app_tra) + " - " + str(self.apm_tra) + " - " + str(self.nac_tra) + " - " + str(self.rut_tra)
 
 
 class Especies(models.Model):
@@ -107,7 +109,7 @@ class GrupoCloracion(models.Model):
     turnos_id = models.ForeignKey(Turnos, on_delete=models.CASCADE)
     sector_id = models.ForeignKey(Sector, on_delete=models.CASCADE)
     especies_id = models.ForeignKey(Especies, on_delete=models.CASCADE)
-    trabajador_id = models.ForeignKey(Trabajador, on_delete=models.CASCADE)
+    trabajador_id = models.ForeignKey(Trabajador, on_delete=models.CASCADE) 
 
     class Meta:
         verbose_name = 'Grupo Cloracion'

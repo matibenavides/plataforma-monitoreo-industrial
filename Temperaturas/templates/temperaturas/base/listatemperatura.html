@@ -32,7 +32,7 @@
     <div class="row">
       <section class="p-3">
         <h4 class="rubik-titulo">
-          <strong class="ps-4">Historial de Cloraciones</strong>
+          <strong class="ps-4">Historial de Temperaturas</strong>
         </h4>
 
         <!-- Toast para presentación de actualización de datos -->
@@ -92,7 +92,7 @@
               <!-- Botón de Cloración alineado a la derecha -->
               <div>
                 <a class="btn btn-outline-primary disabled btn-sm text-decoration-none" href="/cloracion">
-                  <i class="bi bi-file-earmark-ruled" ></i> Cloración
+                  <i class="bi bi-file-earmark-ruled" id="disabledInput" ></i> Temperatura
                 </a>
               </div>
             </div>
@@ -109,8 +109,6 @@
                         <th>Turno</th>
                         <th>Linea</th>
                         <th>Trabajador</th>
-                        <th>Sector</th>
-                        <th>Especie</th>
                         <th>Fecha</th>
                         <th>Acción</th>
                     </tr>
@@ -123,17 +121,15 @@
                         <td>{{ l.id }}</td> <!-- forloop.counter -->
                         <td>{{ l.turno }}</td>
                         <td>{{ l.linea }}</td>
-                        <td>{{ l.trabajador }}</td>
-                        <td>{{ l.sector }}</td>
-                        <td>{{ l.especie }}</td>
+                        <td>{{ l.trabajador }}</td>            
                         <td>{{ l.fecha }}</td>
                         <td>
-
-                            <a href="{% url 'visualizar' grupo_id=l.id %}" class="btn btn-outline-primary btn-s">
+                                        
+                            <a href="{% url 'registrotemperatura' grupo_id=l.id %}" class="btn btn-outline-primary btn-s">
                               <i class="bi bi-eye"></i>
                             </a>
 
-                            <a href="{% url 'pdf' grupo_id=l.id %}" class="btn btn-outline-success btn-s">
+                            <a href="{% url 'pdftemperatura' grupo_id=l.id %}" class="btn btn-outline-success btn-s">
                               <i class="bi bi-filetype-pdf"></i>
                             </a>
 
@@ -141,7 +137,7 @@
                               <i class="bi bi-trash"></i>
                             </button>
                             
-                            {% include "cloraciones/list/modalEliminarLista.html" %}
+                            {% include "temperaturas/list/modalEliminarTemperaturaLista.html" %}
                             
                         </td>
                     </tr>
