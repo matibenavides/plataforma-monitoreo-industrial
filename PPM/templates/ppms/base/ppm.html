@@ -1,0 +1,197 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registros PPM</title>
+
+    <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+
+  <!-- ref css static-->
+  <link rel="stylesheet" href="{% static 'cloraciones/css/sidebars.css' %}" />
+  <link rel="stylesheet" href="{% static 'ppms/css/ppm.css' %}" />
+
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
+  </style>
+
+</head>
+<body class="pt-5 fondo">
+    {% include "cloraciones/base/navbar.html" %}
+
+    <div class="container mt-3">
+        <div class="row">
+            <section class="p-3">
+                <h4 class="rubik-titulo ps-4">
+                    <strong>Registro Medición de PPM</strong>
+                </h4>
+
+                {% if msg %}
+                <div class="toast-container position-fixed top-0 end-0 p-3">
+                    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="toast-header">
+                            <strong class="me-auto">{{ sector }}</strong>
+                            <small>Justo ahora</small>
+                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                        <div class="toast-body">
+                            {{ msg }}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="container-fluid">
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <div class="card shadow-sm p-3 mb-1">
+                            <div class="row align-items-center g-3">
+    
+                                <div class="col-12 col-md-3">
+                                    <div class="input-group" >
+                                        <span class="input-group-text">Línea</span>
+                                        <select class="form-select" name="linea_id" required disabled>
+                                                <option value="{{ linea.id }}">
+                                                    {{ linea.num_lin }}
+                                                </option>
+                                        </select>
+                                    </div>
+                                    <div class="input-group mt-2" >
+                                        <span class="input-group-text">Turno</span>
+                                        <select class="form-select" name="turnoop" required>
+                                            <option selected value="">Selecciona Turno</option>
+                                            <option value="1">A</option>
+                                            <option value="2">B</option>
+                                        </select>
+                                    </div>
+                                </div>
+                    
+                                
+                                <div class="col-12 col-md-3">
+                                    <div class="input-group">
+                                        <span class="input-group-text">Hora</span>
+                                        <input type="time" class="form-control text-center" name="hora" required>
+                                    </div>
+                                    <div class="input-group mt-2">
+                                        <span class="input-group-text">Fecha</span>
+                                        <input type="date"  required min="1920-01-01" class="form-control text-center" name="fecha" required>
+                                    </div>
+    
+                                </div>
+                    
+                                
+                                <div class="col-12 col-md-4">
+                                    <div class="input-group">
+                                        <span class="input-group-text">PPM</span>
+                                        <input type="number" name="ppm" class="form-control text-center" placeholder="PPM" name="ppm"
+                                        oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);" required>
+                                    </div>
+                                    <div class="input-group mt-2">
+                                        <span class="input-group-text">pH</span>
+                                        <input type="text" name="ph" class="form-control text-center" placeholder="pH" name="ph"
+                                        oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3); formateo(this);" required>
+                                    </div>
+                                </div>
+                    
+                                <!-- Botón de envío -->
+                                <div class="col-12 col-md-2">
+                                    <div class="card shadow-sm p-3">
+                                        <button type="submit" class="btn btn-outline-primary">
+                                            <i class="bi bi-file-earmark-ruled">  Registrar</i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card shadow-sm p-1 mb-4">
+                            <a class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                                data-bs-toggle="collapse" data-bs-target="#obs" aria-expanded="false">
+                                Observación
+                            </a>
+                            <div class="collapse" id="obs">
+                                <div class="card card-body">
+                                    <textarea class="form-control" id="observacion" maxlength="500" style="height: 89px" name="observacion">{% lorem %}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Tabla -->
+                <div class="table-responsive shadow-lg mb-4 bg-body-tertiary rounded-4">
+                    <table class="table table-hover text-center ">
+                        <thead>
+                            <tr class="border-info-subtle">
+                                <th>#</th>
+                                <th>Turno</th>
+                                <th>Linea</th>
+                                <th>Trabajador</th>
+                                <th>PPM</th>
+                                <th>pH</th>
+                                <th>Hora</th>
+                                <th>Fecha</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-group-divider border-primary">
+                            {% comment %} {% for l in listas %} {% endcomment %}
+
+                            <tr class="border-info-subtle">
+                                <td scope="row">1</td> <!-- forloop.counter --> <!-- {{ l.id }} --> 
+                                <td>A</td> <!-- {{ l.turno }} -->
+                                <td>3</td> <!-- {{ l.linea }} -->
+                                <td>Mati</td> <!-- {{ l.trabajador }} -->
+                                <td>100</td> <!-- {{ l.ppm }} -->
+                                <td>1.2</td> <!-- {{ l.ph }} -->
+                                <td>12:00</td> <!-- {{ l.hora }} -->
+                                <td>24-11-2047</td> <!-- {{ l.fecha }} -->
+                                <td>
+                                        
+                                    <button type="button" class="btn btn-outline-primary btn-s" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                        <i class="bi-chat-left-text"></i>
+                                    </button>
+                                    
+        
+                                    <a href="#" class="btn btn-outline-success btn-s">
+                                      <i class="bi bi-filetype-pdf"></i>
+                                     </a>{% comment %} <!-- {% url 'pdftemperatura' grupo_id=l.id %}  'pdf'-->  {% endcomment %}
+        
+                                    <button type="button" class="btn btn-outline-danger btn-s" data-bs-toggle="modal" data-bs-target="#eliminar">
+                                      <i class="bi bi-trash"></i>
+                                    </button>
+
+                                    
+                                    
+                                    {% comment %} <!-- {% include "temperaturas/list/modalEliminarTemperaturaLista.html" %} --> {% endcomment %}
+                                </td>
+                            </tr>
+                            {% include "ppms/list/modalObservacion.html" %}
+                            {% comment %} {% endfor %} {% endcomment %}
+                        </tbody>
+                    </table>
+                    
+                </div>
+                {% include "cloraciones/list/paginacion.html" %}
+                
+
+
+
+            </section>
+        </div>
+
+
+    </div>
+
+    <script src="{% static 'cloraciones/js/modal.js' %}"></script>
+    <script src="{% static 'cloraciones/js/formateo.js' %}"></script>
+</body>
+</html>
