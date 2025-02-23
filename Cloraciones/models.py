@@ -246,8 +246,8 @@ class PPM(models.Model):
     dia_id = models.ForeignKey(Dia, on_delete=models.CASCADE)
     hor_ppm = models.TimeField(blank=True, null=True, default=datetime.time(0, 0))
     dat_ppm = models.IntegerField(null=True, blank=True)
-    phe_ppm = models.FloatField()
-    obs_ppm = models.TextField(max_length=200, blank=True, null=True)
+    phe_ppm = models.FloatField(null=True, blank=True)
+    obs_ppm = models.TextField(max_length=500, blank=True, null=True)
 
     class Meta:
         verbose_name = 'PPM'
