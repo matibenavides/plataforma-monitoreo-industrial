@@ -50,7 +50,7 @@
                 {% endif %}
 
                 <div class="container-fluid">
-                    <form action="" method="POST">
+                    <form action="{% url 'registrarppm' %}" method="POST">
                         {% csrf_token %}
                         <div class="card shadow-sm p-3 mb-1">
                             <div class="row align-items-center g-3">
@@ -58,7 +58,7 @@
                                 <div class="col-12 col-md-3">
                                     <div class="input-group" >
                                         <span class="input-group-text">Línea</span>
-                                        <select class="form-select" name="linea_id" required disabled>
+                                        <select class="form-select" name="lineaop" required readonly>
                                                 <option value="{{ linea.id }}">
                                                     {{ linea.num_lin }}
                                                 </option>
@@ -119,7 +119,7 @@
                             </a>
                             <div class="collapse" id="obs">
                                 <div class="card card-body">
-                                    <textarea class="form-control" id="observacion" maxlength="500" style="height: 89px" name="observacion">{% lorem %}</textarea>
+                                    <textarea class="form-control" id="observacion" maxlength="500" style="height: 89px" name="observacion"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -191,6 +191,7 @@
 
     </div>
 
+    <script src="{% static 'cloraciones/js/toast.js' %}"></script>
     <script src="{% static 'cloraciones/js/modal.js' %}"></script>
     <script src="{% static 'cloraciones/js/formateo.js' %}"></script>
 </body>
