@@ -1,7 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from datetime import date
 from Cloraciones.models import *
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 from django.core.paginator import Paginator
 from django.db.models import Q
@@ -24,12 +25,14 @@ def mostrarPPM(request, linea_id):
     return render(request, "ppms/base/ppm.html", datos)
 
 @login_required(login_url='inicio')
-def registrarPPM(request):
+def registrarPPM(request,linea_id):
+
+    linea = Lineas.objects.get(id=linea_id)
     if request.method == 'POST':
 
         
 
-        linea = Lineas.objects.get(id=request.POST['lineaop'])
+        # linea = Lineas.objects.get(id=request.POST['lineaop'])
         turno = Turnos.objects.get(id=request.POST['turnoop'])
         trabajador = request.user.trabajador
         hora = request.POST['hora']
@@ -55,11 +58,18 @@ def registrarPPM(request):
             obs_ppm=observacion,
         )
 
-        datos = {
-            'msg': '¡Registro agregado correctamente!',
-            'sector' : 'PPM',
-        }
+
+        messages.success(request, '¡Registro agregado correctamente!')
+        
+
+        return redirect('ppm', linea_id=linea.id)
     
+    else:
+       
+        datos = {
+            'linea': linea,
+            
+        }
     return render(request, 'ppms/base/ppm.html', datos)
 
     

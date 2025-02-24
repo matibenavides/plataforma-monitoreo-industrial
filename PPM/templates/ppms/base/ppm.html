@@ -34,23 +34,27 @@
                     <strong>Registro Medición de PPM</strong>
                 </h4>
 
-                {% if msg %}
-                <div class="toast-container position-fixed top-0 end-0 p-3">
-                    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-                        <div class="toast-header">
-                            <strong class="me-auto">{{ sector }}</strong>
-                            <small>Justo ahora</small>
-                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="toast-container position-fixed top-0 end-0 p-3">
+                            <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                                <div class="toast-header">
+                                    <strong class="me-auto">PPM</strong>
+                                    <small>Justo ahora</small>
+                                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                                </div>
+                                <div class="toast-body">
+                                    {{ message }}
+                                </div>
+                            </div>
                         </div>
-                        <div class="toast-body">
-                            {{ msg }}
-                        </div>
-                    </div>
-                </div>
+                    {% endfor %}
                 {% endif %}
 
+                
+
                 <div class="container-fluid">
-                    <form action="{% url 'registrarppm' %}" method="POST">
+                    <form action="{% url 'registrarppm' linea_id=linea.id %}" method="POST">
                         {% csrf_token %}
                         <div class="card shadow-sm p-3 mb-1">
                             <div class="row align-items-center g-3">
@@ -58,11 +62,12 @@
                                 <div class="col-12 col-md-3">
                                     <div class="input-group" >
                                         <span class="input-group-text">Línea</span>
-                                        <select class="form-select" name="lineaop" required readonly>
+                                        <select class="form-select" name="lineaop_display" disabled>
                                                 <option value="{{ linea.id }}">
                                                     {{ linea.num_lin }}
                                                 </option>
                                         </select>
+                                        <input type="hidden" name="lineaop" value="{{ linea.id }}">
                                     </div>
                                     <div class="input-group mt-2" >
                                         <span class="input-group-text">Turno</span>
