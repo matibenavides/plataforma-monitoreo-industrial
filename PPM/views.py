@@ -17,11 +17,37 @@ from weasyprint import HTML
 def mostrarPPM(request, linea_id):
 
     linea = Lineas.objects.get(id=linea_id)
+
+    # Muestra listado de registros en el mismo template
+    ppm = PPM.objects.all().order_by('-id')
+
+    lista_formato = []
+    for lista in ppm:
+        lista_formato.append({
+            'id': lista.id,
+            'turno': lista.turnos_id.nom_tur.upper(),
+            'linea': lista.lineas_id.num_lin,
+            'trabajador': f"{lista.trabajador_id.nom_tra.capitalize()} {lista.trabajador_id.app_tra.capitalize()}",
+            'hora': lista.hor_ppm,
+            'ppm': lista.dat_ppm,
+            'ph': lista.phe_ppm,
+            'fecha': lista.dia_id.dia_dia.strftime('%d-%m-%Y'), # Formato (25-02-2025)
+            'observacion': lista.obs_ppm,
+        })
     
+    paginator = Paginator(lista_formato, 10)
+    pagina = request.GET.get("page") or 1
+    listas = paginator.get_page(pagina)
+    pagina_actual = int(pagina)
+    paginas = range(1, listas.paginator.num_pages + 1)
 
     datos = {
+        'listas': listas,
+        'paginas': paginas,
+        'pagina_actual': pagina_actual,
         'linea': linea,
-    } 
+    }
+    
     return render(request, "ppms/base/ppm.html", datos)
 
 @login_required(login_url='inicio')
@@ -71,6 +97,8 @@ def registrarPPM(request,linea_id):
             
         }
     return render(request, 'ppms/base/ppm.html', datos)
+
+
 
     
 

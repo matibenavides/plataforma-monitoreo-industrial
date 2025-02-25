@@ -148,40 +148,35 @@
                             </tr>
                         </thead>
                         <tbody class="table-group-divider border-primary">
-                            {% comment %} {% for l in listas %} {% endcomment %}
+                            {% for l in listas %}
 
-                            <tr class="border-info-subtle">
-                                <td scope="row">1</td> <!-- forloop.counter --> <!-- {{ l.id }} --> 
-                                <td>A</td> <!-- {{ l.turno }} -->
-                                <td>3</td> <!-- {{ l.linea }} -->
-                                <td>Mati</td> <!-- {{ l.trabajador }} -->
-                                <td>100</td> <!-- {{ l.ppm }} -->
-                                <td>1.2</td> <!-- {{ l.ph }} -->
-                                <td>12:00</td> <!-- {{ l.hora }} -->
-                                <td>24-11-2047</td> <!-- {{ l.fecha }} -->
-                                <td>
-                                        
-                                    <button type="button" class="btn btn-outline-primary btn-s" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                        <i class="bi-chat-left-text"></i>
-                                    </button>
-                                    
-        
-                                    <a href="#" class="btn btn-outline-success btn-s">
-                                      <i class="bi bi-filetype-pdf"></i>
-                                     </a>{% comment %} <!-- {% url 'pdftemperatura' grupo_id=l.id %}  'pdf'-->  {% endcomment %}
-        
-                                    <button type="button" class="btn btn-outline-danger btn-s" data-bs-toggle="modal" data-bs-target="#eliminar">
-                                      <i class="bi bi-trash"></i>
-                                    </button>
-
-                                    
-                                    
-                                    {% comment %} <!-- {% include "temperaturas/list/modalEliminarTemperaturaLista.html" %} --> {% endcomment %}
-                                </td>
-                            </tr>
-                            {% include "ppms/list/modalObservacion.html" %}
-                            {% comment %} {% endfor %} {% endcomment %}
+                                <tr class="border-info-subtle">
+                                    <td scope="row">{{ l.id }}</td> <!-- forloop.counter --> <!-- {{ l.id }} --> 
+                                    <td>{{ l.turno }}</td> <!-- {{ l.turno }} -->
+                                    <td>{{ l.linea }}</td> <!-- {{ l.linea }} -->
+                                    <td>{{ l.trabajador }}</td> <!-- {{ l.trabajador }} -->
+                                    <td>{{ l.ppm }}</td> <!-- {{ l.ppm }} -->
+                                    <td>{{ l.ph }}</td> <!-- {{ l.ph }} -->
+                                    <td>{{ l.hora }}</td> <!-- {{ l.hora }} -->
+                                    <td>{{ l.fecha }}</td> <!-- {{ l.fecha }} -->
+                                    <td>
+                                        <button type="button" class="btn btn-outline-primary btn-s" data-bs-toggle="modal" data-bs-target="#modal-{{ l.id }}">
+                                            <i class="bi-chat-left-text"></i>
+                                        </button>
+                                        <a href="#" class="btn btn-outline-success btn-s">
+                                        <i class="bi bi-filetype-pdf"></i>
+                                        </a>{% comment %} <!-- {% url 'pdftemperatura' grupo_id=l.id %}  'pdf'-->  {% endcomment %}
+            
+                                        <button type="button" class="btn btn-outline-danger btn-s" data-bs-toggle="modal" data-bs-target="#eliminar">
+                                        <i class="bi bi-trash"></i>
+                                        </button>
+                                        {% comment %} <!-- {% include "temperaturas/list/modalEliminarTemperaturaLista.html" %} --> {% endcomment %}
+                                    </td>
+                                </tr>
+                                {% include "ppms/list/modalObservacion.html" %}
+                            {% endfor %}
                         </tbody>
+                        
                     </table>
                     
                 </div>
