@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registros PPM</title>
+    <title>Actualizar PPM</title>
 
     <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -54,7 +54,7 @@
                 
 
                 <div class="container-fluid">
-                    <form action="{% url 'registrarppm' linea_id=linea.id %}" method="POST">
+                    <form action="{% url 'actualizarppm' grupo_id=ppm.id %}" method="POST">
                         {% csrf_token %}
                         <div class="card shadow-sm p-3 mb-1">
                             <div class="row align-items-center g-3">
@@ -71,10 +71,13 @@
                                     </div>
                                     <div class="input-group mt-2" >
                                         <span class="input-group-text">Turno</span>
-                                        <select class="form-select" name="turnoop" required>
-                                            <option selected value="">Selecciona Turno</option>
-                                            <option value="1">A</option>
-                                            <option value="2">B</option>
+                                        <select class="form-select" name="turnoop">
+                                            {% for turno in turnos %}
+                                                <option value="{{ turno.id }}"
+                                                    {% if turno.id == ppm.turno_id %} selected {% endif %}>
+                                                    {{ turno.nom_tur }}
+                                                </option>
+                                            {% endfor %}
                                         </select>
                                     </div>
                                 </div>
@@ -83,11 +86,11 @@
                                 <div class="col-12 col-md-3">
                                     <div class="input-group">
                                         <span class="input-group-text">Hora</span>
-                                        <input type="time" class="form-control text-center" name="hora" required>
+                                        <input type="time" class="form-control text-center" name="hora" value="{{ ppm.hor_ppm }}" required>
                                     </div>
                                     <div class="input-group mt-2">
                                         <span class="input-group-text">Fecha</span>
-                                        <input type="date"  required min="1920-01-01" class="form-control text-center" name="fecha" required>
+                                        <input type="date"  required min="1920-01-01" class="form-control text-center" name="fecha" value="{{ fecha }}" required>
                                     </div>
     
                                 </div>
@@ -96,12 +99,12 @@
                                 <div class="col-12 col-md-4">
                                     <div class="input-group">
                                         <span class="input-group-text">PPM</span>
-                                        <input type="number" name="ppm" class="form-control text-center" placeholder="PPM" name="ppm"
+                                        <input type="number" name="ppm" class="form-control text-center" placeholder="PPM" value="{{ ppm.dat_ppm }}"
                                         oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);" required>
                                     </div>
                                     <div class="input-group mt-2">
                                         <span class="input-group-text">pH</span>
-                                        <input type="text" name="ph" class="form-control text-center" placeholder="pH" name="ph"
+                                        <input type="text" name="ph" class="form-control text-center" placeholder="pH" value="{{ ppm.phe_ppm }}"
                                         oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3); formateo(this);" required>
                                     </div>
                                 </div>
@@ -109,8 +112,8 @@
                                 <!-- Botón de envío -->
                                 <div class="col-12 col-md-2">
                                     <div class="card shadow-sm p-3">
-                                        <button type="submit" class="btn btn-outline-primary">
-                                            <i class="bi bi-file-earmark-ruled">  Registrar</i>
+                                        <button type="submit" class="btn btn-outline-info">
+                                            <i class="bi bi-arrow-repeat">  Actualizar</i>
                                         </button>
                                     </div>
                                 </div>
@@ -124,7 +127,7 @@
                             </a>
                             <div class="collapse" id="obs">
                                 <div class="card card-body">
-                                    <textarea class="form-control" id="observacion" maxlength="500" style="height: 89px" name="observacion"></textarea>
+                                    <textarea class="form-control" id="observacion" maxlength="500" style="height: 89px" name="observacion" >{{ ppm.obs_ppm }}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -160,18 +163,18 @@
                                     <td>{{ l.hora }}</td> 
                                     <td>{{ l.fecha }}</td> 
                                     <td>
-                                        <button type="button" class="btn btn-outline-primary btn-s" data-bs-toggle="modal" data-bs-target="#modal-{{ l.id }}">
+                                        <button type="button" class="btn btn-outline-primary btn-s" data-bs-toggle="modal" data-bs-target="#modal-{{ l.id }}" >
                                             <i class="bi-chat-left-text"></i>
                                         </button>
+                                        
                                         <a href="{% url 'visualizarppm' grupo_id=l.id %}" class="btn btn-outline-info btn-s">
                                             <i class="bi bi-arrow-repeat"></i>
                                         </a>
-                                          {% comment %} <!-- {% url 'pdftemperatura' grupo_id=l.id %}  'pdf'-->  {% endcomment %}
-            
+                                        
                                         <button type="button" class="btn btn-outline-danger btn-s" data-bs-toggle="modal" data-bs-target="#eliminar">
-                                        <i class="bi bi-trash"></i>
+                                            <i class="bi bi-trash"></i>
                                         </button>
-                                        {% comment %} <!-- {% include "temperaturas/list/modalEliminarTemperaturaLista.html" %} --> {% endcomment %}
+                                       
                                     </td>
                                 </tr>
                                 {% include "ppms/list/modalObservacion.html" %}
