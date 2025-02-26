@@ -166,12 +166,10 @@
                                         <a href="{% url 'visualizarppm' grupo_id=l.id %}" class="btn btn-outline-info btn-s">
                                             <i class="bi bi-arrow-repeat"></i>
                                         </a>
-                                          {% comment %} <!-- {% url 'pdftemperatura' grupo_id=l.id %}  'pdf'-->  {% endcomment %}
-            
-                                        <button type="button" class="btn btn-outline-danger btn-s" data-bs-toggle="modal" data-bs-target="#eliminar">
+                                        <button type="button" class="btn btn-outline-danger btn-s" data-bs-toggle="modal" data-bs-target="#modal-eliminar-{{ l.id }}">
                                         <i class="bi bi-trash"></i>
                                         </button>
-                                        {% comment %} <!-- {% include "temperaturas/list/modalEliminarTemperaturaLista.html" %} --> {% endcomment %}
+                                        {% include "ppms/list/modalEliminarPPM.html" %}
                                     </td>
                                 </tr>
                                 {% include "ppms/list/modalObservacion.html" %}
@@ -181,7 +179,9 @@
                     </table>
                     
                 </div>
+                
                 {% include "cloraciones/list/paginacion.html" %}
+                
                 
 
 
