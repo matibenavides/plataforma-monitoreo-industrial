@@ -112,9 +112,12 @@
                                 <!-- Botón de envío -->
                                 <div class="col-12 col-md-2">
                                     <div class="card shadow-sm p-3">
-                                        <button type="submit" class="btn btn-outline-info">
-                                            <i class="bi bi-arrow-repeat">  Actualizar</i>
+                                        <button type="submit" class="btn  btn-sm mb-1 btn-outline-info">
+                                            <i class="bi bi-arrow-repeat"><strong> Actualizar</strong></i>
                                         </button>
+                                        <a href="{% url 'ppm' linea_id=linea.id %}" class="btn btn-sm btn-outline-primary">
+                                            <i class="bi bi-arrow-counterclockwise"><strong>Volver</strong></i>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -171,9 +174,10 @@
                                             <i class="bi bi-arrow-repeat"></i>
                                         </a>
                                         
-                                        <button type="button" class="btn btn-outline-danger btn-s" data-bs-toggle="modal" data-bs-target="#eliminar">
+                                        <button type="button" class="btn btn-outline-danger btn-s" data-bs-toggle="modal" data-bs-target="#modal-eliminar-{{ l.id }}">
                                             <i class="bi bi-trash"></i>
                                         </button>
+                                        {% include "ppms/list/modalEliminarPPM.html" %}
                                        
                                     </td>
                                 </tr>

@@ -9,5 +9,6 @@ urlpatterns = [
     path('registrar_ppm/<int:linea_id>', views.registrarPPM, name="registrarppm"),
     path('visualizar_ppm/<int:grupo_id>/', views.visualizarPPM, name="visualizarppm"),
     path('actualizar_ppm/<int:grupo_id>/', views.actualizarPPM, name="actualizarppm"),
+    path('eliminar_ppm/<int:grupo_id>/', views.eliminarPPM, name="eliminarppm"),
     
 ]
