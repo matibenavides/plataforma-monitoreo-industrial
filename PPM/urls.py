@@ -10,5 +10,11 @@ urlpatterns = [
     path('visualizar_ppm/<int:grupo_id>/', views.visualizarPPM, name="visualizarppm"),
     path('actualizar_ppm/<int:grupo_id>/', views.actualizarPPM, name="actualizarppm"),
     path('eliminar_ppm/<int:grupo_id>/', views.eliminarPPM, name="eliminarppm"),
+    path('eliminarlista_ppm/<int:grupo_id>/', views.eliminarPPMLista, name="eliminarppmlista"),
+    path('pdf_ppm/', views.DescargarPDFPPM, name="pdfppm"),
+
+    path('archivos_ppm/', views.mostrarListaPPM, name="listappm"),
     
 ]
+
+

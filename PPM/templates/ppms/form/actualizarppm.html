@@ -113,10 +113,10 @@
                                 <div class="col-12 col-md-2">
                                     <div class="card shadow-sm p-3">
                                         <button type="submit" class="btn  btn-sm mb-1 btn-outline-info">
-                                            <i class="bi bi-arrow-repeat"><strong> Actualizar</strong></i>
+                                            <i class="bi bi-arrow-repeat"> Actualizar</i>
                                         </button>
                                         <a href="{% url 'ppm' linea_id=linea.id %}" class="btn btn-sm btn-outline-primary">
-                                            <i class="bi bi-arrow-counterclockwise"><strong>Volver</strong></i>
+                                            <i class="bi bi-arrow-counterclockwise">Volver</i>
                                         </a>
                                     </div>
                                 </div>
@@ -188,7 +188,7 @@
                     </table>
                     
                 </div>
-                {% include "cloraciones/list/paginacion.html" %}
+                {% include "ppms/list/paginacionppm.html" %}
                 
 
 

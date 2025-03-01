@@ -21,3 +21,11 @@
       -webkit-appearance: none;
       margin: 0;
   }
+
+.transparente {
+  background-color: transparent !important;
+}
+
+.navbar-toggler { 
+  background-color: #f7f2ff;
+}
