@@ -226,11 +226,11 @@ def actualizarTemperatura(request, grupo_id):
         paginas = range(1, listas.paginator.num_pages + 1)
 
         datos = {
-            'msg' : (f'¡Los registros de Temperatura han sido actualizado!'),
-            'sector' : (f'Formulario {grupo.id}'),
+            'msg' : '¡Los registros de Temperatura han sido actualizado!',
+            'sector' : 'Formulario',
             'listas': listas,
             'paginas': paginas,
-            'pagina_actual': pagina_actual
+            'pagina_actual': pagina_actual  
         }
         return render(request, 'temperaturas/base/listatemperatura.html', datos)
 

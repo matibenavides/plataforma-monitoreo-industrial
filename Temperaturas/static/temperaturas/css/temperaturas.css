@@ -142,3 +142,11 @@ textarea {
   color: inherit;
   text-decoration: none;
 }
+
+.transparente {
+  background-color: transparent !important;
+}
+
+.navbar-toggler { 
+  background-color: #f7f2ff;
+}
