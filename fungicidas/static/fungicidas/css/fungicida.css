@@ -1,0 +1,9 @@
+
+.badge-sm {
+font-size: 0.75rem;  /* Tamaño de fuente más pequeño */
+padding: 0.2em 0.3em;  /* Menor padding */
+}
+
+.table>:not(caption)>*>* {
+    padding: .3rem .3rem !important;
+}
