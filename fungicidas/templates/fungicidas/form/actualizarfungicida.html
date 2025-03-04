@@ -54,54 +54,40 @@
                 {% endif %}
 
                 
-                <form action="{% url 'registrarfungicida' linea_id=linea.id %}" method="POST"> 
+                 <form action="{% url 'actualizarfungicida' grupo_id=dosificacion.id %}" method="POST"> 
                     {% csrf_token %}
+                    
                     <div class="container-fluid">  
                         <div class="card shadow-sm p-3 mb-1 pb-0">
                             
                             <input type="hidden" name="lineaop" value="{{ linea.id }}">
-                        
+                    
                             
                             <div class="row justify-content-md-center">
                                 
                                 <div class="col-12 col-md-3 col-lg-3">
                                     <div class="input-group mb-2">
                                     <span class="input-group-text">Especie</span>
-                                    <select class="form-select" name="especie" id="especie" required>
-                                        <option selected value="">Selecciona Especie</option>
-                                        <option value="1">Ciruela</option>
-                                        <option value="2">Pera</option>
-                                        <option value="3">Cereza</option>
-                                        <option value="4">Nectarine</option>
+                                    <select class="form-select" name="especie" id="especie">
+                                        
+                                        {% for especie in especies %}
+                                            <option value="{{ especie.id }}"
+                                                {% if especie.id == dosificacion.especies_id.id %} selected {% endif %}>
+                                                {{ especie.nom_esp }}
+                                            </option>
+                                        {% endfor %}
                                     </select>
                                     </div>
                                     <div class="input-group mb-2">
                                     <span class="input-group-text">Variedad</span>
-                                    <select class="form-select" name="variedad" id="variedad" required>
-                                        <option selected value="">Selecciona Variedad</option>
-                                        <!--Ciruela -->
-                                        <option value="1" data-chained="1">Reina Claudia</option>
-                                        <option value="2" data-chained="1">Mirabel</option>
-                                        <option value="3" data-chained="1">Damascena</option>
-                                        <option value="4" data-chained="1">Red Beauty</option>
-                                        <!--Pera -->
-                                        <option value="5" data-chained="2">Packham's</option>
-                                        <option value="6" data-chained="2">Anjou</option>
-                                        <option value="7" data-chained="2">Abate Fetel</option>
-                                        <option value="8" data-chained="2">Red Bartlett</option>
-                                        <!--Cereza -->
-                                        <option value="9" data-chained="3">Lapins</option>
-                                        <option value="10" data-chained="3">Sweetheart</option>
-                                        <option value="11" data-chained="3">Santina</option>
-                                        <option value="12" data-chained="3">Regina</option>
-                                        <!--Nectarine -->
-                                        <option value="13" data-chained="4">Nectajewel</option>
-                                        <option value="14" data-chained="4">Majestic Pearl</option>
-                                        <option value="15" data-chained="4">Fantasia</option>
-                                        <option value="16" data-chained="4">Suncrest</option>
-                                        <option value="17" data-chained="4">Redgold</option>
-                                        <option value="18" data-chained="4">Independence</option>
+                                    <select class="form-select" name="variedad" id="variedad">
                                         
+                                        {% for variedad in variedades %}
+                                            <option value="{{ variedad.id }}" data-chained="{{ variedad.especies_id.id }}"
+                                                {% if variedad.id == dosificacion.variedad_id.id %} selected {% endif %}>
+                                                {{ variedad.nom_var }}
+                                            </option>
+                                        {% endfor %}
                                     </select>
                                 </div>
                             </div>
@@ -110,11 +96,11 @@
                             <div class="col-12 col-md-3 col-lg-3">
                                 <div class="input-group mb-2">
                                     <span class="input-group-text">Hora</span>
-                                    <input type="time" class="form-control text-center" name="hora" required>
+                                    <input type="time" class="form-control text-center" name="hora" value="{{ dosificacion.hor_dos }}" required>
                                 </div>
                                 <div class="input-group mb-2">
                                     <span class="input-group-text">Fecha</span>
-                                    <input type="date" required min="1920-01-01" class="form-control text-center" name="fecha">
+                                    <input type="date" required min="1920-01-01" class="form-control text-center" name="fecha" value="{{ fecha }}">
                                 </div>
                             </div>
                         
@@ -122,29 +108,33 @@
                             <div class="col-12 col-md-2 col-lg-3">
                                 <div class="input-group mb-2">
                                     <span class="input-group-text">Producto</span>
-                                    <select class="form-select" name="producto" required>
-                                        <option selected value="">Selecciona fungicida</option>
-                                        <option value="1">shield brite 230</option>
-                                        <option value="2">shield brite 430</option>
-                                        <option value="3">shield brite pyr 40%</option>
-                                        <option value="4">cera primafresh</option>
+                                    <select class="form-select" name="producto">
+                                        {% for producto in productos %}
+                                            <option value="{{ producto.id }}"
+                                                {% if producto.id == dosificacion.fungicidas_id.id %} selected {% endif %}>
+                                                {{ producto.nom_fun }}
+                                            </option>
+                                        {% endfor %}
                                     </select>
                                 </div>
                                 <div class="input-group mb-2">
                                     <span class="input-group-text">Dilución (Ltr)</span>
-                                    <input type="number" class="form-control text-center" name="agua" placeholder="Agua"
+                                    <input type="number" class="form-control text-center" name="agua" placeholder="Agua" value="{{dosificacion.agu_dos}}"
                                     oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
-                                    <input type="number" class="form-control text-center" name="cera" placeholder="Cera"
+                                    <input type="number" class="form-control text-center" name="cera" placeholder="Cera" value="{{dosificacion.cer_dos}}"
                                     oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
                                 </div>
                             </div>
                         
                             
-                            <div class="col-12 col-md-2">
+                            <div class="col-12 col-md-2 pb-1">
                                 <div class="card shadow-sm p-3">
-                                    <button type="submit" class="btn btn-outline-primary">
-                                        <i class="bi bi-file-earmark-ruled"> Registrar</i>
+                                    <button type="submit" class="btn  btn-sm mb-1 btn-outline-info">
+                                        <i class="bi bi-arrow-repeat"> Actualizar</i>
                                     </button>
+                                    <a href="{% url 'fungicida' linea_id=linea.id %}" class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-arrow-counterclockwise">Volver</i>
+                                    </a>
                                 </div>
                             </div>
                         
@@ -165,21 +155,21 @@
                                                     <div class="col-12 col-md-4">
                                                         <div class="input-group">
                                                             <span class="input-group-text">Peso Inicial</span>
-                                                            <input type="number" class="form-control text-center" name="peso_inicial" placeholder="Peso inicial" required
+                                                            <input type="number" class="form-control text-center" name="peso_inicial" placeholder="Peso inicial" value="{{dosificacion.pei_dos}}" required
                                                             oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
                                                         </div>
                                                     </div>
                                                     <div class="col-12 col-md-4">
                                                         <div class="input-group">
                                                             <span class="input-group-text">Peso Final</span>
-                                                            <input type="number" class="form-control text-center" name="peso_final" placeholder="Peso final" required
+                                                            <input type="number" class="form-control text-center" name="peso_final" placeholder="Peso final" value="{{dosificacion.pef_dos}}" required
                                                             oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
                                                         </div>
                                                     </div>
                                                     <div class="col-12 col-md-4">
                                                         <div class="input-group">
                                                             <span class="input-group-text">CC Producto</span>
-                                                            <input type="number" class="form-control text-center" name="cc_producto" placeholder="CC" required
+                                                            <input type="number" class="form-control text-center" name="cc_producto" placeholder="CC" value="{{dosificacion.ccp_dos}}" required
                                                             oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
                                                         </div>
                                                     </div>
@@ -200,7 +190,7 @@
                         </a>
                         <div class="collapse" id="obs">
                             <div class="card card-body">
-                                <textarea class="form-control" id="observacion" maxlength="500" style="height: 89px" name="observacion"></textarea>
+                                <textarea class="form-control" id="observacion" maxlength="500" style="height: 89px" name="observacion">{{ dosificacion.obs_dos }}</textarea>
                             </div>
                         </div>
                     </div>
@@ -280,14 +270,18 @@
 
     </div>
 
-    <script>
-        $(function() {
-            $("#variedad").chained("#especie");
-        });
-    </script>
+    
         
     
+    <script>
+        $(document).ready(function() {
+            $("#variedad").chained("#especie");
+            // Fuerza un cambio para aplicar el filtro inicial
+            $("#especie").trigger("change");
+        });
+    </script>
     <script src="{% static 'fungicidas/js/jquery.chained.min.js' %}"></script>
+    
     <script src="{% static 'cloraciones/js/toast.js' %}"></script>
     <script src="{% static 'cloraciones/js/modal.js' %}"></script>
     <script src="{% static 'cloraciones/js/formateo.js' %}"></script>
