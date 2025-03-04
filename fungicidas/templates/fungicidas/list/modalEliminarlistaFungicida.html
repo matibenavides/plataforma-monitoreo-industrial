@@ -1,0 +1,17 @@
+<div class="modal fade " id="modal-eliminar-{{ l.id }}" tabindex="-1" aria-labelledby="modalLabel-eliminar-{{ l.id }}" aria-hidden="true">
+    <div class="modal-dialog modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="modalLabel-eliminar-{{ l.id }}">Eliminar Formulario</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Esta acción removerá todos los datos y no se podrá deshacer.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <a href="{% url 'eliminarlistafungicida' grupo_id=l.id %}" class="btn btn-outline-danger">Eliminar</a>
+        </div>
+      </div>
+    </div>
+  </div>
