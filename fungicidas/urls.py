@@ -5,5 +5,11 @@ from . import views
 urlpatterns = [
     path('fungicida/<int:linea_id>', views.mostrarFungicida, name="fungicida"),
 
-    path('registrar_fungicida/<int:linea_id>', views.registrarFungicida, name="registrarfungicida")
+    path('registrar_fungicida/<int:linea_id>', views.registrarFungicida, name="registrarfungicida"),
+    path('visualizar_fungicida/<int:grupo_id>/', views.visualizarFungicida, name="visualizarfungicida"),
+    path('actualizar_fungicida/<int:grupo_id>/', views.actualizarFungicida, name="actualizarfungicida"),
+
+
+    
+
 ]

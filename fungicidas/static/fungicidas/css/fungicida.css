@@ -5,5 +5,5 @@ padding: 0.2em 0.3em;  /* Menor padding */
 }
 
 .table>:not(caption)>*>* {
-    padding: .3rem .3rem !important;
+    padding: .2rem .2rem !important;
 }
