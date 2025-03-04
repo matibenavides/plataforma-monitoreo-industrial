@@ -221,4 +221,22 @@ def actualizarFungicida(request, grupo_id):
         return redirect('fungicida', linea_id=linea.id)
 
     except:
-        pass
+        datos = {
+            'linea': linea,
+        }
+    return render(request, 'fungicidas/base/fungicida.html', datos)
+
+
+@login_required(login_url='inicio')
+def eliminarFungicida(request, grupo_id):
+    try:
+        dosificacion = Dosificacion.objects.get(id=grupo_id)
+        linea = dosificacion.lineas_id
+        dosificacion.delete()
+        messages.success(request, '¡Registro eliminado correctamente!')
+        return redirect('fungicida', linea_id=linea.id)
+    except Exception as e:
+        linea = Lineas.objects.first()
+        messages.error(request, f'¡Error, registro inexistente! {e}')
+        return redirect('fungicida', linea_id=linea.id)
+    
