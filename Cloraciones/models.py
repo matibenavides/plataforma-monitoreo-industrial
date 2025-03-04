@@ -179,7 +179,7 @@ class Cloracion(models.Model): # id_clo ()
 # Control de Productos
 class Productos(models.Model):
     grupopro_id = models.ForeignKey(GrupoProductos, on_delete=models.CASCADE)
-    hor_pro = models.TimeField()
+    hor_pro = models.TimeField(blank=True, null=True, default=datetime.time(0, 0))
     cod_pro = models.IntegerField(null=False) 
     dof_pro = models.IntegerField(null=True, blank=True) # Dosificación Fungicida
     dor_pro = models.IntegerField(null=True, blank=True) # Dosificación Retard primafresh
@@ -205,7 +205,7 @@ class Dosificacion(models.Model):
     variedad_id = models.ForeignKey(Variedad, on_delete=models.CASCADE)
     fungicidas_id = models.ForeignKey(Fungicidas, on_delete=models.CASCADE)
     dia_id = models.ForeignKey(Dia, on_delete=models.CASCADE)
-    hor_dos = models.TimeField()
+    hor_dos = models.TimeField(blank=True, null=True, default=datetime.time(0, 0))
     pei_dos = models.IntegerField(null=True, blank=True) # Peso Inicial
     pef_dos = models.IntegerField(null=True, blank=True) # Peso Final
     ccp_dos = models.IntegerField(null=False) # cc de Producto

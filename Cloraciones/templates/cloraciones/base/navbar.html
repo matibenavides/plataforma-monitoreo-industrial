@@ -56,7 +56,7 @@
                             Línea 11
                         </button>
                         <!-- Segundo collapse de opciones-->
-                        <div class="collapse show" id="linea11-collapse">
+                        <div class="collapse" id="linea11-collapse">
                             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                                 <li><a href="{% url 'cloracion' linea_id=1 %}"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">Cloración</a>
@@ -87,7 +87,7 @@
                                 <li><a href="#"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">Productos</a>
                                 </li>
-                                <li><a href="#"
+                                <li><a href="{% url 'fungicida' linea_id=2 %}"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">Fungicidas</a>
                                 </li>
                             </ul>
@@ -126,7 +126,7 @@
                                 <li><a href="#"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">Productos</a>
                                 </li>
-                                <li><a href="#"
+                                <li><a href="{% url 'fungicida' linea_id=4 %}"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">Fungicidas</a>
                                 </li>
                             </ul>
@@ -155,7 +155,7 @@
                                 <li><a href="#"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">Control Productos</a>
                                 </li>
-                                <li><a href="#"
+                                <li><a href="/archivos_fungicida"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">Control Fungicidas</a>
                                 </li> 
                             </ul>

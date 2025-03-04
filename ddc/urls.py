@@ -25,7 +25,7 @@ urlpatterns = [
     path('', include('Temperaturas.urls')),
     path('', include('PPM.urls')),
     # path('', include('Productos.urls')),
-    # path('', include('Fungicidas.urls')),
+    path('', include('Fungicidas.urls')),
 
     
 ]
