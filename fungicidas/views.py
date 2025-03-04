@@ -16,14 +16,51 @@ from weasyprint import HTML
 
 @login_required(login_url='inicio')
 def mostrarFungicida(request, linea_id):
+    try:
+        linea = Lineas.objects.get(id=linea_id)
 
-    linea = Lineas.objects.get(id=linea_id)
+        dosificacion = Dosificacion.objects.all().order_by('-id')
 
-    datos = {
-        'linea': linea
-    }
+        lista_formato = []
+        for lista in dosificacion:
+            lista_formato.append({
+                'id': lista.id,
+                'fecha': lista.dia_id.dia_dia.strftime('%Y-%m-%d'),
+                'hora': lista.hor_dos,
+                'producto': lista.fungicidas_id.nom_fun.title(),
+                'peso_inicial': lista.pei_dos,
+                'peso_final': lista.pef_dos,
+                'cc_producto': lista.ccp_dos,
+                'linea': lista.lineas_id.num_lin,
+                'especie': lista.especies_id.nom_esp.capitalize(),
+                'variedad': lista.variedad_id.nom_var.title(),
+                'agua': lista.agu_dos,
+                'cera': lista.cer_dos,
+                'trabajador': f"{lista.trabajador_id.nom_tra.capitalize()} {lista.trabajador_id.app_tra.capitalize()}",
+                'observacion': lista.obs_dos,
+            })
+        
+        paginator = Paginator(lista_formato, 15)
+        pagina = request.GET.get("page") or 1
+        listas = paginator.get_page(pagina)
+        pagina_actual = int(pagina)
+        paginas = range(1, listas.paginator.num_pages + 1)
 
-    return render(request, "fungicidas/base/fungicida.html", datos)
+        datos = {
+            'listas': listas,
+            'paginas': paginas,
+            'pagina_actual': pagina_actual,
+            'linea': linea,
+        }
+        return render(request, "fungicidas/base/fungicida.html", datos)
+
+    except Lineas.DoesNotExist:
+        
+        linea = Lineas.objects.first()
+        messages.error(request, '¡Error, línea inexistente!')
+        return redirect('fungicida', linea_id=linea.id)
+
+    
 
 
 @login_required(login_url='inicio')
