@@ -1,0 +1,209 @@
+@page {
+    size: A4;
+    margin: 1cm;
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 2px solid #003ca4;
+    margin-bottom: 20px;
+}
+
+header .logo img {
+    width: 100px;
+}
+
+header .titulo {
+    flex: 1;
+    text-align: center;
+    margin-right: 10px;
+}
+
+header .datos {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;
+}
+
+header .datos div {
+    font-size: 11px;
+}
+
+
+header, footer {
+    font-size: 10px;
+}
+
+
+section.info {
+    display: flex;
+    justify-content: flex-start;
+    gap: 50px;
+    padding: 10px 0;
+    border-bottom: 2px solid #0057f0;
+    font-size: 11px;
+    margin-bottom: 20px;
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 8px;              
+    margin-bottom: 20px;         
+    page-break-inside: auto;     
+}
+
+table, th, td {
+    border: 1px solid #9eeaf9;
+}
+
+table th, table td {
+    padding: 4px 2px;            
+    text-align: center;
+    max-width: 100px;
+}
+
+
+thead th {
+    background-color: #f7f2ff;
+    font-weight: 600;
+}
+
+
+table td:nth-child(10) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.totals-wrapper {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px; 
+}
+
+
+/* Totales */
+.totals-section {
+    flex: 1;
+}
+
+
+.totals-box {
+    width: 95%;
+    border-left: 2px solid #0057f0;
+    padding: 10px;
+    background-color: #f7f2ff;
+    border-radius: 4px;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.total-row:last-child {
+    border-bottom: none;
+}
+
+
+.product-lot {
+    background-color: #f7f2ff;
+    border-left: 2px solid #0057f0;
+    border-radius: 4px;
+    padding: 15px;
+    margin: 20px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.product-lot h3 {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #ddd;
+}
+
+.lot-info {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.lot-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+footer {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid #0057f0;
+}
+
+footer .firmas {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.firma-item {
+    text-align: center;
+    width: 200px;
+}
+
+
+.campo-wrapper {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.campo {
+    width: 48%; 
+}
+
+
+.linea {
+    border-top: 1px solid #333;
+    margin-bottom: 5px; 
+}
+
+
+.firma-item p, .campo p {
+    margin: 0;
+    font-size: 10px; 
+}
+
+
+
+.no-break {
+    page-break-inside: avoid;
+}
+
+
+
+
+main {
+    page-break-inside: auto;
+}
