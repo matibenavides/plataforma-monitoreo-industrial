@@ -10,8 +10,9 @@ urlpatterns = [
     path('actualizar_fungicida/<int:grupo_id>/', views.actualizarFungicida, name="actualizarfungicida"),
     path('eliminar_fungicida/<int:grupo_id>/', views.eliminarFungicida, name="eliminarfungicida"),
     path('eliminarlista_fungicida/<int:grupo_id>/', views.eliminarlistaFungicida, name="eliminarlistafungicida"),
-
     path('archivos_fungicida/', views.mostrarListaFungicida, name="listafungicida"),
+    path('pdf_fungicida/', views.DescargarPDFFungicida, name="pdffungicida"),
+    
 
 
     

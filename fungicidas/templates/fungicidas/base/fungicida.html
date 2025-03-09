@@ -208,7 +208,7 @@
 
                 <!-- Tabla -->
                 <div class="table-responsive shadow-lg mb-4 bg-body-tertiary rounded-4">
-                    <table class="table table-hover text-center">
+                    <table class="table table-hover text-center table-bordered">
                         <thead>
                             <tr class="border-info-subtle">
                                 <th>#</th>
@@ -227,6 +227,7 @@
                             </tr>
                         </thead>
                         <tbody class="table-group-divider border-primary">
+                            
                             {% if listas %}
                                 {% for l in listas %}   
                                     <tr class="border-info-subtle">
@@ -272,7 +273,7 @@
                     
                 </div>
                 
-                {% include "ppms/list/paginacionppm.html" %}
+                {% include "fungicidas/list/paginacionfungicida.html" %}
                 
                 
             </section>
