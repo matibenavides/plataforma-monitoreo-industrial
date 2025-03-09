@@ -23,20 +23,9 @@ urlpatterns = [
     path('', include('Login.urls')),
     path('', include('Cloraciones.urls')),
     path('', include('Temperaturas.urls')),
-
-
-
-
-
-
-    
-    
-
-    
-    #----------# Nuevo slide branch #----------#
-   
-
-    #----------# Cloración Estanque #----------#
+    path('', include('PPM.urls')),
+    # path('', include('Productos.urls')),
+    path('', include('Fungicidas.urls')),
 
     
 ]

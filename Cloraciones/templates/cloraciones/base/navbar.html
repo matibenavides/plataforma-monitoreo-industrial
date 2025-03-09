@@ -1,4 +1,4 @@
-<nav class="navbar bg-body-tertiary fixed-top">
+<nav class="navbar bg-body-tertiary transparente fixed-top">
     <div class="container-fluid">
 
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
@@ -6,7 +6,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <strong class="navbar-brand fs-5 fw-semibold" href="#">
-            <h4>Plataforma Monitoreo Industrial del navbar ( borrar esto) </h4>
+            <h4 hidden>Plataforma Monitoreo Industrial</h4>
         </strong>
         <a href="{% url 'logout' %}" class="logo" style="padding-right: 10px;">
             <svg xmlns="http://www.w3.org/2000/svg" width="36" height="26" fill="currentColor"
@@ -56,7 +56,7 @@
                             Línea 11
                         </button>
                         <!-- Segundo collapse de opciones-->
-                        <div class="collapse show" id="linea11-collapse">
+                        <div class="collapse" id="linea11-collapse">
                             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                                 <li><a href="{% url 'cloracion' linea_id=1 %}"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">Cloración</a>
@@ -64,7 +64,7 @@
                                 <li><a href="{% url 'temperatura' linea_id=1 %}"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">Temperatura</a>
                                 </li>
-                                <li><a href="#"
+                                <li><a href="{% url 'ppm' linea_id=1 %}"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">Medición
                                         PPM
                                     </a>
@@ -87,7 +87,7 @@
                                 <li><a href="#"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">Productos</a>
                                 </li>
-                                <li><a href="#"
+                                <li><a href="{% url 'fungicida' linea_id=2 %}"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">Fungicidas</a>
                                 </li>
                             </ul>
@@ -108,7 +108,7 @@
                                 <li><a href="{% url 'temperatura' linea_id=3 %}"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">Temperatura</a>
                                 </li>
-                                <li><a href="#"
+                                <li><a href="{% url 'ppm' linea_id=3 %}"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">Medición
                                         PPM</a></li>
                             </ul>
@@ -126,7 +126,7 @@
                                 <li><a href="#"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">Productos</a>
                                 </li>
-                                <li><a href="#"
+                                <li><a href="{% url 'fungicida' linea_id=4 %}"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">Fungicidas</a>
                                 </li>
                             </ul>
@@ -149,13 +149,13 @@
                                 <li><a href="/archivos_temperatura"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">Control Temperatura</a>
                                 </li>
-                                <li><a href="#"
+                                <li><a href="/archivos_ppm"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">Control Medición de PPM</a>
                                 </li>
                                 <li><a href="#"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">Control Productos</a>
                                 </li>
-                                <li><a href="#"
+                                <li><a href="/archivos_fungicida"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">Control Fungicidas</a>
                                 </li> 
                             </ul>
