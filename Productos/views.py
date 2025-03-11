@@ -97,6 +97,97 @@ def registrarProducto(request, linea_id):
 
 
 
+@login_required(login_url='inicio')
+def mostrarListaProducto(request):
 
+    busqueda = request.GET.get("buscar")
+    campo = request.GET.get("campo")
+    lista = GrupoProductos.objects.all().order_by('-id')
+
+    # Filtrado de busqueda por campo de listado
+    if campo:
+        if campo == "turno":
+            try:
+                turno_nom = busqueda
+                if turno_nom not in ['A', 'B', 'a', 'b']:
+                    messages.error(request, '¡El turno debe ser A, B!')
+                    return redirect('listaproducto')
+                lista = GrupoProductos.objects.filter(turnos_id__nom_tur__iexact=busqueda)
+            except ValueError:
+                messages.error(request, '¡En filtro de Turnos, solo se acepta A o B!')
+                return redirect('listaproducto')
+        elif campo == "linea":
+            try:
+                linea_num = int(busqueda)
+                if linea_num not in [10, 1]:
+                    messages.error(request, '¡La línea debe ser 10 o 1!')
+                    return redirect('listaproducto')
+                lista = GrupoProductos.objects.filter(lineas_id__num_lin__exact=busqueda)
+            except ValueError:
+                messages.error(request, '¡El valor de línea debe ser un número!')
+                return redirect('listaproducto')
+        elif campo == "trabajador":
+            if busqueda.replace('.','',1).isdigit():
+                messages.error(request, '¡El nombre de trabajador no puede ser un número!')
+                return redirect('listaproducto')
+            lista = GrupoProductos.objects.filter(
+                    Q(trabajador_id__nom_tra__icontains=busqueda) | 
+                    Q(trabajador_id__app_tra__icontains=busqueda)
+                ).distinct()
+        elif campo == "fecha":
+            try:
+                fecha = busqueda.split('-')
+                if len(fecha) != 3:
+                    messages.error(request, '¡El formato de fecha debe ser YYYY-MM-DD!')
+                    return redirect('listaproducto')
+                
+                lista = GrupoProductos.objects.filter(dia_id__dia_dia__exact=busqueda)
+            except:
+                messages.error(request, '¡El formato de fecha debe ser YYYY-MM-DD!')
+        elif campo == "observacion":
+            lista = GrupoProductos.objects.filter(obs_grp__icontains=busqueda)
+        else:
+            lista = GrupoProductos.objects.all().order_by('-id')
+            messages.error(request, '¡Campo de búsqueda inexistente!')
+            return redirect('listaproducto')
+        
+    lista_formato = []
+    for grupo in lista:
+        lista_formato.append({
+            'id': grupo.id,
+            'turno': grupo.turnos_id.nom_tur.upper(),
+            'linea': grupo.lineas_id.num_lin,
+            'trabajador': f"{grupo.trabajador_id.nom_tra.capitalize()} {grupo.trabajador_id.app_tra.capitalize()}",
+            'fecha': grupo.dia_id.dia_dia.strftime('%Y-%m-%d'),
+        })
+
+    paginator = Paginator(lista_formato, 10)
+    pagina = request.GET.get("page") or 1
+    listas = paginator.get_page(pagina)
+    pagina_actual = int(pagina)
+    paginas = range(1, listas.paginator.num_pages + 1)
+
+    datos = {
+        'listas': listas,
+        'paginas': paginas,
+        'pagina_actual': pagina_actual,
+    }
+    return render(request, "productos/base/listaproducto.html", datos)
+
+
+@login_required(login_url='inicio')
+def visualizarProducto(request, grupo_id):
+    pass
+
+@login_required(login_url='inicio')
+def actualizarProducto(request, grupo_id):
+    pass
+
+@login_required(login_url='inicio')
+def eliminarProducto(request, grupo_id):
+    pass
+
+@login_required(login_url='inicio')
+def PDFProducto(request, grupo_id):
     pass
 
