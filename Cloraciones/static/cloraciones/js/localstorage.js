@@ -106,5 +106,6 @@ window.onload = function() {
     cargarBorrador("estanque");
     cargarBorrador("corta-pedicelo");
     cargarBorrador("retorno");
-    cargarBorrador("temperatura")
+    cargarBorrador("temperatura");
+    cargarBorrador("producto");
 };
