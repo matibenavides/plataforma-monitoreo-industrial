@@ -1,0 +1,101 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de Productos</title>
+
+    <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+
+  <!-- ref css static-->
+  <link rel="stylesheet" href="{% static 'cloraciones/css/sidebars.css' %}" />
+  <link rel="stylesheet" href="{% static 'temperaturas/css/temperaturas.css' %}" />
+  <link rel="stylesheet" href="{% static 'productos/css/producto.css' %}" />
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
+  </style>
+
+
+</head>
+<body class="pt-5 fondo">
+    {% include "cloraciones/base/navbar.html" %}
+
+    <div class="container mt-3">
+      <div class="row">
+        <section class="p-3">
+          <h4 class="rubik-titulo">
+            <strong>Control de Productos</strong>
+          </h4>
+  
+        {% if messages %}
+            {% for message in messages %}
+                <div class="toast-container position-fixed top-0 end-0 p-3">
+                    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="toast-header">
+                            <strong class="me-auto">Producto</strong>
+                            <small>Justo ahora</small>
+                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                        <div class="toast-body">
+                            {{ message }}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+  
+          {% include "cloraciones/list/toastRequired.html" %}
+  
+          
+          <div class="d-flex justify-content-between align-items-center">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link active rubik-titulo" id="home-tab" data-bs-toggle="tab"
+                  data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane"
+                  aria-selected="true">
+                  Registro
+                </button>
+              </li>
+            </ul>
+            <a class="btn btn-outline-primary btn-sm text-decoration-none" href="/archivos_productos">
+              <i class="bi bi-list-ul"></i> Listado
+            </a>
+          </div>
+          
+  
+          
+  
+          <div class="tab-content" id="myTabContent">
+            {% include "productos/form/tablaproducto.html" %}
+          </div>
+        </section>
+      </div>
+    </div>
+
+
+
+    <script>
+        $(document).ready(function(){
+            {% for i in filas %}
+                $("#variedad_{{ i }}").chained("#especie_{{ i }}");
+            {% endfor %}
+        });
+    </script>
+        
+    
+    <script src="{% static 'fungicidas/js/jquery.chained.min.js' %}"></script>
+    <script src="{% static 'cloraciones/js/toast.js' %}"></script>
+    <script src="{% static 'cloraciones/js/localstorage.js' %}"></script>
+</body>
+</html>

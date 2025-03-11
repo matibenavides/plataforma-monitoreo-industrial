@@ -124,17 +124,14 @@ class GrupoProductos(models.Model):
     dia_id = models.ForeignKey(Dia, on_delete=models.CASCADE)
     lineas_id = models.ForeignKey(Lineas, on_delete=models.CASCADE)
     turnos_id = models.ForeignKey(Turnos, on_delete=models.CASCADE)
-    sector_id = models.ForeignKey(Sector, on_delete=models.CASCADE)
-    especies_id = models.ForeignKey(Especies, on_delete=models.CASCADE)
     trabajador_id = models.ForeignKey(Trabajador, on_delete=models.CASCADE)
-    variedad_id = models.ForeignKey(Variedad, on_delete=models.CASCADE)
     fungicidas_id = models.ForeignKey(Fungicidas, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Grupo Producto'
 
     def __str__(self):
-        return str(self.obs_grp) + " - " + str(self.dia_id) + " - " +str(self.lineas_id) + " - " + str(self.turnos_id) + " - " + str(self.sector_id) + " - " + str(self.especies_id) + " - " + str(self.trabajador_id) + " - " + str(self.variedad_id) + " - " + str(self.fungicidas_id)
+        return str(self.obs_grp) + " - " + str(self.dia_id) + " - " +str(self.lineas_id) + " - " + str(self.turnos_id) + " - " + str(self.especies_id) + " - " + str(self.trabajador_id) + " - " + str(self.variedad_id) + " - " + str(self.fungicidas_id)
 
 
 
@@ -179,15 +176,17 @@ class Cloracion(models.Model): # id_clo ()
 # Control de Productos
 class Productos(models.Model):
     grupopro_id = models.ForeignKey(GrupoProductos, on_delete=models.CASCADE)
+    especies_id = models.ForeignKey(Especies, on_delete=models.CASCADE, null=True, blank=True)
+    variedad_id = models.ForeignKey(Variedad, on_delete=models.CASCADE, null=True, blank=True)
     hor_pro = models.TimeField(blank=True, null=True, default=datetime.time(0, 0))
-    cod_pro = models.IntegerField(null=False) 
+    cod_pro = models.CharField(max_length=20, null=False, blank=True)
     dof_pro = models.IntegerField(null=True, blank=True) # Dosificación Fungicida
     dor_pro = models.IntegerField(null=True, blank=True) # Dosificación Retard primafresh
     doa_pro = models.IntegerField(null=True, blank=True) # Dosificación Agua lts
-    gas_pro = models.IntegerField(null=True, blank=True) # Gasto Litros * Hora
-    kil_pro = models.IntegerField(null=True, blank=True) # Kilos de producción
-    bin_pro = models.IntegerField(null=True, blank=True) # Numero de bins
-    ren_pro = models.IntegerField(null=True, blank=True) # Rendimiento
+    gas_pro = models.FloatField(null=True, blank=True) # Gasto Litros * Hora
+    kil_pro = models.FloatField(null=True, blank=True) # Kilos de producción
+    bin_pro = models.FloatField(null=True, blank=True) # Numero de bins
+    ren_pro = models.FloatField(null=True, blank=True) # Rendimiento
     
     class Meta:
         verbose_name = 'Producto'
