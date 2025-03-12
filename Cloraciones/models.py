@@ -176,8 +176,8 @@ class Cloracion(models.Model): # id_clo ()
 # Control de Productos
 class Productos(models.Model):
     grupopro_id = models.ForeignKey(GrupoProductos, on_delete=models.CASCADE)
-    especies_id = models.ForeignKey(Especies, on_delete=models.CASCADE, null=True, blank=True)
-    variedad_id = models.ForeignKey(Variedad, on_delete=models.CASCADE, null=True, blank=True)
+    especies_id = models.ForeignKey(Especies, on_delete=models.SET_NULL, null=True, blank=True)
+    variedad_id = models.ForeignKey(Variedad, on_delete=models.SET_NULL, null=True, blank=True)
     hor_pro = models.TimeField(blank=True, null=True, default=datetime.time(0, 0))
     cod_pro = models.CharField(max_length=20, null=False, blank=True)
     dof_pro = models.IntegerField(null=True, blank=True) # Dosificación Fungicida
@@ -185,7 +185,7 @@ class Productos(models.Model):
     doa_pro = models.IntegerField(null=True, blank=True) # Dosificación Agua lts
     gas_pro = models.FloatField(null=True, blank=True) # Gasto Litros * Hora
     kil_pro = models.FloatField(null=True, blank=True) # Kilos de producción
-    bin_pro = models.FloatField(null=True, blank=True) # Numero de bins
+    bin_pro = models.IntegerField(null=True, blank=True) # Numero de bins
     ren_pro = models.FloatField(null=True, blank=True) # Rendimiento
     
     class Meta:
