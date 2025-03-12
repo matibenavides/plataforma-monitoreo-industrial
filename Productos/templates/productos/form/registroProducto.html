@@ -92,7 +92,7 @@
                                                 <input type="hidden" name="producto_id_{{ forloop.counter }}" value="{{ producto.id }}">
 
                                               <th scope="row"><input type="time" name="hora_{{ forloop.counter }}" value="{{ producto.hor_pro }}"></th>
-                                              <td><input class="tamano-numero numerito" type="text" placeholder="Ej: E019" name="cod_{{ forloop.counter }}" value="{{ producto.cod_pro }}" id="" maxlength="4"> 
+                                              <td><input class="tamano-numero numerito" type="text" placeholder="Ej: E019" name="cod_{{ forloop.counter }}" value="{{ producto.cod_pro }}" id="" maxlength="5"> 
                                               </td>
                                               <td>
                                                 <select class="tamano-numero numerito" name="especie_{{ forloop.counter }}" id="especie_{{ forloop.counter }}" >
@@ -127,19 +127,20 @@
                                                 </div>
                                               </td>
                                               <td>
-                                                <input type="text" class="tamano-numero numerito" name="gasto_{{ forloop.counter }}"  value="{{ producto.gas_pro }}" placeholder="Gasto">
+                                                <input type="text" class="tamano-numero numerito" name="gasto_{{ forloop.counter }}"  value="{{ producto.gas_pro }}" placeholder="Gasto"
+                                                oninput="filtro(this, 8);">
                                               </td>
                                               <td>
                                                 <input type="text" class="tamano-numero numerito" name="kilos_{{ forloop.counter }}" value="{{ producto.kil_pro }}" placeholder="Kilos"
-                                                    oninput="if(this.value.length > 8) this.value = this.value.slice(0, 8);">
+                                                oninput="filtro(this, 8);">
                                               </td>
                                               <td>
                                                 <input type="text" class="tamano-numero numerito" name="bins_{{ forloop.counter }}" value="{{ producto.bin_pro }}" placeholder="N°Bins"
-                                                    oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                                                oninput="filtro(this, 4);">
                                               </td>
                                               <td>
                                                 <input type="text" class="tamano-numero numerito" name="rendimiento_{{ forloop.counter }}" value="{{ producto.ren_pro }}" placeholder="Rendimiento"
-                                                    oninput="if(this.value.length > 8) this.value = this.value.slice(0, 8);">
+                                                oninput="filtro(this, 8);">
                                               </td>
                                             </tr>
                                             {% endfor %}
@@ -199,7 +200,9 @@
                                                                     <i class="bi bi-arrow-repeat"></i> Actualizar Datos
                                                                 </button>
 
-                                                                {% include "cloraciones/list/modalActualizarDatos.html" %}
+                                                                {% include "cloraciones/list/modalActualizarDatos.html" %} 
+                                                                <!-- confirma y llama al form 'actualizaretc..'-->
+                                                                
                                                             </div>
                                                             <div class="form-floating">
                                                                 <button type="button" class="btn btn-outline-danger btn-s" data-bs-toggle="modal" data-bs-target="#eliminartemperatura">
@@ -238,6 +241,7 @@
         });
     </script>
     
+    <script src="{% static 'productos/js/filtroinput.js' %}"></script>
     <script src="{% static 'fungicidas/js/jquery.chained.min.js' %}"></script>
     <script src="{% static 'cloraciones/js/textarea.js' %}"></script>
 </body>
