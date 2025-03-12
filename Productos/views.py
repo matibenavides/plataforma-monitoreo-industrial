@@ -266,7 +266,15 @@ def actualizarProducto(request, grupo_id):
 
 @login_required(login_url='inicio')
 def eliminarProducto(request, grupo_id):
-    pass
+    try:
+        grupo = get_object_or_404(GrupoProductos, pk=grupo_id)
+        grupo.delete()
+
+        messages.success(request, '¡Registro eliminado correctamente!')
+        return redirect('listaproducto')
+    except Exception as e:
+        messages.error(request, f'¡Error, registro inexistente! {e}')
+        return redirect('listaproducto')
 
 @login_required(login_url='inicio')
 def PDFProducto(request, grupo_id):
