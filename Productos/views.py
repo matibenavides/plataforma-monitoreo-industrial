@@ -208,7 +208,61 @@ def visualizarProducto(request, grupo_id):
 
 @login_required(login_url='inicio')
 def actualizarProducto(request, grupo_id):
-    pass
+    try:
+        grupo = get_object_or_404(GrupoProductos, pk=grupo_id)
+
+        
+        fecha = request.POST['fecha']
+        dia_obj, created = Dia.objects.get_or_create(dia_dia=fecha)
+        
+        # Actualizar grupo
+        grupo.dia_id = dia_obj
+        grupo.turnos_id = Turnos.objects.get(id=request.POST['turnoop'])
+        grupo.obs_grp = request.POST['observacion']
+        grupo.save()
+
+        for i in range(1,13):
+
+            #elemento hidden
+            producto_id = request.POST.get(f'producto_id_{i}')
+
+            if producto_id:
+                registro = Productos.objects.get(id=producto_id)
+
+                hora = request.POST.get(f'hora_{i}') or None
+                codigo = request.POST.get(f'cod_{i}')
+                especie = Especies.objects.get(id=request.POST.get(f'especie_{i}')) if request.POST.get(f'especie_{i}') else None
+                variedad = Variedad.objects.get(id=request.POST.get(f'variedad_{i}')) if request.POST.get(f'variedad_{i}') else None
+                ccproducto = float(request.POST.get(f'cc_{i}', '0').replace(',', '.'))
+                retard = float(request.POST.get(f'retard_{i}', '0').replace(',', '.'))
+                agua = float(request.POST.get(f'agua_{i}', '0').replace(',', '.'))
+                gasto = float(request.POST.get(f'gasto_{i}', '0').replace(',', '.'))
+                kilos = float(request.POST.get(f'kilos_{i}', '0').replace(',', '.'))
+                bins = int(float(request.POST.get(f'bins_{i}', '0').replace(',', '.'))) # En caso de ingresar 1,2 o 1.2. Se guardara como entero
+                rendimiento = float(request.POST.get(f'rendimiento_{i}', '0').replace(',', '.'))
+
+                registro.hor_pro = hora
+                registro.cod_pro = codigo
+                registro.especies_id = especie
+                registro.variedad_id = variedad
+                registro.dof_pro = ccproducto
+                registro.dor_pro = retard
+                registro.doa_pro = agua
+                registro.gas_pro = gasto
+                registro.kil_pro = kilos
+                registro.bin_pro = bins
+                registro.ren_pro = rendimiento
+                registro.save()
+
+        messages.success(request, '¡Registro actualizado correctamente!')
+        
+        return redirect('listaproducto')
+
+    except Exception as e:
+
+        messages.error(request, f'¡Error, registro inexistente! {e}')
+        return redirect('listaproducto')
+
 
 @login_required(login_url='inicio')
 def eliminarProducto(request, grupo_id):

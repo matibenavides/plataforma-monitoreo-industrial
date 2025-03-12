@@ -158,7 +158,7 @@ def visualizarTemperatura(request, grupo_id):
 @login_required(login_url='inicio')
 def actualizarTemperatura(request, grupo_id):
     try:
-        grupo = get_object_or_404(GrupoTemperatura, pk=grupo_id)
+        grupo= get_object_or_404(GrupoTemperatura, pk=grupo_id)
         fecha = request.POST['fecha']
         turno = Turnos.objects.get(id=request.POST['turnoop'])
         observacion = request.POST['observacion']
