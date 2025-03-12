@@ -1,0 +1,243 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registro de Temperatura</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+
+  <!-- ref css static-->
+  <link rel="stylesheet" href="{% static 'cloraciones/css/sidebars.css' %}" />
+  <link rel="stylesheet" href="{% static 'cloraciones/css/cloracion.css' %}" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
+  </style>
+
+
+</head>
+<body class="pt-5 fondo">
+    {% include "cloraciones/base/navbar.html" %}
+
+    <div class="container mt-3">
+        <div class="row">
+            <section>
+                <h4 class="rubik-titulo p-2">
+                    <strong>Registro de Productos</strong>
+                </h4>
+                
+                <form action="{% url 'actualizarproducto' grupo_id=grupo.id %}" method="post">
+                    {% csrf_token %}
+                    
+                    <div class="d-flex justify-content-between align-items-center">
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active rubik-titulo" id="home-tab" data-bs-toggle="tab"
+                            data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane"
+                            aria-selected="true">
+                            Registro
+                            </button>
+                        </li>
+                        </ul>
+
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="input-group w-auto" style="max-width: 180px;">
+                              <span class="input-group-text" style="line-height: 1.0;">Fecha</span>
+                              <input type="date" name="fecha" value="{{ fecha }}" required min="1920-01-01" class="form-control form-control-sm"/>
+                            </div>
+                            <a class="btn btn-outline-primary btn-sm text-decoration-none" href="/archivos_producto">
+                              <i class="bi bi-list-ul"></i> Listado
+                            </a>
+                          </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"tabindex="0">
+                            <div class="col-12 mb-4">
+                                
+                                    <div class="table-responsive shadow-lg mb-5 bg-body-tertiary rounded-bottom-5">
+                                        <table class="table table-hover table-sm" style="text-align: center;">
+                                          <thead>
+                                            <tr>
+                                              <th scope="col">Hora</th>
+                                              <th scope="col">Codigo</th>
+                                              <th scope="col">Especie</th>
+                                              <th scope="col">Variedad</th>
+                                              <th scope="col">Dosis</th>
+                                              <th scope="col">Gasto (L/H)</th>
+                                              <th scope="col">Kilos</th>
+                                              <th scope="col">N° Bins</th>
+                                              <th scope="col">Rendimiento</th>
+                                              
+                                            </tr>
+                                          </thead>
+                        
+                                          
+                        
+                                          <tbody class="table-group-divider border-primary">
+                        
+                                            {% for producto in registros_producto %}
+                                            <tr class="border-info-subtle">
+                                                <input type="hidden" name="producto_id_{{ forloop.counter }}" value="{{ producto.id }}">
+
+                                              <th scope="row"><input type="time" name="hora_{{ forloop.counter }}" value="{{ producto.hor_pro }}"></th>
+                                              <td><input class="tamano-numero numerito" type="text" placeholder="Ej: E019" name="cod_{{ forloop.counter }}" value="{{ producto.cod_pro }}" id="" maxlength="4"> 
+                                              </td>
+                                              <td>
+                                                <select class="tamano-numero numerito" name="especie_{{ forloop.counter }}" id="especie_{{ forloop.counter }}" >
+                                                    <option value="">Selección</option>
+                                                    {% for esp in especie %}
+                                                        <option value="{{ esp.id }}" {% if esp.id == producto.especies_id.id %}selected{% endif %}>
+                                                            {{ esp.nom_esp }}
+                                                        </option>
+                                                    {% endfor %}
+                                                </select>
+                                              </td>
+                                              <td>
+                                                <select class="tamano-numero numerito" name="variedad_{{ forloop.counter }}" id="variedad_{{ forloop.counter }}">
+                                                    <option value="">Selección</option>
+                                                    {% for var in variedad %}
+                                                        <option value="{{ var.id }}" 
+                                                                data-chained="{{ var.especies_id.id }}" 
+                                                                {% if var.id == producto.variedad_id.id %}selected{% endif %}>
+                                                            {{ var.nom_var }}
+                                                        </option>
+                                                    {% endfor %}
+                                                </select>
+                                              </td>
+                                              <td>
+                                                <div class="input-group mb-2 ">
+                                                    <input type="number" class="tamano-numero numerito" name="cc_{{ forloop.counter }}" value="{{ producto.dof_pro }}" placeholder="CC Producto"
+                                                        oninput="if(this.value.length > 5) this.value = this.value.slice(0, 5);">
+                                                    <input type="number" class="tamano-numero numerito" name="retard_{{ forloop.counter }}" value="{{ producto.dor_pro }}" placeholder="Retard"
+                                                        oninput="if(this.value.length > 2) this.value = this.value.slice(0, 2);">
+                                                    <input type="number" class="tamano-numero numerito" name="agua_{{ forloop.counter }}" value="{{ producto.doa_pro }}" placeholder="Lts Agua"
+                                                        oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                                                </div>
+                                              </td>
+                                              <td>
+                                                <input type="text" class="tamano-numero numerito" name="gasto_{{ forloop.counter }}"  value="{{ producto.gas_pro }}" placeholder="Gasto">
+                                              </td>
+                                              <td>
+                                                <input type="text" class="tamano-numero numerito" name="kilos_{{ forloop.counter }}" value="{{ producto.kil_pro }}" placeholder="Kilos"
+                                                    oninput="if(this.value.length > 8) this.value = this.value.slice(0, 8);">
+                                              </td>
+                                              <td>
+                                                <input type="text" class="tamano-numero numerito" name="bins_{{ forloop.counter }}" value="{{ producto.bin_pro }}" placeholder="N°Bins"
+                                                    oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                                              </td>
+                                              <td>
+                                                <input type="text" class="tamano-numero numerito" name="rendimiento_{{ forloop.counter }}" value="{{ producto.ren_pro }}" placeholder="Rendimiento"
+                                                    oninput="if(this.value.length > 8) this.value = this.value.slice(0, 8);">
+                                              </td>
+                                            </tr>
+                                            {% endfor %}
+                        
+                                          </tbody>
+                                        </table>
+                                    </div>
+
+                                        <!-- Segunda fila de campos -->
+                                        <div class="row g-4">
+                                            <!-- Turno -->
+                                            <div class="col-12 col-sm-6 col-lg-3">
+                                                <div class="shadow p-3 mb-3 bg-body-tertiary rounded card_color_est">
+                                                    <div class="card">
+                                                        <h5 class="card-header">Turno</h5>
+                                                        <div class="card-body pb-4">
+                                                            <div class="form-floating">
+                                                                <select name="turnoop" id="selecturno" class="form-select">
+                                                                    {% for turno in turnos %}
+                                                                        <option value="{{ turno.id }}"
+                                                                                {% if turno.id == grupo.turnos_id.id %}selected{% endif%}>
+                                                                            {{ turno.nom_tur }}
+                                                                        </option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                                <label for="selecturno">Turno</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                            
+                                            <!-- Observación -->
+                                            <div class="col-12 col-sm-6 col-lg-6">
+                                                <div class="shadow p-3 mb-3 bg-body-tertiary rounded card_color_est">
+                                                    <div class="card">
+                                                        <h5 class="card-header">Observación</h5>
+                                                        <div class="card-body">
+                                                            <div class="mb-3 form-control">
+                                                                <textarea class="form-control" id="observacion" rows="4" style="height: 80px"
+                                                                     name="observacion">{{ observacion }}</textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                            
+                                            <!-- Confirmación de Datos -->
+                                            <div class="col-12 col-sm-6 col-lg-3">
+                                                <div class="shadow p-3 mb-3 bg-body-tertiary rounded card_color_est">
+                                                    <div class="card">
+                                                        <h5 class="card-header">Confirmación de Datos</h5>
+                                                        <div class="card-body guardados">
+                                                            <div class="form-floating mb-3">    
+
+                                                                <button type="button" class="btn btn-outline-info btn-s" data-bs-toggle="modal" data-bs-target="#actualizar">
+                                                                    <i class="bi bi-arrow-repeat"></i> Actualizar Datos
+                                                                </button>
+
+                                                                {% include "cloraciones/list/modalActualizarDatos.html" %}
+                                                            </div>
+                                                            <div class="form-floating">
+                                                                <button type="button" class="btn btn-outline-danger btn-s" data-bs-toggle="modal" data-bs-target="#eliminartemperatura">
+                                                                    <i class="bi bi-trash"></i> Eliminar Formulario
+                                                                </button>
+
+                                                                {% include "temperaturas/list/modalEliminarTemperatura.html" %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                        
+                                    </div>
+                                    
+                                
+                            </div>
+                        </div>
+                    </div>
+                    
+                </form>
+
+                
+    
+                
+            </section>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+            {% for producto in registros_producto %}
+                $("#variedad_{{ forloop.counter }}").chained("#especie_{{ forloop.counter }}");
+            {% endfor %}
+        });
+    </script>
+    
+    <script src="{% static 'fungicidas/js/jquery.chained.min.js' %}"></script>
+    <script src="{% static 'cloraciones/js/textarea.js' %}"></script>
+</body>

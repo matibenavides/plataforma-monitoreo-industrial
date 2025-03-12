@@ -177,7 +177,34 @@ def mostrarListaProducto(request):
 
 @login_required(login_url='inicio')
 def visualizarProducto(request, grupo_id):
-    pass
+    try:
+        grupo = get_object_or_404(GrupoProductos, pk=grupo_id)
+        registros_producto = Productos.objects.filter(grupopro_id = grupo).order_by('id')
+
+        turnos = Turnos.objects.all()
+        fecha = grupo.dia_id.dia_dia.strftime("%Y-%m-%d")
+        observacion = grupo.obs_grp
+        especie = Especies.objects.all()
+        variedad = Variedad.objects.all()
+
+        datos= {
+            'grupo': grupo,
+            'registros_producto': registros_producto,
+            'turnos': turnos,
+            'fecha': fecha,
+            'observacion': observacion,
+            'especie': especie,
+            'variedad': variedad,
+        }
+        return render(request, 'productos/form/registroProducto.html', datos)
+
+
+    except Exception as e:
+
+        messages.error(request, f'¡Error, registro inexistente! {e}')
+        return redirect('listaproducto')
+
+
 
 @login_required(login_url='inicio')
 def actualizarProducto(request, grupo_id):
