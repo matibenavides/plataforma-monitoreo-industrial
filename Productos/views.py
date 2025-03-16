@@ -278,5 +278,53 @@ def eliminarProducto(request, grupo_id):
 
 @login_required(login_url='inicio')
 def PDFProducto(request, grupo_id):
-    pass
+    try:
+        grupo = get_object_or_404(GrupoProductos, pk=grupo_id)
+        registros_producto = Productos.objects.filter(grupopro_id=grupo)
+
+        turnos = Turnos.objects.all()
+        especie = Especies.objects.all()
+        variedad = Variedad.objects.all()
+
+        
+        total_kilos = sum(registro.kil_pro for registro in registros_producto)
+        total_bins = sum(registro.bin_pro for registro in registros_producto)
+
+        # Reemplaza valores vacíos con '-' después de calcular los totales
+        for registro in registros_producto:
+            registro.hor_pro = '-' if registro.hor_pro is None else registro.hor_pro
+            registro.gas_pro = '-' if registro.gas_pro == 0.0 else registro.gas_pro
+            registro.kil_pro = '-' if registro.kil_pro == 0.0 else registro.kil_pro
+            registro.bin_pro = '-' if registro.bin_pro == 0 else registro.bin_pro
+            registro.ren_pro = '-' if registro.ren_pro == 0.0 else registro.ren_pro
+
+        #PDF
+        template = get_template('productos/form/descargarpdfPro.html')
+
+        html = template.render({
+            'grupo': grupo,
+            'registros_producto': registros_producto,
+            'turnos': turnos,
+            'especie': especie,
+            'variedad': variedad,
+            'total_bins': total_bins,
+            'total_kilos': total_kilos,
+
+        })
+        response = HttpResponse(content_type='application/pdf')
+
+        #Nombre archivo
+        filename = f'Producto_L{grupo.lineas_id.num_lin}_{grupo.trabajador_id.nom_tra}_{grupo.dia_id.dia_dia}.pdf'
+        response['Content-Disposition'] = f'attachment; filename="{filename}"'
+
+        html = HTML(string=html, base_url=request.build_absolute_uri())
+        result = html.write_pdf(encoding='utf-8', presentational_hints=True)
+        response.write(result)
+        return response
+
+    except Exception as e:
+        messages.error(request, f'¡Error, el PDF no existe! {e}')
+        return redirect('listaproducto')
+
+
 
