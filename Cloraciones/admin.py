@@ -42,8 +42,8 @@ class GrupoCloracionAdmin(admin.ModelAdmin):
     search_fields = ['loh_gru', 'loa_gru', 'dia_id', 'lineas_id', 'turnos_id', 'sector_id', 'especies_id', 'trabajador_id']
 
 class GrupoProductosAdmin(admin.ModelAdmin):
-    list_display = ['obs_grp', 'dia_id', 'lineas_id', 'turnos_id', 'sector_id', 'especies_id', 'trabajador_id', 'variedad_id', 'fungicidas_id']
-    search_fields = ['obs_grp', 'dia_id', 'lineas_id', 'turnos_id', 'sector_id', 'especies_id', 'trabajador_id', 'variedad_id', 'fungicidas_id']
+    list_display = ['obs_grp', 'dia_id', 'lineas_id', 'turnos_id',  'trabajador_id',  'fungicidas_id']
+    search_fields = ['obs_grp', 'dia_id', 'lineas_id', 'turnos_id',  'trabajador_id',  'fungicidas_id']
 
 class GrupoTemperaturaAdmin(admin.ModelAdmin):
     list_display = ['obs_grt', 'dia_id', 'lineas_id', 'turnos_id', 'trabajador_id']
@@ -56,8 +56,8 @@ class CloracionAdmin(admin.ModelAdmin):
     search_fields=['grupoclo_id', 'hor_clo', 'ppm_clo', 'phe_clo', 'hcl_clo', 'aci_clo', 'obs_clo']
 
 class ProductosAdmin(admin.ModelAdmin):
-    list_display = ['grupopro_id', 'hor_pro', 'cod_pro', 'dof_pro', 'dor_pro', 'doa_pro', 'gas_pro', 'kil_pro', 'bin_pro', 'ren_pro']
-    search_fields = ['grupopro_id', 'hor_pro', 'cod_pro', 'dof_pro', 'dor_pro', 'doa_pro', 'gas_pro', 'kil_pro', 'bin_pro', 'ren_pro']
+    list_display = ['grupopro_id','especies_id', 'variedad_id', 'hor_pro', 'cod_pro', 'dof_pro', 'dor_pro', 'doa_pro', 'gas_pro', 'kil_pro', 'bin_pro', 'ren_pro']
+    search_fields = ['grupopro_id','especies_id', 'variedad_id', 'hor_pro', 'cod_pro', 'dof_pro', 'dor_pro', 'doa_pro', 'gas_pro', 'kil_pro', 'bin_pro', 'ren_pro']
 
 class DosificionAdmin(admin.ModelAdmin):
     list_display = ['lineas_id', 'trabajador_id', 'especies_id', 'variedad_id', 'fungicidas_id', 'dia_id', 'hor_dos', 'pei_dos', 'pef_dos', 'ccp_dos', 'agu_dos', 'cer_dos', 'obs_dos']
