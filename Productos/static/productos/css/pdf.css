@@ -1,0 +1,179 @@
+@page {
+    size: A4;
+    margin: 1cm;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* HEADER */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 2px solid #003ca4;
+    margin-bottom: 20px;
+}
+
+header .logo img {
+    width: 100px;
+}
+
+header .titulo {
+    flex: 1;
+    text-align: center;
+    margin-right: 10px;
+}
+
+header .titulo h2 {
+    margin: 0;
+    font-size: 16px;
+}
+
+header .datos {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;
+}
+
+header .datos div {
+    font-size: 11px;
+}
+
+/* TABLA PRINCIPAL */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10px;
+    margin-bottom: 20px;
+    page-break-inside: auto;
+}
+
+table, th, td {
+    border: 1px solid #9eeaf9;
+}
+
+table th, table td {
+    padding: 4px 2px;
+    text-align: center;
+    max-width: 100px;
+}
+
+thead th {
+    background-color: #f7f2ff;
+    font-weight: 600;
+}
+
+
+
+tfoot tr {
+    background-color: #f7f2ff;
+    font-weight: bold;
+}
+
+/* Estilos para los badges */
+.badge {
+    display: inline-block;
+    padding: 2px 5px;
+    margin: 1px;
+    border-radius: 3px;
+    font-size: 8px;
+}
+
+.bg-info-cc {
+    background-color: #f1e8ff !important;
+}
+
+/* OBSERVACIONES */
+.product-lot {
+    background-color: #f7f2ff;
+    border-left: 2px solid #0057f0;
+    border-radius: 4px;
+    padding: 15px;
+    margin: 20px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.product-lot h3 {
+    font-size: 14px;
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #ddd;
+}
+
+.lot-info {
+    width: 100%;
+}
+
+.lot-item {
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+/* FOOTER Y FIRMAS */
+footer {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid #0057f0;
+}
+
+footer .firmas {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 20px;
+}
+
+.firma-item {
+    width: 22%; /* Ajustado para 4 elementos */
+    text-align: center;
+    position: relative;
+    height: 70px; /* Altura fija para todos los elementos */
+}
+
+.firma-item .nombre {
+    display: block;
+    text-align: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 20px;
+    font-size: 10px;
+    overflow: hidden;
+}
+
+.firma-item .linea {
+    position: absolute;
+    width: 100%;
+    border-top: 1px solid #333;
+    bottom: 25px; /* Posición fija para todas las líneas */
+}
+
+.firma-item p {
+    position: absolute;
+    margin: 0;
+    font-size: 10px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+/* Control de saltos de página */
+.no-break {
+    page-break-inside: avoid;
+}
+
+main {
+    page-break-inside: auto;
+}

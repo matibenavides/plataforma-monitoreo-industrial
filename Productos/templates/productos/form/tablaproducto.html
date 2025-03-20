@@ -1,0 +1,164 @@
+<div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"tabindex="0">
+    <div class="col-12 mb-4">
+        <form id="form-producto" action="{% url 'registrarproducto' linea_id=linea.id %}" method="post">
+            {% csrf_token %}
+            <div class="table-responsive shadow-lg mb-5 bg-body-tertiary rounded-bottom-5">
+                <table class="table table-hover table-sm" style="text-align: center;">
+                  <thead>
+                    <tr>
+                      <th scope="col">Hora</th>
+                      <th scope="col">Codigo</th>
+                      <th scope="col">Especie</th>
+                      <th scope="col">Variedad</th>
+                      <th scope="col">Dosis</th>
+                      <th scope="col">Gasto (L/H)</th>
+                      <th scope="col">Kilos</th>
+                      <th scope="col">N° Bins</th>
+                      <th scope="col">Rendimiento</th>
+                      
+                    </tr>
+                  </thead>
+
+                  <input type="hidden" name="lineaop" value="{{ linea.id }}">
+                  <input type="hidden" name="producto" value="1" placeholder="shield brite 230">
+
+
+                  <tbody class="table-group-divider border-primary">
+
+                    {% for i in filas %}
+                    <tr class="border-info-subtle">
+                      <th scope="row"><input type="time" name="hora_{{ i }}"></th>
+                      <td><input class="tamano-numero numerito" type="text" placeholder="Ej: E019" name="cod_{{ i }}" id="" maxlength="5"> 
+                      </td>
+                      <td>
+                        <select class="tamano-numero numerito" name="especie_{{ i }}" id="especie_{{ i }}" >
+                            <option selected value="">Selección</option>
+                            <option value="1">Ciruela</option>
+                            <option value="2">Pera</option>
+                            <option value="3">Cereza</option>
+                            <option value="4">Nectarine</option>
+                        </select>
+                      </td>
+                      <td>
+                        <select class="tamano-numero numerito" name="variedad_{{ i }}" id="variedad_{{ i }}" >
+                            <option selected value="">Selección</option>
+                            <!--Ciruela -->
+                            <option value="1" data-chained="1">Reina Claudia</option>
+                            <option value="2" data-chained="1">Mirabel</option>
+                            <option value="3" data-chained="1">Damascena</option>
+                            <option value="4" data-chained="1">Red Beauty</option>
+                            <!--Pera -->
+                            <option value="5" data-chained="2">Packham's</option>
+                            <option value="6" data-chained="2">Anjou</option>
+                            <option value="7" data-chained="2">Abate Fetel</option>
+                            <option value="8" data-chained="2">Red Bartlett</option>
+                            <!--Cereza -->
+                            <option value="9" data-chained="3">Lapins</option>
+                            <option value="10" data-chained="3">Sweetheart</option>
+                            <option value="11" data-chained="3">Santina</option>
+                            <option value="12" data-chained="3">Regina</option>
+                            <!--Nectarine -->
+                            <option value="13" data-chained="4">Nectajewel</option>
+                            <option value="14" data-chained="4">Majestic Pearl</option>
+                            <option value="15" data-chained="4">Fantasia</option>
+                            <option value="16" data-chained="4">Suncrest</option>
+                            <option value="17" data-chained="4">Redgold</option>
+                            <option value="18" data-chained="4">Independence</option>
+                        </select>
+                      </td>
+                      <td>
+                        <div class="input-group mb-2 ">
+                            <input type="number" class="tamano-numero numerito" name="cc_{{ i }}" placeholder="CC Producto"
+                                oninput="if(this.value.length > 5) this.value = this.value.slice(0, 5);">
+                            <input type="number" class="tamano-numero numerito" name="retard_{{ i }}" placeholder="Retard"
+                                oninput="if(this.value.length > 2) this.value = this.value.slice(0, 2);">
+                            <input type="number" class="tamano-numero numerito" name="agua_{{ i }}" placeholder="Lts Agua"
+                                oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                        </div>
+                      </td>
+                      <td>
+                        <input type="number" class="tamano-numero numerito" name="gasto_{{ i }}" placeholder="Gasto"
+                            oninput="if(this.value.length > 8) this.value = this.value.slice(0, 8);">
+                      </td>
+                      <td>
+                        <input type="number" class="tamano-numero numerito" name="kilos_{{ i }}" placeholder="Kilos"
+                            oninput="if(this.value.length > 8) this.value = this.value.slice(0, 8);">
+                      </td>
+                      <td>
+                        <input type="number" class="tamano-numero numerito" name="bins_{{ i }}" placeholder="N°Bins"
+                            oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                      </td>
+                      <td>
+                        <input type="number" class="tamano-numero numerito" name="rendimiento_{{ i }}" placeholder="Rendimiento"
+                            oninput="if(this.value.length > 8) this.value = this.value.slice(0, 8);">
+                      </td>
+                    </tr>
+                    {% endfor %}
+
+                  </tbody>
+                </table>
+            </div>
+
+            <!-- Segunda fila de campos -->
+            <div class="row g-4">
+                <!-- Turno -->
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="shadow p-3 mb-3 bg-body-tertiary rounded card_color_est">
+                        <div class="card">
+                            <h5 class="card-header">Turno</h5>
+                            <div class="card-body pb-4">
+                                <div class="form-floating">
+                                    <select name="turnoop" id="selecturno" class="form-select" required>
+                                        <option selected value="">Selecciona una opción</option>
+                                        <option value="1">A</option>
+                                        <option value="2">B</option>
+                                    </select>
+                                    <label for="selecturno">Turno</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Observación -->
+                <div class="col-12 col-sm-6 col-lg-6">
+                    <div class="shadow p-3 mb-3 bg-body-tertiary rounded card_color_est">
+                        <div class="card">
+                            <h5 class="card-header">Observación</h5>
+                            <div class="card-body">
+                                <div class="mb-3 form-control">
+                                    <textarea class="form-control" id="observacion" rows="4" style="height: 80px"
+                                        placeholder="Ingrese sus comentarios aquí" name="observacion"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Confirmación de Datos -->
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="shadow p-3 mb-3 bg-body-tertiary rounded card_color_est">
+                        <div class="card">
+                            <h5 class="card-header">Confirmación de Datos</h5>
+                            <div class="card-body guardados">
+                                <div class="form-floating mb-3">                                  
+                                    <button class="btn btn-outline-warning" type="button" onclick="guardarBorrador('producto')"> 
+                                        <i class="bi bi-file-earmark-text"></i> Guardar Borrador
+                                    </button>
+                                </div>
+                                <div class="form-floating">
+                                    <button class="btn btn-outline-primary" type="submit" onclick="enviarDatos(event, 'producto')" value="enviar_datos_producto">
+                                        <i class="bi bi-send"></i> Enviar Datos
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    
+</div>
+
