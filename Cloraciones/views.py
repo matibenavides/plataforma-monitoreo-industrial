@@ -4,6 +4,7 @@ from datetime import date
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 #weasyprint / pdf
 from django.template.loader import get_template
@@ -16,13 +17,19 @@ from weasyprint import HTML
 
 @login_required(login_url='inicio')
 def mostrarCloracion(request, linea_id):
+    try:
+        linea = Lineas.objects.get(id=linea_id)
+        if linea.id not in [1, 2, 3]:
+            messages.error(request, 'El id debe ser referente a las lineas de trabajo')
+            return redirect('menu')
 
-    linea = Lineas.objects.get(id=linea_id)
-
-    datos = {
-        'linea': linea,
-    } 
-    return render(request, "cloraciones/base/cloracion.html", datos)
+        datos = {
+            'linea': linea,
+        } 
+        return render(request, "cloraciones/base/cloracion.html", datos)
+    except Lineas.DoesNotExist:
+        messages.error(request, 'La línea especificada no existe')
+        return redirect('menu')
 
 @login_required(login_url='inicio')
 def registrarEstanque(request):
