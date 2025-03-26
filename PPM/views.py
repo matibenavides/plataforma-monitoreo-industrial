@@ -16,10 +16,15 @@ from weasyprint import HTML
 @login_required(login_url='inicio')
 def mostrarPPM(request, linea_id):
     try:
+
         #Envia id de linea para mostrar en template.
         #Proposito por diferentes ids enviados por navbar.
         linea = Lineas.objects.get(id=linea_id)
 
+        if linea.id not in [1,3]:
+            messages.error(request, 'El id debe ser referente a las líneas de trabajo')
+            return redirect('menu')
+        
         # Muestra listado de registros en el mismo template
         ppm = PPM.objects.all().order_by('-id')
 
@@ -52,10 +57,8 @@ def mostrarPPM(request, linea_id):
         
         return render(request, "ppms/base/ppm.html", datos)
     except Lineas.DoesNotExist:
-        
-        linea = Lineas.objects.first()
         messages.error(request, '¡Error, línea inexistente!')
-        return redirect('ppm', linea_id=linea.id)
+        return redirect('menu')
 
 @login_required(login_url='inicio')
 def registrarPPM(request,linea_id):

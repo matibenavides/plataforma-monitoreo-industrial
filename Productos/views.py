@@ -14,17 +14,25 @@ from weasyprint import HTML
 
 @login_required(login_url='inicio')
 def mostrarProducto(request, linea_id):
+    try:
+        linea = Lineas.objects.get(id=linea_id)
+        if linea.id not in [2,4]:
+            messages.error(request, 'El id debe ser referente a las líneas de trabajo')
+            return redirect('menu')
+        
+        #loop para registros repetidos
+        filas = 12
+        datos = {
+            'filas': range(1, filas + 1),
+            'linea': linea,
+        }
+        return render(request, "productos/base/producto.html", datos)
 
-    linea = Lineas.objects.get(id=linea_id)
+    except Lineas.DoesNotExist:
+        messages.error(request, 'La línea especificada no existe')
+        return redirect('menu')
 
-    #loop para registros repetidos
-    filas = 12
-    datos = {
-        'filas': range(1, filas + 1),
-        'linea': linea,
-    }
     
-    return render(request, "productos/base/producto.html", datos)
 
 @login_required(login_url='inicio')
 def registrarProducto(request, linea_id):

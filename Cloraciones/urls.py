@@ -9,9 +9,9 @@ urlpatterns = [
     path('cloracion/<int:linea_id>', views.mostrarCloracion, name="cloracion"),
 
     #----- Vista que guarda los registros de 'cloracion/' -----#
-    path('guarda_estanque', views.registrarEstanque),
-    path('guarda_cortapedicelo', views.registrarCortaPedicelo),
-    path('guarda_retorno', views.registrarRetorno),
+    path('guarda_estanque', views.registrarEstanque, name="mostrarEstanque"),
+    path('guarda_cortapedicelo', views.registrarCortaPedicelo, name="mostrarCortaPedicelo"),
+    path('guarda_retorno', views.registrarRetorno, name="mostrarRetorno"),
 
     #----- Vista hacia Listado de registros -----#
     path('archivos/', views.mostrarListaonce, name="archivos"),
