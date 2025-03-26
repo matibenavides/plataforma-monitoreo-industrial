@@ -20,7 +20,7 @@ def mostrarCloracion(request, linea_id):
     try:
         linea = Lineas.objects.get(id=linea_id)
         if linea.id not in [1, 2, 3]:
-            messages.error(request, 'El id debe ser referente a las lineas de trabajo')
+            messages.error(request, 'El id debe ser referente a las líneas de trabajo')
             return redirect('menu')
 
         datos = {
@@ -83,12 +83,10 @@ def registrarEstanque(request):
                 obs_clo = observacion
             )
 
-        datos = {
-            'msg' : '¡Formulario agregado!',
-            'sector' : 'Estanque'
-        }
+        messages.success(request, '¡Formulario agregado!')
+        return redirect('cloracion', linea_id=linea_id.id)
 
-    return render(request, 'cloraciones/base/cloracion.html', datos)
+    return redirect('menu')
 
 @login_required(login_url='inicio')
 def registrarCortaPedicelo(request):
@@ -141,12 +139,10 @@ def registrarCortaPedicelo(request):
                 obs_clo = observacion
             )
 
-        datos = {
-            'msg' : '¡Formulario agregado!',
-            'sector' : 'Corta Pedicelo'
-        }
+        messages.success(request, '¡Formulario agregado!')
+        return redirect('cloracion', linea_id=linea_id.id)
 
-    return render(request, 'cloraciones/base/cloracion.html', datos)
+    return redirect('menu')
 
 @login_required(login_url='inicio')
 def registrarRetorno(request):
@@ -199,12 +195,10 @@ def registrarRetorno(request):
                 obs_clo = observacion
             )
 
-        datos = {
-            'msg' : '¡Formulario agregado!',
-            'sector' : 'Retorno'
-        }
+        messages.success(request, '¡Formulario agregado!')
+        return redirect('cloracion', linea_id=linea_id.id)
 
-    return render(request, 'cloraciones/base/cloracion.html', datos)
+    return redirect('menu')
 
 @login_required(login_url='inicio')
 def mostrarListaonce(request):

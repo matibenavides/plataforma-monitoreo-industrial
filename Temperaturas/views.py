@@ -1,7 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from datetime import date
 from Cloraciones.models import *
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 from django.core.paginator import Paginator
 from django.db.models import Q
@@ -14,14 +15,22 @@ from weasyprint import HTML
 
 @login_required(login_url='inicio')
 def mostrarTemperatura(request, linea_id):
-
-    linea = Lineas.objects.get(id=linea_id)
-
-    datos = {
+    try:
+        linea = Lineas.objects.get(id=linea_id)
+        if linea.id not in [1,3]:
+            messages.error(request, 'El id debe ser referente a las líneas de trabajo')
+            return redirect('menu')
+        
+        datos = {
         'linea': linea,
-    } 
-    return render(request, "temperaturas/base/temperatura.html", datos)
+        }
+        return render(request, "temperaturas/base/temperatura.html", datos)
+    except Lineas.DoesNotExist:
+        messages.error(request, 'La línea especificada no existe')
+        return redirect('menu')
+        
 
+    
 
 @login_required(login_url='inicio')
 def registrarTemperatura(request):
@@ -77,12 +86,10 @@ def registrarTemperatura(request):
 
             # Envio mensaje hacia el Toast de Confirmación
 
-        datos = {
-            'msg' : '¡Formulario agregado!',
-            'sector' : 'Temperatura'
-        }
+        messages.success(request, '¡Formulario agregado!')
+        return redirect('temperatura', linea_id=linea_id.id)
 
-    return render(request, 'temperaturas/base/temperatura.html', datos)
+    return redirect('menu')
 
 
 

@@ -18,6 +18,9 @@ from weasyprint import HTML
 def mostrarFungicida(request, linea_id):
     try:
         linea = Lineas.objects.get(id=linea_id)
+        if linea.id not in [2,4]:
+            messages.error(request, 'El id debe ser referente a las líneas de trabajo')
+            return redirect('menu')
 
         dosificacion = Dosificacion.objects.all().order_by('-id')
 
@@ -56,10 +59,8 @@ def mostrarFungicida(request, linea_id):
         return render(request, "fungicidas/base/fungicida.html", datos)
 
     except Lineas.DoesNotExist:
-        
-        linea = Lineas.objects.first()
-        messages.error(request, '¡Error, línea inexistente!')
-        return redirect('fungicida', linea_id=linea.id)
+        messages.error(request, 'La línea especificada no existe')
+        return redirect('menu')
 
     
 
