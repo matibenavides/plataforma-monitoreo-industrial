@@ -5,32 +5,37 @@ from django.contrib import admin
 from Cloraciones.models import *
 
 class TrabajadorAdmin(admin.ModelAdmin):
-    list_display = ['nom_tra', 'app_tra', 'apm_tra', 'nac_tra', 'rut_tra']
+    list_display = ['id', 'nom_tra', 'app_tra', 'apm_tra', 'nac_tra', 'rut_tra']
     search_fields = ['nom_tra', 'app_tra', 'apm_tra', 'nac_tra', 'rut_tra']
 
 class EspeciesAdmin(admin.ModelAdmin):
-    list_display = ['nom_esp']
+    list_display = ['id', 'nom_esp']
     search_fields = ['nom_esp']
 
 class VariedadAdmin(admin.ModelAdmin):
-    list_display = ['especies_id', 'nom_var']
+    list_display = ['id', 'especies_id', 'nom_var']
     search_fields = ['especies_id', 'nom_var']
 
 class FungicidasAdmin(admin.ModelAdmin):
-    list_display = ['nom_fun']
+    list_display = ['id', 'nom_fun']
     search_fields = ['nom_fun']
 
+class DiluyentesAdmin(admin.ModelAdmin):
+    list_display = ['id', 'nom_dil']
+    search_fields = ['nom_dil']
+
 class TurnosAdmin(admin.ModelAdmin):
-    list_display = ['nom_tur']
+    list_display = ['id', 'nom_tur']
     search_fields = ['nom_tur']
 
 class SectorAdmin(admin.ModelAdmin):
-    list_display = ['nom_sec']
+    list_display = ['id', 'nom_sec']
     search_fields = ['nom_sec']
 
 class LineasAdmin(admin.ModelAdmin):
-    list_display = ['num_lin']
+    list_display = ['id', 'num_lin']
     search_fields = ['num_lin']
+
 class DiaAdmin(admin.ModelAdmin):
     list_display = ['dia_dia']
     search_fields = ['dia_dia']
@@ -38,15 +43,15 @@ class DiaAdmin(admin.ModelAdmin):
 #--------------------------- Grupo control de datos ---------------------------#
 
 class GrupoCloracionAdmin(admin.ModelAdmin):
-    list_display = ['loh_gru', 'loa_gru', 'dia_id', 'lineas_id', 'turnos_id', 'sector_id', 'especies_id', 'trabajador_id']
+    list_display = ['id', 'loh_gru', 'loa_gru', 'dia_id', 'lineas_id', 'turnos_id', 'sector_id', 'especies_id', 'trabajador_id']
     search_fields = ['loh_gru', 'loa_gru', 'dia_id', 'lineas_id', 'turnos_id', 'sector_id', 'especies_id', 'trabajador_id']
 
 class GrupoProductosAdmin(admin.ModelAdmin):
-    list_display = ['obs_grp', 'dia_id', 'lineas_id', 'turnos_id',  'trabajador_id',  'fungicidas_id']
+    list_display = ['id', 'obs_grp', 'dia_id', 'lineas_id', 'turnos_id',  'trabajador_id',  'fungicidas_id']
     search_fields = ['obs_grp', 'dia_id', 'lineas_id', 'turnos_id',  'trabajador_id',  'fungicidas_id']
 
 class GrupoTemperaturaAdmin(admin.ModelAdmin):
-    list_display = ['obs_grt', 'dia_id', 'lineas_id', 'turnos_id', 'trabajador_id']
+    list_display = ['id', 'obs_grt', 'dia_id', 'lineas_id', 'turnos_id', 'trabajador_id']
     search_fields = ['obs_grt', 'dia_id', 'lineas_id', 'turnos_id', 'trabajador_id']
 
 #--------------------------- Tablas de Planillas  ---------------------------#
@@ -79,6 +84,7 @@ admin.site.register(Trabajador, TrabajadorAdmin)
 admin.site.register(Especies, EspeciesAdmin)
 admin.site.register(Variedad, VariedadAdmin)
 admin.site.register(Fungicidas, FungicidasAdmin)
+admin.site.register(Diluyentes, DiluyentesAdmin)
 admin.site.register(Turnos, TurnosAdmin)
 admin.site.register(Sector, SectorAdmin)
 admin.site.register(Lineas, LineasAdmin)

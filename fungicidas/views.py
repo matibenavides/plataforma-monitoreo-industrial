@@ -81,14 +81,23 @@ def registrarFungicida(request, linea_id):
         dia_obj, created = Dia.objects.get_or_create(dia_dia=fecha)
 
         producto = Fungicidas.objects.get(id=request.POST['producto'])
-        agua = request.POST['agua'] or 0
-        cera = request.POST['cera'] or 0
+        agua = int(request.POST['agua'] or 0)
+        cera = int(request.POST['cera'] or 0)
         
         peso_inicial = request.POST['peso_inicial']
         peso_final = request.POST['peso_final']
         cc_producto = request.POST['cc_producto']
 
         observacion = request.POST['observacion']
+
+        if agua > 0 and cera > 0:
+            messages.error(request, '¡No se puede registrar agua y cera al mismo tiempo!')
+            return redirect('fungicida', linea_id=linea.id)
+        if agua == 0 and cera == 0:
+            messages.error(request, 'Debes diluir al menos en agua o cera')
+            return redirect('fungicida', linea_id=linea.id)
+
+
 
         dosificacion = Dosificacion.objects.create(
             lineas_id = linea,
@@ -195,14 +204,21 @@ def actualizarFungicida(request, grupo_id):
         dia_obj, created = Dia.objects.get_or_create(dia_dia=fecha)
 
         producto = Fungicidas.objects.get(id=request.POST['producto'])
-        agua = request.POST['agua'] or 0
-        cera = request.POST['cera'] or 0
+        agua = int(request.POST['agua'] or 0)
+        cera = int(request.POST['cera'] or 0)
         
         peso_inicial = request.POST['peso_inicial']
         peso_final = request.POST['peso_final']
         cc_producto = request.POST['cc_producto']
 
         observacion = request.POST['observacion']
+
+        if agua > 0 and cera > 0:
+            messages.error(request, '¡No puedes actualizar en ambos campos!')
+            return redirect('fungicida', linea_id=linea.id)
+        if agua == 0 and cera == 0:
+            messages.error(request, 'No puedes dejar ambos campos en cero')
+            return redirect('fungicida', linea_id=linea.id)
 
         dosificacion.lineas_id = linea
         dosificacion.especies_id = especie

@@ -117,8 +117,8 @@
                                     <input type="date" required min="1920-01-01" class="form-control text-center" name="fecha">
                                 </div>
                             </div>
-                        
-                            
+
+          
                             <div class="col-12 col-md-2 col-lg-3">
                                 <div class="input-group mb-2">
                                     <span class="input-group-text">Producto</span>
@@ -127,11 +127,11 @@
                                         <option value="1">shield brite 230</option>
                                         <option value="2">shield brite 430</option>
                                         <option value="3">shield brite pyr 40%</option>
-                                        <option value="4">cera primafresh</option>
+                                        {% comment %} <option value="4">cera primafresh</option> {% endcomment %}
                                     </select>
                                 </div>
                                 <div class="input-group mb-2">
-                                    <span class="input-group-text">Dilución (Ltr)</span>
+                                    <span class="input-group-text">Dilución (Lts)</span>
                                     <input type="number" class="form-control text-center" name="agua" placeholder="Agua"
                                     oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
                                     <input type="number" class="form-control text-center" name="cera" placeholder="Cera"
