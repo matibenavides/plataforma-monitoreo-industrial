@@ -1,0 +1,17 @@
+.fondo {
+    background-color: #F7F2FF;
+  }
+
+
+.transparente {
+  background-color: transparent !important;
+}
+
+.navbar-toggler { 
+  background-color: #f7f2ff;
+}
+
+.chart {
+  width: 100%;
+  min-height: 300px;
+}

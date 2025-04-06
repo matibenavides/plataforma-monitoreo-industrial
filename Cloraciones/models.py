@@ -131,7 +131,7 @@ class GrupoProductos(models.Model):
         verbose_name = 'Grupo Producto'
 
     def __str__(self):
-        return str(self.obs_grp) + " - " + str(self.dia_id) + " - " +str(self.lineas_id) + " - " + str(self.turnos_id) + " - " + str(self.especies_id) + " - " + str(self.trabajador_id) + " - " + str(self.variedad_id) + " - " + str(self.fungicidas_id)
+        return str(self.obs_grp) + " - " + str(self.dia_id) + " - " +str(self.lineas_id) + " - " + str(self.turnos_id) + " - " + str(self.trabajador_id) + " - " + str(self.fungicidas_id)
 
 
 
@@ -157,11 +157,11 @@ class GrupoTemperatura(models.Model):
 # Cloración Lineas de Proceso
 class Cloracion(models.Model): # id_clo ()
     grupoclo_id = models.ForeignKey(GrupoCloracion, on_delete=models.CASCADE)
-    hor_clo = models.TimeField(blank=True, null=True, default=datetime.time(0, 0)) # Hora 
-    ppm_clo = models.IntegerField(null=True, blank=True) # PPM
-    phe_clo = models.FloatField(null=True, blank=True) # PH cloración
-    hcl_clo = models.IntegerField(null=True, blank=True) # Hipoclorito cloración
-    aci_clo = models.IntegerField(null=True, blank=True) # Acido cloración
+    hor_clo = models.TimeField(blank=True, null=True, default=datetime.time(0, 0), db_index=True) # Hora 
+    ppm_clo = models.IntegerField(null=True, blank=True, db_index=True) # PPM
+    phe_clo = models.FloatField(null=True, blank=True, db_index=True) # PH cloración
+    hcl_clo = models.IntegerField(null=True, blank=True, db_index=True) # Hipoclorito cloración
+    aci_clo = models.IntegerField(null=True, blank=True, db_index=True) # Acido cloración
     obs_clo = models.TextField(max_length=200, blank=True, null=True) # Observación
 
     class Meta:
@@ -180,20 +180,20 @@ class Productos(models.Model):
     variedad_id = models.ForeignKey(Variedad, on_delete=models.SET_NULL, null=True, blank=True)
     hor_pro = models.TimeField(blank=True, null=True, default=datetime.time(0, 0))
     cod_pro = models.CharField(max_length=20, null=False, blank=True)
-    dof_pro = models.IntegerField(null=True, blank=True) # Dosificación Fungicida
-    dor_pro = models.IntegerField(null=True, blank=True) # Dosificación Retard primafresh
-    doa_pro = models.IntegerField(null=True, blank=True) # Dosificación Agua lts
-    gas_pro = models.FloatField(null=True, blank=True) # Gasto Litros * Hora
-    kil_pro = models.FloatField(null=True, blank=True) # Kilos de producción
-    bin_pro = models.IntegerField(null=True, blank=True) # Numero de bins
-    ren_pro = models.FloatField(null=True, blank=True) # Rendimiento
+    dof_pro = models.IntegerField(null=True, blank=True, db_index=True) # Dosificación Fungicida
+    dor_pro = models.IntegerField(null=True, blank=True, db_index=True) # Dosificación Retard primafresh
+    doa_pro = models.IntegerField(null=True, blank=True, db_index=True) # Dosificación Agua lts
+    gas_pro = models.FloatField(null=True, blank=True, db_index=True) # Gasto Litros * Hora
+    kil_pro = models.FloatField(null=True, blank=True, db_index=True) # Kilos de producción
+    bin_pro = models.IntegerField(null=True, blank=True, db_index=True) # Numero de bins
+    ren_pro = models.FloatField(null=True, blank=True, db_index=True) # Rendimiento
     
     class Meta:
         verbose_name = 'Producto'
         verbose_name_plural = 'Productos'
 
     def __str__(self):
-        return str(self.grupopro_id) + " - " + str(self.lineas_id) + " - " + str(self.turnos_id) + " - " + str(self.trabajador_id) + " - " + str(self.especies_id) + " - " + str(self.variedad_id) + " - " + str(self.fungicidas_id) + " - " + str(self.dia_id) + " - " + str(self.hor_pro) + " - " + str(self.cod_pro) + " - " + str(self.dof_pro) + " - " + str(self.dor_pro) + " - " + str(self.doa_pro) + " - " + str(self.gas_pro) + " - " + str(self.kil_pro) + " - " + str(self.bin_pro) + " - " + str(self.ren_pro)
+        return str(self.grupopro_id) + " - " + str(self.especies_id) + " - " + str(self.variedad_id) + " - " + str(self.hor_pro) + " - " + str(self.cod_pro) + " - " + str(self.dof_pro) + " - " + str(self.dor_pro) + " - " + str(self.doa_pro) + " - " + str(self.gas_pro) + " - " + str(self.kil_pro) + " - " + str(self.bin_pro) + " - " + str(self.ren_pro)
 
 
 # Dosificación de Fungicidas
@@ -204,12 +204,12 @@ class Dosificacion(models.Model):
     variedad_id = models.ForeignKey(Variedad, on_delete=models.CASCADE)
     fungicidas_id = models.ForeignKey(Fungicidas, on_delete=models.CASCADE)
     dia_id = models.ForeignKey(Dia, on_delete=models.CASCADE)
-    hor_dos = models.TimeField(blank=True, null=True, default=datetime.time(0, 0))
+    hor_dos = models.TimeField(blank=True, null=True, default=datetime.time(0, 0), db_index=True)
     pei_dos = models.IntegerField(null=True, blank=True) # Peso Inicial
     pef_dos = models.IntegerField(null=True, blank=True) # Peso Final
-    ccp_dos = models.IntegerField(null=False) # cc de Producto
-    agu_dos = models.IntegerField(null=True, blank=True) # Dilución en agua
-    cer_dos = models.IntegerField(null=True, blank=True) # Dilución en cera
+    ccp_dos = models.IntegerField(null=False, db_index=True) # cc de Producto
+    agu_dos = models.IntegerField(null=True, blank=True, db_index=True) # Dilución en agua
+    cer_dos = models.IntegerField(null=True, blank=True, db_index=True) # Dilución en cera
     obs_dos = models.TextField(max_length=200, blank=True, null=True)
 
     class Meta:
@@ -222,11 +222,11 @@ class Dosificacion(models.Model):
 # Temperaturas
 class Temperatura(models.Model):
     grupotem_id = models.ForeignKey(GrupoTemperatura, on_delete=models.CASCADE)
-    hor_tem = models.TimeField(blank=True, null=True, default=datetime.time(0, 0))
-    pul_tem = models.FloatField(null=True, blank=True) # Pulpa entrada
-    agu_tem = models.FloatField(null=True, blank=True) # Agua Vaciado
-    amb_tem = models.FloatField(null=True, blank=True) # Ambiente Camara
-    est_tem = models.FloatField(null=True, blank=True) # Estanque Fungicida
+    hor_tem = models.TimeField(blank=True, null=True, default=datetime.time(0, 0), db_index=True)
+    pul_tem = models.FloatField(null=True, blank=True, db_index=True) # Pulpa entrada
+    agu_tem = models.FloatField(null=True, blank=True, db_index=True) # Agua Vaciado
+    amb_tem = models.FloatField(null=True, blank=True, db_index=True) # Ambiente Camara
+    est_tem = models.FloatField(null=True, blank=True, db_index=True) # Estanque Fungicida
 
     class Meta:
         verbose_name = 'Temperatura'
@@ -234,7 +234,7 @@ class Temperatura(models.Model):
     
 
     def __str__(self):
-        return str(self.grupotem_id) + " - " + str(self.lineas_id) + " - " + str(self.trabajador_id) + " - " + str(self.turnos_id) + " - " + str(self.dia_id) + " - " + str(self.hor_tem) + " - " + str(self.pul_tem) + " - " + str(self.agu_tem) + " - " + str(self.amb_tem) + " - " + str(self.est_tem)
+        return str(self.grupotem_id) + " - " + str(self.hor_tem) + " - " + str(self.pul_tem) + " - " + str(self.agu_tem) + " - " + str(self.amb_tem) + " - " + str(self.est_tem)
     
 
 # Medición PPM
@@ -243,9 +243,9 @@ class PPM(models.Model):
     trabajador_id = models.ForeignKey(Trabajador, on_delete=models.CASCADE)
     turnos_id = models.ForeignKey(Turnos, on_delete=models.CASCADE)
     dia_id = models.ForeignKey(Dia, on_delete=models.CASCADE)
-    hor_ppm = models.TimeField(blank=True, null=True, default=datetime.time(0, 0))
-    dat_ppm = models.IntegerField(null=True, blank=True)
-    phe_ppm = models.FloatField(null=True, blank=True)
+    hor_ppm = models.TimeField(blank=True, null=True, default=datetime.time(0, 0), db_index=True)
+    dat_ppm = models.IntegerField(null=True, blank=True, db_index=True)
+    phe_ppm = models.FloatField(null=True, blank=True, db_index=True)
     obs_ppm = models.TextField(max_length=500, blank=True, null=True)
 
     class Meta:
