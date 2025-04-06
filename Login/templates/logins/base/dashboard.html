@@ -1,0 +1,113 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'logins/css/dashboard.css' %}"/>
+    <link rel="stylesheet" href="{% static 'cloraciones/css/sidebars.css' %}" />
+</head>
+<body class="pt-5 fondo">
+    {% include "cloraciones/base/navbar.html" %}
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="toast-container position-fixed bottom-0 end-0 p-3">
+                <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header">
+                        <img src="{% static 'logins/img/logosolo.png' %}" class="rounded me-2" alt="..." style="width: 20px;">
+                        <strong class="me-auto">DDC</strong>
+                        <small>Justo ahora</small>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body">
+                        {{ message }}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+
+    <div class="container">
+        <div class="row my-4">
+            <div>
+                <label for="linea-select">Línea de Trabajo:</label>
+                <select id="linea-select">
+                    <option value="">Todas las líneas</option>
+                    <option value="1">Línea 11</option>
+                    <option value="2">Línea 10</option>
+                    <option value="3">Línea 5</option>
+                    <option value="4">Línea 1</option>
+                    
+                </select>
+            
+                <label for="turno-select">Turno:</label>
+                <select id="turno-select">
+                    <option value="">Todos los turnos</option>
+                    <option value="1">Turno A</option>
+                    <option value="2">Turno B</option>
+                </select>
+            
+                <label for="dia-input">Día:</label>
+                <input type="date" id="dia-input">
+
+                <label for="year-select-ml">Año:</label>
+                <select id="year-select-ml">
+                    <option value="">Todos los años</option>
+                    <!-- Años generados por js, con metrica de backend -->
+                    
+                </select>
+            
+                <button id="btn-filtrar">Filtrar</button>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 ">
+
+                <div id="chartTemperatura" class="chart"></div>
+
+            </div>
+
+            
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                
+                <div id="chartPPM" class="chart"></div>
+                
+            </div>
+
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                
+                <div id="chartCloroAcido" class="chart"></div>
+
+            </div>
+
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                
+                <div id="chartKilos" class="chart"></div>
+
+            </div>
+            
+        </div>
+
+        
+    </div>
+
+    
+
+      
+    
+
+
+
+
+<!-- Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<!-- Echarts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.6.0/echarts.min.js"></script>
+<!--js -->
+    <script src="{% static 'logins/js/main.js' %}"></script>
+    <script src="{% static 'cloraciones/js/toast.js' %}"></script>
+</body>
+</html>
