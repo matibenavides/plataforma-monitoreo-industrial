@@ -55,6 +55,16 @@ class Fungicidas(models.Model):
     def __str__(self):
         return str(self.nom_fun)
     
+class Diluyentes(models.Model):
+    nom_dil = models.TextField(max_length=30) # Nombre Diluyente
+
+    class Meta:
+        verbose_name = 'Diluyente'
+        verbose_name_plural = 'Diluyentes'
+
+    def __str__(self):
+        return str(self.nom_dil)
+    
 
 class Turnos(models.Model):
     nom_tur = models.TextField(max_length=20) # Nombre Turno
@@ -203,6 +213,7 @@ class Dosificacion(models.Model):
     especies_id = models.ForeignKey(Especies, on_delete=models.CASCADE)
     variedad_id = models.ForeignKey(Variedad, on_delete=models.CASCADE)
     fungicidas_id = models.ForeignKey(Fungicidas, on_delete=models.CASCADE)
+    # diluyentes_id = models.ForeignKey(Diluyentes, on_delete=models.SET_NULL, null=True, blank=True) Necesario solo si existieran más diluciones, por ahora nop, En caso de mantenerlo, agregar el str(self.) 
     dia_id = models.ForeignKey(Dia, on_delete=models.CASCADE)
     hor_dos = models.TimeField(blank=True, null=True, default=datetime.time(0, 0), db_index=True)
     pei_dos = models.IntegerField(null=True, blank=True) # Peso Inicial
