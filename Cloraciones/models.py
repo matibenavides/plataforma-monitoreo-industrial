@@ -55,6 +55,16 @@ class Fungicidas(models.Model):
     def __str__(self):
         return str(self.nom_fun)
     
+class Diluyentes(models.Model):
+    nom_dil = models.TextField(max_length=30) # Nombre Diluyente
+
+    class Meta:
+        verbose_name = 'Diluyente'
+        verbose_name_plural = 'Diluyentes'
+
+    def __str__(self):
+        return str(self.nom_dil)
+    
 
 class Turnos(models.Model):
     nom_tur = models.TextField(max_length=20) # Nombre Turno
@@ -203,6 +213,7 @@ class Dosificacion(models.Model):
     especies_id = models.ForeignKey(Especies, on_delete=models.CASCADE)
     variedad_id = models.ForeignKey(Variedad, on_delete=models.CASCADE)
     fungicidas_id = models.ForeignKey(Fungicidas, on_delete=models.CASCADE)
+    diluyentes_id = models.ForeignKey(Diluyentes, on_delete=models.SET_NULL, null=True, blank=True)
     dia_id = models.ForeignKey(Dia, on_delete=models.CASCADE)
     hor_dos = models.TimeField(blank=True, null=True, default=datetime.time(0, 0), db_index=True)
     pei_dos = models.IntegerField(null=True, blank=True) # Peso Inicial
@@ -217,7 +228,7 @@ class Dosificacion(models.Model):
         verbose_name_plural = 'Dosificaciones'
 
     def __str__(self):
-        return str(self.lineas_id) + " - " + str(self.trabajador_id) + " - " + str(self.especies_id) + " - " + str(self.variedad_id) + " - " + str(self.fungicidas_id) + " - " + str(self.dia_id) + " - " + str(self.hor_dos) + " - " + str(self.pei_dos) + " - " + str(self.pef_dos) + " - " + str(self.ccp_dos) + " - " + str(self.agu_dos) + " - " + str(self.cer_dos) + " - " + str(self.obs_dos)
+        return str(self.lineas_id) + " - " + str(self.trabajador_id) + " - " + str(self.especies_id) + " - " + str(self.variedad_id) + " - " + str(self.fungicidas_id) + " - " + str(self.diluyentes_id) + "- " + str(self.dia_id) + " - " + str(self.hor_dos) + " - " + str(self.pei_dos) + " - " + str(self.pef_dos) + " - " + str(self.ccp_dos) + " - " + str(self.agu_dos) + " - " + str(self.cer_dos) + " - " + str(self.obs_dos)
     
 # Temperaturas
 class Temperatura(models.Model):
