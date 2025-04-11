@@ -1,0 +1,23 @@
+:root[data-theme="light"] {
+    --text: #070708;
+    --background: #f6f0ff;
+    --primary: #7445bf;
+    --secondary: #ac86e9;
+    --tertiary: #e0d0f8;
+    --quaternary: #eee8f7;
+    --hover: #e0d5f5;
+    --accent: #8a47f5;
+    --subtext: #747178;
+  }
+  
+  :root[data-theme="dark"] {
+    --text: #f7f7f8;
+    --background: #06000f;
+    --primary: #6f40ba;
+    --secondary: #3c1679;
+    --tertiary:#16072e;
+    --quaternary:#0e0817;
+    --hover: #170a2a;
+    --accent: #4d0ab8;
+    --subtext: #98959c;
+  }
