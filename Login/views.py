@@ -170,13 +170,13 @@ def graficoCloroAcido(request):
             'trigger': 'item',
             'formatter': '{a} <br/>{b}: {c} ({d}%)'
         },
-        'title': {
-                    'text': "Cantidad de Hipoclorito y Ácido",
-                    'right': "5%",
-                    'textStyle': {'fontSize': 18, 'fontWeight': 'bold'}
-                },
+        # 'title': {
+        #             'text': "Cantidad de Hipoclorito y Ácido",
+        #             'right': "5%",
+        #             'textStyle': {'fontSize': 18, 'fontWeight': 'bold'}
+        #         },
         'legend': {
-            'top':30,
+            # 'top':30,
             'right': '5%',
             'orient': 'vertical',
             'data': [
@@ -199,7 +199,7 @@ def graficoCloroAcido(request):
                 'show': False
             },
             'data': [
-                { 'value': suma_aci_linea11, 'name': 'Linea 11', 'selected': True },
+                { 'value': suma_aci_linea11, 'name': 'Linea 11',},
                 { 'value': suma_aci_linea10, 'name': 'Linea 10' },
                 { 'value': suma_aci_linea5, 'name': 'Linea 5' },
             ]
@@ -297,12 +297,13 @@ def graficoTemperatura(request):
     fungicida_data = [[registro.hor_tem.hour + registro.hor_tem.minute/60, registro.est_tem] for registro in registros]
 
     chart = {
-        'title': {
-            'text': "Mediciones de Temperatura por Hora",
-            'left': "center",
-        },
+        # 'title': {
+        #     'text': "Mediciones de Temperatura por Hora",
+        #     'left': "center",
+        # },
         'legend': {
-            'top': 30,
+            # 'top': 30,
+            'left': '5%',
             'data': ["T° Pulpa Entrada", "T° Agua Vaciado", "T° Ambiente Camara", "T° Estanque Fungicida"],
             'selected': {
                 "T° Pulpa Entrada": True,
@@ -480,13 +481,14 @@ def graficoPPM(request):
 
 
     chart = {
-        'title': {
-            'text': "Mediciones de PPM y Ph",
-            'left': "center",
-            'textStyle': {'fontSize': 18, 'fontWeight': 'bold'}
-        },
+        # 'title': {
+        #     'text': "Mediciones de PPM y Ph",
+        #     'left': "center",
+        #     'textStyle': {'fontSize': 18, 'fontWeight': 'bold'}
+        # },
         'legend': {
-            'top': 30,  # Ajustado
+            # 'top': 30,
+            'left': '5%',
             'data': ['Estanque', 'Corta Pedicelo', 'Retorno', 'Fungicida'],
             'selected': {  
                 'Estanque': True,
@@ -692,9 +694,15 @@ def graficoPPM(request):
 # ----------------------------------------------------
 
 def graficoKilogramos(request):
+    # Define color variables based on theme
+    colors = {
+        'primary': '#0c0689',    # --primary
+        'secondary': '#ac86e9',  # --secondary
+        'accent': '#8a47f5',     # --accent
+        'tertiary': '#e0d0f8'    # --tertiary
+    }
 
     # Filtros
-
     linea_id = request.GET.get('linea_id')
     turno_id = request.GET.get('turno_id')
     year = request.GET.get('year')
@@ -724,8 +732,7 @@ def graficoKilogramos(request):
         suma_kg=(Sum('kil_pro'))
     ).order_by('especies_id__id', 'grupopro_id__dia_id__dia_dia__month')
 
-
-    # Inicializar arrays para cada especie con ceros para todos los meses (1-12)
+    # Inicializar arrays para cada especie
     ciruela_data = [0] * 12
     pera_data = [0] * 12
     cereza_data = [0] * 12
@@ -739,10 +746,7 @@ def graficoKilogramos(request):
     
     # Poblar los arrays con los datos reales
     for r in resultados:
-        # Obtener índice de mes (0-11) para acceder al array
         mes_idx = r['grupopro_id__dia_id__dia_dia__month'] - 1
-        
-        # Asignar valor al array correspondiente según la especie
         if r['especies_id__id'] == CIRUELA_ID:
             ciruela_data[mes_idx] = r['suma_kg']
         elif r['especies_id__id'] == PERA_ID:
@@ -752,65 +756,62 @@ def graficoKilogramos(request):
         elif r['especies_id__id'] == NECTARINE_ID:
             nectarine_data[mes_idx] = r['suma_kg']
 
-    
     chart = {
-        'title': {
-            'text': "Kilogramos totales por especie",
-            'left': "center",
-            'textStyle': { 'fontSize': 18, 'fontWeight': 'bold' }
-        },
         'legend': {
-            'top': 30, # Separado del título
             'data': ['Ciruela', 'Pera', 'Cereza', 'Nectarine'],
+            'textStyle': {'color': colors['primary']}
         },
         'toolbox': {
-            # Opcional: añadir 'saveAsImage' si quieres esa función
             'feature': {
                 'magicType': {
-                    'type': ['stack', 'line', 'bar'] # Permitir cambiar a apilado, línea o barra normal
+                    'type': ['stack', 'line', 'bar']
                 },
-                'dataView': { 'readOnly': False }, # Permitir ver y editar datos
-                'saveAsImage': { 'show': True }    # Botón para guardar imagen
+                'dataView': {'readOnly': False},
+                'saveAsImage': {'show': True}
             },
-            'top': 5 # Posicionar la caja de herramientas un poco más abajo
+            'top': 5,
+            'iconStyle': {'borderColor': colors['primary']}
         },
         'tooltip': {
-            'trigger': 'axis', # <-- CAMBIO CLAVE: Activar por eje (mes)
-            'axisPointer': { # Mejora la indicación visual del eje
-                'type': 'shadow' # Muestra una sombra en la columna del eje
-            }
-            # No necesitamos un formatter personalizado por ahora,
-            # el tooltip por defecto para 'axis' muestra todas las series.
+            'trigger': 'axis',
+            'axisPointer': {
+                'type': 'shadow'
+            },
+            'backgroundColor': colors['tertiary'],
+            'borderColor': colors['secondary'],
+            'textStyle': {'color': colors['primary']}
         },
         'xAxis': {
             'data': ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-            'name': 'Mes', # Nombre del eje X más descriptivo
-            'nameLocation': 'middle', # Centrar el nombre
-            'nameGap': 30, # Espacio entre etiquetas y nombre del eje
-            'axisLine': { 'onZero': True },
-            'splitLine': { 'show': False },
-            'splitArea': { 'show': False }
+            'name': 'Mes',
+            'nameLocation': 'middle',
+            'nameGap': 30,
+            'axisLine': {'lineStyle': {'color': colors['primary']}},
+            'axisLabel': {'color': colors['primary']}
         },
         'yAxis': {
-            'type': 'value', # Asegurar que el eje Y es numérico
-            'name': 'Kilogramos' # Añadir nombre al eje Y
+            'type': 'value',
+            'name': 'Kilogramos',
+            'axisLine': {'lineStyle': {'color': colors['primary']}},
+            'axisLabel': {'color': colors['primary']}
         },
         'grid': {
-            'left': '3%', # Ajustar márgenes si es necesario
+            'left': '3%',
             'right': '4%',
-            'bottom': '10%', # Dejar espacio para la leyenda del zoom si se añade
-            'containLabel': True # Asegura que las etiquetas de los ejes no se corten
+            'bottom': '10%',
+            'containLabel': True
         },
         'series': [
             {
                 'name': 'Ciruela',
                 'type': 'bar',
-                'stack': 'total', # <-- Apilar todas juntas
-                'emphasis': {      # <-- Énfasis estándar
+                'stack': 'total',
+                'itemStyle': {'color': colors['primary']},
+                'emphasis': {
                     'focus': 'series',
                     'itemStyle': {
                         'shadowBlur': 10,
-                        'shadowColor': 'rgba(0,0,0,0.3)'
+                        'shadowColor': colors['accent']
                     }
                 },
                 'data': ciruela_data
@@ -818,47 +819,47 @@ def graficoKilogramos(request):
             {
                 'name': 'Pera',
                 'type': 'bar',
-                'stack': 'total', # <-- Apilar todas juntas
-                'emphasis': {      # <-- Énfasis estándar
+                'stack': 'total',
+                'itemStyle': {'color': colors['secondary']},
+                'emphasis': {
                     'focus': 'series',
                     'itemStyle': {
                         'shadowBlur': 10,
-                        'shadowColor': 'rgba(0,0,0,0.3)'
+                        'shadowColor': colors['accent']
                     }
                 },
-                # Datos ficticios para Pera (ej: patrón creciente)
                 'data': pera_data
             },
             {
                 'name': 'Cereza',
                 'type': 'bar',
-                'stack': 'total', # <-- Apilar todas juntas
-                'emphasis': {      # <-- Énfasis estándar
+                'stack': 'total',
+                'itemStyle': {'color': colors['accent']},
+                'emphasis': {
                     'focus': 'series',
                     'itemStyle': {
                         'shadowBlur': 10,
-                        'shadowColor': 'rgba(0,0,0,0.3)'
+                        'shadowColor': colors['accent']
                     }
                 },
-                # Datos ficticios para Cereza (ej: patrón estacional corto)
                 'data': cereza_data
             },
             {
                 'name': 'Nectarine',
                 'type': 'bar',
-                'stack': 'total', # <-- Apilar todas juntas
-                'emphasis': {      # <-- Énfasis estándar
+                'stack': 'total', 
+                'itemStyle': {'color': colors['tertiary']},
+                'emphasis': {
                     'focus': 'series',
                     'itemStyle': {
                         'shadowBlur': 10,
-                        'shadowColor': 'rgba(0,0,0,0.3)'
+                        'shadowColor': colors['accent']
                     }
                 },
-                # Datos ficticios para Nectarine (ej: patrón variable)
                 'data': nectarine_data
             }
         ]
-    };
+    }
     return JsonResponse(chart)
 
 # ----------------------------------------------------
