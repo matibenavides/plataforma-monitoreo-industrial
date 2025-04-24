@@ -15,8 +15,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
     
     <link rel="stylesheet" href="{% static 'logins/css/dashboard.css' %}"/>
-    {% comment %} <link rel="stylesheet" href="{% static 'cloraciones/css/offcanvas.css' %}" /> {% endcomment %}
-    <link rel="stylesheet" href="{% static 'logins/css/sidebar.css' %}"/>
+    <link rel="stylesheet" href="{% static 'cloraciones/css/offcanvas.css' %}" />
+    {% comment %} <link rel="stylesheet" href="{% static 'logins/css/sidebar.css' %}"/> {% endcomment %}
     <link rel="stylesheet" href="{% static 'logins/css/variables.css' %}" />
 
     <style>
@@ -25,7 +25,16 @@
 
 </head>
 <body>
-    {% comment %} {% include "cloraciones/base/offcanvas.html" %} {% endcomment %}
+    {% include "cloraciones/base/offcanvas.html" %}
+
+    {% comment %} <header class="d-md-none p-2">
+        <button class="btn btn-outline-secondary btn-sm position-fixed top-0 start-0 m-2 d-md-none" 
+        data-bs-toggle="offcanvas"
+        data-bs-target="#sidebarMenu"
+        aria-controls="sidebarMenu">
+            <i class="bi bi-list fs-4"></i>
+        </button>
+    </header> {% endcomment %}
 
     {% if messages %}
         {% for message in messages %}
@@ -45,282 +54,282 @@
         {% endfor %}
     {% endif %}
 
-    {% include "logins/base/sidebar.html"%}
+    {% comment %} {% include "logins/base/sidebar.html"%} {% endcomment %}
 
     
-    <div class="dashboard-content">
-        <div class="container-fluid  ">
-            <!-- Filtros -->
-            <div class="card mb-3 shadow-sm d-inline-flex">
-                <div class="card-body py-2">
-                    <div class="row g-2 align-items-center">
-                        <div class="col-auto">
-                            <select class="form-select form-select-sm" id="turno-select">
-                                <option value="">Ambos Turno</option>
-                                <option value="1">Turno A</option>
-                                <option value="2">Turno B</option>
-                            </select>
-                        </div>
     
-                        <div class="col-auto">
-                            <select class="form-select form-select-sm" id="linea-select">
-                                <option value="">Todas las Líneas</option>
-                                <option value="1">Línea 11</option>
-                                <option value="2">Línea 10</option>
-                                <option value="3">Línea 5</option>
-                                <option value="4">Línea 1</option>
-                            </select>
-                        </div>
-    
-                        <div class="col-auto">
-                            <input type="date" id="dia-input" required min="1920-01-01" class="form-control form-control-sm text-center">
-                        </div>
-    
-                        <div class="col-auto">
-                            <select class="form-select form-select-sm" id="year-select-ml">
-                                <option value="">Selecciona el año</option>
-                                <!-- años generados por js, según registros por backend-->
-                            </select>
-                        </div>
-    
-                        <div class="col-auto">
-                            <button type="button" class="btn btn-light btn-sm" id="btn-filtrar">Filtrar</button>
-                        </div>
+    <div class="container">
+        <!-- Filtros -->
+        <div class="card mb-3 shadow-sm d-inline-flex">
+            <div class="card-body py-2">
+                <div class="row g-2 align-items-center">
+                    <div class="col-auto">
+                        <select class="form-select form-select-sm" id="turno-select">
+                            <option value="">Ambos Turno</option>
+                            <option value="1">Turno A</option>
+                            <option value="2">Turno B</option>
+                        </select>
+                    </div>
+
+                    <div class="col-auto">
+                        <select class="form-select form-select-sm" id="linea-select">
+                            <option value="">Todas las Líneas</option>
+                            <option value="1">Línea 11</option>
+                            <option value="2">Línea 10</option>
+                            <option value="3">Línea 5</option>
+                            <option value="4">Línea 1</option>
+                        </select>
+                    </div>
+
+                    <div class="col-auto">
+                        <input type="date" id="dia-input" required min="1920-01-01" class="form-control form-control-sm text-center">
+                    </div>
+
+                    <div class="col-auto">
+                        <select class="form-select form-select-sm" id="year-select-ml">
+                            <option value="">Selecciona el año</option>
+                            <!-- años generados por js, según registros por backend-->
+                        </select>
+                    </div>
+
+                    <div class="col-auto">
+                        <button type="button" class="btn btn-light btn-sm" id="btn-filtrar">Filtrar</button>
                     </div>
                 </div>
             </div>
-            <!-- Fin sección de filtros -->
-    
-            <!-- KPIs (Cards) -->
-            <div class="row g-3 mb-3">
-                <!-- Card 1 - Fungicida Total -->
-                <div class="col-sm-6 col-md-3">
-                    <div class="card shadow-sm kpi-card">
-                        <div class="card-body p-3">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <div class="tab-content mb-2" id="fungicida-tabContent">
-                                    <div class="tab-pane fade show active" id="shbr230" role="tabpanel">
-                                        <h6 class="mb-0 text-muted">Fungicida Total</h6>
-                                        <h3 class="mb-0">1,234 L</h3>
-                                    </div>
-                                    <div class="tab-pane fade" id="shbrtebu" role="tabpanel">
-                                        <h6 class="mb-0 text-muted">Fungicida Total</h6>
-                                        <h3 class="mb-0">1,500 L</h3>
-                                    </div>
-                                    <div class="tab-pane fade" id="shbrpyr" role="tabpanel">
-                                        <h6 class="mb-0 text-muted">Fungicida Total</h6>
-                                        <h3 class="mb-0">2,900 L</h3>
-                                    </div>
-                                </div>
-
-                                <i class="bi bi-droplet-half fs-1 text-primary"></i>
-                            </div>
-                            
-                            <ul class="nav nav-pills nav-pills-sm mt-3" id="fungicida-tab" role="tablist">
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link active" 
-                                            data-bs-toggle="pill" data-bs-target="#shbr230" 
-                                            type="button" role="tab">
-                                        SHBR 230
-                                    </button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" 
-                                            data-bs-toggle="pill" data-bs-target="#shbrtebu" 
-                                            type="button" role="tab">
-                                        SHBR tebu 430
-                                    </button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" 
-                                            data-bs-toggle="pill" data-bs-target="#shbrpyr" 
-                                            type="button" role="tab">
-                                        SHBR pyr 40%
-                                    </button>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-    
-                <!-- Card 2 - Producción Total -->
-                <div class="col-sm-6 col-md-3">
-                    <div class="card shadow-sm kpi-card">
-                        <div class="card-body p-3">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <div>
-                                    <h6 class="mb-1 text-muted">Producción Total</h6>
-                                    <h3 class="mb-0">45,678 kg</h3>
-                                </div>
-                                <!-- Por ejemplo, un ícono de caja -->
-                                <i class="bi bi-boxes fs-1 text-primary "></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-    
-                <!-- Card 3 - Bins procesados -->
-                <div class="col-sm-6 col-md-3">
-                    <div class="card shadow-sm kpi-card">
-                        <div class="card-body p-3">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <div>
-                                    <h6 class="mb-1 text-muted">Bins procesados</h6>
-                                    <h3 class="mb-0">72</h3>
-                                </div>
-                                <i class="bi bi-box-seam fs-1 text-primary "></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Card 4 - Cera/Agua/Retards -->
-                <div class="col-sm-6 col-md-3">
-                    <div class="card shadow-sm kpi-card">
-                        <div class="card-body p-3">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <div class="tab-content mb-2" id="cera-agua-tabContent">
-                                    <div class="tab-pane fade show active" id="cera-home" role="tabpanel">
-                                        <h6 class="mb-1 text-muted">Lts Cera Primafresh</h6>
-                                        <h3 class="mb-0">1,234 L</h3>
-                                    </div>
-                                    <div class="tab-pane fade" id="agua-profile" role="tabpanel">
-                                        <h6 class="mb-1 text-muted">Lts Agua</h6>
-                                        <h3 class="mb-0">1,234 L</h3>
-                                    </div>
-                                    <div class="tab-pane fade" id="retards-contact" role="tabpanel">
-                                        <h6 class="mb-1 text-muted">Retards utilizados</h6>
-                                        <h3 class="mb-0">20</h3>
-                                    </div>
-                                </div>
-
-                                <i class="bi bi-moisture fs-1 text-primary"></i>
-                            </div>
-                            
-                            <ul class="nav nav-pills nav-pills-sm" id="cera-agua-tab" role="tablist">
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link active" id="cera-tab" data-bs-toggle="pill" data-bs-target="#cera-home" type="button" role="tab">Cera</button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="agua-tab" data-bs-toggle="pill" data-bs-target="#agua-profile" type="button" role="tab">Agua</button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="retards-tab" data-bs-toggle="pill" data-bs-target="#retards-contact" type="button" role="tab">Retards</button>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Fin KPIs -->
-    
-            <!-- Gráficos + tabla registros -->
-            <div class="row g-3">
-                <!-- Columna izquierda - Charts de kilogramos y mediciones -->
-                <div class="col-lg-8">
-                    <!-- Gráfico de Barras (Kilogramos por Especie) -->
-                    <div class="card shadow-sm mb-3">
-                        <div class="card-header py-2"><strong>Kilogramos por Especie</strong></div>
-                        <div class="card-body">
-                            <div id="chartKilos" class="chart"></div>
-                        </div>
-                    </div>
-                    
-                    <!-- Gráficos de Mediciones (2 en fila) -->
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <div class="card shadow-sm">
-                                <div class="card-header py-2"><strong>Medición de Temperatura</strong></div>
-                                <div class="card-body">
-                                    <div id="chartTemperatura" class="chart" ></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="card shadow-sm">
-                                <div class="card-header py-2"><strong>Medición de PPM y pH</strong></div>
-                                <div class="card-body">
-                                    <div id="chartPPM" class="chart" ></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Columna derecha - Gráfica pie y tabla de registros -->
-                <div class="col-lg-4">
-                    <!-- Gráfico de Dona / Pie (Litros de Hipoclorito y Ácido) -->
-                    <div class="card shadow-sm mb-3">
-                        <div class="card-header py-2"><strong>Litros de Hipoclorito y Ácido</strong></div>
-                        <div class="card-body">
-                            <div id="chartCloroAcido" class="chart"></div>
-                        </div>
-                    </div>
-                    
-                    <!-- Historial de Registros -->
-                    <div class="card shadow-sm">
-                        <div class="card-header py-2 d-flex justify-content-between align-items-center">
-                            <span><strong>Historial de registros</strong></span>
-                            <button class="btn btn-sm btn-outline-primary">Ver todos</button>
-                        </div>
-                        <div class="card-body p-0">
-                            <div class="table-responsive">
-                                <table class="table table-sm table-hover mb-0">
-                                    <thead class="table-light">
-                                        <tr>
-                                            <th>Fecha</th>
-                                            <th>Línea</th>
-                                            <th>Valor</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>01/04/2025</td>
-                                            <td>L11</td>
-                                            <td>578 kg</td>
-                                        </tr>
-                                        <tr>
-                                            <td>01/04/2025</td>
-                                            <td>L10</td>
-                                            <td>345 kg</td>
-                                        </tr>
-                                        <tr>
-                                            <td>01/04/2025</td>
-                                            <td>L5</td>
-                                            <td>892 kg</td>
-                                        </tr>
-                                        <tr>
-                                            <td>31/03/2025</td>
-                                            <td>L1</td>
-                                            <td>453 kg</td>
-                                        </tr>
-                                        <tr>
-                                            <td>31/03/2025</td>
-                                            <td>L11</td>
-                                            <td>627 kg</td>
-                                        </tr>
-                                        <tr>
-                                            <td>31/03/2025</td>
-                                            <td>L11</td>
-                                            <td>627 kg</td>
-                                        </tr>
-                                        <tr>
-                                            <td>31/03/2025</td>
-                                            <td>L11</td>
-                                            <td>627 kg</td>
-                                        </tr>
-                                        
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-    
-    
         </div>
+        <!-- Fin sección de filtros -->
+
+        <!-- KPIs (Cards) -->
+        <div class="row g-3 mb-3">
+            <!-- Card 1 - Fungicida Total -->
+            <div class="col-sm-6 col-md-3">
+                <div class="card shadow-sm kpi-card">
+                    <div class="card-body p-3">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div class="tab-content mb-2" id="fungicida-tabContent">
+                                <div class="tab-pane fade show active" id="shbr230" role="tabpanel">
+                                    <h6 class="mb-0 text-muted">Fungicida Total</h6>
+                                    <h3 class="mb-0" id="kpi-shbr230-total"></h3>
+                                </div>
+                                <div class="tab-pane fade" id="shbrtebu" role="tabpanel">
+                                    <h6 class="mb-0 text-muted">Fungicida Total</h6>
+                                    <h3 class="mb-0" id="kpi-shbr430-total"></h3>
+                                </div>
+                                <div class="tab-pane fade" id="shbrpyr" role="tabpanel">
+                                    <h6 class="mb-0 text-muted">Fungicida Total</h6>
+                                    <h3 class="mb-0" id="kpi-shbrpyr-total"></h3>
+                                </div>
+                            </div>
+
+                            <i class="bi bi-droplet-half fs-1 text-primary"></i>
+                        </div>
+                        
+                        <ul class="nav nav-pills nav-pills-sm mt-3" id="fungicida-tab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" 
+                                        data-bs-toggle="pill" data-bs-target="#shbr230" 
+                                        type="button" role="tab">
+                                    SHBR 230
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" 
+                                        data-bs-toggle="pill" data-bs-target="#shbrtebu" 
+                                        type="button" role="tab">
+                                    SHBR tebu 430
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" 
+                                        data-bs-toggle="pill" data-bs-target="#shbrpyr" 
+                                        type="button" role="tab">
+                                    SHBR pyr 40%
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 - Producción Total -->
+            <div class="col-sm-6 col-md-3">
+                <div class="card shadow-sm kpi-card">
+                    <div class="card-body p-3">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div>
+                                <h6 class="mb-1 text-muted">Producción Total</h6>
+                                <h3 class="mb-0" id="kpi-produccion-total"></h3>
+                            </div>
+                            <!-- Por ejemplo, un ícono de caja -->
+                            <i class="bi bi-boxes fs-1 text-primary "></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 - Bins procesados -->
+            <div class="col-sm-6 col-md-3">
+                <div class="card shadow-sm kpi-card">
+                    <div class="card-body p-3">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div>
+                                <h6 class="mb-1 text-muted">Bins procesados</h6>
+                                <h3 class="mb-0" id="kpi-bins-total"></h3>
+                            </div>
+                            <i class="bi bi-box-seam fs-1 text-primary "></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Card 4 - Cera/Agua/Retards -->
+            <div class="col-sm-6 col-md-3">
+                <div class="card shadow-sm kpi-card">
+                    <div class="card-body p-3">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div class="tab-content mb-2" id="cera-agua-tabContent">
+                                <div class="tab-pane fade show active" id="cera-home" role="tabpanel">
+                                    <h6 class="mb-1 text-muted">Lts Cera Primafresh</h6>
+                                    <h3 class="mb-0" id="kpi-cera-total"></h3>
+                                </div>
+                                <div class="tab-pane fade" id="agua-profile" role="tabpanel">
+                                    <h6 class="mb-1 text-muted">Lts Agua</h6>
+                                    <h3 class="mb-0" id="kpi-agua-total"></h3>
+                                </div>
+                                <div class="tab-pane fade" id="retards-contact" role="tabpanel">
+                                    <h6 class="mb-1 text-muted">Retards utilizados</h6>
+                                    <h3 class="mb-0" id="kpi-retards-total"></h3>
+                                </div>
+                            </div>
+
+                            <i class="bi bi-moisture fs-1 text-primary"></i>
+                        </div>
+                        
+                        <ul class="nav nav-pills nav-pills-sm" id="cera-agua-tab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="cera-tab" data-bs-toggle="pill" data-bs-target="#cera-home" type="button" role="tab">Cera</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="agua-tab" data-bs-toggle="pill" data-bs-target="#agua-profile" type="button" role="tab">Agua</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="retards-tab" data-bs-toggle="pill" data-bs-target="#retards-contact" type="button" role="tab">Retards</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Fin KPIs -->
+
+        <!-- Gráficos + tabla registros -->
+        <div class="row g-3">
+            <!-- Columna izquierda - Charts de kilogramos y mediciones -->
+            <div class="col-lg-8">
+                <!-- Gráfico de Barras (Kilogramos por Especie) -->
+                <div class="card shadow-sm mb-3">
+                    <div class="card-header py-2"><strong>Kilogramos por Especie</strong></div>
+                    <div class="card-body">
+                        <div id="chartKilos" class="chart"></div>
+                    </div>
+                </div>
+                
+                <!-- Gráficos de Mediciones (2 en fila) -->
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="card shadow-sm">
+                            <div class="card-header py-2"><strong>Medición de Temperatura</strong></div>
+                            <div class="card-body">
+                                <div id="chartTemperatura" class="chart" ></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card shadow-sm">
+                            <div class="card-header py-2"><strong>Medición de PPM y pH</strong></div>
+                            <div class="card-body">
+                                <div id="chartPPM" class="chart"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Columna derecha - Gráfica pie y tabla de registros -->
+            <div class="col-lg-4">
+                <!-- Gráfico de Dona / Pie (Litros de Hipoclorito y Ácido) -->
+                <div class="card shadow-sm mb-3">
+                    <div class="card-header py-2"><strong>Litros de Hipoclorito y Ácido</strong></div>
+                    <div class="card-body">
+                        <div id="chartCloroAcido" class="chart"></div>
+                    </div>
+                </div>
+                
+                <!-- Historial de Registros -->
+                <div class="card shadow-sm">
+                    <div class="card-header py-2 d-flex justify-content-between align-items-center">
+                        <span><strong>Historial de registros</strong></span>
+                        <button class="btn btn-sm btn-outline-primary">Ver todos</button>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-sm table-hover mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Línea</th>
+                                        <th>Valor</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>01/04/2025</td>
+                                        <td>L11</td>
+                                        <td>578 kg</td>
+                                    </tr>
+                                    <tr>
+                                        <td>01/04/2025</td>
+                                        <td>L10</td>
+                                        <td>345 kg</td>
+                                    </tr>
+                                    <tr>
+                                        <td>01/04/2025</td>
+                                        <td>L5</td>
+                                        <td>892 kg</td>
+                                    </tr>
+                                    <tr>
+                                        <td>31/03/2025</td>
+                                        <td>L1</td>
+                                        <td>453 kg</td>
+                                    </tr>
+                                    <tr>
+                                        <td>31/03/2025</td>
+                                        <td>L11</td>
+                                        <td>627 kg</td>
+                                    </tr>
+                                    <tr>
+                                        <td>31/03/2025</td>
+                                        <td>L11</td>
+                                        <td>627 kg</td>
+                                    </tr>
+                                    <tr>
+                                        <td>31/03/2025</td>
+                                        <td>L11</td>
+                                        <td>627 kg</td>
+                                    </tr>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
     </div>
+    
     
     
 
@@ -339,6 +348,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.6.0/echarts.min.js"></script>
 <!--js -->
     <script src="{% static 'logins/js/main.js' %}"></script>
+    <script src="{% static 'logins/js/kpis.js' %}"></script>
     <script src="{% static 'cloraciones/js/toast.js' %}"></script>
 </body>
 </html>

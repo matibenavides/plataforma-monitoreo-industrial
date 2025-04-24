@@ -8,7 +8,7 @@ from Cloraciones.models import *
 # from django.views.generic import TemplateView
 import json
 from django.db.models import Sum, Case, When, IntegerField, FloatField, F, Q, Value
-from django.db.models.functions import Round
+from django.db.models.functions import Round, Coalesce
 from datetime import datetime
 
 from django.http.response import JsonResponse
@@ -163,90 +163,66 @@ def graficoCloroAcido(request):
 
     
 
+    # Define color variables based on theme
+    colors = {
+        'primary':  '#0c0689',  
+        'secondary': '#ac86e9',  
+        'accent':    '#8a47f5',  
 
+        # Tonos complementarios
+        'contrast1': '#838906',  
+        'contrast2': '#c3e986',  
+        'contrast3': '#b2f547',  
+    }
         
     chart = {
         'tooltip': {
             'trigger': 'item',
             'formatter': '{a} <br/>{b}: {c} ({d}%)'
         },
-        # 'title': {
-        #             'text': "Cantidad de Hipoclorito y Ácido",
-        #             'right': "5%",
-        #             'textStyle': {'fontSize': 18, 'fontWeight': 'bold'}
-        #         },
         'legend': {
-            # 'top':30,
-            'right': '5%',
-            'orient': 'vertical',
+            # 'right': '5%',
+            'orient': 'horizontal',
             'data': [
             'Linea 11',
-            'Linea 10',
+            'Linea 10', 
             'Linea 5',
             ]
         },
         'series': [
             {
-            'name': 'Ácido (Lts)',
+            'name': 'Ácido (Lts)', 
             'type': 'pie',
             'selectedMode': 'single',
             'radius': [0, '30%'],
             'label': {
+                'show': True,
                 'position': 'inner',
-                'fontSize': 14
+                'formatter': '{b}'
             },
             'labelLine': {
                 'show': False
             },
             'data': [
-                { 'value': suma_aci_linea11, 'name': 'Linea 11',},
-                { 'value': suma_aci_linea10, 'name': 'Linea 10' },
-                { 'value': suma_aci_linea5, 'name': 'Linea 5' },
+                { 'value': suma_aci_linea11, 'name': 'Linea 11', 'itemStyle': {'color': colors['contrast1']}},
+                { 'value': suma_aci_linea10, 'name': 'Linea 10', 'itemStyle': {'color': colors['contrast2']}},
+                { 'value': suma_aci_linea5, 'name': 'Linea 5', 'itemStyle': {'color': colors['contrast3']}},
             ]
             },
             {
             'name': 'Hipoclorito (Lts)',
             'type': 'pie',
             'radius': ['45%', '60%'],
-            'labelLine': {
-                'length': 30
-            },
             'label': {
-                'formatter': '{a|{a}}{abg|}\n{hr|}\n  {b|{b}：}{c}  {per|{d}%}  ',
-                'backgroundColor': '#F6F8FC',
-                'borderColor': '#8C8D8E',
-                'borderWidth': 1,
-                'borderRadius': 4,
-                'rich': {
-                'a': {
-                    'color': '#6E7079',
-                    'lineHeight': 22,
-                    'align': 'center'
-                },
-                'hr': {
-                    'borderColor': '#8C8D8E',
-                    'width': '100%',
-                    'borderWidth': 1,
-                    'height': 0
-                },
-                'b': {
-                    'color': '#4C5058',
-                    'fontSize': 14,
-                    'fontWeight': 'bold',
-                    'lineHeight': 33
-                },
-                'per': {
-                    'color': '#fff',
-                    'backgroundColor': '#4C5058',
-                    'padding': [3, 4],
-                    'borderRadius': 4
-                }
-                }
+                'show': False
+            },
+            'labelLine': {
+                'show': False
             },
             'data': [
-                { 'value': suma_hcl_linea11, 'name': 'Linea 11'},
-                { 'value': suma_hcl_linea10, 'name': 'Linea 10'},
-                { 'value': suma_hcl_linea5, 'name': 'Linea 5' },
+                { 'value': suma_hcl_linea11, 'name': 'Linea 11', 'itemStyle': {'color': colors['primary']}},
+                { 'value': suma_hcl_linea10, 'name': 'Linea 10', 'itemStyle': {'color': colors['secondary']}},
+                { 'value': suma_hcl_linea5, 'name': 'Linea 5', 'itemStyle': {'color': colors['accent']}},
             ]
             }
         ]
@@ -302,15 +278,23 @@ def graficoTemperatura(request):
         #     'left': "center",
         # },
         'legend': {
-            # 'top': 30,
-            'left': '5%',
-            'data': ["T° Pulpa Entrada", "T° Agua Vaciado", "T° Ambiente Camara", "T° Estanque Fungicida"],
+            'orient': 'horizontal',
+            # 'type': 'scroll',
+            # 'top': '5%',
+            # 'left': '8%',
+            # 'itemGap': 20,
+            # 'itemWidth': 14,
+            # 'itemHeight': 14,
+            'data': ["T° Pulpa", "T° Vaciado", "T° Camara", "T° Fungicida"],
             'selected': {
-                "T° Pulpa Entrada": True,
-                "T° Agua Vaciado": True,
-                "T° Ambiente Camara": True,
-                "T° Estanque Fungicida": True,
-            }
+                "T° Pulpa": True,
+                "T° Vaciado": True,
+                "T° Camara": True,
+                "T° Fungicida": True,
+            },
+            'textStyle': {'fontSize': 12},
+            # 'pageButtonItemGap': 8,
+            # 'pageButtonPosition': 'end'
         },
         'dataZoom': {
             'show': True,
@@ -329,6 +313,7 @@ def graficoTemperatura(request):
                     }
                 },
             },
+            'bottom': '0%',
         },
         'dataZoom': [
             {
@@ -336,27 +321,21 @@ def graficoTemperatura(request):
                 'xAxisIndex': 0,
                 'filterMode': 'none'
             },
-            {
-                'type': 'slider',
-                'xAxisIndex': 0,
-                'filterMode': 'none',
-                'height': 20,
-                
-                'handleIcon': 'M10.7,11.9H9.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4h1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
-                'handleSize': '120%'
-            }
         ],
         'xAxis': {
-            'type': "category",
-            'name': 'Hora',
-            'nameLocation': 'middle',
-            'nameGap': 35,
-            'nameTextStyle': {'fontSize': 14, 'fontWeight': 'bold'},
-            'data': ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00',
-                '07:00', '08:00', '09:00', '10:00', '11:00', '12:00',
-                '13:00', '14:00', '15:00', '16:00', '17:00', '18:00',
-                '19:00', '20:00', '21:00', '22:00', '23:00', '24:00'],
-            
+            'type': "value",
+            # 'name': 'Hora',
+            # 'nameLocation': 'middle',
+            # 'nameGap': 35,
+            # 'nameTextStyle': {'fontSize': 14, 'fontWeight': 'bold'},
+            'min': 0,
+            'max': 24,
+            'interval':3,
+            # 'data': ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00',
+            #     '07:00', '08:00', '09:00', '10:00', '11:00', '12:00',
+            #     '13:00', '14:00', '15:00', '16:00', '17:00', '18:00',
+            #     '19:00', '20:00', '21:00', '22:00', '23:00', '24:00'],
+            'axisLine': {'lineStyle': {'width': 1}},
             'axisLabel': {'fontSize': 12}
         },
         'yAxis': {
@@ -375,38 +354,38 @@ def graficoTemperatura(request):
         },
         'series': [
             {
-                'name': "T° Pulpa Entrada",
+                'name': "T° Pulpa",
                 'type': "scatter",
                 'symbol': "pin",
                 'data': pulpa_data,
-                'itemStyle': { 'color': '#FF6B6B' },
+                # 'itemStyle': { 'color': '#FF6B6B' },
                 'symbolSize': 12,
                 'emphasis': {'focus': 'series'},
             },
             {
-                'name': "T° Agua Vaciado",
+                'name': "T° Vaciado",
                 'type': "scatter",
                 'symbol': "pin",
                 'data': agua_data,
-                'itemStyle': { 'color': '#4D96FF'},
+                # 'itemStyle': { 'color': '#4D96FF'},
                 'symbolSize': 12,
                 'emphasis': {'focus': 'series'},
             },
             {
-                'name': "T° Ambiente Camara",
+                'name': "T° Camara",
                 'type': "scatter",
                 'symbol': "pin",
                 'data': ambiente_data,
-                'itemStyle': { 'color': '#FFC300'},
+                # 'itemStyle': { 'color': '#FFC300'},
                 'symbolSize': 12,
                 'emphasis': {'focus': 'series'},
             },
             {
-                'name': "T° Estanque Fungicida",
+                'name': "T° Fungicida",
                 'type': "scatter",
                 'symbol': "pin",
                 'data': fungicida_data,
-                'itemStyle': { 'color': '#6A4C93'},
+                # 'itemStyle': { 'color': '#6A4C93'},
                 'symbolSize': 12,
                 'emphasis': {'focus': 'series'},
             }
@@ -425,19 +404,25 @@ def graficoPPM(request):
     fecha_str = request.GET.get('dia_id')
     year = request.GET.get('year')
 
-    registros = Cloracion.objects.exclude(
+    registros = Cloracion.objects.select_related(
+        'grupoclo_id__dia_id',
+        'grupoclo_id__sector_id'
+    ).exclude(
         Q(hor_clo__isnull=True) |
         Q(ppm_clo__isnull=True) |
         Q(phe_clo__isnull=True) 
     )
 
-    registrofungi = PPM.objects.exclude(
+    registrofungi = PPM.objects.select_related(
+        'dia_id'
+    ).exclude(
         Q(hor_ppm__isnull=True) |
         Q(dat_ppm__isnull=True) |
         Q(phe_ppm__isnull=True) 
     )
 
-    # Filtros para resultados
+
+    
     if linea_id:
         registros = registros.filter(grupoclo_id__lineas_id=linea_id)
         registrofungi = registrofungi.filter(lineas_id=linea_id)
@@ -454,19 +439,14 @@ def graficoPPM(request):
             registrofungi = registrofungi.filter(dia_id__dia_dia=fecha_dt)
         except ValueError:
             pass
-    
-    
+
     
     registrofungi = registrofungi.order_by('hor_ppm')
 
-
-    # Filtro por sector
     registros_estanque = registros.filter(grupoclo_id__sector_id__id=1).order_by('hor_clo')
     registros_cortapedi = registros.filter(grupoclo_id__sector_id__id=2).order_by('hor_clo')
     registros_retorno = registros.filter(grupoclo_id__sector_id__id=3).order_by('hor_clo')
     
-    
-    # Lista formateada por sector
     estanque_ppm = [[r.hor_clo.hour + r.hor_clo.minute/60, r.ppm_clo] for r in registros_estanque]
     estanque_ph = [[r.hor_clo.hour + r.hor_clo.minute/60, r.phe_clo] for r in registros_estanque]
 
@@ -479,7 +459,6 @@ def graficoPPM(request):
     fungi_ppm = [[r.hor_ppm.hour + r.hor_ppm.minute/60, r.dat_ppm] for r in registrofungi]
     fungi_ph = [[r.hor_ppm.hour + r.hor_ppm.minute/60, r.phe_ppm] for r in registrofungi]
 
-
     chart = {
         # 'title': {
         #     'text': "Mediciones de PPM y Ph",
@@ -488,7 +467,7 @@ def graficoPPM(request):
         # },
         'legend': {
             # 'top': 30,
-            'left': '5%',
+            # 'left': '5%',
             'data': ['Estanque', 'Corta Pedicelo', 'Retorno', 'Fungicida'],
             'selected': {  
                 'Estanque': True,
@@ -497,21 +476,21 @@ def graficoPPM(request):
                 'Fungicida': True,
             },
             'selectedMode': 'multiple',
-            'textStyle': {'fontSize': 14},
+            'textStyle': {'fontSize': 12},
         },
         'tooltip': {
             'trigger': 'item',
             
         },
         'grid': {
-            'left': '8%',
-            'right': '8%',
-            'top': '20%',   
+            # 'left': '8%',
+            # 'right': '8%',
+            # 'top': '20%',
+            # 'bottom': '15%' # Added to make room for toolbox
         },
         'toolbox': {
             'show': True,
             'feature': {
-                
                 'saveAsImage': { 'show': True },
                 'restore': { 'show': True },
                 'dataZoom': {
@@ -521,40 +500,30 @@ def graficoPPM(request):
                         'back': "Restaurar",
                     }
                 },
-                'right': '5%',
-                'top': '5%',
             },
+            'bottom': '0%', # Changed from top to bottom
+            # 'left': 'center' # Changed to center horizontally
         },
-        'dataZoom': [  # Se mantiene igual
+        'dataZoom': [
             {
                 'type': 'inside',
                 'xAxisIndex': 0,
                 'filterMode': 'none'
-            },
-            {
-                'type': 'slider',
-                'xAxisIndex': 0,
-                'filterMode': 'none',
-                'height': 20,
-                
-                'handleIcon': 'M10.7,11.9H9.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4h1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
-                'handleSize': '120%'
             }
         ],
         'xAxis': {
-            'type': 'category',
-            'name': 'Hora',
-            'nameLocation': 'middle',
-            'nameGap': 35,
-            'nameTextStyle': {'fontSize': 14, 'fontWeight': 'bold'},
-            'data': ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00',
-                '07:00', '08:00', '09:00', '10:00', '11:00', '12:00',
-                '13:00', '14:00', '15:00', '16:00', '17:00', '18:00',
-                '19:00', '20:00', '21:00', '22:00', '23:00', '24:00'],
+            'type': 'value',
+            # 'name': 'Hora',
+            # 'nameLocation': 'middle',
+            # 'nameGap': 35,
+            # 'nameTextStyle': {'fontSize': 14, 'fontWeight': 'bold'},
+            'min': 0,
+            'max': 24,
+            'interval': 3,
             'axisLine': {'lineStyle': {'width': 1}},
             'axisLabel': {'fontSize': 12}
         },
-        'yAxis': [  # Ejes Y duales (se mantienen)
+        'yAxis': [  
             {
                 'type': 'value',
                 'name': 'PPM',
@@ -587,7 +556,7 @@ def graficoPPM(request):
                 'type': 'line',
                 'yAxisIndex': 0,
                 
-                'itemStyle': {'color': '#0d47a1'},
+                # 'itemStyle': {'color': '#0d47a1'},
                 'smooth': True,
                 'emphasis': {'focus': 'series', 'scale': True},
                 'blur': {'itemStyle': {'opacity': 0.1}},  
@@ -599,7 +568,7 @@ def graficoPPM(request):
                 'type': 'line',
                 'yAxisIndex': 1,
 
-                'itemStyle': {'color': '#1976d2'},
+                # 'itemStyle': {'color': '#1976d2'},
                 'smooth': True,
                 'emphasis': {'focus': 'series', 'scale': True},
                 'blur': {'itemStyle': {'opacity': 0.1}},  
@@ -613,7 +582,7 @@ def graficoPPM(request):
                 'type': 'line',
                 'yAxisIndex': 0,
                 
-                'itemStyle': {'color': '#1b5e20'},
+                # 'itemStyle': {'color': '#1b5e20'},
                 'smooth': True,
                 'emphasis': {'focus': 'series', 'scale': True},
                 'blur': {'itemStyle': {'opacity': 0.1}},
@@ -625,7 +594,7 @@ def graficoPPM(request):
                 'type': 'line',
                 'yAxisIndex': 1,
                 
-                'itemStyle': {'color': '#388e3c'},
+                # 'itemStyle': {'color': '#388e3c'},
                 'smooth': True,
                 'emphasis': {'focus': 'series', 'scale': True},
                 'blur': {'itemStyle': {'opacity': 0.1}},
@@ -639,7 +608,7 @@ def graficoPPM(request):
                 'type': 'line',
                 'yAxisIndex': 0,
 
-                'itemStyle': {'color': '#b71c1c'},
+                # 'itemStyle': {'color': '#b71c1c'},
                 'smooth': True,
                 'emphasis': {'focus': 'series', 'scale': True},
                 'blur': {'itemStyle': {'opacity': 0.1}},
@@ -651,7 +620,7 @@ def graficoPPM(request):
                 'type': 'line',
                 'yAxisIndex': 1,
 
-                'itemStyle': {'color': '#d84315'},
+                # 'itemStyle': {'color': '#d84315'},
                 'smooth': True,
                 'emphasis': {'focus': 'series', 'scale': True},
                 'blur': {'itemStyle': {'opacity': 0.1}},
@@ -664,7 +633,7 @@ def graficoPPM(request):
                 'type': 'line',
                 'yAxisIndex': 0,
 
-                'itemStyle': {'color': '#311b92'},
+                # 'itemStyle': {'color': '#311b92'},
                 'smooth': True,
                 'emphasis': {'focus': 'series', 'scale': True},
                 'blur': {'itemStyle': {'opacity': 0.1}},
@@ -676,7 +645,7 @@ def graficoPPM(request):
                 'type': 'line',
                 'yAxisIndex': 1,
 
-                'itemStyle': {'color': '#5e35b1'},
+                # 'itemStyle': {'color': '#5e35b1'},
                 'smooth': True,
                 'emphasis': {'focus': 'series', 'scale': True},
                 'blur': {'itemStyle': {'opacity': 0.1}},
@@ -726,10 +695,10 @@ def graficoKilogramos(request):
     # Agrupo por especie y mes
     resultados = registros.values(
         'especies_id__id',
-        'especies_id__nom_esp',
+        'especies_id__nom_esp', 
         'grupopro_id__dia_id__dia_dia__month'
     ).annotate(
-        suma_kg=(Sum('kil_pro'))
+        suma_kg = Coalesce(Round(Sum('kil_pro'), 2), Value(0), output_field=FloatField()),
     ).order_by('especies_id__id', 'grupopro_id__dia_id__dia_dia__month')
 
     # Inicializar arrays para cada especie
@@ -864,3 +833,75 @@ def graficoKilogramos(request):
 
 # ----------------------------------------------------
 # ----------------------------------------------------
+
+
+# ----------------------------------------------------
+# ----------- KPIS para el Dashboard ----------------
+# ----------------------------------------------------
+
+def kpigeneral(request):
+    linea_id = request.GET.get('linea_id')
+    turno_id = request.GET.get('turno_id')
+    fecha_str = request.GET.get('dia_id')
+    year = request.GET.get('year')
+
+
+    # template fungicida usa shield brite 230 y demáses
+    # Tabla Dosificacion
+    # Debo clasificar el ccp_dos que es cc de producto, según la clasificación de fungicidas_id
+
+    #Hago exclude para escoger los campos que deseo utilizar
+    registros_dosificacion = Dosificacion.objects.exclude(
+        Q(ccp_dos__isnull = True) |
+        Q(agu_dos__isnull = True) |
+        Q(cer_dos__isnull = True) 
+    )
+
+    registros_productos = Productos.objects.exclude(
+        Q(dor_pro__isnull = True) | # Dosis de retards
+        Q(kil_pro__isnull = True) | # Kilos de producción
+        Q(bin_pro__isnull = True)   # Cantidad de bins
+    )
+
+    #Realizo filtros según parametros
+    if linea_id:
+        registros_dosificacion = registros_dosificacion.filter(lineas_id=linea_id)
+        registros_productos = registros_productos.filter(grupopro_id__lineas_id=linea_id)
+    if year:
+        registros_dosificacion = registros_dosificacion.filter(dia_id__dia_dia__year=year)
+        registros_productos = registros_productos.filter(grupopro_id__dia_id__dia_dia__year=year)
+    if fecha_str:
+        fecha_dt = datetime.strptime(fecha_str, "%Y-%m-%d").date()
+        registros_dosificacion = registros_dosificacion.filter(dia_id__dia_dia=fecha_dt)
+        registros_productos = registros_productos.filter(grupopro_id__dia_id__dia_dia=fecha_dt)
+    if turno_id:
+        registros_productos = registros_productos.filter(grupopro_id__turnos_id=turno_id)
+
+    
+
+     
+    #Realizo la suma de los shield brites según su ID en consulta hacia la BD
+
+    #Coalesce maneja valores nulos en la suma
+
+    kpi_resultados_dosificacion = registros_dosificacion.aggregate(
+        # shield son datos en cc, se pasan a litros
+        # Agua y cera son Litros
+        shbr230_total = Coalesce(Round(Sum('ccp_dos', filter=Q(fungicidas_id=1)) / 1000.0, 2), Value(0), output_field=FloatField()),
+        shbr430_total = Coalesce(Round(Sum('ccp_dos', filter=Q(fungicidas_id=2)) / 1000.0, 2), Value(0), output_field=FloatField()),
+        shbrpyr_total = Coalesce(Round(Sum('ccp_dos', filter=Q(fungicidas_id=3)) / 1000.0, 2), Value(0), output_field=FloatField()),
+        total_agua = Coalesce(Round(Sum('agu_dos')), Value(0), output_field=FloatField()),
+        total_cera = Coalesce(Round(Sum('cer_dos')), Value(0), output_field=FloatField()),
+    )
+
+    kpi_resultados_productos = registros_productos.aggregate(
+        total_retards = Coalesce(Round(Sum('dor_pro')), Value(0), output_field=IntegerField()),
+        total_kilos = Coalesce(Round(Sum('kil_pro'), 2), Value(0), output_field=FloatField()),
+        total_bins = Coalesce(Round(Sum('bin_pro')), Value(0), output_field=IntegerField()),
+    )
+
+    # | une dos diccionarios ( Dictionary union operator )
+
+    kpi_resultados = kpi_resultados_dosificacion | kpi_resultados_productos
+    
+    return JsonResponse(kpi_resultados)
