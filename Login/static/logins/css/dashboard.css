@@ -8,6 +8,8 @@ body, h1, h2, h3, h4, h5, h6, p, span, li, a, button, option, label, small, stro
   color: var(--text);
 }
 
+
+
 @media (max-width: 768px) {
   .sidebar {
     position: fixed;
@@ -61,6 +63,10 @@ body, h1, h2, h3, h4, h5, h6, p, span, li, a, button, option, label, small, stro
   color : var(--accent) !important;
 }
 
+.text-muted {
+  color : var(--subtext) !important;
+}
+
 .kpi-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
@@ -76,11 +82,11 @@ body, h1, h2, h3, h4, h5, h6, p, span, li, a, button, option, label, small, stro
   font-size: 0.75rem;
 }
 
-.dashboard-content {
-  margin-left: 300px; /* Igual al ancho del sidebar */
-  padding: 1rem;      /* Opcional: ajuste interno del contenido */
+/* .dashboard-content {
+  margin-left: 300px;  Igual al ancho del sidebar
+  padding: 1rem;      Opcional: ajuste interno del contenido
 }
-
+ */
 
 .table {
   --bs-table-bg: var(--quaternary);
@@ -88,4 +94,15 @@ body, h1, h2, h3, h4, h5, h6, p, span, li, a, button, option, label, small, stro
 
 .table-light {
   --bs-table-bg: var(--quaternary);
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1400px;  
+  }
+}
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1600px;
+  }
 }

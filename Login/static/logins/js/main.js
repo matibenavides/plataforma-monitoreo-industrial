@@ -64,6 +64,23 @@ const initChartTemperatura = async (params = {}) => {
   
   let option = await getOptionChartTemperatura(params);
 
+  if (option.xAxis && option.xAxis.type !== 'value') {
+    option.xAxis.type = 'value';
+    option.xAxis.min = 0;
+    option.xAxis.max = 24;
+    option.xAxis.interval = 3;
+  }
+
+  option.xAxis.axisLabel = {
+    fontSize: 12,
+    formatter: function(value) {
+      const hora = Math.floor(value);
+      return hora + ':00';
+    }
+  };
+
+
+
   option.tooltip.formatter = function(params) {
     const total = params.value[0];
     const hora = Math.floor(total);
@@ -72,7 +89,7 @@ const initChartTemperatura = async (params = {}) => {
     const minutosformateado = minutos < 10 ? '0' + minutos : minutos;
 
 
-    return `<strong>${params.seriesName}</strong><br/>
+    return `${params.seriesName}<br/>
             Hora: ${hora}:${minutosformateado}<br/>
             Temperatura: ${params.value[1]}°C`;
   };
@@ -103,6 +120,24 @@ const initChartPPM = async (params = {}) => {
   
   let option = await getOptionChartPPM(params);
 
+
+  if (option.xAxis && option.xAxis.type !== 'value') {
+    option.xAxis.type = 'value';
+    option.xAxis.min = 0;
+    option.xAxis.max = 24;
+    option.xAxis.interval = 3;
+  }
+
+  option.xAxis.axisLabel = {
+    fontSize: 12,
+    formatter: function(value) {
+      const hora = Math.floor(value);
+      return hora + ':00';
+    }
+  };
+
+
+
   option.tooltip.formatter = function(params) {
     // Maneja params como array u objeto
     const pointParams = Array.isArray(params) ? params[0] : params;
@@ -115,6 +150,8 @@ const initChartPPM = async (params = {}) => {
     const seriesId = pointParams.seriesId;     // Ej: "estanque-ppm", "corta-ph"
     const numericalTime = pointParams.value[0]; // Ej: 8.5, 9.0
     const value = pointParams.value[1];        // Ej: 120, 6.8
+
+    
 
 
     // formateo de hora
@@ -138,7 +175,7 @@ const initChartPPM = async (params = {}) => {
 
     // Construir el contenido HTML del tooltip
     // Usamos seriesName (Ej: "Estanque") como título principal
-    return `<strong>${seriesName}</strong><br/>
+    return `${seriesName}<br/>
             Hora: ${timeStr}<br/>
             ${metricLabel}: ${value}`;
 };
@@ -189,6 +226,7 @@ document.getElementById("btn-filtrar").addEventListener("click", async () => {
   await initChartHipoAci(params);
   await initChartKGS(params);
 
+  await fetchAndUpdateKpis(params);
 });
 
 // Función para cargar los años disponibles
@@ -216,6 +254,8 @@ const loadAvailableYears = async () => {
 document.addEventListener('DOMContentLoaded', loadAvailableYears);
 
 
+
+
 // ---------------------------------------------------
 
 // Función para redimensionar todos los gráficos
@@ -239,5 +279,8 @@ window.addEventListener("load", async() =>{
   await initChartPPM();
   await initChartHipoAci();
   await initChartKGS();
+  
+  // inicialización kpis js/kpis.js
+  await fetchAndUpdateKpis();
 });
 

@@ -77,3 +77,44 @@
   font-weight: 200;
   font-style: normal;
 }
+
+
+
+
+
+.offcanvas.sidebar {
+  --bs-offcanvas-width: 250px;  
+}
+
+
+.offcanvas {
+  transition: transform 0.3s ease-in-out;
+}
+
+
+@media (min-width: 768px) {
+  .offcanvas.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    visibility: visible !important;
+    transform: none !important;      
+  }
+  .offcanvas-backdrop {
+    display: none;
+  }
+  .dashboard-content {
+    margin-left: 250px;  
+  }
+}
+
+
+@media (max-width: 767.98px) {
+  .dashboard-content {
+    margin-left: 0;
+    transition: margin-left 0.3s;
+  }
+  #sidebarMenu.show ~ .dashboard-content {
+    margin-left: 250px;
+  }
+}

@@ -16,5 +16,6 @@ urlpatterns = [
     path('grafico_temp/', views.graficoTemperatura, name='grafico_temp'),
     path('grafico_ppm/', views.graficoPPM, name='grafico_ppm'),
     path('grafico_kgs/', views.graficoKilogramos, name='grafico_kgs'),
+    path('kpi_general/', views.kpigeneral, name='kpi_general'),
     
 ]
