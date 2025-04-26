@@ -97,27 +97,76 @@ def registrarTemperatura(request):
 @login_required(login_url='inicio')
 def mostrarListaTemperatura(request):
     busqueda = request.GET.get("buscar")
-    grupoLista = GrupoTemperatura.objects.all().order_by('-id')
+    campo = request.GET.get("campo")
+    lista = GrupoTemperatura.objects.all().order_by('-id')
 
-    if busqueda:
-        grupoLista = grupoLista.filter(
-            Q(turnos_id__nom_tur__icontains = busqueda) |
-            Q(lineas_id__num_lin__icontains = busqueda) |
-            Q(trabajador_id__nom_tra__icontains = busqueda) |
-            Q(dia_id__dia_dia__icontains = busqueda) 
-        ).distinct()
+    if campo:
+        if campo == "turno":
+            try:
+                turno_nom = busqueda
+                if turno_nom not in ['A', 'B', 'a', 'b']:
+                    messages.error(request, '¡El turno debe ser A, B!')
+                    return redirect('listatemperatura')
+                lista = GrupoTemperatura.objects.filter(turnos_id__nom_tur__iexact=busqueda)
+            except ValueError:
+                messages.error(request, '¡En filtro de Turnos, solo se acepta A o B!')
+                return redirect('listatemperatura')
+        elif campo == "linea":
+            try:
+                linea_num = int(busqueda)
+                if linea_num not in [11, 5]:
+                    messages.error(request, '¡La línea debe ser 11 o 5!')
+                    return redirect('listatemperatura')
+                lista = GrupoTemperatura.objects.filter(lineas_id__num_lin__exact=busqueda)
+            except ValueError:
+                messages.error(request, '¡El valor de línea debe ser un número!')
+                return redirect('listatemperatura')
+        elif campo == "trabajador":
+            if busqueda.replace('.','',1).isdigit():
+                messages.error(request, '¡El nombre de trabajador no puede ser un número!')
+                return redirect('listatemperatura')
+            lista = GrupoTemperatura.objects.filter(
+                    Q(trabajador_id__nom_tra__icontains=busqueda) | 
+                    Q(trabajador_id__app_tra__icontains=busqueda)
+                ).distinct()
+        elif campo == "fecha":
+            try:
+                fecha = busqueda.split('-')
+                if len(fecha) != 3:
+                    messages.error(request, '¡El formato de fecha debe ser YYYY-MM-DD!')
+                    return redirect('listatemperatura')
+                
+                lista = GrupoTemperatura.objects.filter(dia_id__dia_dia__exact=busqueda)
+            except:
+                messages.error(request, '¡El formato de fecha debe ser YYYY-MM-DD!')
+        elif campo == "observacion":
+            lista = GrupoTemperatura.objects.filter(obs_grp__icontains=busqueda)
+        else:
+            lista = GrupoTemperatura.objects.all().order_by('-id')
+            messages.error(request, '¡Campo de búsqueda inexistente!')
+            return redirect('listatemperatura')
+            
 
-    grupo_modificado = []
-    for grupo in grupoLista:
-        grupo_modificado.append({
-            "id":  grupo.id,
-            "turno": grupo.turnos_id.nom_tur.upper(),
-            "trabajador":f"{grupo.trabajador_id.nom_tra.capitalize()} {grupo.trabajador_id.app_tra.capitalize()}",
-            "fecha": grupo.dia_id,
-            "linea": grupo.lineas_id.num_lin,
+
+    # if busqueda:
+    #     grupoLista = grupoLista.filter(
+    #         Q(turnos_id__nom_tur__icontains = busqueda) |
+    #         Q(lineas_id__num_lin__icontains = busqueda) |
+    #         Q(trabajador_id__nom_tra__icontains = busqueda) |
+    #         Q(dia_id__dia_dia__icontains = busqueda) 
+    #     ).distinct()
+
+    lista_formato = []
+    for grupo in lista:
+        lista_formato.append({
+            'id': grupo.id,
+            'turno': grupo.turnos_id.nom_tur.upper(),
+            'linea': grupo.lineas_id.num_lin,
+            'trabajador': f"{grupo.trabajador_id.nom_tra.capitalize()} {grupo.trabajador_id.app_tra.capitalize()}",
+            'fecha': grupo.dia_id.dia_dia.strftime('%Y-%m-%d'),
         })
 
-    paginator = Paginator(grupo_modificado, 10)
+    paginator = Paginator(lista_formato, 10)
     pagina = request.GET.get("page") or 1
     listas = paginator.get_page(pagina)
     pagina_actual = int(pagina)
@@ -128,8 +177,7 @@ def mostrarListaTemperatura(request):
         'paginas': paginas,
         'pagina_actual': pagina_actual,
     }
-
-    return render(request, "temperaturas/base/listatemperatura.html", datos)
+    return render(request, "temperaturas/base/listatemperatura.html",datos)
 
 
 @login_required(login_url='inicio')
