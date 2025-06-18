@@ -24,17 +24,10 @@
     </style>
 
 </head>
-<body>
+<body >
     {% include "cloraciones/base/offcanvas.html" %}
 
-    {% comment %} <header class="d-md-none p-2">
-        <button class="btn btn-outline-secondary btn-sm position-fixed top-0 start-0 m-2 d-md-none" 
-        data-bs-toggle="offcanvas"
-        data-bs-target="#sidebarMenu"
-        aria-controls="sidebarMenu">
-            <i class="bi bi-list fs-4"></i>
-        </button>
-    </header> {% endcomment %}
+
 
     {% if messages %}
         {% for message in messages %}
@@ -54,7 +47,6 @@
         {% endfor %}
     {% endif %}
 
-    {% comment %} {% include "logins/base/sidebar.html"%} {% endcomment %}
 
     
     
@@ -341,7 +333,7 @@
       
     
  
-
+    
 
 
 <!-- Echarts -->

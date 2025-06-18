@@ -112,6 +112,13 @@ def mostrarListaProducto(request):
     campo = request.GET.get("campo")
     lista = GrupoProductos.objects.all().order_by('-id')
 
+    # Chequea si el usuario es superuser (admin)
+    if request.user.is_superuser:
+        lista = GrupoProductos.objects.all().order_by('-id')
+    else:
+        # Filtra registros para usuario normal
+        lista = GrupoProductos.objects.filter(trabajador_id=request.user.trabajador).order_by('-id')
+
     # Filtrado de busqueda por campo de listado
     if campo:
         if campo == "turno":

@@ -95,10 +95,17 @@ main {
   text-decoration: none;
 }
 
-.transparente {
+
+.navbar-toggler { 
+  background-color: var(--quaternary);
+}
+
+.navbar {
+  padding-left: 10px;
+  bottom: 1000px;
   background-color: transparent !important;
 }
 
-.navbar-toggler { 
-  background-color: #f7f2ff;
+.ajuste {
+  display: contents !important;
 }
