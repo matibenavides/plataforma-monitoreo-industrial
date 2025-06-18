@@ -28,6 +28,13 @@ def mostrarPPM(request, linea_id):
         # Muestra listado de registros en el mismo template
         ppm = PPM.objects.all().order_by('-id')
 
+        # Chequea si el usuario es superuser (admin)
+        if request.user.is_superuser:
+            ppm = PPM.objects.all().order_by('-id')
+        else:
+            # Filtra registros para usuario normal
+            ppm = PPM.objects.filter(trabajador_id=request.user.trabajador).order_by('-id')
+
         lista_formato = []
         for lista in ppm:
             lista_formato.append({
@@ -119,6 +126,15 @@ def visualizarPPM(request, grupo_id):
         linea = Lineas.objects.get(id=ppm.lineas_id.id)
 
         registros = PPM.objects.all().order_by('-id')
+
+        # Chequea si el usuario es superuser (admin)
+        if request.user.is_superuser:
+            registros = PPM.objects.all().order_by('-id')
+        else:
+            # Filtra registros para usuario normal
+            registros = PPM.objects.filter(trabajador_id=request.user.trabajador).order_by('-id')
+
+        
 
         lista_formato = []
         for lista in registros:
@@ -239,6 +255,13 @@ def DescargarPDFPPM(request):
         
         # Consulta base ordenada
         ppm = PPM.objects.all().order_by('-id')
+
+        # Chequea si el usuario es superuser (admin)
+        if request.user.is_superuser:
+            ppm = PPM.objects.all().order_by('-id')
+        else:
+            # Filtra registros para usuario normal
+            ppm = PPM.objects.filter(trabajador_id=request.user.trabajador).order_by('-id')
         
         # Aplicar filtros si se proporcionan "campo" y "buscar"
         if campo:
@@ -365,6 +388,13 @@ def mostrarListaPPM(request):
     busqueda = request.GET.get("buscar")
     campo = request.GET.get("campo")
     lista = PPM.objects.all().order_by('-id')
+
+    # Chequea si el usuario es superuser (admin)
+    if request.user.is_superuser:
+        lista = PPM.objects.all().order_by('-id')
+    else:
+        # Filtra registros para usuario normal
+        lista = PPM.objects.filter(trabajador_id=request.user.trabajador).order_by('-id')
 
     if campo:
         if campo == "linea":

@@ -100,6 +100,13 @@ def mostrarListaTemperatura(request):
     campo = request.GET.get("campo")
     lista = GrupoTemperatura.objects.all().order_by('-id')
 
+    # Chequea si el usuario es superuser (admin)
+    if request.user.is_superuser:
+        lista = GrupoTemperatura.objects.all().order_by('-id')
+    else:
+        # Filtra registros para usuario normal
+        lista = GrupoTemperatura.objects.filter(trabajador_id=request.user.trabajador).order_by('-id')
+
     if campo:
         if campo == "turno":
             try:

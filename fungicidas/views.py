@@ -24,6 +24,13 @@ def mostrarFungicida(request, linea_id):
 
         dosificacion = Dosificacion.objects.all().order_by('-id')
 
+        # Chequea si el usuario es superuser (admin)
+        if request.user.is_superuser:
+            dosificacion = Dosificacion.objects.all().order_by('-id')
+        else:
+            # Filtra registros para usuario normal
+            dosificacion = Dosificacion.objects.filter(trabajador_id=request.user.trabajador).order_by('-id')
+
         lista_formato = []
         for lista in dosificacion:
             lista_formato.append({
@@ -141,6 +148,13 @@ def visualizarFungicida(request, grupo_id):
         productos = Fungicidas.objects.all()
 
         registros = Dosificacion.objects.all().order_by('-id')
+
+        # Chequea si el usuario es superuser (admin)
+        if request.user.is_superuser:
+            registros = Dosificacion.objects.all().order_by('-id')
+        else:
+            # Filtra registros para usuario normal
+            registros = Dosificacion.objects.filter(trabajador_id=request.user.trabajador).order_by('-id')
 
         lista_formato = []
         for lista in registros:
@@ -276,6 +290,13 @@ def mostrarListaFungicida(request):
     busqueda = request.GET.get("buscar")
     campo = request.GET.get("campo")
     lista = Dosificacion.objects.all().order_by('-id')
+
+    # Chequea si el usuario es superuser (admin)
+    if request.user.is_superuser:
+        lista = Dosificacion.objects.all().order_by('-id')
+    else:
+        # Filtra registros para usuario normal
+        lista = Dosificacion.objects.filter(trabajador_id=request.user.trabajador).order_by('-id')
     
     if campo:
         if campo == "fecha":
@@ -400,6 +421,13 @@ def DescargarPDFFungicida(request):
         campo = request.GET.get("campo")
 
         dosificacion = Dosificacion.objects.all().order_by('-id')
+
+        # Chequea si el usuario es superuser (admin)
+        if request.user.is_superuser:
+            dosificacion = Dosificacion.objects.all().order_by('-id')
+        else:
+            # Filtra registros para usuario normal
+            dosificacion = Dosificacion.objects.filter(trabajador_id=request.user.trabajador).order_by('-id')
 
         if campo:
             if campo == "fecha":

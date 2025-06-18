@@ -109,12 +109,16 @@ def graficoCloroAcido(request):
     fecha_str = request.GET.get('dia_id')
     year = request.GET.get('year')
 
+    
+
 
     # Base de la consulta con exclusiones
     registros = Cloracion.objects.exclude(
         Q(hcl_clo__isnull=True) | 
         Q(aci_clo__isnull=True)
     )
+
+
 
     # Filtros generales
     if linea_id:
@@ -129,6 +133,12 @@ def graficoCloroAcido(request):
             registros = registros.filter(grupoclo_id__dia_id__dia_dia=fecha_dt)
         except ValueError:
             pass
+    # Chequea si el usuario es superuser (admin)
+    if request.user.is_superuser:
+        lista = Dosificacion.objects.all().order_by('-id')
+    else:
+        # Filtra registros para usuario normal
+        lista = Dosificacion.objects.filter(trabajador_id=request.user.trabajador).order_by('-id')
 
     # Consulta directa a la base de datos
     # Agrupando por líneas y sumando directamente en la base de datos
@@ -676,11 +686,21 @@ def graficoKilogramos(request):
     turno_id = request.GET.get('turno_id')
     year = request.GET.get('year')
 
+
+
     # Registros de Productos
-    registros = Productos.objects.exclude(
-        Q(especies_id__isnull=True) |
-        Q(kil_pro__isnull=True) 
-    )
+    # Chequea si el usuario es superuser (admin)
+    if request.user.is_superuser:
+        registros = Productos.objects.exclude(
+            Q(especies_id__isnull=True) |
+            Q(kil_pro__isnull=True)
+        )
+    else:
+        # Filtra registros para usuario normal 
+        registros = Productos.objects.exclude(
+            Q(especies_id__isnull=True) |
+            Q(kil_pro__isnull=True)
+        ).filter(grupopro_id__trabajador_id=request.user.trabajador)
 
     # Filtros para resultados
     if linea_id:
