@@ -39,13 +39,7 @@ def iniciosesion(request):
         return render(request, "logins/base/iniciosesion.html")
     
 
-# Este metodo de @login_required funciona y al intentar viajar a /menu manualmente, me redirijirá al path con el nombre 'inicio'.
-# El punto, es que no me enviará un mensaje como lo hace la función de abajo en caso de querer intentar ir hacia ese lugar,
-# por lo tanto es eficaz en casos especificos por si deseo implementar un mensaje de error o no.
 
-# @login_required(login_url='inicio')
-# def muestramenu(request):
-#     return render(request, "menu.html")
 
 
 def muestramenu(request):
@@ -175,15 +169,16 @@ def graficoCloroAcido(request):
 
     # Define color variables based on theme
     colors = {
-        'primary':  '#0c0689',  
+        'primary':  '#8a47f5',  
         'secondary': '#ac86e9',  
-        'accent':    '#8a47f5',  
+        'accent':    '#e0d0f8',  
 
         # Tonos complementarios
-        'contrast1': '#838906',  
-        'contrast2': '#c3e986',  
-        'contrast3': '#b2f547',  
+        'contrast1': "#eddffe",   
+        'contrast2': '#c3ace7',   
+        'contrast3': '#fff6ff',   
     }
+
         
     chart = {
         'tooltip': {
@@ -368,7 +363,7 @@ def graficoTemperatura(request):
                 'type': "scatter",
                 'symbol': "pin",
                 'data': pulpa_data,
-                # 'itemStyle': { 'color': '#FF6B6B' },
+                'itemStyle': { 'color': '#499894' },
                 'symbolSize': 12,
                 'emphasis': {'focus': 'series'},
             },
@@ -377,7 +372,7 @@ def graficoTemperatura(request):
                 'type': "scatter",
                 'symbol': "pin",
                 'data': agua_data,
-                # 'itemStyle': { 'color': '#4D96FF'},
+                'itemStyle': { 'color': '#4e79a7'},  
                 'symbolSize': 12,
                 'emphasis': {'focus': 'series'},
             },
@@ -386,7 +381,7 @@ def graficoTemperatura(request):
                 'type': "scatter",
                 'symbol': "pin",
                 'data': ambiente_data,
-                # 'itemStyle': { 'color': '#FFC300'},
+                'itemStyle': { 'color': '#59a14f'}, 
                 'symbolSize': 12,
                 'emphasis': {'focus': 'series'},
             },
@@ -395,7 +390,7 @@ def graficoTemperatura(request):
                 'type': "scatter",
                 'symbol': "pin",
                 'data': fungicida_data,
-                # 'itemStyle': { 'color': '#6A4C93'},
+                'itemStyle': { 'color': '#364F6B'}, 
                 'symbolSize': 12,
                 'emphasis': {'focus': 'series'},
             }
@@ -566,7 +561,7 @@ def graficoPPM(request):
                 'type': 'line',
                 'yAxisIndex': 0,
                 
-                # 'itemStyle': {'color': '#0d47a1'},
+                'itemStyle': {'color': '#499894'},
                 'smooth': True,
                 'emphasis': {'focus': 'series', 'scale': True},
                 'blur': {'itemStyle': {'opacity': 0.1}},  
@@ -578,7 +573,7 @@ def graficoPPM(request):
                 'type': 'line',
                 'yAxisIndex': 1,
 
-                # 'itemStyle': {'color': '#1976d2'},
+                'itemStyle': {'color': '#499894'},
                 'smooth': True,
                 'emphasis': {'focus': 'series', 'scale': True},
                 'blur': {'itemStyle': {'opacity': 0.1}},  
@@ -592,7 +587,7 @@ def graficoPPM(request):
                 'type': 'line',
                 'yAxisIndex': 0,
                 
-                # 'itemStyle': {'color': '#1b5e20'},
+                'itemStyle': {'color': '#4e79a7'},
                 'smooth': True,
                 'emphasis': {'focus': 'series', 'scale': True},
                 'blur': {'itemStyle': {'opacity': 0.1}},
@@ -604,7 +599,7 @@ def graficoPPM(request):
                 'type': 'line',
                 'yAxisIndex': 1,
                 
-                # 'itemStyle': {'color': '#388e3c'},
+                'itemStyle': {'color': '#4e79a7'},
                 'smooth': True,
                 'emphasis': {'focus': 'series', 'scale': True},
                 'blur': {'itemStyle': {'opacity': 0.1}},
@@ -618,7 +613,7 @@ def graficoPPM(request):
                 'type': 'line',
                 'yAxisIndex': 0,
 
-                # 'itemStyle': {'color': '#b71c1c'},
+                'itemStyle': {'color': '#59a14f'},
                 'smooth': True,
                 'emphasis': {'focus': 'series', 'scale': True},
                 'blur': {'itemStyle': {'opacity': 0.1}},
@@ -630,7 +625,7 @@ def graficoPPM(request):
                 'type': 'line',
                 'yAxisIndex': 1,
 
-                # 'itemStyle': {'color': '#d84315'},
+                'itemStyle': {'color': '#59a14f'},
                 'smooth': True,
                 'emphasis': {'focus': 'series', 'scale': True},
                 'blur': {'itemStyle': {'opacity': 0.1}},
@@ -643,7 +638,7 @@ def graficoPPM(request):
                 'type': 'line',
                 'yAxisIndex': 0,
 
-                # 'itemStyle': {'color': '#311b92'},
+                'itemStyle': {'color': '#364F6B'},
                 'smooth': True,
                 'emphasis': {'focus': 'series', 'scale': True},
                 'blur': {'itemStyle': {'opacity': 0.1}},
@@ -655,7 +650,7 @@ def graficoPPM(request):
                 'type': 'line',
                 'yAxisIndex': 1,
 
-                # 'itemStyle': {'color': '#5e35b1'},
+                'itemStyle': {'color': '#364F6B'},
                 'smooth': True,
                 'emphasis': {'focus': 'series', 'scale': True},
                 'blur': {'itemStyle': {'opacity': 0.1}},
