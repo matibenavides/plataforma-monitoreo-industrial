@@ -13,7 +13,6 @@ from weasyprint import HTML
 
 
 
-# Create your views here.
 
 @login_required(login_url='inicio')
 def mostrarCloracion(request, linea_id):
@@ -349,7 +348,6 @@ def visualizarDatos(request, grupo_id):
         turnos = Turnos.objects.all()
         especies = Especies.objects.all()
         fecha = grupo.dia_id.dia_dia.strftime("%Y-%m-%d")
-
         datos = {
             'grupo': grupo,
             'registros_cloracion': registros_cloracion,
@@ -357,15 +355,10 @@ def visualizarDatos(request, grupo_id):
             'especies': especies,
             'fecha': fecha
         }
-
         return render(request, 'cloraciones/form/registrodatos.html', datos)
-    except:
-        datos = {
-            'msg' : '¡Error, el formulario no existe!',
-            'sector' : 'Error'
-        }
-
-        return render(request, 'cloraciones/base/cloracion.html', datos)
+    except Exception as e:
+        messages.error(request, f'¡Error, el formulario no existe! {e}')
+        return redirect('archivos')
     
 
 @login_required(login_url='inicio')
@@ -424,66 +417,12 @@ def actualizarRegistro(request, grupo_id):
                 registro.aci_clo = acido
                 registro.obs_clo = observacion
                 registro.save()
-        
 
-        #---- Codigo de mostrarListaOnce ----#
-        # El sentido de la reutilización del código es para enviar los datos filtrados a la vista,
-        #  junto al mensaje de actualización de registros
-
-
-        busqueda = request.GET.get("buscar")
-        bloquesLista = GrupoCloracion.objects.all().order_by('-id') # Muestra todos los datos ordenados de manera descendente (-id) 
-        
-        if busqueda:
-            bloquesLista = bloquesLista.filter(
-                Q(turnos_id__nom_tur__icontains = busqueda) |
-                Q(trabajador_id__nom_tra__icontains = busqueda) |
-                Q(sector_id__nom_sec__icontains = busqueda) |
-                Q(especies_id__nom_esp__icontains = busqueda) |
-                Q(dia_id__dia_dia__icontains = busqueda) |
-                Q(lineas_id__num_lin__icontains = busqueda)
-            ).distinct()
-
-        # Lista de diccionario con datos especificos, para formatear
-        bloques_modificados = []
-        for bloque in bloquesLista:
-            bloques_modificados.append({
-                "id": bloque.id,
-                "turno": bloque.turnos_id.nom_tur.upper(),  
-                "trabajador": f"{bloque.trabajador_id.nom_tra.capitalize()} {bloque.trabajador_id.app_tra.capitalize()}",
-                "fecha": bloque.dia_id,
-                "especie": bloque.especies_id.nom_esp.capitalize(),
-                "sector": bloque.sector_id.nom_sec.capitalize(),
-                "linea": bloque.lineas_id.num_lin, 
-            })
-            
-
-        paginator = Paginator(bloques_modificados , 10)
-        pagina = request.GET.get("page") or 1
-        listas = paginator.get_page(pagina)
-        pagina_actual = int(pagina)
-        paginas = range(1, listas.paginator.num_pages + 1)
-
-        #--- Diccionario de datos para enviar a la vista ---#
-        datos = {
-            'msg' : (f'¡Los registros de {grupo.sector_id.nom_sec} han sido actualizado!'),
-            'sector' : (f'Formulario {grupo.id}'),
-            'listas': listas,
-            'paginas': paginas,
-            'pagina_actual': pagina_actual
-        }
-        return render(request, 'cloraciones/base/listaonce.html', datos)
-
-        
-
+        messages.success(request, '¡Registro actualizado correctamente!')
+        return redirect('archivos')
     except Exception as e:
-        print(f"Error al actualizar: {e}")
-        datos = {
-            'msg' : '¡Error, el formulario no se pudo actualizar!',
-            'sector' : 'Error'
-        }
-
-        return render(request, 'cloraciones/base/cloracion.html', datos)
+        messages.error(request, f'¡Error, el formulario no se pudo actualizar!')
+        return redirect('archivos')
     
 @login_required(login_url='inicio')
 def eliminarRegistro(request, grupo_id):
@@ -504,96 +443,13 @@ def eliminarRegistro(request, grupo_id):
 
         grupo.delete()
 
+        messages.success(request, '¡Formulario eliminado!')
+        return redirect('archivos')
 
-        #---- Codigo de mostrarListaOnce ----#
-        busqueda = request.GET.get("buscar")
-        bloquesLista = GrupoCloracion.objects.all().order_by('-id') # Muestra todos los datos ordenados de manera descendente (-id) 
-        
-        if busqueda:
-            bloquesLista = bloquesLista.filter(
-                Q(turnos_id__nom_tur__icontains = busqueda) |
-                Q(trabajador_id__nom_tra__icontains = busqueda) |
-                Q(sector_id__nom_sec__icontains = busqueda) |
-                Q(especies_id__nom_esp__icontains = busqueda) |
-                Q(dia_id__dia_dia__icontains = busqueda) |
-                Q(lineas_id__num_lin__icontains = busqueda)
-            ).distinct()
+   except Exception as e:
+        messages.error(request, f'¡Error, el formulario no existe')
+        return redirect('archivos')
 
-        # Lista de diccionario con datos especificos, para formatear
-        bloques_modificados = []
-        for bloque in bloquesLista:
-            bloques_modificados.append({
-                "id": bloque.id,
-                "turno": bloque.turnos_id.nom_tur.upper(),  
-                "trabajador": f"{bloque.trabajador_id.nom_tra.capitalize()} {bloque.trabajador_id.app_tra.capitalize()}",
-                "fecha": bloque.dia_id,
-                "especie": bloque.especies_id.nom_esp.capitalize(),
-                "sector": bloque.sector_id.nom_sec.capitalize(),
-                "linea": bloque.lineas_id.num_lin, 
-            })
-            
-
-        paginator = Paginator(bloques_modificados , 10)
-        pagina = request.GET.get("page") or 1
-        listas = paginator.get_page(pagina)
-        pagina_actual = int(pagina)
-        paginas = range(1, listas.paginator.num_pages + 1)
-
-    
-        datos = {
-            'msg' : (f'¡Formulario eliminado!'),
-            'sector' : 'Eliminado',
-            'listas': listas,
-            'paginas': paginas,
-            'pagina_actual': pagina_actual
-        }
-        return render(request, 'cloraciones/base/listaonce.html', datos)
-
-   except:
-        #---- Codigo de mostrarListaOnce ----#
-        busqueda = request.GET.get("buscar")
-        bloquesLista = GrupoCloracion.objects.all().order_by('-id') # Muestra todos los datos ordenados de manera descendente (-id) 
-        
-        if busqueda:
-            bloquesLista = bloquesLista.filter(
-                Q(turnos_id__nom_tur__icontains = busqueda) |
-                Q(trabajador_id__nom_tra__icontains = busqueda) |
-                Q(sector_id__nom_sec__icontains = busqueda) |
-                Q(especies_id__nom_esp__icontains = busqueda) |
-                Q(dia_id__dia_dia__icontains = busqueda) |
-                Q(lineas_id__num_lin__icontains = busqueda)
-            ).distinct()
-
-        # Lista de diccionario con datos especificos, para formatear
-        bloques_modificados = []
-        for bloque in bloquesLista:
-            bloques_modificados.append({
-                "id": bloque.id,
-                "turno": bloque.turnos_id.nom_tur.upper(),  
-                "trabajador": f"{bloque.trabajador_id.nom_tra.capitalize()} {bloque.trabajador_id.app_tra.capitalize()}",
-                "fecha": bloque.dia_id,
-                "especie": bloque.especies_id.nom_esp.capitalize(),
-                "sector": bloque.sector_id.nom_sec.capitalize(), 
-                "linea": bloque.lineas_id.num_lin, 
-            })
-            
-
-        paginator = Paginator(bloques_modificados , 10)
-        pagina = request.GET.get("page") or 1
-        listas = paginator.get_page(pagina)
-        pagina_actual = int(pagina)
-        paginas = range(1, listas.paginator.num_pages + 1)
-
-
-        
-        datos = {
-            'msg' : (f'Error el Formulario, no existe.'),
-            'sector' : 'Error',
-            'listas': listas,
-            'paginas': paginas,
-            'pagina_actual': pagina_actual
-        }
-        return render(request, 'cloraciones/base/listaonce.html', datos)
 
     
 @login_required(login_url='inicio')
@@ -640,11 +496,6 @@ def DescargarPDF(request, grupo_id):
         response.write(result)
         return response
         
-        # return render(request, 'cloraciones/form/descargarpdf.html', datos)
-    except:
-        datos = {
-            'msg' : '¡Error, el PDF no existe!',
-            'sector' : 'Error'
-        }
-
-        return render(request, 'cloraciones/base/cloracion.html', datos)
+    except Exception as e:
+        messages.error(request, f'¡Error, el PDF no existe {e}')
+        return redirect('archivos')
