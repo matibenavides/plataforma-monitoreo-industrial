@@ -122,6 +122,18 @@ def registrarFungicida(request, linea_id):
             obs_dos = observacion,
         )
         dosificacion.save()
+
+        #Registro en Historial
+        nombre_corto = producto.nom_fun.lower().replace("shield brite", "sb").strip().capitalize()
+        descripcion_historial = (
+            f"Fungicida - {nombre_corto} - L{linea.num_lin} - {especie.nom_esp}"
+        )
+        Historial.objects.create(
+            trabajador_id = request.user,
+            accion = 'CREACIÓN',
+            content_object = dosificacion,
+            descripcion = descripcion_historial
+        )
         
 
         messages.success(request, '¡Registro agregado correctamente!')
@@ -248,6 +260,20 @@ def actualizarFungicida(request, grupo_id):
         dosificacion.obs_dos = observacion
         dosificacion.save()
 
+        #Registro en Historial
+        nombre_corto = producto.nom_fun.lower().replace("shield brite", "sb").strip().capitalize()
+        descripcion_historial = (
+            f"Fungicida - {nombre_corto} - L{linea.num_lin} - {especie.nom_esp}"
+        )
+        Historial.objects.create(
+            trabajador_id = request.user,
+            accion = 'EDICIÓN',
+            content_object = dosificacion,
+            descripcion = descripcion_historial
+        )
+
+
+
         messages.success(request, '¡Registro actualizado correctamente!')
 
         return redirect('fungicida', linea_id=linea.id)
@@ -264,6 +290,19 @@ def eliminarFungicida(request, grupo_id):
     try:
         dosificacion = Dosificacion.objects.get(id=grupo_id)
         linea = dosificacion.lineas_id
+
+        #Registro en Historial
+        nombre_corto = dosificacion.fungicidas_id.nom_fun.lower().replace("shield brite", "sb").strip().capitalize()
+        descripcion_historial = (
+            f"Fungicida - {nombre_corto} - L{dosificacion.lineas_id.num_lin} - {dosificacion.especies_id.nom_esp}"
+        )
+        Historial.objects.create(
+            trabajador_id = request.user,
+            accion = 'ELIMINACIÓN',
+            content_object = dosificacion,
+            descripcion = descripcion_historial
+        )
+
         dosificacion.delete()
         messages.success(request, '¡Registro eliminado correctamente!')
         return redirect('fungicida', linea_id=linea.id)
@@ -276,6 +315,19 @@ def eliminarFungicida(request, grupo_id):
 def eliminarlistaFungicida(request, grupo_id):
     try:
         dosificacion = Dosificacion.objects.get(id=grupo_id)
+
+        #Registro en Historial
+        nombre_corto = dosificacion.fungicidas_id.nom_fun.lower().replace("shield brite", "sb").strip().capitalize()
+        descripcion_historial = (
+            f"Fungicida - {nombre_corto} - L{dosificacion.lineas_id.num_lin} - {dosificacion.especies_id.nom_esp}"
+        )
+        Historial.objects.create(
+            trabajador_id = request.user,
+            accion = 'ELIMINACIÓN',
+            content_object = dosificacion,
+            descripcion = descripcion_historial
+        )
+
         dosificacion.delete()
         messages.success(request, '¡Registro eliminado correctamente!')
         return redirect('listafungicida')

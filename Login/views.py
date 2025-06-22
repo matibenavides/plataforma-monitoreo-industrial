@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 
 from Cloraciones.models import *
 
@@ -44,7 +45,29 @@ def iniciosesion(request):
 
 def muestramenu(request):
     if request.user.is_authenticated:
-        return render(request, "logins/base/dashboard.html")
+
+        # Chequea si el usuario es superuser (admin)
+        if request.user.is_superuser:
+            historial = Historial.objects.all().order_by('-id')[:8]
+        else:
+            historial = Historial.objects.filter(trabajador_id=request.user).order_by('-id')[:8]
+
+        historial_formato = []
+        for historia in historial:
+            fecha_local = timezone.localtime(historia.timestamp)
+            historial_formato.append({
+                'fecha': fecha_local.strftime("%d/%m/ - %H:%M"),
+                'accion': historia.accion,
+                'actividad': historia.descripcion,
+                'usuario': historia.trabajador_id,
+            })
+            
+        datos = {
+            'listas': historial_formato
+            
+        }
+        return render(request, "logins/base/dashboard.html", datos)
+        
     else:
         messages.success(request, "Debes iniciar sesión para acceder a este sitio")
     return redirect('inicio')

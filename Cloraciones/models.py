@@ -1,6 +1,11 @@
 from django.db import models
 import datetime
 from django.contrib.auth.models import User
+
+#-- Para hacer la relación polimorfica al historial y las demas tablas
+from django.conf import settings
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
                                                                                     
 # Create your models here.
 
@@ -21,6 +26,34 @@ class Trabajador(models.Model):
     # Metodo para visualización panel admin
     def __str__(self):
         return str(self.user) + " - " + str(self.nom_tra) + " - " + str(self.app_tra) + " - " + str(self.apm_tra) + " - " + str(self.nac_tra) + " - " + str(self.rut_tra)
+
+
+class Historial(models.Model):
+    trabajador_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, verbose_name="Trabajador")
+    ACCION_CHOICES = [
+        ('CREACIÓN', 'Creación'),
+        ('EDICIÓN', 'Edición'),
+        ('ELIMINACIÓN', 'Eliminación'),
+        ('OTRO', 'Otro'),
+    ]
+    accion = models.CharField(max_length=20, choices=ACCION_CHOICES, verbose_name="Acción Realizada")
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)  # Hacia que tabla se hizo referencia
+    object_id = models.PositiveIntegerField()  # Guarda la pk (id) del registro afectado
+    content_object = GenericForeignKey('content_type', 'object_id')  # campo que permite acceder al objeto
+    timestamp = models.DateTimeField(auto_now_add=True, verbose_name="Fecha y Hora")
+    descripcion = models.TextField(blank=True, null=True, verbose_name="Descripción Adicional")
+
+    class Meta:
+        verbose_name = 'Registro de Historial'
+        verbose_name_plural = 'Registros de Historial'
+        ordering = ['-timestamp']
+
+    def __str__(self):
+        actor = self.trabajador_id.username if self.trabajador_id else "Sistema"
+        if self.content_object:
+            return f'{self.timestamp.strftime("%d-%m-%Y %H:%M")} - {actor} realizó "{self.get_accion_display()}" en {self.content_object}'
+        return f'{self.timestamp.strftime("%d-%m-%Y %H:%M")} - {actor} realizó "{self.get_accion_display()}" en un objeto borrado'
+    
 
 
 class Especies(models.Model):

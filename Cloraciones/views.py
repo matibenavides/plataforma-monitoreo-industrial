@@ -59,6 +59,18 @@ def registrarEstanque(request):
             )
         bloque.save()
 
+        #Registro en Historial
+        descripcion_historial = (
+            f"Cloración - {sector} - L{linea_id.num_lin} - {especie.nom_esp}"
+        )
+        Historial.objects.create(
+            trabajador_id = request.user,
+            accion = 'CREACIÓN',
+            content_object = bloque,
+            descripcion = descripcion_historial
+        )
+
+
         for i in range(1, 12):
 
             hora = request.POST.get(f'hora_{i}') or None
@@ -116,6 +128,18 @@ def registrarCortaPedicelo(request):
             )
         bloque.save()
 
+        #Registro en Historial
+        descripcion_historial = (
+            f"Cloración - {sector} - L{linea_id.num_lin} - {especie.nom_esp}"
+        )
+        Historial.objects.create(
+            trabajador_id = request.user,
+            accion = 'CREACIÓN',
+            content_object = bloque,
+            descripcion = descripcion_historial
+        )
+
+
         for i in range(1, 12):
 
             hora = request.POST.get(f'hora_{i}') or None
@@ -171,6 +195,18 @@ def registrarRetorno(request):
             trabajador_id = trabajador
             )
         bloque.save()
+
+        #Registro en Historial
+        descripcion_historial = (
+            f"Cloración - {sector} - L{linea_id.num_lin} - {especie.nom_esp}"
+        )
+        Historial.objects.create(
+            trabajador_id = request.user,
+            accion = 'CREACIÓN',
+            content_object = bloque,
+            descripcion = descripcion_historial
+        )
+
 
         for i in range(1, 12):
 
@@ -354,6 +390,17 @@ def actualizarRegistro(request, grupo_id):
         grupoupdate.dia_id = dia_obj
         grupoupdate.save()
 
+        #Registro en Historial
+        descripcion_historial = (
+            f"Cloración - {grupoupdate.sector_id.nom_sec} - L{grupoupdate.lineas_id.num_lin} - {especie.nom_esp}"
+        )
+        Historial.objects.create(
+            trabajador_id = request.user,
+            accion = 'EDICIÓN',
+            content_object = grupoupdate,
+            descripcion = descripcion_historial
+        )
+
         for i in range(1, 12):
 
             registro_id = request.POST.get(f'cloracion_id_{i}') # Es el campo hidden para identificar el orden de ids
@@ -441,9 +488,20 @@ def actualizarRegistro(request, grupo_id):
 @login_required(login_url='inicio')
 def eliminarRegistro(request, grupo_id):
    try:
-        # !Importante mati: implementar autenticación de django
-        # Para evitar que cualquiera ingrese al registro.
+        
         grupo = get_object_or_404(GrupoCloracion, pk=grupo_id)
+
+        #Registro en Historial
+        descripcion_historial = (
+            f"Cloración - {grupo.sector_id.nom_sec} - L{grupo.lineas_id.num_lin} - {grupo.especies_id.nom_esp}"
+        )
+        Historial.objects.create(
+            trabajador_id = request.user,
+            accion = 'ELIMINACIÓN',
+            content_object = grupo,
+            descripcion = descripcion_historial
+        )
+
         grupo.delete()
 
 
