@@ -46,7 +46,7 @@
             <tbody>
                 {% for producto in registros_producto %}
                 <tr>
-                    <td>{{ producto.hor_pro }}</td>
+                    <td>{{ producto.hor_pro|default:"-" }}</td>
                     <td>{{ producto.cod_pro }}</td>
                     <td>{{ producto.especies_id.nom_esp }}</td>
                     <td>{{ producto.variedad_id.nom_var }}</td>
@@ -55,10 +55,10 @@
                         <span class="badge bg-warning text-dark badge-sm">Retard: {{ producto.dor_pro }}</span>
                         <span class="badge bg-info text-dark badge-sm">Agua: {{ producto.doa_pro }} Lts</span>
                     </td>
-                    <td>{{ producto.gas_pro }}</td>
-                    <td>{{ producto.kil_pro }}</td>
-                    <td>{{ producto.bin_pro }}</td>
-                    <td>{{ producto.ren_pro }}</td>
+                    <td>{{ producto.gas_pro|default:"-" }}</td>
+                    <td>{{ producto.kil_pro|default:"-" }}</td>
+                    <td>{{ producto.bin_pro|default:"-" }}</td>
+                    <td>{{ producto.ren_pro|default:"-" }}</td>
                     
                 </tr>
                 {% endfor %}

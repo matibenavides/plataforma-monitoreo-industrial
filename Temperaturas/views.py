@@ -165,15 +165,6 @@ def mostrarListaTemperatura(request):
             return redirect('listatemperatura')
             
 
-
-    # if busqueda:
-    #     grupoLista = grupoLista.filter(
-    #         Q(turnos_id__nom_tur__icontains = busqueda) |
-    #         Q(lineas_id__num_lin__icontains = busqueda) |
-    #         Q(trabajador_id__nom_tra__icontains = busqueda) |
-    #         Q(dia_id__dia_dia__icontains = busqueda) 
-    #     ).distinct()
-
     lista_formato = []
     for grupo in lista:
         lista_formato.append({
@@ -219,13 +210,9 @@ def visualizarTemperatura(request, grupo_id):
         return render(request, 'temperaturas/form/registroTemperatura.html', datos)
 
     
-    except:
-        datos = {
-            'msg' : '¡Error, el formulario no existe!',
-            'sector' : 'Error'
-        }
-
-        return render(request, 'temperaturas/base/temperatura.html', datos)
+    except Exception as e:
+        messages.error(request, f'¡Error, registro inexistente! {e}')
+        return redirect('listatemperatura')
 
 
 @login_required(login_url='inicio')
@@ -281,50 +268,12 @@ def actualizarTemperatura(request, grupo_id):
                 registro.est_tem = est
                 registro.save()
 
-        #-- Reutilización de código para mostrar listado con los registros, nuevamente
-        busqueda = request.GET.get("buscar")
-        grupoLista = GrupoTemperatura.objects.all().order_by('-id')
-
-        if busqueda:
-            grupoLista = grupoLista.filter(
-                Q(turnos_id__nom_tur__icontains = busqueda) |
-                Q(lineas_id__num_lin__icontains = busqueda) |
-                Q(trabajador_id__nom_tra__icontains = busqueda) |
-                Q(dia_id__dia_dia__icontains = busqueda) 
-            ).distinct()
-
-        grupo_modificado = []
-        for grupo in grupoLista:
-            grupo_modificado.append({
-                "id":  grupo.id,
-                "turno": grupo.turnos_id.nom_tur.upper(),
-                "trabajador":f"{grupo.trabajador_id.nom_tra.capitalize()} {grupo.trabajador_id.app_tra.capitalize()}",
-                "fecha": grupo.dia_id,
-                "linea": grupo.lineas_id.num_lin,
-            })
-
-        paginator = Paginator(grupo_modificado, 10)
-        pagina = request.GET.get("page") or 1
-        listas = paginator.get_page(pagina)
-        pagina_actual = int(pagina)
-        paginas = range(1, listas.paginator.num_pages + 1)
-
-        datos = {
-            'msg' : '¡Los registros de Temperatura han sido actualizado!',
-            'sector' : 'Formulario',
-            'listas': listas,
-            'paginas': paginas,
-            'pagina_actual': pagina_actual  
-        }
-        return render(request, 'temperaturas/base/listatemperatura.html', datos)
+        messages.success(request, '¡Registro actualizado correctamente!')
+        return redirect('listatemperatura')
 
     except Exception as e:
-        print(f'Error al actualizar: {e}')
-        datos = {
-            'msg' : '¡Error, el formulario de temperatura, no pudo actualizar!',
-            'sector' : 'Error'
-        }
-        return render(request, 'temperaturas/base/temperatura.html', datos)
+        messages.error(request, f'¡Error, registro inexistente! {e}')
+        return redirect('listatemperatura')
     
 
 @login_required(login_url='inicio')
@@ -344,82 +293,13 @@ def eliminarTemperatura(request, grupo_id):
         )
 
         grupo.delete()
-        
-        #-- Reutilización de código para mostrar listado con los registros, nuevamente
-        busqueda = request.GET.get("buscar")
-        grupoLista = GrupoTemperatura.objects.all().order_by('-id')
-
-        if busqueda:
-            grupoLista = grupoLista.filter(
-                Q(turnos_id__nom_tur__icontains = busqueda) |
-                Q(lineas_id__num_lin__icontains = busqueda) |
-                Q(trabajador_id__nom_tra__icontains = busqueda) |
-                Q(dia_id__dia_dia__icontains = busqueda) 
-            ).distinct()
-
-        grupo_modificado = []
-        for grupo in grupoLista:
-            grupo_modificado.append({
-                "id":  grupo.id,
-                "turno": grupo.turnos_id.nom_tur.upper(),
-                "trabajador":f"{grupo.trabajador_id.nom_tra.capitalize()} {grupo.trabajador_id.app_tra.capitalize()}",
-                "fecha": grupo.dia_id,
-                "linea": grupo.lineas_id.num_lin,
-            })
-
-        paginator = Paginator(grupo_modificado, 10)
-        pagina = request.GET.get("page") or 1
-        listas = paginator.get_page(pagina)
-        pagina_actual = int(pagina)
-        paginas = range(1, listas.paginator.num_pages + 1)
-
-        datos = {
-            'msg' : (f'¡Formulario eliminado!'),
-            'sector' : 'Eliminado',
-            'listas': listas,
-            'paginas': paginas,
-            'pagina_actual': pagina_actual
-        }
-        return render(request, 'temperaturas/base/listatemperatura.html', datos)
+        messages.success(request, '¡Registro eliminado correctamente!')
+        return redirect('listatemperatura')
 
 
-    except:
-        #-- Reutilización de código para mostrar listado con los registros, nuevamente
-        busqueda = request.GET.get("buscar")
-        grupoLista = GrupoTemperatura.objects.all().order_by('-id')
-
-        if busqueda:
-            grupoLista = grupoLista.filter(
-                Q(turnos_id__nom_tur__icontains = busqueda) |
-                Q(lineas_id__num_lin__icontains = busqueda) |
-                Q(trabajador_id__nom_tra__icontains = busqueda) |
-                Q(dia_id__dia_dia__icontains = busqueda) 
-            ).distinct()
-
-        grupo_modificado = []
-        for grupo in grupoLista:
-            grupo_modificado.append({
-                "id":  grupo.id,
-                "turno": grupo.turnos_id.nom_tur.upper(),
-                "trabajador":f"{grupo.trabajador_id.nom_tra.capitalize()} {grupo.trabajador_id.app_tra.capitalize()}",
-                "fecha": grupo.dia_id,
-                "linea": grupo.lineas_id.num_lin,
-            })
-
-        paginator = Paginator(grupo_modificado, 10)
-        pagina = request.GET.get("page") or 1
-        listas = paginator.get_page(pagina)
-        pagina_actual = int(pagina)
-        paginas = range(1, listas.paginator.num_pages + 1)
-
-        datos = {
-            'msg' : (f'Error el Formulario, no existe.'),
-            'sector' : 'Error',
-            'listas': listas,
-            'paginas': paginas,
-            'pagina_actual': pagina_actual
-        }
-        return render(request, 'temperaturas/base/listatemperatura.html', datos)
+    except Exception as e:
+        messages.error(request, f'¡Error, registro inexistente! {e}')
+        return redirect('listatemperatura')
     
 
 @login_required(login_url='inicio')
@@ -464,9 +344,6 @@ def DescargarPDFTemperatura(request, grupo_id):
         response.write(result)
         return response
 
-    except:
-        datos = {
-            'msg' : '¡Error, el PDF no existe!',
-            'sector' : 'Error'
-        }
-        return render(request, 'temperaturas/base/temperatura.html', datos)
+    except Exception as e:
+        messages.error(request, f'¡Error, el PDF no existe! {e}')
+        return redirect('listatemperatura')
