@@ -59,6 +59,17 @@ def registrarTemperatura(request):
         )
         grupotemp.save()
 
+        #Registro en Historial
+        descripcion_historial = (
+            f"Temperatura - Turno {turno.nom_tur} - L{linea_id.num_lin}"
+        )
+        Historial.objects.create(
+            trabajador_id = request.user,
+            accion = 'CREACIÓN',
+            content_object = grupotemp,
+            descripcion = descripcion_historial
+        )
+
         # Guardo registros de temperatura a partir de 11 columnas de tablatemperatura.html
         for i in range(1, 12):
             hora = request.POST.get(f'hora_{i}') or None
@@ -234,6 +245,17 @@ def actualizarTemperatura(request, grupo_id):
         grupoupdate.obs_grt = observacion
         grupoupdate.save()
 
+        #Registro en Historial
+        descripcion_historial = (
+            f"Temperatura - Turno {turno.nom_tur} - L{grupoupdate.lineas_id.num_lin}"
+        )
+        Historial.objects.create(
+            trabajador_id = request.user,
+            accion = 'EDICIÓN',
+            content_object = grupoupdate,
+            descripcion = descripcion_historial
+        )
+
         for i in range(1, 12):
 
             registro_id = request.POST.get(f'temperatura_id_{i}')
@@ -309,6 +331,18 @@ def actualizarTemperatura(request, grupo_id):
 def eliminarTemperatura(request, grupo_id):
     try:
         grupo = get_object_or_404(GrupoTemperatura, pk=grupo_id)
+
+        #Registro en Historial
+        descripcion_historial = (
+            f"Temperatura - Turno {grupo.turnos_id.nom_tur} - L{grupo.lineas_id.num_lin}"
+        )
+        Historial.objects.create(
+            trabajador_id = request.user,
+            accion = 'ELIMINACIÓN',
+            content_object = grupo,
+            descripcion = descripcion_historial
+        )
+
         grupo.delete()
         
         #-- Reutilización de código para mostrar listado con los registros, nuevamente

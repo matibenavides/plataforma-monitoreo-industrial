@@ -62,6 +62,18 @@ def registrarProducto(request, linea_id):
         )
         grupopro.save()
 
+        #Registro en Historial
+        nombre_corto = producto.nom_fun.lower().replace("shield brite", "sb").strip().capitalize()
+        descripcion_historial = (
+            f"Producto - {nombre_corto} - L{linea.num_lin}"
+        )
+        Historial.objects.create(
+            trabajador_id = request.user,
+            accion = 'CREACIÓN',
+            content_object = grupopro,
+            descripcion = descripcion_historial
+        )
+
         #Registros iterables 12 filas
         for i in range(1, 13):
             hora = request.POST.get(f'hora_{i}') or None
@@ -236,6 +248,18 @@ def actualizarProducto(request, grupo_id):
         grupo.obs_grp = request.POST['observacion']
         grupo.save()
 
+        #Registro en Historial
+        nombre_corto = grupo.fungicidas_id.nom_fun.lower().replace("shield brite", "sb").strip().capitalize()
+        descripcion_historial = (
+            f"Producto - {nombre_corto} - L{grupo.lineas_id.num_lin}"
+        )
+        Historial.objects.create(
+            trabajador_id = request.user,
+            accion = 'EDICIÓN',
+            content_object = grupo,
+            descripcion = descripcion_historial
+        )
+
         for i in range(1,13):
 
             #elemento hidden
@@ -283,6 +307,19 @@ def actualizarProducto(request, grupo_id):
 def eliminarProducto(request, grupo_id):
     try:
         grupo = get_object_or_404(GrupoProductos, pk=grupo_id)
+
+        #Registro en Historial
+        nombre_corto = grupo.fungicidas_id.nom_fun.lower().replace("shield brite", "sb").strip().capitalize()
+        descripcion_historial = (
+            f"Producto - {nombre_corto} - L{grupo.lineas_id.num_lin}"
+        )
+        Historial.objects.create(
+            trabajador_id = request.user,
+            accion = 'ELIMINACIÓN',
+            content_object = grupo,
+            descripcion = descripcion_historial
+        )
+
         grupo.delete()
 
         messages.success(request, '¡Registro eliminado correctamente!')

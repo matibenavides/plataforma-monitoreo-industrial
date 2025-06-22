@@ -268,49 +268,28 @@
                         <div class="table-responsive">
                             <table class="table table-sm table-hover mb-0">
                                 <thead class="table-light">
-                                    <tr>
+                                    <tr style="text-align: center">
                                         <th>Fecha</th>
-                                        <th>Línea</th>
-                                        <th>Valor</th>
+                                        <th>Acción</th>
+                                        <th>Actividad</th>
+                                        <th>Usuario</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>01/04/2025</td>
-                                        <td>L11</td>
-                                        <td>578 kg</td>
-                                    </tr>
-                                    <tr>
-                                        <td>01/04/2025</td>
-                                        <td>L10</td>
-                                        <td>345 kg</td>
-                                    </tr>
-                                    <tr>
-                                        <td>01/04/2025</td>
-                                        <td>L5</td>
-                                        <td>892 kg</td>
-                                    </tr>
-                                    <tr>
-                                        <td>31/03/2025</td>
-                                        <td>L1</td>
-                                        <td>453 kg</td>
-                                    </tr>
-                                    <tr>
-                                        <td>31/03/2025</td>
-                                        <td>L11</td>
-                                        <td>627 kg</td>
-                                    </tr>
-                                    <tr>
-                                        <td>31/03/2025</td>
-                                        <td>L11</td>
-                                        <td>627 kg</td>
-                                    </tr>
-                                    <tr>
-                                        <td>31/03/2025</td>
-                                        <td>L11</td>
-                                        <td>627 kg</td>
-                                    </tr>
-                                    
+                                    {% if listas %}
+                                        {% for l in listas %}
+                                            <tr class="border-info-subtle" style="font-size: 0.88rem;">
+                                                <td class="text-truncate small">{{ l.fecha }}</td>
+                                                <td class="small">{{ l.accion }}</td>
+                                                <td class="text-truncate small">{{ l.actividad }}</td>
+                                                <td class="small">{{ l.usuario }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% else %}
+                                        <tr class="border-info-subtle small">
+                                            <td colspan="4" class="text-center small">No Hay registros</td>
+                                        </tr>
+                                    {% endif %}
                                 </tbody>
                             </table>
                         </div>

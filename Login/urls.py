@@ -6,7 +6,7 @@ from . import views
 urlpatterns = [
     path('',views.iniciosesion, name='inicio'),
     path('logout', views.cerrarsesion, name='logout'),
-    path('menu',views.muestramenu, name='menu'),
+    path('menu/',views.muestramenu, name='menu'),
     path('registro/', views.registroUsuario, name='registro'),
     
     path('anio_disponible/', views.aniosDisponibles, name='anio_disponible'),
@@ -17,5 +17,6 @@ urlpatterns = [
     path('grafico_ppm/', views.graficoPPM, name='grafico_ppm'),
     path('grafico_kgs/', views.graficoKilogramos, name='grafico_kgs'),
     path('kpi_general/', views.kpigeneral, name='kpi_general'),
+
     
 ]

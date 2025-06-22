@@ -76,7 +76,12 @@ class PPMAdmin(admin.ModelAdmin):
     list_display = ['lineas_id', 'trabajador_id', 'turnos_id', 'dia_id', 'hor_ppm', 'dat_ppm', 'phe_ppm', 'obs_ppm']
     search_fields = ['lineas_id', 'trabajador_id', 'turnos_id', 'dia_id', 'hor_ppm', 'dat_ppm', 'phe_ppm', 'obs_ppm']
 
+#--------------------------- Historial de Registros  ---------------------------#
 
+class HistorialAdmin(admin.ModelAdmin):
+    list_display = ('timestamp', 'trabajador_id', 'accion', 'content_object')
+    list_filter = ('timestamp', 'accion', 'content_type', 'trabajador_id')
+    search_fields = ('descripcion', 'trabajador_id__username')
 
 #----------------------------------------------------------------------------#
 
@@ -100,5 +105,7 @@ admin.site.register(Productos, ProductosAdmin)
 admin.site.register(Dosificacion, DosificionAdmin)
 admin.site.register(Temperatura, TemperaturaAdmin)
 admin.site.register(PPM, PPMAdmin)
+
+admin.site.register(Historial, HistorialAdmin)
 
 
