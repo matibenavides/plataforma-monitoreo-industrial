@@ -7,13 +7,11 @@ from django.utils import timezone
 from Cloraciones.models import *
 
 # from django.views.generic import TemplateView
-import json
 from django.db.models import Sum, Case, When, IntegerField, FloatField, F, Q, Value
 from django.db.models.functions import Round, Coalesce
 from datetime import datetime
 
 from django.http.response import JsonResponse
-from random import randrange
 
 from .forms import formularioRegistro, TrabajadorForm
 
@@ -79,6 +77,10 @@ def cerrarsesion(request):
 
 @login_required(login_url='inicio')
 def registroUsuario(request):
+    if not request.user.is_superuser:
+        messages.error(request, "Solo el administrador puede crear usuarios")
+        return redirect('menu')
+
     if request.method == 'POST':
         form = formularioRegistro(request.POST)
         formTrabajador = TrabajadorForm(request.POST)
@@ -86,25 +88,23 @@ def registroUsuario(request):
         if form.is_valid() and formTrabajador.is_valid():
             usuario = form.save()
             trabajador = formTrabajador.save(commit=False)
-            trabajador.user = usuario #asigno el usuario con el trabajador (sus datos)
+            trabajador.user = usuario  # asigno el usuario con el trabajador (sus datos)
             trabajador.save()
 
-            #autentico y logeo
+            # autentico y logeo
             nomUsuario = form.cleaned_data['username']
             contraseña = form.cleaned_data['password1']
             usuario = authenticate(username=nomUsuario, password=contraseña)
             login(request, usuario)
             messages.success(request, "Te has registrado correctamente")
             return redirect('menu')
+        else:
+            # Si la validación falla, renderiza ambos formularios
+            return render(request, "logins/base/registrousuario.html", {'form': form, 'formTrabajador': formTrabajador})
     else:
         form = formularioRegistro()
         formTrabajador = TrabajadorForm()
         return render(request, 'logins/base/registrousuario.html', {'form': form, 'formTrabajador': formTrabajador})
-
-
-    return render(request, "logins/base/registrousuario.html", {'form': form})
-
-
 
 # ----------------------------------------------------
 # ----------- Graficos para Dashboard ----------------
@@ -128,14 +128,17 @@ def graficoCloroAcido(request):
 
     
 
-
-    # Base de la consulta con exclusiones
-    registros = Cloracion.objects.exclude(
-        Q(hcl_clo__isnull=True) | 
-        Q(aci_clo__isnull=True)
-    )
-
-
+    if request.user.is_superuser:
+        registros = Cloracion.objects.exclude(
+            Q(hcl_clo__isnull=True) | 
+            Q(aci_clo__isnull=True)
+        )
+    else:
+        registros = Cloracion.objects.exclude(
+            Q(hcl_clo__isnull=True) | 
+            Q(aci_clo__isnull=True)
+        ).filter(grupoclo_id__trabajador_id=request.user.trabajador)
+    
 
     # Filtros generales
     if linea_id:
@@ -150,12 +153,7 @@ def graficoCloroAcido(request):
             registros = registros.filter(grupoclo_id__dia_id__dia_dia=fecha_dt)
         except ValueError:
             pass
-    # Chequea si el usuario es superuser (admin)
-    if request.user.is_superuser:
-        lista = Dosificacion.objects.all().order_by('-id')
-    else:
-        # Filtra registros para usuario normal
-        lista = Dosificacion.objects.filter(trabajador_id=request.user.trabajador).order_by('-id')
+
 
     # Consulta directa a la base de datos
     # Agrupando por líneas y sumando directamente en la base de datos
@@ -269,13 +267,23 @@ def graficoTemperatura(request):
     fecha_str = request.GET.get('dia_id')
     year = request.GET.get('year')
 
-    registros = Temperatura.objects.exclude(
-        Q(hor_tem__isnull=True) |
-        Q(pul_tem__isnull=True) |
-        Q(agu_tem__isnull=True) |
-        Q(amb_tem__isnull=True) |
-        Q(est_tem__isnull=True)
-    )
+
+    if request.user.is_superuser:
+        registros = Temperatura.objects.exclude(
+            Q(hor_tem__isnull=True) |
+            Q(pul_tem__isnull=True) |
+            Q(agu_tem__isnull=True) |
+            Q(amb_tem__isnull=True) |
+            Q(est_tem__isnull=True)
+        )
+    else:
+        registros = Temperatura.objects.exclude(
+            Q(hor_tem__isnull=True) |
+            Q(pul_tem__isnull=True) |
+            Q(agu_tem__isnull=True) |
+            Q(amb_tem__isnull=True) |
+            Q(est_tem__isnull=True)
+        ).filter(grupotem_id__trabajador_id=request.user.trabajador)
 
     if linea_id:
         registros = registros.filter(grupotem_id__lineas_id=linea_id)
@@ -432,22 +440,40 @@ def graficoPPM(request):
     fecha_str = request.GET.get('dia_id')
     year = request.GET.get('year')
 
-    registros = Cloracion.objects.select_related(
-        'grupoclo_id__dia_id',
-        'grupoclo_id__sector_id'
-    ).exclude(
-        Q(hor_clo__isnull=True) |
-        Q(ppm_clo__isnull=True) |
-        Q(phe_clo__isnull=True) 
-    )
 
-    registrofungi = PPM.objects.select_related(
-        'dia_id'
-    ).exclude(
-        Q(hor_ppm__isnull=True) |
-        Q(dat_ppm__isnull=True) |
-        Q(phe_ppm__isnull=True) 
-    )
+    if request.user.is_superuser:
+        registros = Cloracion.objects.select_related(
+            'grupoclo_id__dia_id',
+            'grupoclo_id__sector_id'
+        ).exclude(
+            Q(hor_clo__isnull=True) |
+            Q(ppm_clo__isnull=True) |
+            Q(phe_clo__isnull=True) 
+        )
+        registrofungi = PPM.objects.select_related(
+            'dia_id'
+        ).exclude(
+            Q(hor_ppm__isnull=True) |
+            Q(dat_ppm__isnull=True) |
+            Q(phe_ppm__isnull=True) 
+        )
+    else:
+        registros = Cloracion.objects.select_related(
+            'grupoclo_id__dia_id',
+            'grupoclo_id__sector_id'
+        ).exclude(
+            Q(hor_clo__isnull=True) |
+            Q(ppm_clo__isnull=True) |
+            Q(phe_clo__isnull=True) 
+        ).filter(grupoclo_id__trabajador_id=request.user.trabajador)
+        registrofungi = PPM.objects.select_related(
+            'dia_id'
+        ).exclude(
+            Q(hor_ppm__isnull=True) |
+            Q(dat_ppm__isnull=True) |
+            Q(phe_ppm__isnull=True) 
+        ).filter(trabajador_id=request.user.trabajador)
+
 
 
     
@@ -888,18 +914,31 @@ def kpigeneral(request):
     # Tabla Dosificacion
     # Debo clasificar el ccp_dos que es cc de producto, según la clasificación de fungicidas_id
 
-    #Hago exclude para escoger los campos que deseo utilizar
-    registros_dosificacion = Dosificacion.objects.exclude(
-        Q(ccp_dos__isnull = True) |
-        Q(agu_dos__isnull = True) |
-        Q(cer_dos__isnull = True) 
-    )
+    if request.user.is_superuser:
+        #Hago exclude para escoger los campos que deseo utilizar
+        registros_dosificacion = Dosificacion.objects.exclude(
+            Q(ccp_dos__isnull = True) |
+            Q(agu_dos__isnull = True) |
+            Q(cer_dos__isnull = True) 
+        )
 
-    registros_productos = Productos.objects.exclude(
-        Q(dor_pro__isnull = True) | # Dosis de retards
-        Q(kil_pro__isnull = True) | # Kilos de producción
-        Q(bin_pro__isnull = True)   # Cantidad de bins
-    )
+        registros_productos = Productos.objects.exclude(
+            Q(dor_pro__isnull = True) | # Dosis de retards
+            Q(kil_pro__isnull = True) | # Kilos de producción
+            Q(bin_pro__isnull = True)   # Cantidad de bins
+        )
+    else:
+        registros_dosificacion = Dosificacion.objects.exclude(
+            Q(ccp_dos__isnull = True) |
+            Q(agu_dos__isnull = True) |
+            Q(cer_dos__isnull = True) 
+        ).filter(trabajador_id=request.user.trabajador)
+
+        registros_productos = Productos.objects.exclude(
+            Q(dor_pro__isnull = True) | # Dosis de retards
+            Q(kil_pro__isnull = True) | # Kilos de producción
+            Q(bin_pro__isnull = True)   # Cantidad de bins
+        ).filter(grupopro_id__trabajador_id=request.user.trabajador)
 
     #Realizo filtros según parametros
     if linea_id:
