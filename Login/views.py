@@ -2,17 +2,16 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 
 from Cloraciones.models import *
 
 # from django.views.generic import TemplateView
-import json
 from django.db.models import Sum, Case, When, IntegerField, FloatField, F, Q, Value
-from django.db.models.functions import Round
+from django.db.models.functions import Round, Coalesce
 from datetime import datetime
 
 from django.http.response import JsonResponse
-from random import randrange
 
 from .forms import formularioRegistro, TrabajadorForm
 
@@ -39,18 +38,34 @@ def iniciosesion(request):
         return render(request, "logins/base/iniciosesion.html")
     
 
-# Este metodo de @login_required funciona y al intentar viajar a /menu manualmente, me redirijirá al path con el nombre 'inicio'.
-# El punto, es que no me enviará un mensaje como lo hace la función de abajo en caso de querer intentar ir hacia ese lugar,
-# por lo tanto es eficaz en casos especificos por si deseo implementar un mensaje de error o no.
 
-# @login_required(login_url='inicio')
-# def muestramenu(request):
-#     return render(request, "menu.html")
 
 
 def muestramenu(request):
     if request.user.is_authenticated:
-        return render(request, "logins/base/dashboard.html")
+
+        # Chequea si el usuario es superuser (admin)
+        if request.user.is_superuser:
+            historial = Historial.objects.all().order_by('-id')[:8]
+        else:
+            historial = Historial.objects.filter(trabajador_id=request.user).order_by('-id')[:8]
+
+        historial_formato = []
+        for historia in historial:
+            fecha_local = timezone.localtime(historia.timestamp)
+            historial_formato.append({
+                'fecha': fecha_local.strftime("%d/%m/ - %H:%M"),
+                'accion': historia.accion,
+                'actividad': historia.descripcion,
+                'usuario': historia.trabajador_id,
+            })
+            
+        datos = {
+            'listas': historial_formato
+            
+        }
+        return render(request, "logins/base/dashboard.html", datos)
+        
     else:
         messages.success(request, "Debes iniciar sesión para acceder a este sitio")
     return redirect('inicio')
@@ -62,6 +77,10 @@ def cerrarsesion(request):
 
 @login_required(login_url='inicio')
 def registroUsuario(request):
+    if not request.user.is_superuser:
+        messages.error(request, "Solo el administrador puede crear usuarios")
+        return redirect('menu')
+
     if request.method == 'POST':
         form = formularioRegistro(request.POST)
         formTrabajador = TrabajadorForm(request.POST)
@@ -69,25 +88,23 @@ def registroUsuario(request):
         if form.is_valid() and formTrabajador.is_valid():
             usuario = form.save()
             trabajador = formTrabajador.save(commit=False)
-            trabajador.user = usuario #asigno el usuario con el trabajador (sus datos)
+            trabajador.user = usuario  # asigno el usuario con el trabajador (sus datos)
             trabajador.save()
 
-            #autentico y logeo
+            # autentico y logeo
             nomUsuario = form.cleaned_data['username']
             contraseña = form.cleaned_data['password1']
             usuario = authenticate(username=nomUsuario, password=contraseña)
             login(request, usuario)
             messages.success(request, "Te has registrado correctamente")
             return redirect('menu')
+        else:
+            # Si la validación falla, renderiza ambos formularios
+            return render(request, "logins/base/registrousuario.html", {'form': form, 'formTrabajador': formTrabajador})
     else:
         form = formularioRegistro()
         formTrabajador = TrabajadorForm()
         return render(request, 'logins/base/registrousuario.html', {'form': form, 'formTrabajador': formTrabajador})
-
-
-    return render(request, "logins/base/registrousuario.html", {'form': form})
-
-
 
 # ----------------------------------------------------
 # ----------- Graficos para Dashboard ----------------
@@ -109,12 +126,19 @@ def graficoCloroAcido(request):
     fecha_str = request.GET.get('dia_id')
     year = request.GET.get('year')
 
+    
 
-    # Base de la consulta con exclusiones
-    registros = Cloracion.objects.exclude(
-        Q(hcl_clo__isnull=True) | 
-        Q(aci_clo__isnull=True)
-    )
+    if request.user.is_superuser:
+        registros = Cloracion.objects.exclude(
+            Q(hcl_clo__isnull=True) | 
+            Q(aci_clo__isnull=True)
+        )
+    else:
+        registros = Cloracion.objects.exclude(
+            Q(hcl_clo__isnull=True) | 
+            Q(aci_clo__isnull=True)
+        ).filter(grupoclo_id__trabajador_id=request.user.trabajador)
+    
 
     # Filtros generales
     if linea_id:
@@ -129,6 +153,7 @@ def graficoCloroAcido(request):
             registros = registros.filter(grupoclo_id__dia_id__dia_dia=fecha_dt)
         except ValueError:
             pass
+
 
     # Consulta directa a la base de datos
     # Agrupando por líneas y sumando directamente en la base de datos
@@ -163,6 +188,17 @@ def graficoCloroAcido(request):
 
     
 
+    # Define color variables based on theme
+    colors = {
+        'primary':  '#8a47f5',  
+        'secondary': '#ac86e9',  
+        'accent':    '#e0d0f8',  
+
+        # Tonos complementarios
+        'contrast1': "#eddffe",   
+        'contrast2': '#c3ace7',   
+        'contrast3': '#fff6ff',   
+    }
 
         
     chart = {
@@ -170,83 +206,49 @@ def graficoCloroAcido(request):
             'trigger': 'item',
             'formatter': '{a} <br/>{b}: {c} ({d}%)'
         },
-        'title': {
-                    'text': "Cantidad de Hipoclorito y Ácido",
-                    'right': "5%",
-                    'textStyle': {'fontSize': 18, 'fontWeight': 'bold'}
-                },
         'legend': {
-            'top':30,
-            'right': '5%',
-            'orient': 'vertical',
+            # 'right': '5%',
+            'orient': 'horizontal',
             'data': [
             'Linea 11',
-            'Linea 10',
+            'Linea 10', 
             'Linea 5',
             ]
         },
         'series': [
             {
-            'name': 'Ácido (Lts)',
+            'name': 'Ácido (Lts)', 
             'type': 'pie',
             'selectedMode': 'single',
             'radius': [0, '30%'],
             'label': {
+                'show': True,
                 'position': 'inner',
-                'fontSize': 14
+                'formatter': '{b}'
             },
             'labelLine': {
                 'show': False
             },
             'data': [
-                { 'value': suma_aci_linea11, 'name': 'Linea 11', 'selected': True },
-                { 'value': suma_aci_linea10, 'name': 'Linea 10' },
-                { 'value': suma_aci_linea5, 'name': 'Linea 5' },
+                { 'value': suma_aci_linea11, 'name': 'Linea 11', 'itemStyle': {'color': colors['contrast1']}},
+                { 'value': suma_aci_linea10, 'name': 'Linea 10', 'itemStyle': {'color': colors['contrast2']}},
+                { 'value': suma_aci_linea5, 'name': 'Linea 5', 'itemStyle': {'color': colors['contrast3']}},
             ]
             },
             {
             'name': 'Hipoclorito (Lts)',
             'type': 'pie',
             'radius': ['45%', '60%'],
-            'labelLine': {
-                'length': 30
-            },
             'label': {
-                'formatter': '{a|{a}}{abg|}\n{hr|}\n  {b|{b}：}{c}  {per|{d}%}  ',
-                'backgroundColor': '#F6F8FC',
-                'borderColor': '#8C8D8E',
-                'borderWidth': 1,
-                'borderRadius': 4,
-                'rich': {
-                'a': {
-                    'color': '#6E7079',
-                    'lineHeight': 22,
-                    'align': 'center'
-                },
-                'hr': {
-                    'borderColor': '#8C8D8E',
-                    'width': '100%',
-                    'borderWidth': 1,
-                    'height': 0
-                },
-                'b': {
-                    'color': '#4C5058',
-                    'fontSize': 14,
-                    'fontWeight': 'bold',
-                    'lineHeight': 33
-                },
-                'per': {
-                    'color': '#fff',
-                    'backgroundColor': '#4C5058',
-                    'padding': [3, 4],
-                    'borderRadius': 4
-                }
-                }
+                'show': False
+            },
+            'labelLine': {
+                'show': False
             },
             'data': [
-                { 'value': suma_hcl_linea11, 'name': 'Linea 11'},
-                { 'value': suma_hcl_linea10, 'name': 'Linea 10'},
-                { 'value': suma_hcl_linea5, 'name': 'Linea 5' },
+                { 'value': suma_hcl_linea11, 'name': 'Linea 11', 'itemStyle': {'color': colors['primary']}},
+                { 'value': suma_hcl_linea10, 'name': 'Linea 10', 'itemStyle': {'color': colors['secondary']}},
+                { 'value': suma_hcl_linea5, 'name': 'Linea 5', 'itemStyle': {'color': colors['accent']}},
             ]
             }
         ]
@@ -265,13 +267,23 @@ def graficoTemperatura(request):
     fecha_str = request.GET.get('dia_id')
     year = request.GET.get('year')
 
-    registros = Temperatura.objects.exclude(
-        Q(hor_tem__isnull=True) |
-        Q(pul_tem__isnull=True) |
-        Q(agu_tem__isnull=True) |
-        Q(amb_tem__isnull=True) |
-        Q(est_tem__isnull=True)
-    )
+
+    if request.user.is_superuser:
+        registros = Temperatura.objects.exclude(
+            Q(hor_tem__isnull=True) |
+            Q(pul_tem__isnull=True) |
+            Q(agu_tem__isnull=True) |
+            Q(amb_tem__isnull=True) |
+            Q(est_tem__isnull=True)
+        )
+    else:
+        registros = Temperatura.objects.exclude(
+            Q(hor_tem__isnull=True) |
+            Q(pul_tem__isnull=True) |
+            Q(agu_tem__isnull=True) |
+            Q(amb_tem__isnull=True) |
+            Q(est_tem__isnull=True)
+        ).filter(grupotem_id__trabajador_id=request.user.trabajador)
 
     if linea_id:
         registros = registros.filter(grupotem_id__lineas_id=linea_id)
@@ -297,19 +309,28 @@ def graficoTemperatura(request):
     fungicida_data = [[registro.hor_tem.hour + registro.hor_tem.minute/60, registro.est_tem] for registro in registros]
 
     chart = {
-        'title': {
-            'text': "Mediciones de Temperatura por Hora",
-            'left': "center",
-        },
+        # 'title': {
+        #     'text': "Mediciones de Temperatura por Hora",
+        #     'left': "center",
+        # },
         'legend': {
-            'top': 30,
-            'data': ["T° Pulpa Entrada", "T° Agua Vaciado", "T° Ambiente Camara", "T° Estanque Fungicida"],
+            'orient': 'horizontal',
+            # 'type': 'scroll',
+            # 'top': '5%',
+            # 'left': '8%',
+            # 'itemGap': 20,
+            # 'itemWidth': 14,
+            # 'itemHeight': 14,
+            'data': ["T° Pulpa", "T° Vaciado", "T° Camara", "T° Fungicida"],
             'selected': {
-                "T° Pulpa Entrada": True,
-                "T° Agua Vaciado": True,
-                "T° Ambiente Camara": True,
-                "T° Estanque Fungicida": True,
-            }
+                "T° Pulpa": True,
+                "T° Vaciado": True,
+                "T° Camara": True,
+                "T° Fungicida": True,
+            },
+            'textStyle': {'fontSize': 12},
+            # 'pageButtonItemGap': 8,
+            # 'pageButtonPosition': 'end'
         },
         'dataZoom': {
             'show': True,
@@ -328,6 +349,7 @@ def graficoTemperatura(request):
                     }
                 },
             },
+            'bottom': '0%',
         },
         'dataZoom': [
             {
@@ -335,27 +357,21 @@ def graficoTemperatura(request):
                 'xAxisIndex': 0,
                 'filterMode': 'none'
             },
-            {
-                'type': 'slider',
-                'xAxisIndex': 0,
-                'filterMode': 'none',
-                'height': 20,
-                
-                'handleIcon': 'M10.7,11.9H9.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4h1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
-                'handleSize': '120%'
-            }
         ],
         'xAxis': {
-            'type': "category",
-            'name': 'Hora',
-            'nameLocation': 'middle',
-            'nameGap': 35,
-            'nameTextStyle': {'fontSize': 14, 'fontWeight': 'bold'},
-            'data': ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00',
-                '07:00', '08:00', '09:00', '10:00', '11:00', '12:00',
-                '13:00', '14:00', '15:00', '16:00', '17:00', '18:00',
-                '19:00', '20:00', '21:00', '22:00', '23:00', '24:00'],
-            
+            'type': "value",
+            # 'name': 'Hora',
+            # 'nameLocation': 'middle',
+            # 'nameGap': 35,
+            # 'nameTextStyle': {'fontSize': 14, 'fontWeight': 'bold'},
+            'min': 0,
+            'max': 24,
+            'interval':3,
+            # 'data': ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00',
+            #     '07:00', '08:00', '09:00', '10:00', '11:00', '12:00',
+            #     '13:00', '14:00', '15:00', '16:00', '17:00', '18:00',
+            #     '19:00', '20:00', '21:00', '22:00', '23:00', '24:00'],
+            'axisLine': {'lineStyle': {'width': 1}},
             'axisLabel': {'fontSize': 12}
         },
         'yAxis': {
@@ -374,38 +390,38 @@ def graficoTemperatura(request):
         },
         'series': [
             {
-                'name': "T° Pulpa Entrada",
+                'name': "T° Pulpa",
                 'type': "scatter",
                 'symbol': "pin",
                 'data': pulpa_data,
-                'itemStyle': { 'color': '#FF6B6B' },
+                'itemStyle': { 'color': '#499894' },
                 'symbolSize': 12,
                 'emphasis': {'focus': 'series'},
             },
             {
-                'name': "T° Agua Vaciado",
+                'name': "T° Vaciado",
                 'type': "scatter",
                 'symbol': "pin",
                 'data': agua_data,
-                'itemStyle': { 'color': '#4D96FF'},
+                'itemStyle': { 'color': '#4e79a7'},  
                 'symbolSize': 12,
                 'emphasis': {'focus': 'series'},
             },
             {
-                'name': "T° Ambiente Camara",
+                'name': "T° Camara",
                 'type': "scatter",
                 'symbol': "pin",
                 'data': ambiente_data,
-                'itemStyle': { 'color': '#FFC300'},
+                'itemStyle': { 'color': '#59a14f'}, 
                 'symbolSize': 12,
                 'emphasis': {'focus': 'series'},
             },
             {
-                'name': "T° Estanque Fungicida",
+                'name': "T° Fungicida",
                 'type': "scatter",
                 'symbol': "pin",
                 'data': fungicida_data,
-                'itemStyle': { 'color': '#6A4C93'},
+                'itemStyle': { 'color': '#364F6B'}, 
                 'symbolSize': 12,
                 'emphasis': {'focus': 'series'},
             }
@@ -424,19 +440,43 @@ def graficoPPM(request):
     fecha_str = request.GET.get('dia_id')
     year = request.GET.get('year')
 
-    registros = Cloracion.objects.exclude(
-        Q(hor_clo__isnull=True) |
-        Q(ppm_clo__isnull=True) |
-        Q(phe_clo__isnull=True) 
-    )
 
-    registrofungi = PPM.objects.exclude(
-        Q(hor_ppm__isnull=True) |
-        Q(dat_ppm__isnull=True) |
-        Q(phe_ppm__isnull=True) 
-    )
+    if request.user.is_superuser:
+        registros = Cloracion.objects.select_related(
+            'grupoclo_id__dia_id',
+            'grupoclo_id__sector_id'
+        ).exclude(
+            Q(hor_clo__isnull=True) |
+            Q(ppm_clo__isnull=True) |
+            Q(phe_clo__isnull=True) 
+        )
+        registrofungi = PPM.objects.select_related(
+            'dia_id'
+        ).exclude(
+            Q(hor_ppm__isnull=True) |
+            Q(dat_ppm__isnull=True) |
+            Q(phe_ppm__isnull=True) 
+        )
+    else:
+        registros = Cloracion.objects.select_related(
+            'grupoclo_id__dia_id',
+            'grupoclo_id__sector_id'
+        ).exclude(
+            Q(hor_clo__isnull=True) |
+            Q(ppm_clo__isnull=True) |
+            Q(phe_clo__isnull=True) 
+        ).filter(grupoclo_id__trabajador_id=request.user.trabajador)
+        registrofungi = PPM.objects.select_related(
+            'dia_id'
+        ).exclude(
+            Q(hor_ppm__isnull=True) |
+            Q(dat_ppm__isnull=True) |
+            Q(phe_ppm__isnull=True) 
+        ).filter(trabajador_id=request.user.trabajador)
 
-    # Filtros para resultados
+
+
+    
     if linea_id:
         registros = registros.filter(grupoclo_id__lineas_id=linea_id)
         registrofungi = registrofungi.filter(lineas_id=linea_id)
@@ -453,19 +493,14 @@ def graficoPPM(request):
             registrofungi = registrofungi.filter(dia_id__dia_dia=fecha_dt)
         except ValueError:
             pass
-    
-    
+
     
     registrofungi = registrofungi.order_by('hor_ppm')
 
-
-    # Filtro por sector
     registros_estanque = registros.filter(grupoclo_id__sector_id__id=1).order_by('hor_clo')
     registros_cortapedi = registros.filter(grupoclo_id__sector_id__id=2).order_by('hor_clo')
     registros_retorno = registros.filter(grupoclo_id__sector_id__id=3).order_by('hor_clo')
     
-    
-    # Lista formateada por sector
     estanque_ppm = [[r.hor_clo.hour + r.hor_clo.minute/60, r.ppm_clo] for r in registros_estanque]
     estanque_ph = [[r.hor_clo.hour + r.hor_clo.minute/60, r.phe_clo] for r in registros_estanque]
 
@@ -478,15 +513,15 @@ def graficoPPM(request):
     fungi_ppm = [[r.hor_ppm.hour + r.hor_ppm.minute/60, r.dat_ppm] for r in registrofungi]
     fungi_ph = [[r.hor_ppm.hour + r.hor_ppm.minute/60, r.phe_ppm] for r in registrofungi]
 
-
     chart = {
-        'title': {
-            'text': "Mediciones de PPM y Ph",
-            'left': "center",
-            'textStyle': {'fontSize': 18, 'fontWeight': 'bold'}
-        },
+        # 'title': {
+        #     'text': "Mediciones de PPM y Ph",
+        #     'left': "center",
+        #     'textStyle': {'fontSize': 18, 'fontWeight': 'bold'}
+        # },
         'legend': {
-            'top': 30,  # Ajustado
+            # 'top': 30,
+            # 'left': '5%',
             'data': ['Estanque', 'Corta Pedicelo', 'Retorno', 'Fungicida'],
             'selected': {  
                 'Estanque': True,
@@ -495,21 +530,21 @@ def graficoPPM(request):
                 'Fungicida': True,
             },
             'selectedMode': 'multiple',
-            'textStyle': {'fontSize': 14},
+            'textStyle': {'fontSize': 12},
         },
         'tooltip': {
             'trigger': 'item',
             
         },
         'grid': {
-            'left': '8%',
-            'right': '8%',
-            'top': '20%',   
+            # 'left': '8%',
+            # 'right': '8%',
+            # 'top': '20%',
+            # 'bottom': '15%' # Added to make room for toolbox
         },
         'toolbox': {
             'show': True,
             'feature': {
-                
                 'saveAsImage': { 'show': True },
                 'restore': { 'show': True },
                 'dataZoom': {
@@ -519,40 +554,30 @@ def graficoPPM(request):
                         'back': "Restaurar",
                     }
                 },
-                'right': '5%',
-                'top': '5%',
             },
+            'bottom': '0%', # Changed from top to bottom
+            # 'left': 'center' # Changed to center horizontally
         },
-        'dataZoom': [  # Se mantiene igual
+        'dataZoom': [
             {
                 'type': 'inside',
                 'xAxisIndex': 0,
                 'filterMode': 'none'
-            },
-            {
-                'type': 'slider',
-                'xAxisIndex': 0,
-                'filterMode': 'none',
-                'height': 20,
-                
-                'handleIcon': 'M10.7,11.9H9.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4h1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
-                'handleSize': '120%'
             }
         ],
         'xAxis': {
-            'type': 'category',
-            'name': 'Hora',
-            'nameLocation': 'middle',
-            'nameGap': 35,
-            'nameTextStyle': {'fontSize': 14, 'fontWeight': 'bold'},
-            'data': ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00',
-                '07:00', '08:00', '09:00', '10:00', '11:00', '12:00',
-                '13:00', '14:00', '15:00', '16:00', '17:00', '18:00',
-                '19:00', '20:00', '21:00', '22:00', '23:00', '24:00'],
+            'type': 'value',
+            # 'name': 'Hora',
+            # 'nameLocation': 'middle',
+            # 'nameGap': 35,
+            # 'nameTextStyle': {'fontSize': 14, 'fontWeight': 'bold'},
+            'min': 0,
+            'max': 24,
+            'interval': 3,
             'axisLine': {'lineStyle': {'width': 1}},
             'axisLabel': {'fontSize': 12}
         },
-        'yAxis': [  # Ejes Y duales (se mantienen)
+        'yAxis': [  
             {
                 'type': 'value',
                 'name': 'PPM',
@@ -585,7 +610,7 @@ def graficoPPM(request):
                 'type': 'line',
                 'yAxisIndex': 0,
                 
-                'itemStyle': {'color': '#0d47a1'},
+                'itemStyle': {'color': '#499894'},
                 'smooth': True,
                 'emphasis': {'focus': 'series', 'scale': True},
                 'blur': {'itemStyle': {'opacity': 0.1}},  
@@ -597,7 +622,7 @@ def graficoPPM(request):
                 'type': 'line',
                 'yAxisIndex': 1,
 
-                'itemStyle': {'color': '#1976d2'},
+                'itemStyle': {'color': '#499894'},
                 'smooth': True,
                 'emphasis': {'focus': 'series', 'scale': True},
                 'blur': {'itemStyle': {'opacity': 0.1}},  
@@ -611,7 +636,7 @@ def graficoPPM(request):
                 'type': 'line',
                 'yAxisIndex': 0,
                 
-                'itemStyle': {'color': '#1b5e20'},
+                'itemStyle': {'color': '#4e79a7'},
                 'smooth': True,
                 'emphasis': {'focus': 'series', 'scale': True},
                 'blur': {'itemStyle': {'opacity': 0.1}},
@@ -623,7 +648,7 @@ def graficoPPM(request):
                 'type': 'line',
                 'yAxisIndex': 1,
                 
-                'itemStyle': {'color': '#388e3c'},
+                'itemStyle': {'color': '#4e79a7'},
                 'smooth': True,
                 'emphasis': {'focus': 'series', 'scale': True},
                 'blur': {'itemStyle': {'opacity': 0.1}},
@@ -637,7 +662,7 @@ def graficoPPM(request):
                 'type': 'line',
                 'yAxisIndex': 0,
 
-                'itemStyle': {'color': '#b71c1c'},
+                'itemStyle': {'color': '#59a14f'},
                 'smooth': True,
                 'emphasis': {'focus': 'series', 'scale': True},
                 'blur': {'itemStyle': {'opacity': 0.1}},
@@ -649,7 +674,7 @@ def graficoPPM(request):
                 'type': 'line',
                 'yAxisIndex': 1,
 
-                'itemStyle': {'color': '#d84315'},
+                'itemStyle': {'color': '#59a14f'},
                 'smooth': True,
                 'emphasis': {'focus': 'series', 'scale': True},
                 'blur': {'itemStyle': {'opacity': 0.1}},
@@ -662,7 +687,7 @@ def graficoPPM(request):
                 'type': 'line',
                 'yAxisIndex': 0,
 
-                'itemStyle': {'color': '#311b92'},
+                'itemStyle': {'color': '#364F6B'},
                 'smooth': True,
                 'emphasis': {'focus': 'series', 'scale': True},
                 'blur': {'itemStyle': {'opacity': 0.1}},
@@ -674,7 +699,7 @@ def graficoPPM(request):
                 'type': 'line',
                 'yAxisIndex': 1,
 
-                'itemStyle': {'color': '#5e35b1'},
+                'itemStyle': {'color': '#364F6B'},
                 'smooth': True,
                 'emphasis': {'focus': 'series', 'scale': True},
                 'blur': {'itemStyle': {'opacity': 0.1}},
@@ -692,18 +717,34 @@ def graficoPPM(request):
 # ----------------------------------------------------
 
 def graficoKilogramos(request):
+    # Define color variables based on theme
+    colors = {
+        'primary': '#0c0689',    # --primary
+        'secondary': '#ac86e9',  # --secondary
+        'accent': '#8a47f5',     # --accent
+        'tertiary': '#e0d0f8'    # --tertiary
+    }
 
     # Filtros
-
     linea_id = request.GET.get('linea_id')
     turno_id = request.GET.get('turno_id')
     year = request.GET.get('year')
 
+
+
     # Registros de Productos
-    registros = Productos.objects.exclude(
-        Q(especies_id__isnull=True) |
-        Q(kil_pro__isnull=True) 
-    )
+    # Chequea si el usuario es superuser (admin)
+    if request.user.is_superuser:
+        registros = Productos.objects.exclude(
+            Q(especies_id__isnull=True) |
+            Q(kil_pro__isnull=True)
+        )
+    else:
+        # Filtra registros para usuario normal 
+        registros = Productos.objects.exclude(
+            Q(especies_id__isnull=True) |
+            Q(kil_pro__isnull=True)
+        ).filter(grupopro_id__trabajador_id=request.user.trabajador)
 
     # Filtros para resultados
     if linea_id:
@@ -718,14 +759,13 @@ def graficoKilogramos(request):
     # Agrupo por especie y mes
     resultados = registros.values(
         'especies_id__id',
-        'especies_id__nom_esp',
+        'especies_id__nom_esp', 
         'grupopro_id__dia_id__dia_dia__month'
     ).annotate(
-        suma_kg=(Sum('kil_pro'))
+        suma_kg = Coalesce(Round(Sum('kil_pro'), 2), Value(0), output_field=FloatField()),
     ).order_by('especies_id__id', 'grupopro_id__dia_id__dia_dia__month')
 
-
-    # Inicializar arrays para cada especie con ceros para todos los meses (1-12)
+    # Inicializar arrays para cada especie
     ciruela_data = [0] * 12
     pera_data = [0] * 12
     cereza_data = [0] * 12
@@ -739,10 +779,7 @@ def graficoKilogramos(request):
     
     # Poblar los arrays con los datos reales
     for r in resultados:
-        # Obtener índice de mes (0-11) para acceder al array
         mes_idx = r['grupopro_id__dia_id__dia_dia__month'] - 1
-        
-        # Asignar valor al array correspondiente según la especie
         if r['especies_id__id'] == CIRUELA_ID:
             ciruela_data[mes_idx] = r['suma_kg']
         elif r['especies_id__id'] == PERA_ID:
@@ -752,65 +789,62 @@ def graficoKilogramos(request):
         elif r['especies_id__id'] == NECTARINE_ID:
             nectarine_data[mes_idx] = r['suma_kg']
 
-    
     chart = {
-        'title': {
-            'text': "Kilogramos totales por especie",
-            'left': "center",
-            'textStyle': { 'fontSize': 18, 'fontWeight': 'bold' }
-        },
         'legend': {
-            'top': 30, # Separado del título
             'data': ['Ciruela', 'Pera', 'Cereza', 'Nectarine'],
+            'textStyle': {'color': colors['primary']}
         },
         'toolbox': {
-            # Opcional: añadir 'saveAsImage' si quieres esa función
             'feature': {
                 'magicType': {
-                    'type': ['stack', 'line', 'bar'] # Permitir cambiar a apilado, línea o barra normal
+                    'type': ['stack', 'line', 'bar']
                 },
-                'dataView': { 'readOnly': False }, # Permitir ver y editar datos
-                'saveAsImage': { 'show': True }    # Botón para guardar imagen
+                'dataView': {'readOnly': False},
+                'saveAsImage': {'show': True}
             },
-            'top': 5 # Posicionar la caja de herramientas un poco más abajo
+            'top': 5,
+            'iconStyle': {'borderColor': colors['primary']}
         },
         'tooltip': {
-            'trigger': 'axis', # <-- CAMBIO CLAVE: Activar por eje (mes)
-            'axisPointer': { # Mejora la indicación visual del eje
-                'type': 'shadow' # Muestra una sombra en la columna del eje
-            }
-            # No necesitamos un formatter personalizado por ahora,
-            # el tooltip por defecto para 'axis' muestra todas las series.
+            'trigger': 'axis',
+            'axisPointer': {
+                'type': 'shadow'
+            },
+            'backgroundColor': colors['tertiary'],
+            'borderColor': colors['secondary'],
+            'textStyle': {'color': colors['primary']}
         },
         'xAxis': {
             'data': ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-            'name': 'Mes', # Nombre del eje X más descriptivo
-            'nameLocation': 'middle', # Centrar el nombre
-            'nameGap': 30, # Espacio entre etiquetas y nombre del eje
-            'axisLine': { 'onZero': True },
-            'splitLine': { 'show': False },
-            'splitArea': { 'show': False }
+            'name': 'Mes',
+            'nameLocation': 'middle',
+            'nameGap': 30,
+            'axisLine': {'lineStyle': {'color': colors['primary']}},
+            'axisLabel': {'color': colors['primary']}
         },
         'yAxis': {
-            'type': 'value', # Asegurar que el eje Y es numérico
-            'name': 'Kilogramos' # Añadir nombre al eje Y
+            'type': 'value',
+            'name': 'Kilogramos',
+            'axisLine': {'lineStyle': {'color': colors['primary']}},
+            'axisLabel': {'color': colors['primary']}
         },
         'grid': {
-            'left': '3%', # Ajustar márgenes si es necesario
+            'left': '3%',
             'right': '4%',
-            'bottom': '10%', # Dejar espacio para la leyenda del zoom si se añade
-            'containLabel': True # Asegura que las etiquetas de los ejes no se corten
+            'bottom': '10%',
+            'containLabel': True
         },
         'series': [
             {
                 'name': 'Ciruela',
                 'type': 'bar',
-                'stack': 'total', # <-- Apilar todas juntas
-                'emphasis': {      # <-- Énfasis estándar
+                'stack': 'total',
+                'itemStyle': {'color': colors['primary']},
+                'emphasis': {
                     'focus': 'series',
                     'itemStyle': {
                         'shadowBlur': 10,
-                        'shadowColor': 'rgba(0,0,0,0.3)'
+                        'shadowColor': colors['accent']
                     }
                 },
                 'data': ciruela_data
@@ -818,48 +852,133 @@ def graficoKilogramos(request):
             {
                 'name': 'Pera',
                 'type': 'bar',
-                'stack': 'total', # <-- Apilar todas juntas
-                'emphasis': {      # <-- Énfasis estándar
+                'stack': 'total',
+                'itemStyle': {'color': colors['secondary']},
+                'emphasis': {
                     'focus': 'series',
                     'itemStyle': {
                         'shadowBlur': 10,
-                        'shadowColor': 'rgba(0,0,0,0.3)'
+                        'shadowColor': colors['accent']
                     }
                 },
-                # Datos ficticios para Pera (ej: patrón creciente)
                 'data': pera_data
             },
             {
                 'name': 'Cereza',
                 'type': 'bar',
-                'stack': 'total', # <-- Apilar todas juntas
-                'emphasis': {      # <-- Énfasis estándar
+                'stack': 'total',
+                'itemStyle': {'color': colors['accent']},
+                'emphasis': {
                     'focus': 'series',
                     'itemStyle': {
                         'shadowBlur': 10,
-                        'shadowColor': 'rgba(0,0,0,0.3)'
+                        'shadowColor': colors['accent']
                     }
                 },
-                # Datos ficticios para Cereza (ej: patrón estacional corto)
                 'data': cereza_data
             },
             {
                 'name': 'Nectarine',
                 'type': 'bar',
-                'stack': 'total', # <-- Apilar todas juntas
-                'emphasis': {      # <-- Énfasis estándar
+                'stack': 'total', 
+                'itemStyle': {'color': colors['tertiary']},
+                'emphasis': {
                     'focus': 'series',
                     'itemStyle': {
                         'shadowBlur': 10,
-                        'shadowColor': 'rgba(0,0,0,0.3)'
+                        'shadowColor': colors['accent']
                     }
                 },
-                # Datos ficticios para Nectarine (ej: patrón variable)
                 'data': nectarine_data
             }
         ]
-    };
+    }
     return JsonResponse(chart)
 
 # ----------------------------------------------------
 # ----------------------------------------------------
+
+
+# ----------------------------------------------------
+# ----------- KPIS para el Dashboard ----------------
+# ----------------------------------------------------
+
+def kpigeneral(request):
+    linea_id = request.GET.get('linea_id')
+    turno_id = request.GET.get('turno_id')
+    fecha_str = request.GET.get('dia_id')
+    year = request.GET.get('year')
+
+
+    # template fungicida usa shield brite 230 y demáses
+    # Tabla Dosificacion
+    # Debo clasificar el ccp_dos que es cc de producto, según la clasificación de fungicidas_id
+
+    if request.user.is_superuser:
+        #Hago exclude para escoger los campos que deseo utilizar
+        registros_dosificacion = Dosificacion.objects.exclude(
+            Q(ccp_dos__isnull = True) |
+            Q(agu_dos__isnull = True) |
+            Q(cer_dos__isnull = True) 
+        )
+
+        registros_productos = Productos.objects.exclude(
+            Q(dor_pro__isnull = True) | # Dosis de retards
+            Q(kil_pro__isnull = True) | # Kilos de producción
+            Q(bin_pro__isnull = True)   # Cantidad de bins
+        )
+    else:
+        registros_dosificacion = Dosificacion.objects.exclude(
+            Q(ccp_dos__isnull = True) |
+            Q(agu_dos__isnull = True) |
+            Q(cer_dos__isnull = True) 
+        ).filter(trabajador_id=request.user.trabajador)
+
+        registros_productos = Productos.objects.exclude(
+            Q(dor_pro__isnull = True) | # Dosis de retards
+            Q(kil_pro__isnull = True) | # Kilos de producción
+            Q(bin_pro__isnull = True)   # Cantidad de bins
+        ).filter(grupopro_id__trabajador_id=request.user.trabajador)
+
+    #Realizo filtros según parametros
+    if linea_id:
+        registros_dosificacion = registros_dosificacion.filter(lineas_id=linea_id)
+        registros_productos = registros_productos.filter(grupopro_id__lineas_id=linea_id)
+    if year:
+        registros_dosificacion = registros_dosificacion.filter(dia_id__dia_dia__year=year)
+        registros_productos = registros_productos.filter(grupopro_id__dia_id__dia_dia__year=year)
+    if fecha_str:
+        fecha_dt = datetime.strptime(fecha_str, "%Y-%m-%d").date()
+        registros_dosificacion = registros_dosificacion.filter(dia_id__dia_dia=fecha_dt)
+        registros_productos = registros_productos.filter(grupopro_id__dia_id__dia_dia=fecha_dt)
+    if turno_id:
+        registros_productos = registros_productos.filter(grupopro_id__turnos_id=turno_id)
+
+    
+
+     
+    #Realizo la suma de los shield brites según su ID en consulta hacia la BD
+
+    #Coalesce maneja valores nulos en la suma
+
+    kpi_resultados_dosificacion = registros_dosificacion.aggregate(
+        # shield son datos en cc, se pasan a litros
+        # Agua y cera son Litros
+        shbr230_total = Coalesce(Round(Sum('ccp_dos', filter=Q(fungicidas_id=1)) / 1000.0, 2), Value(0), output_field=FloatField()),
+        shbr430_total = Coalesce(Round(Sum('ccp_dos', filter=Q(fungicidas_id=2)) / 1000.0, 2), Value(0), output_field=FloatField()),
+        shbrpyr_total = Coalesce(Round(Sum('ccp_dos', filter=Q(fungicidas_id=3)) / 1000.0, 2), Value(0), output_field=FloatField()),
+        total_agua = Coalesce(Round(Sum('agu_dos')), Value(0), output_field=FloatField()),
+        total_cera = Coalesce(Round(Sum('cer_dos')), Value(0), output_field=FloatField()),
+    )
+
+    kpi_resultados_productos = registros_productos.aggregate(
+        total_retards = Coalesce(Round(Sum('dor_pro')), Value(0), output_field=IntegerField()),
+        total_kilos = Coalesce(Round(Sum('kil_pro'), 2), Value(0), output_field=FloatField()),
+        total_bins = Coalesce(Round(Sum('bin_pro')), Value(0), output_field=IntegerField()),
+    )
+
+    # | une dos diccionarios ( Dictionary union operator )
+
+    kpi_resultados = kpi_resultados_dosificacion | kpi_resultados_productos
+    
+    return JsonResponse(kpi_resultados)

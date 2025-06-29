@@ -1,0 +1,171 @@
+<nav id="sidebarMenu" class="offcanvas offcanvas-start sidebar shadow rubik-texto"
+    tabindex="-1"
+    aria-labelledby="sidebarMenuLabel">
+  
+  <div class="offcanvas-header rubik-titulo">
+    <h5 id="sidebarMenuLabel">Fungicidas</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+            aria-label="Cerrar"></button>
+  </div>
+  <div class="offcanvas-body rubik-texto">
+    <ul class="list-unstyled ps-0">
+
+      <!-- Primera lista -->
+      <li class="mb-1">
+        <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
+          Home
+        </button>
+        <div class="collapse show" id="home-collapse">
+          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+            <li><a href="/menu" class=" d-inline-flex text-decoration-none rounded">Overview</a></li>
+            <li><a href="#" class=" d-inline-flex text-decoration-none rounded">Updates</a></li>
+            <li><a href="#" class=" d-inline-flex text-decoration-none rounded">Reports</a></li>
+          </ul>
+        </div>
+      </li>
+      
+      <li class="border-top my-3"></li> <!--separador linea fina-->
+      <!-- Segunda lista-->
+      <li class="mb-1">
+          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+              data-bs-toggle="collapse" data-bs-target="#linea11-collapse" aria-expanded="false">
+              Línea 11
+          </button>
+          <!-- Segundo collapse de opciones-->
+          <div class="collapse" id="linea11-collapse">
+              <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                  <li><a href="{% url 'cloracion' linea_id=1 %}"
+                          class=" d-inline-flex text-decoration-none rounded">Cloración</a>
+                  </li>
+                  <li><a href="{% url 'temperatura' linea_id=1 %}"
+                          class=" d-inline-flex text-decoration-none rounded">Temperatura</a>
+                  </li>
+                  <li><a href="{% url 'ppm' linea_id=1 %}"
+                          class=" d-inline-flex text-decoration-none rounded">Medición
+                          PPM
+                      </a>
+                  </li>
+              </ul>
+          </div>
+      </li>
+      <!-- Tercera lista-->
+      <li class="mb-1">
+          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+              data-bs-toggle="collapse" data-bs-target="#linea10-collapse" aria-expanded="false">
+              Línea 10
+          </button>
+          <!-- Cuarto collapse de opciones-->
+          <div class="collapse" id="linea10-collapse">
+              <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                  <li><a href="{% url 'cloracion' linea_id=2 %}"
+                          class=" d-inline-flex text-decoration-none rounded">Cloración</a>
+                  </li>
+                  <li><a href="{% url 'producto' linea_id=2 %}"
+                          class=" d-inline-flex text-decoration-none rounded">Productos</a>
+                  </li>
+                  <li><a href="{% url 'fungicida' linea_id=2 %}"
+                          class=" d-inline-flex text-decoration-none rounded">Fungicidas</a>
+                  </li>
+              </ul>
+          </div>
+      </li>
+      <!-- Tercera Lista-->
+      <li class="mb-1">
+          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+              data-bs-toggle="collapse" data-bs-target="#linea5-collapse" aria-expanded="false">
+              Línea 5
+          </button>
+          <!-- Tercer collapse de opciones-->
+          <div class="collapse" id="linea5-collapse">
+              <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                  <li><a href="{% url 'cloracion' linea_id=3 %}"
+                          class=" d-inline-flex text-decoration-none rounded">Cloración</a>
+                  </li>
+                  <li><a href="{% url 'temperatura' linea_id=3 %}"
+                          class=" d-inline-flex text-decoration-none rounded">Temperatura</a>
+                  </li>
+                  <li><a href="{% url 'ppm' linea_id=3 %}"
+                          class=" d-inline-flex text-decoration-none rounded">Medición
+                          PPM</a></li>
+              </ul>
+          </div>
+      </li>
+      <!-- Cuarta Lista-->
+      <li class="mb-1">
+          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+              data-bs-toggle="collapse" data-bs-target="#linea1-collapse" aria-expanded="false">
+              Línea 1
+          </button>
+          <!-- Tercer collapse de opciones-->
+          <div class="collapse" id="linea1-collapse">
+              <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                  <li><a href="{% url 'producto' linea_id=4 %}"
+                          class=" d-inline-flex text-decoration-none rounded">Productos</a>
+                  </li>
+                  <li><a href="{% url 'fungicida' linea_id=4 %}"
+                          class=" d-inline-flex text-decoration-none rounded">Fungicidas</a>
+                  </li>
+              </ul>
+          </div>
+      </li>
+      <!-- Quinta Lista-->
+      <li class="border-top my-3"></li> <!-- Borde separador-->
+      
+      <li class="mb-1">
+          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+              data-bs-toggle="collapse" data-bs-target="#reports-collapse" aria-expanded="false">
+              Reportes
+          </button>
+          <!-- Primer collapse de opciones-->
+          <div class="collapse" id="reports-collapse">
+              <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                  <li><a href="/archivos"
+                          class=" d-inline-flex text-decoration-none rounded">Control Cloraciones</a>
+                  </li>
+                  <li><a href="/archivos_temperatura"
+                          class=" d-inline-flex text-decoration-none rounded">Control Temperatura</a>
+                  </li>
+                  <li><a href="/archivos_ppm"
+                          class=" d-inline-flex text-decoration-none rounded">Control Medición de PPM</a>
+                  </li>
+                  <li><a href="/archivos_producto"
+                          class=" d-inline-flex text-decoration-none rounded">Control Productos</a>
+                  </li>
+                  <li><a href="/archivos_fungicida"
+                          class=" d-inline-flex text-decoration-none rounded">Control Fungicidas</a>
+                  </li> 
+              </ul>
+          </div>
+
+      </li>
+
+      <li class="border-top my-3"></li> <!-- Borde separador-->
+      
+      <li class="mb-1">
+          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+              data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
+              Account
+          </button>
+          <!-- Cuarto collapse de opciones-->
+          <div class="collapse" id="account-collapse">
+              <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                  <li><a href="{% url 'registro' %}"
+                          class=" d-inline-flex text-decoration-none rounded">New...</a>
+                  </li>
+                  <li><a href="#"
+                          class=" d-inline-flex text-decoration-none rounded">Profile</a>
+                  </li>
+                  <li><a href="#"
+                          class=" d-inline-flex text-decoration-none rounded">Settings</a>
+                  </li>
+                  <li><a href="{% url 'logout' %}"
+                          class=" d-inline-flex text-decoration-none rounded">Sign
+                          out</a></li>
+              </ul>
+          </div>
+      </li>
+    </ul>
+    
+  </div>
+</nav>

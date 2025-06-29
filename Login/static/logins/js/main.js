@@ -1,3 +1,24 @@
+
+const charts = {};
+
+// ---------------------------------------------------
+// Función Debounce para mejorar rendimiento de redimensión
+// ---------------------------------------------------
+function debounce(func, wait, immediate) {
+  var timeout;
+  return function() {
+    var context = this, args = arguments;
+    var later = function() {
+      timeout = null;
+      if (!immediate) func.apply(context, args);
+    };
+    var callNow = immediate && !timeout;
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+    if (callNow) func.apply(context, args);
+  };
+};
+
 // ---------------------------------------------------
 // Chart Cloracion de Hipoclorito y Ácido
 // ---------------------------------------------------
@@ -13,12 +34,13 @@ const getOptionChartHipoAci= async (params = {})=>{
 };
 
 const initChartHipoAci = async (params = {}) => {
-  const ChartHipoAci=echarts.init(document.getElementById("chartCloroAcido"));
-  let option = await getOptionChartHipoAci(params);
 
+  if (!charts.hipoAci) {
+    charts.hipoAci = echarts.init(document.getElementById("chartCloroAcido"));
+  }
   
-
-  ChartHipoAci.setOption(option);
+  let option = await getOptionChartHipoAci(params);
+  charts.hipoAci.setOption(option);
 };
 
 // ---------------------------------------------------
@@ -36,8 +58,28 @@ const getOptionChartTemperatura= async (params = {})=>{
 };
 
 const initChartTemperatura = async (params = {}) => {
-  const ChartTemperatura=echarts.init(document.getElementById("chartTemperatura"));
+  if (!charts.temperatura) {
+    charts.temperatura = echarts.init(document.getElementById("chartTemperatura"));
+  }
+  
   let option = await getOptionChartTemperatura(params);
+
+  if (option.xAxis && option.xAxis.type !== 'value') {
+    option.xAxis.type = 'value';
+    option.xAxis.min = 0;
+    option.xAxis.max = 24;
+    option.xAxis.interval = 3;
+  }
+
+  option.xAxis.axisLabel = {
+    fontSize: 12,
+    formatter: function(value) {
+      const hora = Math.floor(value);
+      return hora + ':00';
+    }
+  };
+
+
 
   option.tooltip.formatter = function(params) {
     const total = params.value[0];
@@ -47,12 +89,12 @@ const initChartTemperatura = async (params = {}) => {
     const minutosformateado = minutos < 10 ? '0' + minutos : minutos;
 
 
-    return `<strong>${params.seriesName}</strong><br/>
+    return `${params.seriesName}<br/>
             Hora: ${hora}:${minutosformateado}<br/>
             Temperatura: ${params.value[1]}°C`;
   };
 
-  ChartTemperatura.setOption(option);
+  charts.temperatura.setOption(option);
 };
 
 
@@ -72,8 +114,29 @@ const getOptionChartPPM= async (params = {})=>{
 };
 
 const initChartPPM = async (params = {}) => {
-  const ChartPPM=echarts.init(document.getElementById("chartPPM"));
+  if (!charts.ppm) {
+    charts.ppm = echarts.init(document.getElementById("chartPPM"));
+  }
+  
   let option = await getOptionChartPPM(params);
+
+
+  if (option.xAxis && option.xAxis.type !== 'value') {
+    option.xAxis.type = 'value';
+    option.xAxis.min = 0;
+    option.xAxis.max = 24;
+    option.xAxis.interval = 3;
+  }
+
+  option.xAxis.axisLabel = {
+    fontSize: 12,
+    formatter: function(value) {
+      const hora = Math.floor(value);
+      return hora + ':00';
+    }
+  };
+
+
 
   option.tooltip.formatter = function(params) {
     // Maneja params como array u objeto
@@ -87,6 +150,8 @@ const initChartPPM = async (params = {}) => {
     const seriesId = pointParams.seriesId;     // Ej: "estanque-ppm", "corta-ph"
     const numericalTime = pointParams.value[0]; // Ej: 8.5, 9.0
     const value = pointParams.value[1];        // Ej: 120, 6.8
+
+    
 
 
     // formateo de hora
@@ -110,12 +175,12 @@ const initChartPPM = async (params = {}) => {
 
     // Construir el contenido HTML del tooltip
     // Usamos seriesName (Ej: "Estanque") como título principal
-    return `<strong>${seriesName}</strong><br/>
+    return `${seriesName}<br/>
             Hora: ${timeStr}<br/>
             ${metricLabel}: ${value}`;
 };
 
-  ChartPPM.setOption(option);
+  charts.ppm.setOption(option);
 };
 
 // ---------------------------------------------------
@@ -133,12 +198,12 @@ const getOptionChartKGS= async (params = {})=>{
 };
 
 const initChartKGS = async (params = {}) => {
-  const ChartKGS=echarts.init(document.getElementById("chartKilos"));
-  let option = await getOptionChartKGS(params);
-
+  if (!charts.kgs) {
+    charts.kgs = echarts.init(document.getElementById("chartKilos"));
+  }
   
-
-  ChartKGS.setOption(option);
+  let option = await getOptionChartKGS(params);
+  charts.kgs.setOption(option);
 };
 
 // ---------------------------------------------------
@@ -161,6 +226,7 @@ document.getElementById("btn-filtrar").addEventListener("click", async () => {
   await initChartHipoAci(params);
   await initChartKGS(params);
 
+  await fetchAndUpdateKpis(params);
 });
 
 // Función para cargar los años disponibles
@@ -188,6 +254,24 @@ const loadAvailableYears = async () => {
 document.addEventListener('DOMContentLoaded', loadAvailableYears);
 
 
+
+
+// ---------------------------------------------------
+
+// Función para redimensionar todos los gráficos
+function resizeAllCharts() {
+  for (const key in charts) {
+    if (charts[key]) {
+      charts[key].resize();
+    }
+  }
+}
+
+// ---------------------------------------------------
+
+// Evento para redimensionar todos los charts, junto a la optm debounce
+window.addEventListener('resize', debounce(resizeAllCharts, 250));
+
 // ---------------------------------------------------
 // Inicialización
 window.addEventListener("load", async() =>{
@@ -195,5 +279,8 @@ window.addEventListener("load", async() =>{
   await initChartPPM();
   await initChartHipoAci();
   await initChartKGS();
+  
+  // inicialización kpis js/kpis.js
+  await fetchAndUpdateKpis();
 });
 

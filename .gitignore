@@ -1,8 +1,23 @@
+#Entorno virtual
 env/
+
+#IDEs
 .vscode/
-ddc/__pycache__/
-fungicidas/__pycache__/
+.cursor
+
+#Bds
 db.sqlite3
+
+#caché python
 __pycache__
+*.py[cod]
+
+# Logs
+*.log
+
+# Archivos de entorno
+.env
+
+#otros
 templates/copiamenutest.html/
-migrations/
+

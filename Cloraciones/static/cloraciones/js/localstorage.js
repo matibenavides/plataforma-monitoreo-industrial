@@ -2,18 +2,42 @@
 function cargarBorrador(seccion) {
     const form = document.getElementById(`form-${seccion}`);
     
-    
-    
     // Obtiene los datos del borrador en formato JSON
     const data = JSON.parse(localStorage.getItem(`borrador-${seccion}`)) || {};
     
     // Asigna los valores a cada campo del formulario
     for (const [name, value] of Object.entries(data)) {
-        const input = form.elements[name];
-        if (input) {
-            input.value = value;
+        if (name.startsWith('especie_')) {
+            const input = form.elements[name];
+            if (input) {
+                input.value = value;
+                // Dispara el evento change para actualizar las variedades
+                $(input).trigger('change');
+            }
         }
     }
+
+    // asigna los valores de variedad
+    for (const [name, value] of Object.entries(data)) {
+        if (name.startsWith('variedad_')) {
+            const input = form.elements[name];
+            if (input) {
+                setTimeout(() => {
+                    input.value = value;
+                }, 50);
+            }
+        }
+    }
+    // rellena los campos
+    for (const [name, value] of Object.entries(data)) {
+        if (!name.startsWith('especie_') && !name.startsWith('variedad_')) {
+            const input = form.elements[name];
+            if (input) {
+                input.value = value;
+            }
+        }
+    }
+
 }
 
 // Función para mostrar el nuevo Toast de validación

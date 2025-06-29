@@ -1,17 +1,93 @@
-.fondo {
-    background-color: #F7F2FF;
-  }
-
-
-.transparente {
-  background-color: transparent !important;
+body {
+  background-color: var(--background);
+  color: var(--text) !important;
+  font-family: 'Rubik', sans-serif;
 }
 
-.navbar-toggler { 
-  background-color: #f7f2ff;
+body, h1, h2, h3, h4, h5, h6, p, span, li, a, button, option, label, small, strong, em {
+  color: var(--text);
 }
 
+
+
+
+/* ------------------------------------------------------ */
+
+/* Definiciones específicas para cada tipo de gráfico */
 .chart {
   width: 100%;
-  min-height: 300px;
+}
+
+/* Gráficos principales con altura fija */
+#chartKilos, #chartCloroAcido {
+  height: 300px;
+  min-height: 0; /* Anula el min-height general */
+}
+
+/* Gráficos más pequeños para las mediciones */
+#chartTemperatura, #chartPPM {
+  height: 250px;
+  min-height: 0; /* Anula el min-height general */
+}
+
+/* Para otras tarjetas que no son de gráficos */
+.card {
+  height: auto; /* Cambia de height: 100% a auto */
+  background-color: var(--quaternary);
+  --bs-card-border-width: none;
+}
+
+.card-header {
+  background-color: var(--quaternary);
+}
+
+/* Específico para tarjetas de KPI que necesitan altura 100% */
+.kpi-card {
+  height: 100%;
+  transition: all 0.3s;
+  background-color: var(--tertiary);
+}
+
+.text-primary {
+  color : var(--accent) !important;
+}
+
+.text-muted {
+  color : var(--subtext) !important;
+}
+
+.kpi-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+}
+
+.nav-pills .nav-link {
+  padding: .25rem .5rem;
+  font-size: 0.8rem;
+}
+
+.nav-pills-sm .nav-link {
+  padding: .15rem .3rem;
+  font-size: 0.75rem;
+}
+
+
+
+.table {
+  --bs-table-bg: var(--quaternary);
+}
+
+.table-light {
+  --bs-table-bg: var(--quaternary);
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1400px;  
+  }
+}
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1600px;
+  }
 }

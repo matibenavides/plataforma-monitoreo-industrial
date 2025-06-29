@@ -28,6 +28,13 @@ def mostrarPPM(request, linea_id):
         # Muestra listado de registros en el mismo template
         ppm = PPM.objects.all().order_by('-id')
 
+        # Chequea si el usuario es superuser (admin)
+        if request.user.is_superuser:
+            ppm = PPM.objects.all().order_by('-id')
+        else:
+            # Filtra registros para usuario normal
+            ppm = PPM.objects.filter(trabajador_id=request.user.trabajador).order_by('-id')
+
         lista_formato = []
         for lista in ppm:
             lista_formato.append({
@@ -77,7 +84,7 @@ def registrarPPM(request,linea_id):
         dia_obj, created = Dia.objects.get_or_create(dia_dia=fecha)
         #Solución, 'Cannot assign "'2025-02-23'": "PPM.dia_id" must be a "Dia" instance.'
 
-        ppm = request.POST['ppm']
+        ppme = request.POST['ppm']
         phstr = request.POST['ph']
 
         ph = float(phstr) if phstr else None
@@ -89,9 +96,20 @@ def registrarPPM(request,linea_id):
             turnos_id=turno,
             dia_id=dia_obj, 
             hor_ppm=hora,
-            dat_ppm=ppm,
+            dat_ppm=ppme,
             phe_ppm=ph,
             obs_ppm=observacion,
+        )
+
+        #Registro en Historial
+        descripcion_historial = (
+            f"PPM - {ppme} - L{linea.num_lin}"
+        )
+        Historial.objects.create(
+            trabajador_id = request.user,
+            accion = 'CREACIÓN',
+            content_object = ppm,
+            descripcion = descripcion_historial
         )
 
 
@@ -119,6 +137,15 @@ def visualizarPPM(request, grupo_id):
         linea = Lineas.objects.get(id=ppm.lineas_id.id)
 
         registros = PPM.objects.all().order_by('-id')
+
+        # Chequea si el usuario es superuser (admin)
+        if request.user.is_superuser:
+            registros = PPM.objects.all().order_by('-id')
+        else:
+            # Filtra registros para usuario normal
+            registros = PPM.objects.filter(trabajador_id=request.user.trabajador).order_by('-id')
+
+        
 
         lista_formato = []
         for lista in registros:
@@ -186,6 +213,17 @@ def actualizarPPM(request, grupo_id):
         ppm.obs_ppm = observacion
         ppm.save()
 
+        #Registro en Historial
+        descripcion_historial = (
+            f"PPM - {registro_ppm} - L{linea.num_lin}"
+        )
+        Historial.objects.create(
+            trabajador_id = request.user,
+            accion = 'EDICIÓN',
+            content_object = ppm,
+            descripcion = descripcion_historial
+        )
+
         messages.success(request, '¡Registro actualizado correctamente!')
 
         return redirect('ppm', linea_id=linea.id)
@@ -205,6 +243,18 @@ def eliminarPPM(request, grupo_id):
     try:
         ppm = PPM.objects.get(id=grupo_id)
         linea = ppm.lineas_id
+
+        #Registro en Historial
+        descripcion_historial = (
+            f"PPM - {ppm.dat_ppm} - L{ppm.lineas_id.num_lin}"
+        )
+        Historial.objects.create(
+            trabajador_id = request.user,
+            accion = 'ELIMINACIÓN',
+            content_object = ppm,
+            descripcion = descripcion_historial
+        )
+
         ppm.delete()
         messages.success(request, '¡Registro eliminado correctamente!')
         return redirect('ppm', linea_id=linea.id)
@@ -217,7 +267,18 @@ def eliminarPPM(request, grupo_id):
 def eliminarPPMLista(request, grupo_id):
     try:
         ppm = PPM.objects.get(id=grupo_id)
-        
+
+        #Registro en Historial
+        descripcion_historial = (
+            f"PPM - {ppm.dat_ppm} - L{ppm.lineas_id.num_lin}"
+        )
+        Historial.objects.create(
+            trabajador_id = request.user,
+            accion = 'ELIMINACIÓN',
+            content_object = ppm,
+            descripcion = descripcion_historial
+        )
+
         ppm.delete()
         messages.success(request, '¡Registro eliminado correctamente!')
         return redirect('listappm')
@@ -239,6 +300,13 @@ def DescargarPDFPPM(request):
         
         # Consulta base ordenada
         ppm = PPM.objects.all().order_by('-id')
+
+        # Chequea si el usuario es superuser (admin)
+        if request.user.is_superuser:
+            ppm = PPM.objects.all().order_by('-id')
+        else:
+            # Filtra registros para usuario normal
+            ppm = PPM.objects.filter(trabajador_id=request.user.trabajador).order_by('-id')
         
         # Aplicar filtros si se proporcionan "campo" y "buscar"
         if campo:
@@ -365,6 +433,13 @@ def mostrarListaPPM(request):
     busqueda = request.GET.get("buscar")
     campo = request.GET.get("campo")
     lista = PPM.objects.all().order_by('-id')
+
+    # Chequea si el usuario es superuser (admin)
+    if request.user.is_superuser:
+        lista = PPM.objects.all().order_by('-id')
+    else:
+        # Filtra registros para usuario normal
+        lista = PPM.objects.filter(trabajador_id=request.user.trabajador).order_by('-id')
 
     if campo:
         if campo == "linea":
