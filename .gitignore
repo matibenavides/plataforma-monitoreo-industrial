@@ -4,6 +4,7 @@ env/
 #IDEs
 .vscode/
 .cursor
+.cursorrules
 
 #Bds
 db.sqlite3
