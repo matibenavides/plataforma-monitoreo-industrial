@@ -12,16 +12,20 @@ from django.contrib.contenttypes.models import ContentType
 
 class Trabajador(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE) 
-    nom_tra = models.TextField(max_length=20) #Nombre Trabajador
-    app_tra = models.TextField(max_length=20) # Apellido Paterno Trabajador
-    apm_tra = models.TextField(max_length=20) # Apellido Materno Trabajador
+    nom_tra = models.CharField(max_length=20, db_index=True) #Nombre Trabajador
+    app_tra = models.CharField(max_length=20, db_index=True) # Apellido Paterno Trabajador
+    apm_tra = models.CharField(max_length=20, db_index=True) # Apellido Materno Trabajador
     nac_tra = models.DateField() # Nacimiento Trabajador
-    rut_tra = models.IntegerField(null=True, blank=True, unique=True) # Rut Trabajador ( Unico y permite quedarse en blanco por el momento)
+    rut_tra = models.IntegerField(null=True, blank=True, unique=True, db_index=True) # Rut Trabajador ( Unico y permite quedarse en blanco por el momento)
 
 
     class Meta:
         verbose_name = 'Trabajador'
         verbose_name_plural = 'Trabajadores'
+        indexes = [
+            models.Index(fields=['nom_tra', 'app_tra']),
+            models.Index(fields=['user']),
+        ]
 
     # Metodo para visualización panel admin
     def __str__(self):
@@ -29,24 +33,29 @@ class Trabajador(models.Model):
 
 
 class Historial(models.Model):
-    trabajador_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, verbose_name="Trabajador")
+    trabajador_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, verbose_name="Trabajador", db_index=True)
     ACCION_CHOICES = [
         ('CREACIÓN', 'Creación'),
         ('EDICIÓN', 'Edición'),
         ('ELIMINACIÓN', 'Eliminación'),
         ('OTRO', 'Otro'),
     ]
-    accion = models.CharField(max_length=20, choices=ACCION_CHOICES, verbose_name="Acción Realizada")
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)  # Hacia que tabla se hizo referencia
-    object_id = models.PositiveIntegerField()  # Guarda la pk (id) del registro afectado
+    accion = models.CharField(max_length=20, choices=ACCION_CHOICES, verbose_name="Acción Realizada", db_index=True)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, db_index=True)  # Hacia que tabla se hizo referencia
+    object_id = models.PositiveIntegerField(db_index=True)  # Guarda la pk (id) del registro afectado
     content_object = GenericForeignKey('content_type', 'object_id')  # campo que permite acceder al objeto
-    timestamp = models.DateTimeField(auto_now_add=True, verbose_name="Fecha y Hora")
+    timestamp = models.DateTimeField(auto_now_add=True, verbose_name="Fecha y Hora", db_index=True)
     descripcion = models.TextField(blank=True, null=True, verbose_name="Descripción Adicional")
 
     class Meta:
         verbose_name = 'Registro de Historial'
         verbose_name_plural = 'Registros de Historial'
         ordering = ['-timestamp']
+        indexes = [
+            models.Index(fields=['trabajador_id', 'timestamp']),
+            models.Index(fields=['content_type', 'object_id']),
+            models.Index(fields=['accion', 'timestamp']),
+        ]
 
     def __str__(self):
         actor = self.trabajador_id.username if self.trabajador_id else "Sistema"
@@ -57,7 +66,7 @@ class Historial(models.Model):
 
 
 class Especies(models.Model):
-    nom_esp = models.TextField(max_length=20) # Nombre Especie
+    nom_esp = models.CharField(max_length=20, db_index=True) # Nombre Especie
 
     class Meta:
         verbose_name = 'Especie'
@@ -67,19 +76,22 @@ class Especies(models.Model):
         return str(self.nom_esp)
     
 class Variedad(models.Model):
-    especies_id = models.ForeignKey(Especies, on_delete=models.CASCADE)
-    nom_var = models.TextField(max_length=20) #Nombre Variedad
+    especies_id = models.ForeignKey(Especies, on_delete=models.CASCADE, db_index=True)
+    nom_var = models.CharField(max_length=20, db_index=True) #Nombre Variedad
 
     class Meta:
         verbose_name = 'Variedad'
         verbose_name_plural = 'Variedades'
+        indexes = [
+            models.Index(fields=['especies_id', 'nom_var']),
+        ]
 
     def __str__(self):
         return str(self.especies_id) + " - " + str(self.nom_var)
     
 # Tabla con futuras variaciones (Pensando en añadir valores $, a parte de solo nombre)
 class Fungicidas(models.Model): 
-    nom_fun = models.TextField(max_length=30) # Nombre Fungicida
+    nom_fun = models.CharField(max_length=30, db_index=True) # Nombre Fungicida
 
     class Meta:
         verbose_name = 'Fungicida'
@@ -89,18 +101,21 @@ class Fungicidas(models.Model):
         return str(self.nom_fun)
     
 class Diluyentes(models.Model):
-    nom_dil = models.TextField(max_length=30) # Nombre Diluyente
+    nom_dil = models.CharField(max_length=30, db_index=True)  # Nombre Diluyente
 
     class Meta:
         verbose_name = 'Diluyente'
         verbose_name_plural = 'Diluyentes'
+        indexes = [
+            models.Index(fields=['nom_dil']),
+        ]
 
     def __str__(self):
         return str(self.nom_dil)
     
 
 class Turnos(models.Model):
-    nom_tur = models.TextField(max_length=20) # Nombre Turno
+    nom_tur = models.CharField(max_length=20, db_index=True) # Nombre Turno
 
     class Meta:
         verbose_name = 'Turno'
@@ -111,7 +126,7 @@ class Turnos(models.Model):
     
 
 class Sector(models.Model):
-    nom_sec = models.TextField(max_length=20) # Nombre Sector
+    nom_sec = models.CharField(max_length=20, db_index=True) # Nombre Sector
 
     class Meta:
         verbose_name = 'Sector'
@@ -121,7 +136,7 @@ class Sector(models.Model):
         return str(self.nom_sec)
     
 class Lineas(models.Model):
-    num_lin = models.IntegerField(null=False) # Nombre Linea (Dato obligatorio, añadir linea operativa)
+    num_lin = models.IntegerField(null=False, db_index=True) # Nombre Linea (Dato obligatorio, añadir linea operativa)
 
     class Meta:
         verbose_name = 'Linea'
@@ -137,6 +152,9 @@ class Dia(models.Model): # Clase para la fecha de cada planilla
     class Meta:
         verbose_name = 'Dia'
         verbose_name_plural = 'Dias'
+        indexes = [
+            models.Index(fields=['dia_dia']),
+        ]
 
     def __str__(self):
         return str(self.dia_dia)
@@ -145,17 +163,22 @@ class Dia(models.Model): # Clase para la fecha de cada planilla
 #-------------------------------Grupo control de datos------------------------#
 
 class GrupoCloracion(models.Model):
-    loh_gru = models.BigIntegerField(null=True, blank=True) # Lote Hipoclorito
-    loa_gru = models.BigIntegerField(null=True, blank=True) # Lote Acido
-    dia_id = models.ForeignKey(Dia, on_delete=models.CASCADE)
-    lineas_id = models.ForeignKey(Lineas, on_delete=models.CASCADE)
-    turnos_id = models.ForeignKey(Turnos, on_delete=models.CASCADE)
-    sector_id = models.ForeignKey(Sector, on_delete=models.CASCADE)
-    especies_id = models.ForeignKey(Especies, on_delete=models.CASCADE)
-    trabajador_id = models.ForeignKey(Trabajador, on_delete=models.CASCADE) 
+    loh_gru = models.BigIntegerField(null=True, blank=True, db_index=True) # Lote Hipoclorito
+    loa_gru = models.BigIntegerField(null=True, blank=True, db_index=True) # Lote Acido
+    dia_id = models.ForeignKey(Dia, on_delete=models.CASCADE, db_index=True)
+    lineas_id = models.ForeignKey(Lineas, on_delete=models.CASCADE, db_index=True)
+    turnos_id = models.ForeignKey(Turnos, on_delete=models.CASCADE, db_index=True)
+    sector_id = models.ForeignKey(Sector, on_delete=models.CASCADE, db_index=True)
+    especies_id = models.ForeignKey(Especies, on_delete=models.CASCADE, db_index=True)
+    trabajador_id = models.ForeignKey(Trabajador, on_delete=models.CASCADE, db_index=True) 
 
     class Meta:
         verbose_name = 'Grupo Cloracion'
+        indexes = [
+            models.Index(fields=['dia_id', 'lineas_id', 'turnos_id']),
+            models.Index(fields=['trabajador_id', 'dia_id']),
+            models.Index(fields=['loh_gru', 'loa_gru']),
+        ]
 
     def __str__(self):
         return str(self.loh_gru) + " - " + str(self.loa_gru) + " - " + str(self.dia_id) + " - " + str(self.lineas_id) + " - " + str(self.turnos_id) + " - " + str(self.sector_id) + " - " + str(self.especies_id) + " - " + str(self.trabajador_id)
@@ -163,15 +186,19 @@ class GrupoCloracion(models.Model):
 
 
 class GrupoProductos(models.Model):
-    obs_grp = models.TextField(max_length=200)
-    dia_id = models.ForeignKey(Dia, on_delete=models.CASCADE)
-    lineas_id = models.ForeignKey(Lineas, on_delete=models.CASCADE)
-    turnos_id = models.ForeignKey(Turnos, on_delete=models.CASCADE)
-    trabajador_id = models.ForeignKey(Trabajador, on_delete=models.CASCADE)
-    fungicidas_id = models.ForeignKey(Fungicidas, on_delete=models.CASCADE)
+    obs_grp = models.CharField(max_length=200, db_index=True)
+    dia_id = models.ForeignKey(Dia, on_delete=models.CASCADE, db_index=True)
+    lineas_id = models.ForeignKey(Lineas, on_delete=models.CASCADE, db_index=True)
+    turnos_id = models.ForeignKey(Turnos, on_delete=models.CASCADE, db_index=True)
+    trabajador_id = models.ForeignKey(Trabajador, on_delete=models.CASCADE, db_index=True)
+    fungicidas_id = models.ForeignKey(Fungicidas, on_delete=models.CASCADE, db_index=True)
 
     class Meta:
         verbose_name = 'Grupo Producto'
+        indexes = [
+            models.Index(fields=['dia_id', 'lineas_id', 'turnos_id']),
+            models.Index(fields=['trabajador_id', 'dia_id']),
+        ]
 
     def __str__(self):
         return str(self.obs_grp) + " - " + str(self.dia_id) + " - " +str(self.lineas_id) + " - " + str(self.turnos_id) + " - " + str(self.trabajador_id) + " - " + str(self.fungicidas_id)
@@ -179,14 +206,18 @@ class GrupoProductos(models.Model):
 
 
 class GrupoTemperatura(models.Model):
-    obs_grt = models.TextField(max_length=200)
-    dia_id = models.ForeignKey(Dia, on_delete=models.CASCADE)
-    lineas_id = models.ForeignKey(Lineas, on_delete=models.CASCADE)
-    turnos_id = models.ForeignKey(Turnos, on_delete=models.CASCADE)
-    trabajador_id = models.ForeignKey(Trabajador, on_delete=models.CASCADE)
+    obs_grt = models.CharField(max_length=500, db_index=True)  # Mantener 500 para el lorem ipsum
+    dia_id = models.ForeignKey(Dia, on_delete=models.CASCADE, db_index=True)
+    lineas_id = models.ForeignKey(Lineas, on_delete=models.CASCADE, db_index=True)
+    turnos_id = models.ForeignKey(Turnos, on_delete=models.CASCADE, db_index=True)
+    trabajador_id = models.ForeignKey(Trabajador, on_delete=models.CASCADE, db_index=True)
 
     class Meta:
         verbose_name = 'Grupo Temperatura'
+        indexes = [
+            models.Index(fields=['dia_id', 'lineas_id', 'turnos_id']),
+            models.Index(fields=['trabajador_id', 'dia_id']),
+        ]
 
     def __str__(self):
         return str(self.obs_grt) + " - " + str(self.dia_id) + " - " + str(self.lineas_id) + " - " + str(self.turnos_id) + " - " + str(self.trabajador_id)
@@ -205,7 +236,7 @@ class Cloracion(models.Model): # id_clo ()
     phe_clo = models.FloatField(null=True, blank=True, db_index=True) # PH cloración
     hcl_clo = models.IntegerField(null=True, blank=True, db_index=True) # Hipoclorito cloración
     aci_clo = models.IntegerField(null=True, blank=True, db_index=True) # Acido cloración
-    obs_clo = models.TextField(max_length=200, blank=True, null=True) # Observación
+    obs_clo = models.CharField(max_length=200, blank=True, null=True) # Observación
 
     class Meta:
         verbose_name = 'Cloracion'
@@ -254,7 +285,7 @@ class Dosificacion(models.Model):
     ccp_dos = models.IntegerField(null=False, db_index=True) # cc de Producto
     agu_dos = models.IntegerField(null=True, blank=True, db_index=True) # Dilución en agua
     cer_dos = models.IntegerField(null=True, blank=True, db_index=True) # Dilución en cera
-    obs_dos = models.TextField(max_length=200, blank=True, null=True)
+    obs_dos = models.CharField(max_length=200, blank=True, null=True)
 
     class Meta:
         verbose_name = 'Dosificacion'
@@ -290,7 +321,7 @@ class PPM(models.Model):
     hor_ppm = models.TimeField(blank=True, null=True, default=datetime.time(0, 0), db_index=True)
     dat_ppm = models.IntegerField(null=True, blank=True, db_index=True)
     phe_ppm = models.FloatField(null=True, blank=True, db_index=True)
-    obs_ppm = models.TextField(max_length=500, blank=True, null=True)
+    obs_ppm = models.CharField(max_length=200, blank=True, null=True)
 
     class Meta:
         verbose_name = 'PPM'
