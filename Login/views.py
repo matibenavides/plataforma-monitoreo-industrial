@@ -15,6 +15,8 @@ from django.http.response import JsonResponse
 
 from .forms import formularioRegistro, TrabajadorForm
 
+from django.core.paginator import Paginator
+
 # Create your views here.
 
 
@@ -105,6 +107,85 @@ def registroUsuario(request):
         form = formularioRegistro()
         formTrabajador = TrabajadorForm()
         return render(request, 'logins/base/registrousuario.html', {'form': form, 'formTrabajador': formTrabajador})
+
+
+@login_required(login_url='inicio')
+def historialRegistro(request):
+    if request.user.is_superuser:
+        historial = Historial.objects.all().order_by('-id')
+    else:
+        historial = Historial.objects.filter(trabajador_id=request.user).order_by('-id')
+
+    
+    # Filtros específicos
+    accion_filter = request.GET.get('accion')
+    usuario_filter = request.GET.get('usuario')
+    fecha_inicio = request.GET.get('fecha_inicio')
+    fecha_fin = request.GET.get('fecha_fin')
+
+    # Aplicar filtros
+    if accion_filter:
+        historial = historial.filter(accion=accion_filter)
+    if usuario_filter:
+        historial = historial.filter(trabajador_id__username=usuario_filter)
+    if fecha_inicio:
+        try:
+            fecha_inicio_dt = datetime.strptime(fecha_inicio, "%Y-%m-%d")
+            historial = historial.filter(timestamp__gte=fecha_inicio_dt)
+        except:
+            pass
+    if fecha_fin:
+        try:
+            fecha_fin_dt = datetime.strptime(fecha_fin, "%Y-%m-%d")
+            # Agregar un día para incluir la fecha final completa
+            fecha_fin_dt = fecha_fin_dt.replace(hour=23, minute=59, second=59)
+            historial = historial.filter(timestamp__lte=fecha_fin_dt)
+        except:
+            pass
+
+
+    
+    # Obtener valores únicos para los filtros
+    acciones_unicas = Historial.objects.values_list('accion', flat=True).distinct().order_by('accion')
+    usuarios_unicos = Historial.objects.values_list('trabajador_id__username', flat=True).distinct().order_by('trabajador_id__username')
+
+    historial_formato = []
+    for historia in historial:
+        fecha_local = timezone.localtime(historia.timestamp)
+        historial_formato.append({
+            # 'id': historia.id,
+            'fecha': fecha_local.strftime("%d-%m-%Y a las %H:%M"),
+            'accion': historia.accion,
+            'actividad': historia.descripcion,
+            'usuario': historia.trabajador_id,
+            # 'content_type': historia.content_type,
+            'object_id': historia.object_id,
+            # 'content_object': historia.content_object,
+        })
+        
+    paginator = Paginator(historial_formato, 20)
+    pagina = request.GET.get("page") or 1
+    listas = paginator.get_page(pagina)
+    pagina_actual = int(pagina)
+    paginas = range(1, listas.paginator.num_pages + 1)
+
+    datos = {
+        'listas': listas,
+        'paginas': paginas,
+        'pagina_actual': pagina_actual,
+        'acciones_unicas': acciones_unicas,
+        'usuarios_unicos': usuarios_unicos,
+        'filtros_activos': {
+            'accion': accion_filter,
+            'usuario': usuario_filter,
+            'fecha_inicio': fecha_inicio,
+            'fecha_fin': fecha_fin,
+        }
+    }
+    return render(request, "logins/form/historial.html", datos)
+
+
+
 
 # ----------------------------------------------------
 # ----------- Graficos para Dashboard ----------------
