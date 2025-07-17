@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import * 
-from datetime import date
+from datetime import date, datetime
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
@@ -237,94 +237,146 @@ def registrarRetorno(request):
 
 @login_required(login_url='inicio')
 def mostrarListaonce(request):
-    busqueda = request.GET.get("buscar")
-    campo = request.GET.get("campo")
+    # busqueda = request.GET.get("buscar")
+    # campo = request.GET.get("campo")
     
     # Chequea si el usuario es superuser (admin)
     if request.user.is_superuser:
-        lista = GrupoCloracion.objects.all().order_by('-id')
+        grupo_cloracion = GrupoCloracion.objects.all().order_by('-id')
     else:
         # Filtra registros para usuario normal
-        lista = GrupoCloracion.objects.filter(trabajador_id=request.user.trabajador).order_by('-id')
+        grupo_cloracion = GrupoCloracion.objects.filter(trabajador_id=request.user.trabajador).order_by('-id')
 
-    if campo:
-        if campo == "turno":
-            try:
-                turno_nom = busqueda
-                if turno_nom not in ['A', 'B', 'a', 'b']:
-                    messages.error(request, '¡El turno debe ser A, B!')
-                    return redirect('archivos')
-                lista = lista.filter(turnos_id__nom_tur__iexact=busqueda)
-            except ValueError:
-                messages.error(request, '¡El filtrado de Turnos, solo se acepta A o B!')
-                return redirect('archivos')
-        elif campo == "linea":
-            try:
-                linea_num = int(busqueda)
-                if linea_num not in [11, 10, 5]:
-                    messages.error(request, '¡Puedes buscar registros de las líneas 11, 10 o 5!')
-                    return redirect('archivos')
-                lista = lista.filter(lineas_id__num_lin__exact=busqueda)
-            except ValueError:
-                messages.error(request, '¡El valor de línea debe ser un número!')
-                return redirect('archivos')
-        elif campo == "trabajador":
-            if busqueda.replace('.','',1).isdigit():
-                messages.error(request, '¡El nombre de trabajador no puede ser un número!')
-                return redirect('archivos')
-            lista = lista.filter(
-                    Q(trabajador_id__nom_tra__icontains=busqueda) | 
-                    Q(trabajador_id__app_tra__icontains=busqueda)
-                ).distinct()
-        elif campo == "sector":
-            if busqueda.replace('.','',1).isdigit():
-                messages.error(request, '¡No se aceptan números en el tipo de sector')
-                return redirect('archivos')
-            lista = lista.filter(sector_id__nom_sec__icontains=busqueda)
-        elif campo == "especie":
-            if busqueda.replace('.','',1).isdigit():
-                messages.error(request, '¡No se aceptan números en la busqueda de especies')
-                return redirect('archivos')
-            lista = lista.filter(especies_id__nom_esp__icontains=busqueda)
-        elif campo == "fecha":
-            try:
-                fecha = busqueda.split('-')
-                if len(fecha) != 3:
-                    messages.error(request, '¡El formato de fecha debe ser YYYY-MM-DD!')
-                    return redirect('archivos')
+    # if campo:
+    #     if campo == "turno":
+    #         try:
+    #             turno_nom = busqueda
+    #             if turno_nom not in ['A', 'B', 'a', 'b']:
+    #                 messages.error(request, '¡El turno debe ser A, B!')
+    #                 return redirect('archivos')
+    #             lista = lista.filter(turnos_id__nom_tur__iexact=busqueda)
+    #         except ValueError:
+    #             messages.error(request, '¡El filtrado de Turnos, solo se acepta A o B!')
+    #             return redirect('archivos')
+    #     elif campo == "linea":
+    #         try:
+    #             linea_num = int(busqueda)
+    #             if linea_num not in [11, 10, 5]:
+    #                 messages.error(request, '¡Puedes buscar registros de las líneas 11, 10 o 5!')
+    #                 return redirect('archivos')
+    #             lista = lista.filter(lineas_id__num_lin__exact=busqueda)
+    #         except ValueError:
+    #             messages.error(request, '¡El valor de línea debe ser un número!')
+    #             return redirect('archivos')
+    #     elif campo == "trabajador":
+    #         if busqueda.replace('.','',1).isdigit():
+    #             messages.error(request, '¡El nombre de trabajador no puede ser un número!')
+    #             return redirect('archivos')
+    #         lista = lista.filter(
+    #                 Q(trabajador_id__nom_tra__icontains=busqueda) | 
+    #                 Q(trabajador_id__app_tra__icontains=busqueda)
+    #             ).distinct()
+    #     elif campo == "sector":
+    #         if busqueda.replace('.','',1).isdigit():
+    #             messages.error(request, '¡No se aceptan números en el tipo de sector')
+    #             return redirect('archivos')
+    #         lista = lista.filter(sector_id__nom_sec__icontains=busqueda)
+    #     elif campo == "especie":
+    #         if busqueda.replace('.','',1).isdigit():
+    #             messages.error(request, '¡No se aceptan números en la busqueda de especies')
+    #             return redirect('archivos')
+    #         lista = lista.filter(especies_id__nom_esp__icontains=busqueda)
+    #     elif campo == "fecha":
+    #         try:
+    #             fecha = busqueda.split('-')
+    #             if len(fecha) != 3:
+    #                 messages.error(request, '¡El formato de fecha debe ser YYYY-MM-DD!')
+    #                 return redirect('archivos')
                 
-                lista = lista.filter(dia_id__dia_dia__exact=busqueda)
-            except:
-                messages.error(request, '¡El formato de fecha debe ser YYYY-MM-DD!')
-        elif campo == "lote":
-            try:
-                lista = lista.filter(
-                    Q(loh_gru__exact=busqueda) |
-                    Q(loa_gru__exact=busqueda)
-                    ).distinct()
-                if not lista.exists():
-                    messages.error(request, '¡No se encontró ningún registro con ese código de lote!')
-                    return redirect('archivos')
-            except:
-                messages.error(request, '¡Error al buscar el código de lote!')
-                return redirect('archivos')
-        else:
-            messages.error(request, '¡Campo de búsqueda inexistente!')
-            return redirect('archivos')
+    #             lista = lista.filter(dia_id__dia_dia__exact=busqueda)
+    #         except:
+    #             messages.error(request, '¡El formato de fecha debe ser YYYY-MM-DD!')
+    #     elif campo == "lote":
+    #         try:
+    #             lista = lista.filter(
+    #                 Q(loh_gru__exact=busqueda) |
+    #                 Q(loa_gru__exact=busqueda)
+    #                 ).distinct()
+    #             if not lista.exists():
+    #                 messages.error(request, '¡No se encontró ningún registro con ese código de lote!')
+    #                 return redirect('archivos')
+    #         except:
+    #             messages.error(request, '¡Error al buscar el código de lote!')
+    #             return redirect('archivos')
+    #     else:
+    #         messages.error(request, '¡Campo de búsqueda inexistente!')
+    #         return redirect('archivos')
 
-    bloques_modificados = []
-    for bloque in lista:
-        bloques_modificados.append({
-            'id': bloque.id,
-            'turno': bloque.turnos_id.nom_tur.upper(),
-            'linea': bloque.lineas_id.num_lin,
-            'trabajador': f"{bloque.trabajador_id.nom_tra.capitalize()} {bloque.trabajador_id.app_tra.capitalize()}",
-            'especie': bloque.especies_id.nom_esp.capitalize(),
-            'sector':bloque.sector_id.nom_sec.capitalize(), 
-            'fecha': bloque.dia_id.dia_dia.strftime('%Y-%m-%d'),
+
+    # Filtros específicos
+    turno_filter = request.GET.get('turno')
+    linea_filter = request.GET.get('linea')
+    trabajador_filter = request.GET.get('trabajador')
+    sector_filter = request.GET.get('sector')
+    especie_filter = request.GET.get('especie')
+    lote_hipo_filter = request.GET.get('lote_hipo')
+    lote_acid_filter = request.GET.get('lote_acid')
+    fecha_inicio = request.GET.get('fecha_inicio')
+    fecha_fin = request.GET.get('fecha_fin')
+
+    # Aplicar filtros
+    if turno_filter:
+        grupo_cloracion = grupo_cloracion.filter(turnos_id__nom_tur=turno_filter)
+    if linea_filter:
+        grupo_cloracion = grupo_cloracion.filter(lineas_id__num_lin=linea_filter)
+    if trabajador_filter:
+        grupo_cloracion = grupo_cloracion.filter(trabajador_id=trabajador_filter) #Ojo con este considerar usar el username
+    if sector_filter:
+        grupo_cloracion = grupo_cloracion.filter(sector_id__nom_sec=sector_filter)
+    if especie_filter:
+        grupo_cloracion = grupo_cloracion.filter(especies_id__nom_esp=especie_filter)
+    if lote_hipo_filter:
+        grupo_cloracion = grupo_cloracion.filter(loh_gru=lote_hipo_filter)
+    if lote_acid_filter:
+        grupo_cloracion = grupo_cloracion.filter(loa_gru=lote_acid_filter)
+    if fecha_inicio:
+        try:
+            fecha_inicio_dt = datetime.strptime(fecha_inicio, "%Y-%m-%d")
+            grupo_cloracion = grupo_cloracion.filter(dia_id__dia_dia__gte=fecha_inicio_dt)
+        except:
+            pass
+    if fecha_fin:
+        try:
+            fecha_fin_dt = datetime.strptime(fecha_fin, "%Y-%m-%d")
+
+            grupo_cloracion = grupo_cloracion.filter(dia_id__dia_dia__lte=fecha_fin_dt)
+        except:
+            pass
+        
+    # Valores únicos para los filtros
+    turnos_unicos = GrupoCloracion.objects.values_list('turnos_id__nom_tur', flat=True).distinct().order_by('turnos_id__nom_tur')
+    lineas_unicos = GrupoCloracion.objects.values_list('lineas_id__num_lin', flat=True).distinct().order_by('lineas_id__num_lin')
+    trabajador_unicos = Trabajador.objects.all().order_by('nom_tra')
+    sector_unicos = GrupoCloracion.objects.values_list('sector_id__nom_sec', flat=True).distinct().order_by('sector_id__nom_sec')
+    especie_unicos = GrupoCloracion.objects.values_list('especies_id__nom_esp', flat=True).distinct().order_by('especies_id__nom_esp')
+    # lote_hipo_unicos
+    # lote_acid_unicos
+
+
+
+    grupo_modificado = []
+    for grupo in grupo_cloracion:
+        grupo_modificado.append({
+            'id': grupo.id,
+            'turno': grupo.turnos_id.nom_tur.upper(),
+            'linea': grupo.lineas_id.num_lin,
+            'trabajador': f"{grupo.trabajador_id.nom_tra.capitalize()} {grupo.trabajador_id.app_tra.capitalize()}",
+            'especie': grupo.especies_id.nom_esp.capitalize(),
+            'sector':grupo.sector_id.nom_sec.capitalize(), 
+            'fecha': grupo.dia_id.dia_dia.strftime('%d-%m-%Y'),
         })
 
-    paginator = Paginator(bloques_modificados , 10)
+    paginator = Paginator(grupo_modificado , 10)
     pagina = request.GET.get("page") or 1
     listas = paginator.get_page(pagina)
     pagina_actual = int(pagina)
@@ -334,6 +386,23 @@ def mostrarListaonce(request):
         'listas': listas,
         'paginas': paginas,
         'pagina_actual': pagina_actual,
+
+        'turnos_unicos': turnos_unicos,
+        'lineas_unicos': lineas_unicos,
+        'trabajador_unicos': trabajador_unicos,
+        'sector_unicos': sector_unicos,
+        'especie_unicos': especie_unicos,
+        'filtros_activos': {
+            'turno': turno_filter,
+            'linea': linea_filter,
+            'trabajador': trabajador_filter,
+            'sector': sector_filter,
+            'especie': especie_filter,
+            'lote_hipo': lote_hipo_filter,
+            'lote_acid': lote_acid_filter,
+            'fecha_inicio': fecha_inicio,
+            'fecha_fin': fecha_fin,
+        }
     }
 
     return render(request, "cloraciones/base/listaonce.html", datos)

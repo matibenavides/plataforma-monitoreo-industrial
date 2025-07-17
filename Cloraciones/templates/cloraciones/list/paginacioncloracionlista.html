@@ -1,16 +1,14 @@
 <div class="d-flex justify-content-end mt-3 me-3">
-
-
     <nav aria-label="Navegación de páginas">
         <ul class="pagination mb-0">
             {% comment %} Primera página {% endcomment %}
             <li class="page-item {% if not listas.has_previous %}disabled{% endif %}">
-                <a class="page-link" href="?page=1{% if request.GET.buscar %}&buscar={{ request.GET.buscar }}&campo={{ request.GET.campo }}{% endif %}">Primera</a>
+                <a class="page-link" href="?page=1{% if request.GET.turno %}&turno={{ request.GET.turno }}{% endif %}{% if request.GET.linea %}&linea={{ request.GET.linea }}{% endif %}{% if request.GET.trabajador %}&trabajador={{ request.GET.trabajador }}{% endif %}{% if request.GET.sector %}&sector={{ request.GET.sector }}{% endif %}{% if request.GET.especie %}&especie={{ request.GET.especie }}{% endif %}{% if request.GET.lote_hipo %}&lote_hipo={{ request.GET.lote_hipo }}{% endif %}{% if request.GET.lote_acid %}&lote_acid={{ request.GET.lote_acid }}{% endif %}{% if request.GET.fecha_inicio %}&fecha_inicio={{ request.GET.fecha_inicio }}{% endif %}{% if request.GET.fecha_fin %}&fecha_fin={{ request.GET.fecha_fin }}{% endif %}">Primera</a>
             </li>
 
             {% comment %} Flecha anterior {% endcomment %}
             <li class="page-item {% if not listas.has_previous %}disabled{% endif %}">
-                <a class="page-link" href="{% if listas.has_previous %}?page={{ listas.previous_page_number }}{% else %}#{% endif %}{% if request.GET.buscar %}&buscar={{ request.GET.buscar }}&campo={{ request.GET.campo }}{% endif %}">
+                <a class="page-link" href="{% if listas.has_previous %}?page={{ listas.previous_page_number }}{% else %}#{% endif %}{% if request.GET.turno %}&turno={{ request.GET.turno }}{% endif %}{% if request.GET.linea %}&linea={{ request.GET.linea }}{% endif %}{% if request.GET.trabajador %}&trabajador={{ request.GET.trabajador }}{% endif %}{% if request.GET.sector %}&sector={{ request.GET.sector }}{% endif %}{% if request.GET.especie %}&especie={{ request.GET.especie }}{% endif %}{% if request.GET.lote_hipo %}&lote_hipo={{ request.GET.lote_hipo }}{% endif %}{% if request.GET.lote_acid %}&lote_acid={{ request.GET.lote_acid }}{% endif %}{% if request.GET.fecha_inicio %}&fecha_inicio={{ request.GET.fecha_inicio }}{% endif %}{% if request.GET.fecha_fin %}&fecha_fin={{ request.GET.fecha_fin }}{% endif %}">
                     &laquo;
                 </a>
             </li>
@@ -19,7 +17,7 @@
             {% for pagina in paginas %}
                 {% if pagina_actual == pagina or pagina == 1 or pagina == listas.paginator.num_pages or pagina == pagina_actual|add:-1 or pagina == pagina_actual|add:1 %}
                     <li class="page-item {% if pagina_actual == pagina %}active{% endif %}">
-                        <a class="page-link" href="?page={{ pagina }}{% if request.GET.buscar %}&buscar={{ request.GET.buscar }}&campo={{ request.GET.campo }}{% endif %}">{{ pagina }}</a>
+                        <a class="page-link" href="?page={{ pagina }}{% if request.GET.turno %}&turno={{ request.GET.turno }}{% endif %}{% if request.GET.linea %}&linea={{ request.GET.linea }}{% endif %}{% if request.GET.trabajador %}&trabajador={{ request.GET.trabajador }}{% endif %}{% if request.GET.sector %}&sector={{ request.GET.sector }}{% endif %}{% if request.GET.especie %}&especie={{ request.GET.especie }}{% endif %}{% if request.GET.lote_hipo %}&lote_hipo={{ request.GET.lote_hipo }}{% endif %}{% if request.GET.lote_acid %}&lote_acid={{ request.GET.lote_acid }}{% endif %}{% if request.GET.fecha_inicio %}&fecha_inicio={{ request.GET.fecha_inicio }}{% endif %}{% if request.GET.fecha_fin %}&fecha_fin={{ request.GET.fecha_fin }}{% endif %}">{{ pagina }}</a>
                     </li>
                 {% elif pagina == pagina_actual|add:-2 or pagina == pagina_actual|add:2 %}
                     <li class="page-item disabled">
@@ -30,20 +28,15 @@
 
             {% comment %} Flecha siguiente {% endcomment %}
             <li class="page-item {% if not listas.has_next %}disabled{% endif %}">
-                <a class="page-link" href="{% if listas.has_next %}?page={{ listas.next_page_number }}{% else %}#{% endif %}{% if request.GET.buscar %}&buscar={{ request.GET.buscar }}&campo={{ request.GET.campo }}{% endif %}">
+                <a class="page-link" href="{% if listas.has_next %}?page={{ listas.next_page_number }}{% else %}#{% endif %}{% if request.GET.turno %}&turno={{ request.GET.turno }}{% endif %}{% if request.GET.linea %}&linea={{ request.GET.linea }}{% endif %}{% if request.GET.trabajador %}&trabajador={{ request.GET.trabajador }}{% endif %}{% if request.GET.sector %}&sector={{ request.GET.sector }}{% endif %}{% if request.GET.especie %}&especie={{ request.GET.especie }}{% endif %}{% if request.GET.lote_hipo %}&lote_hipo={{ request.GET.lote_hipo }}{% endif %}{% if request.GET.lote_acid %}&lote_acid={{ request.GET.lote_acid }}{% endif %}{% if request.GET.fecha_inicio %}&fecha_inicio={{ request.GET.fecha_inicio }}{% endif %}{% if request.GET.fecha_fin %}&fecha_fin={{ request.GET.fecha_fin }}{% endif %}">
                     &raquo;
                 </a>
             </li>
 
             {% comment %} Última página {% endcomment %}
             <li class="page-item {% if not listas.has_next %}disabled{% endif %}">
-                <a class="page-link" href="?page={{ listas.paginator.num_pages }}{% if request.GET.buscar %}&buscar={{ request.GET.buscar }}&campo={{ request.GET.campo }}{% endif %}">Última</a>
+                <a class="page-link" href="?page={{ listas.paginator.num_pages }}{% if request.GET.turno %}&turno={{ request.GET.turno }}{% endif %}{% if request.GET.linea %}&linea={{ request.GET.linea }}{% endif %}{% if request.GET.trabajador %}&trabajador={{ request.GET.trabajador }}{% endif %}{% if request.GET.sector %}&sector={{ request.GET.sector }}{% endif %}{% if request.GET.especie %}&especie={{ request.GET.especie }}{% endif %}{% if request.GET.lote_hipo %}&lote_hipo={{ request.GET.lote_hipo }}{% endif %}{% if request.GET.lote_acid %}&lote_acid={{ request.GET.lote_acid }}{% endif %}{% if request.GET.fecha_inicio %}&fecha_inicio={{ request.GET.fecha_inicio }}{% endif %}{% if request.GET.fecha_fin %}&fecha_fin={{ request.GET.fecha_fin }}{% endif %}">Última</a>
             </li>
         </ul>
     </nav>
-
-    
-
-    
-
 </div>
