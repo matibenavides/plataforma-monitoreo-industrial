@@ -26,7 +26,7 @@
   </style>
 </head>
 
-<body class=" fondo">
+<body class="pt-5 fondo">
   {% include "cloraciones/base/offcanvas.html" %}
 
   <div class="container mt-3">
@@ -74,46 +74,6 @@
         {% endif %}
 
 
-        
-        {% comment %} <div class="container-fluid">
-          <div class="row p-2 pt-3">
-            
-            <div class="d-flex justify-content-between align-items-center">
-              
-              <div class="d-flex gap-3 align-items-center">
-                <!-- Buscador -->
-                 
-                <form method="GET">
-                  {% csrf_token %}
-                    <div class="input-group">
-                      <input type="text" name="buscar" class="form-control" placeholder="Buscar..." value="{{ request.GET.buscar }}">
-                      <select name="campo" class="form-select">
-                        <option value="turno">Turno</option>
-                        <option value="linea">Línea</option>
-                        <option value="trabajador">Trabajador</option>
-                        <option value="sector">Sector</option>
-                        <option value="especie">Especie</option>
-                        <option value="fecha">Fecha</option>
-                        <option value="lote">Lote Producto</option>
-
-                      </select>
-                      <button type="submit" class="btn btn-outline-primary">Buscar</button>
-                    </div>
-                </form>
-
-              </div>
-
-
-              <div>
-                <a class="btn btn-outline-primary  btn-sm text-decoration-none" href="/archivos">
-                  <i class="bi bi-file-earmark-ruled"></i> Cloración
-                </a>
-              </div>
-              
-            </div>
-          </div>
-        </div> {% endcomment %}
-
         <div class="container-fluid">
           <div class="row p-3">
             <div class="col-12">
@@ -134,7 +94,7 @@
                           </select>
                         </div>
                         <div>
-                          <label class="form-label fw-semibold text-muted small">Líneas</label>
+                          <label class="form-label fw-semibold text-muted small">Línea</label>
                           <select name="linea" class="form-select form-select-sm border-0 shadow-sm">
                             <option value="">Todas las líneas</option>
                             {% for linea in lineas_unicos %}
