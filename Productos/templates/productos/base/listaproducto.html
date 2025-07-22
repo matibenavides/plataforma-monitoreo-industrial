@@ -30,11 +30,13 @@
 <body class="pt-5 fondo">
   {% include "cloraciones/base/offcanvas.html" %}
 
-  <div class="container mt-3">
+  <div class="container mt-3">  
     <div class="row">
       <section class="p-3">
         <h4 class="rubik-titulo">
-          <strong class="ps-4">Historial de Productos</strong>
+          <strong class="ps-4">
+            <a href="{% url 'listaproducto' %}" class="text-decoration-none text-dark">Historial de Productos</a>
+          </strong>
         </h4>
 
         {% if messages %}
@@ -58,38 +60,80 @@
         
 
         <div class="container-fluid">
-          <div class="row p-2 pt-3">
+          <div class="row p-3">
             
-            <div class="d-flex justify-content-between align-items-center">
-              
-              <div class="d-flex gap-3 align-items-center">
-                <!-- Buscador -->
-                 
-                <form method="GET">
-                  {% csrf_token %}
-                    <div class="input-group">
-                      <input type="text" name="buscar" class="form-control" placeholder="Buscar..." value="{{ request.GET.buscar }}">
-                      <select name="campo" class="form-select">
-                        <option value="turno">Turno</option>
-                        <option value="linea">Línea</option>
-                        <option value="trabajador">Trabajador</option>
-                        <option value="fecha">Fecha</option>
-                        <option value="observacion">Observación</option>
+            <!-- Panel de Filtros -->
+            <div class="col-12">
+              <div class="card shadow-sm border-0 bg-light">
+                <div class="card-body pt-0">
+                  <div class="row align-items-end">
+                    
+                    
+                    <form method="GET" class="row g-3 mt-0">
+                      {% csrf_token %}
+                      
+                      <!-- Filtro por Turno -->
+                      <div class="col-md-2 mt-2">
+                        <label class="form-label fw-semibold text-muted small">Turno</label>
+                        <select name="turno" class="form-select form-select-sm border-0 shadow-sm">
+                          <option value="">Todos los turnos</option>
+                          {% for turno in turnos_unicos %}
+                            <option value="{{ turno }}" {% if filtros_activos.turno == turno %}selected{% endif %}>{{ turno }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
 
-                      </select>
-                      <button type="submit" class="btn btn-outline-primary">Buscar</button>
-                    </div>
-                </form>
+                      <!-- Filtro por Línea -->
+                      <div class="col-md-2 mt-2">
+                        <label class="form-label fw-semibold text-muted small">Línea</label>
+                        <select name="linea" class="form-select form-select-sm border-0 shadow-sm">
+                          <option value="">Todas las líneas</option>
+                          {% for linea in lineas_unicos %}
+                            <option value="{{ linea }}" {% if filtros_activos.linea|stringformat:"s" == linea|stringformat:"s" %}selected{% endif %}>{{ linea }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
 
+                      <!-- Filtro por Trabajador -->
+                      <div class="col-md-2 mt-2">
+                        <label class="form-label fw-semibold text-muted small">Trabajador</label>
+                        <select name="trabajador" class="form-select form-select-sm border-0 shadow-sm">
+                          <option value="">Todos los trabajadores</option>
+                          {% for trabajador in trabajador_unicos %}
+                            <option value="{{ trabajador.id }}" {% if filtros_activos.trabajador|stringformat:"s" == trabajador.id|stringformat:"s" %}selected{% endif %}>{{ trabajador.nom_tra }} {{ trabajador.app_tra }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+
+                      <!-- Filtro por Fecha Inicio -->
+                      <div class="col-md-2 mt-2">
+                        <label class="form-label fw-semibold text-muted small">Desde</label>
+                        <input type="date" name="fecha_inicio" class="form-control form-control-sm border-0 shadow-sm" 
+                               value="{{ filtros_activos.fecha_inicio }}">
+                      </div>
+
+                      <!-- Filtro por Fecha Fin -->
+                      <div class="col-md-2 mt-2">
+                        <label class="form-label fw-semibold text-muted small">Hasta</label>
+                        <input type="date" name="fecha_fin" class="form-control form-control-sm border-0 shadow-sm" 
+                               value="{{ filtros_activos.fecha_fin }}">
+                      </div>
+
+                      <!-- Botones de acción -->
+                      <div class="col-md-2 d-flex align-items-end mt-2 mb-2">
+                        <div class="d-flex gap-2 w-100">
+                          <button type="submit" class="btn btn-primary btn-sm">
+                            <i class="bi bi-search me-1"></i>Buscar
+                          </button>
+                          <a href="{% url 'listaproducto' %}" class="btn btn-outline-secondary btn-sm">
+                            <i class="bi bi-arrow-clockwise me-1"></i>Limpiar
+                          </a>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
               </div>
-
-
-              <div>
-                <a class="btn btn-outline-primary  btn-sm text-decoration-none" href="/archivos_producto">
-                  <i class="bi bi-file-earmark-ruled"></i> Producto
-                </a>
-              </div>
-              
             </div>
           </div>
         </div>

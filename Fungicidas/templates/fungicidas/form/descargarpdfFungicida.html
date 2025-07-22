@@ -61,11 +61,11 @@
                     <td>{{ l.especie }}</td> 
                     <td>{{ l.variedad }}</td>
                     <td>
-                        <span class="badge bg-info text-dark badge-sm">Agua: {{ l.agua }} Lts</span>
-                        <span class="badge bg-warning text-dark badge-sm">Cera: {{ l.cera }} Lts</span>
+                        Agua: {{ l.agua|default:"0" }} Lts<br>
+                        Cera: {{ l.cera|default:"0" }} Lts
                     </td>
                     <td>{{ l.trabajador }}</td>
-                    <td>{{ l.observacion }}</td>
+                    <td>{{ l.observacion|default:"-" }}</td>
                     
                 </tr>
                 {% endfor %}

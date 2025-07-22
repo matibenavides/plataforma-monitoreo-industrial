@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from datetime import date
+from datetime import date, datetime as dt
 from Cloraciones.models import *
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -35,7 +35,7 @@ def mostrarFungicida(request, linea_id):
         for lista in dosificacion:
             lista_formato.append({
                 'id': lista.id,
-                'fecha': lista.dia_id.dia_dia.strftime('%Y-%m-%d'),
+                'fecha': lista.dia_id.dia_dia.strftime('%d-%m-%Y'),
                 'hora': lista.hor_dos,
                 'producto': lista.fungicidas_id.nom_fun.title(),
                 'peso_inicial': lista.pei_dos,
@@ -172,7 +172,7 @@ def visualizarFungicida(request, grupo_id):
         for lista in registros:
             lista_formato.append({
                 'id': lista.id,
-                'fecha': lista.dia_id.dia_dia.strftime('%Y-%m-%d'),
+                'fecha': lista.dia_id.dia_dia.strftime('%d-%m-%Y'),
                 'hora': lista.hor_dos,
                 'producto': lista.fungicidas_id.nom_fun.title(),
                 'peso_inicial': lista.pei_dos,
@@ -338,105 +338,94 @@ def eliminarlistaFungicida(request, grupo_id):
 
 @login_required(login_url='inicio')
 def mostrarListaFungicida(request):
-
-    busqueda = request.GET.get("buscar")
-    campo = request.GET.get("campo")
-    lista = Dosificacion.objects.all().order_by('-id')
-
     # Chequea si el usuario es superuser (admin)
     if request.user.is_superuser:
-        lista = Dosificacion.objects.all().order_by('-id')
+        dosificacion_registros = Dosificacion.objects.all().order_by('-id')
     else:
         # Filtra registros para usuario normal
-        lista = Dosificacion.objects.filter(trabajador_id=request.user.trabajador).order_by('-id')
-    
-    if campo:
-        if campo == "fecha":
-            try:
-                fecha = busqueda.split('-')
-                if len(fecha) != 3:
-                    messages.error(request, '¡El formato de fecha debe ser YYYY-MM-DD!')
-                    return redirect('listafungicida')
-                
-                lista = Dosificacion.objects.filter(dia_id__dia_dia__exact=busqueda)
-            except:
-                messages.error(request, '¡El formato de fecha debe ser YYYY-MM-DD!')
-        elif campo == "hora":
-            try:
-                hora = busqueda.split(':')
-                if len(hora) !=2:
-                    messages.error(request, '¡El formato de hora debe ser HH:MM!')
-                    return redirect('listafungicida')
-                
-                lista = Dosificacion.objects.filter(hor_dos__exact=busqueda)
-            except:
-                messages.error(request, '¡El formato de hora debe ser HH:MM!')
-        elif campo == "producto":
-            if busqueda.replace('.','',1).isdigit():
-                messages.error(request, '¡La busqueda no puede iniciar con un número o signos')
-                return redirect('listafungicida')
-            lista = Dosificacion.objects.filter(Q(fungicidas_id__nom_fun__icontains=busqueda)).distinct()
-        elif campo == "peso_inicial":
-            if not busqueda.isdigit():
-                messages.error(request, '¡El valor de peso, debe ser un número entero!')
-                return redirect('listafungicida')
-            lista = Dosificacion.objects.filter(pei_dos__exact=busqueda)
-        elif campo == "cc_producto":
-            if not busqueda.isdigit():
-                messages.error(request, '!El valor de cc, debe ser un número entero!')
-                return redirect('listafungicida')
-            lista = Dosificacion.objects.filter(ccp_dos__exact=busqueda)
-        elif campo == "linea":
-            try:
-                linea_num = int(busqueda)
-                if linea_num not in [1, 10]:
-                    messages.error(request, '¡La línea debe ser 1 o 10')
-                    return redirect('listafungicida')
-                lista = Dosificacion.objects.filter(lineas_id__num_lin__exact=busqueda)
-            except ValueError:
-                messages.error(request, '¡El valor de línea debe ser un número!')
-                return redirect('listafungicida')
-        elif campo == "especie":
-            if busqueda.replace('.','',1).isdigit():
-                messages.error(request, '¡La busqueda no puede iniciar con un número o signos')
-                return redirect('listafungicida')
-            lista = Dosificacion.objects.filter(Q(especies_id__nom_esp__icontains=busqueda)).distinct()
-        elif campo == "variedad":
-            if busqueda.replace('.','',1).isdigit():
-                messages.error(request, '¡La busqueda no puede iniciar con un número o signos')
-                return redirect('listafungicida')
-            lista = Dosificacion.objects.filter(Q(variedad_id__nom_var__icontains=busqueda)).distinct()
-        elif campo == "agua":
-            if not busqueda.isdigit():
-                messages.error(request, '¡El valor de Dilución en Agua, debe ser un número entero!')
-                return redirect('listafungicida')
-            lista = Dosificacion.objects.filter(agu_dos__exact=busqueda)
-        elif campo == "cera":
-            if not busqueda.isdigit():
-                messages.error(request, '¡El valor de Dilución en Cera, debe ser un número entero!')
-                return redirect('listafungicida')
-            lista = Dosificacion.objects.filter(cer_dos__exact=busqueda)
-        elif campo == "trabajador":
-            if busqueda.replace('.','',1).isdigit():
-                messages.error(request, '¡El nombre de trabajador no puede ser un número!')
-                return redirect('listafungicida')
-            lista = Dosificacion.objects.filter(
-                    Q(trabajador_id__nom_tra__icontains=busqueda) | 
-                    Q(trabajador_id__app_tra__icontains=busqueda)
-                ).distinct()
-        elif campo == "observacion":
-                lista = Dosificacion.objects.filter(obs_dos__icontains=busqueda)
-        else:
-            lista = Dosificacion.objects.all().order_by('-id')
-            messages.error(request, '¡Campo de búsqueda inexistente!')
-            return redirect('listafungicida')
+        dosificacion_registros = Dosificacion.objects.filter(trabajador_id=request.user.trabajador).order_by('-id')
     
 
-    lista_formato = []
-    for grupo in lista:
-        lista_formato.append({
+    #Filtros
+    linea_filter = request.GET.get('linea')
+    producto_filter = request.GET.get('producto')
+    trabajador_filter = request.GET.get('trabajador')
+    especie_filter = request.GET.get('especie')
+    variedad_filter = request.GET.get('variedad')
+    tipo_dilucion = request.GET.get('tipo_dilucion')
+    dilucion_min = request.GET.get('dilucion_min')
+    dilucion_max = request.GET.get('dilucion_max')
+
+    fecha_inicio = request.GET.get('fecha_inicio')
+    fecha_fin = request.GET.get('fecha_fin')
+
+    if linea_filter:
+        dosificacion_registros = dosificacion_registros.filter(lineas_id__num_lin=linea_filter)
+    if producto_filter:
+        dosificacion_registros = dosificacion_registros.filter(fungicidas_id__nom_fun=producto_filter)
+    if trabajador_filter:
+        dosificacion_registros = dosificacion_registros.filter(trabajador_id=trabajador_filter)
+    if especie_filter:
+        dosificacion_registros = dosificacion_registros.filter(especies_id=especie_filter)
+    if variedad_filter:
+        dosificacion_registros = dosificacion_registros.filter(variedad_id=variedad_filter)
+    
+    # Filtros por tipo de dilución
+    if tipo_dilucion == 'agua':
+        dosificacion_registros = dosificacion_registros.filter(agu_dos__gt=0)
+        if dilucion_min:
+            dosificacion_registros = dosificacion_registros.filter(agu_dos__gte=int(dilucion_min))
+        if dilucion_max:
+            dosificacion_registros = dosificacion_registros.filter(agu_dos__lte=int(dilucion_max))
+    elif tipo_dilucion == 'cera':
+        dosificacion_registros = dosificacion_registros.filter(cer_dos__gt=0)
+        if dilucion_min:
+            dosificacion_registros = dosificacion_registros.filter(cer_dos__gte=int(dilucion_min))
+        if dilucion_max:
+            dosificacion_registros = dosificacion_registros.filter(cer_dos__lte=int(dilucion_max))
+    # En caso de NO seleccionar tipo específico y filtrar por rangos
+    elif dilucion_min or dilucion_max:
+        filtro_rango_agua = Q()
+        filtro_rango_cera = Q()
+
+        if dilucion_min:
+            filtro_rango_agua &= Q(agu_dos__gte=int(dilucion_min))
+            filtro_rango_cera &= Q(cer_dos__gte=int(dilucion_min))
+        if dilucion_max:
+            filtro_rango_agua &= Q(agu_dos__lte=int(dilucion_max))
+            filtro_rango_cera &= Q(cer_dos__lte=int(dilucion_max))
+
+        # Solo aplicar filtro si hay valores de dilución
+        if dilucion_min or dilucion_max:
+            dosificacion_registros = dosificacion_registros.filter(filtro_rango_agua | filtro_rango_cera)
+
+    if fecha_inicio:
+        try:
+            fecha_inicio_dt = dt.strptime(fecha_inicio, "%Y-%m-%d").date()
+            dosificacion_registros = dosificacion_registros.filter(dia_id__dia_dia__gte=fecha_inicio_dt)
+        except:
+            pass
+    if fecha_fin:
+        try:
+            fecha_fin_dt = dt.strptime(fecha_fin,"%Y-%m-%d").date()
+            dosificacion_registros = dosificacion_registros.filter(dia_id__dia_dia__lte=fecha_fin_dt)
+        except:
+            pass
+
+
+    #Valores para los filtros
+    lineas_unicos = Dosificacion.objects.values_list('lineas_id__num_lin', flat=True).distinct().order_by('lineas_id__num_lin')
+    productos_unicos = Dosificacion.objects.values_list('fungicidas_id__nom_fun', flat=True).distinct().order_by('fungicidas_id__nom_fun')
+    trabajador_unicos = Trabajador.objects.all().order_by('nom_tra')
+    especies_unicos = Especies.objects.all().order_by('nom_esp')
+    variedades_unicos = Variedad.objects.all().order_by('nom_var')
+
+
+    dosificacion_formato = []
+    for grupo in dosificacion_registros:
+        dosificacion_formato.append({
             'id': grupo.id,
-            'fecha': grupo.dia_id.dia_dia.strftime('%Y-%m-%d'),
+            'fecha': grupo.dia_id.dia_dia.strftime('%d-%m-%Y'),
             'hora': grupo.hor_dos,
             'producto': grupo.fungicidas_id.nom_fun.title(),
             'peso_inicial': grupo.pei_dos,
@@ -451,7 +440,7 @@ def mostrarListaFungicida(request):
             'observacion': grupo.obs_dos,
         })
 
-    paginator = Paginator(lista_formato, 15)
+    paginator = Paginator(dosificacion_formato, 15)
     pagina = request.GET.get("page") or 1
     listas = paginator.get_page(pagina)
     pagina_actual = int(pagina)
@@ -461,6 +450,28 @@ def mostrarListaFungicida(request):
         'listas': listas,
         'paginas': paginas,
         'pagina_actual': pagina_actual,
+        'lineas_unicos':lineas_unicos,
+        'productos_unicos':productos_unicos,
+        'trabajador_unicos':trabajador_unicos,
+        'especies_unicos':especies_unicos,
+        'variedades_unicos':variedades_unicos,
+        'dilucion_min':dilucion_min,
+        'dilucion_max':dilucion_max,
+        'filtros_activos': {
+            'linea':linea_filter,
+            'producto':producto_filter,
+            'trabajador':trabajador_filter,
+            'especie':especie_filter,
+            'variedad':variedad_filter,
+            'tipo_dilucion':tipo_dilucion,
+            'fecha_inicio': fecha_inicio,
+            'fecha_fin': fecha_fin,
+            'dilucion_min':dilucion_min,
+            'dilucion_max':dilucion_max,
+            
+        }
+
+        
     }
     return render(request, 'fungicidas/base/listafungicida.html', datos)
 
@@ -468,106 +479,98 @@ def mostrarListaFungicida(request):
 @login_required(login_url='inicio')
 def DescargarPDFFungicida(request):
     try:
-        pagina = request.GET.get("page") or 1
-        busqueda = request.GET.get("buscar")
-        campo = request.GET.get("campo")
-
-        dosificacion = Dosificacion.objects.all().order_by('-id')
-
         # Chequea si el usuario es superuser (admin)
         if request.user.is_superuser:
-            dosificacion = Dosificacion.objects.all().order_by('-id')
+            dosificacion_registros = Dosificacion.objects.all().order_by('-id')
         else:
             # Filtra registros para usuario normal
-            dosificacion = Dosificacion.objects.filter(trabajador_id=request.user.trabajador).order_by('-id')
+            dosificacion_registros = Dosificacion.objects.filter(trabajador_id=request.user.trabajador).order_by('-id')
 
-        if campo:
-            if campo == "fecha":
-                try:
-                    fecha = busqueda.split('-')
-                    if len(fecha) != 3:
-                        messages.error(request, '¡El formato de fecha debe ser YYYY-MM-DD!')
-                        return redirect('listafingicida')
-                    
-                    dosificacion = Dosificacion.objects.filter(dia_id__dia_dia__exact=busqueda)
-                except:
-                    messages.error(request, '¡El formato de fecha debe ser YYYY-MM-DD!')
-            elif campo == "hora":
-                try:
-                    hora = busqueda.split(':')
-                    if len(hora) !=2:
-                        messages.error(request, '¡El formato de hora debe ser HH:MM!')
-                        return redirect('listafungicida')
-                    
-                    dosificacion = Dosificacion.objects.filter(hor_dos__exact=busqueda)
-                except:
-                    messages.error(request, '¡El formato de hora debe ser HH:MM!')
-            elif campo == "producto":
-                if busqueda.replace('.','',1).isdigit():
-                    messages.error(request, '¡La busqueda no puede iniciar con un número o signos')
-                    return redirect('listafungicida')
-                dosificacion = Dosificacion.objects.filter(Q(fungicidas_id__nom_fun__icontains=busqueda)).distinct()
-            elif campo == "peso_inicial":
-                if not busqueda.isdigit():
-                    messages.error(request, '¡El valor de peso, debe ser un número entero!')
-                    return redirect('listafungicida')
-                dosificacion = Dosificacion.objects.filter(pei_dos__exact=busqueda)
-            elif campo == "cc_producto":
-                if not busqueda.isdigit():
-                    messages.error(request, '!El valor de cc, debe ser un número entero!')
-                    return redirect('listafungicida')
-                dosificacion = Dosificacion.objects.filter(ccp_dos__exact=busqueda)
-            elif campo == "linea":
-                try:
-                    linea_num = int(busqueda)
-                    if linea_num not in [1, 10]:
-                        messages.error(request, '¡La línea debe ser 1 o 10')
-                        return redirect('listafungicida')
-                    dosificacion = Dosificacion.objects.filter(lineas_id__num_lin__exact=busqueda)
-                except ValueError:
-                    messages.error(request, '¡El valor de línea debe ser un número!')
-                    return redirect('listafungicida')
-            elif campo == "especie":
-                if busqueda.replace('.','',1).isdigit():
-                    messages.error(request, '¡La busqueda no puede iniciar con un número o signos')
-                    return redirect('listafungicida')
-                lista = Dosificacion.objects.filter(Q(especies_id__nom_esp__icontains=busqueda)).distinct()
-            elif campo == "variedad":
-                if busqueda.replace('.','',1).isdigit():
-                    messages.error(request, '¡La busqueda no puede iniciar con un número o signos')
-                    return redirect('listafungicida')
-                dosificacion = Dosificacion.objects.filter(Q(variedad_id__nom_var__icontains=busqueda)).distinct()
-            elif campo == "agua":
-                if not busqueda.isdigit():
-                    messages.error(request, '¡El valor de Dilución en Agua, debe ser un número entero!')
-                    return redirect('listafungicida')
-                dosificacion = Dosificacion.objects.filter(agu_dos__exact=busqueda)
-            elif campo == "cera":
-                if not busqueda.isdigit():
-                    messages.error(request, '¡El valor de Dilución en Cera, debe ser un número entero!')
-                    return redirect('listafungicida')
-                dosificacion = Dosificacion.objects.filter(cer_dos__exact=busqueda)
-            elif campo == "trabajador":
-                if busqueda.replace('.','',1).isdigit():
-                    messages.error(request, '¡El nombre de trabajador no puede ser un número!')
-                    return redirect('listafungicida')
-                dosificacion = Dosificacion.objects.filter(
-                        Q(trabajador_id__nom_tra__icontains=busqueda) | 
-                        Q(trabajador_id__app_tra__icontains=busqueda)
-                    ).distinct()
-            elif campo == "observacion":
-                    dosificacion = Dosificacion.objects.filter(obs_dos__icontains=busqueda)
-            else:
-                dosificacion = Dosificacion.objects.all().order_by('-id')
-                messages.error(request, '¡Campo de búsqueda inexistente!')
-                return redirect('listafungicida')
+        #Filtros
+        linea_filter = request.GET.get('linea')
+        producto_filter = request.GET.get('producto')
+        trabajador_filter = request.GET.get('trabajador')
+        especie_filter = request.GET.get('especie')
+        variedad_filter = request.GET.get('variedad')
+        tipo_dilucion = request.GET.get('tipo_dilucion')
+        dilucion_min = request.GET.get('dilucion_min')
+        dilucion_max = request.GET.get('dilucion_max')
+
+        fecha_inicio = request.GET.get('fecha_inicio')
+        fecha_fin = request.GET.get('fecha_fin')
+
+        if linea_filter:
+            dosificacion_registros = dosificacion_registros.filter(lineas_id__num_lin=linea_filter)
+        if producto_filter:
+            dosificacion_registros = dosificacion_registros.filter(fungicidas_id__nom_fun=producto_filter)
+        if trabajador_filter:
+            dosificacion_registros = dosificacion_registros.filter(trabajador_id=trabajador_filter)
+        if especie_filter:
+            dosificacion_registros = dosificacion_registros.filter(especies_id=especie_filter)
+        if variedad_filter:
+            dosificacion_registros = dosificacion_registros.filter(variedad_id=variedad_filter)
         
-        
+        # Filtros por tipo de dilución
+        if tipo_dilucion == 'agua':
+            dosificacion_registros = dosificacion_registros.filter(agu_dos__gt=0)
+            if dilucion_min:
+                dosificacion_registros = dosificacion_registros.filter(agu_dos__gte=int(dilucion_min))
+            if dilucion_max:
+                dosificacion_registros = dosificacion_registros.filter(agu_dos__lte=int(dilucion_max))
+        elif tipo_dilucion == 'cera':
+            dosificacion_registros = dosificacion_registros.filter(cer_dos__gt=0)
+            if dilucion_min:
+                dosificacion_registros = dosificacion_registros.filter(cer_dos__gte=int(dilucion_min))
+            if dilucion_max:
+                dosificacion_registros = dosificacion_registros.filter(cer_dos__lte=int(dilucion_max))
+        # En caso de NO seleccionar tipo específico y filtrar por rangos
+        elif dilucion_min or dilucion_max:
+            filtro_rango_agua = Q()
+            filtro_rango_cera = Q()
+
+            if dilucion_min:
+                filtro_rango_agua &= Q(agu_dos__gte=int(dilucion_min))
+                filtro_rango_cera &= Q(cer_dos__gte=int(dilucion_min))
+            if dilucion_max:
+                filtro_rango_agua &= Q(agu_dos__lte=int(dilucion_max))
+                filtro_rango_cera &= Q(cer_dos__lte=int(dilucion_max))
+
+            # Solo aplicar filtro si hay valores de dilución
+            if dilucion_min or dilucion_max:
+                dosificacion_registros = dosificacion_registros.filter(filtro_rango_agua | filtro_rango_cera)
+
+        if fecha_inicio:
+            try:
+                fecha_inicio_dt = dt.strptime(fecha_inicio, "%Y-%m-%d").date()
+                dosificacion_registros = dosificacion_registros.filter(dia_id__dia_dia__gte=fecha_inicio_dt)
+            except:
+                pass
+        if fecha_fin:
+            try:
+                fecha_fin_dt = dt.strptime(fecha_fin,"%Y-%m-%d").date()
+                dosificacion_registros = dosificacion_registros.filter(dia_id__dia_dia__lte=fecha_fin_dt)
+            except:
+                pass
+
+        # Verificar si hay registros después de aplicar filtros
+        if not dosificacion_registros.exists():
+            messages.error(request, 'No hay registros que coincidan con los filtros aplicados')
+            return redirect('listafungicida')
+
+        # Aplicar paginación para obtener solo los registros de la página actual
+        pagina = request.GET.get("page") or 1
+        paginator = Paginator(dosificacion_registros, 15)
+        try:
+            registros_pagina = paginator.page(pagina)
+        except:
+            messages.error(request, 'Página no válida')
+            return redirect('listafungicida')
+
         lista_formato = []
-        for grupo in dosificacion:
+        for grupo in registros_pagina:
             lista_formato.append({
                 'id': grupo.id,
-                'fecha': grupo.dia_id.dia_dia.strftime('%Y-%m-%d'),
+                'fecha': grupo.dia_id.dia_dia.strftime('%d-%m-%Y'),
                 'hora': grupo.hor_dos,
                 'producto': grupo.fungicidas_id.nom_fun.title(),
                 'peso_inicial': grupo.pei_dos,
@@ -582,18 +585,16 @@ def DescargarPDFFungicida(request):
                 'observacion': grupo.obs_dos,
             })
 
-        paginator = Paginator(lista_formato, 15)
-        listas = paginator.get_page(pagina)
 
-        fecha_hoy = date.today().strftime('%Y-%m-%d')
+        fecha_hoy = date.today().strftime('%d-%m-%Y')
 
-        total_agua = sum([registro['agua'] for registro in lista_formato])
-        total_cera = sum([registro['cera'] for registro in lista_formato]) 
-        total_cc = sum([registro['cc_producto'] for registro in lista_formato])
+        total_agua = sum([registro['agua'] for registro in lista_formato if registro['agua']])
+        total_cera = sum([registro['cera'] for registro in lista_formato if registro['cera']]) 
+        total_cc = sum([registro['cc_producto'] for registro in lista_formato if registro['cc_producto']])
 
         template = get_template('fungicidas/form/descargarpdfFungicida.html')
         html = template.render({
-            'listas': listas,
+            'listas': lista_formato,
             'fecha_hoy': fecha_hoy,
             'total_agua': total_agua,
             'total_cera': total_cera,
@@ -601,7 +602,7 @@ def DescargarPDFFungicida(request):
         })
 
         response = HttpResponse(content_type='application/pdf')
-        filename = f'Fungicida_Registro_Pagina{pagina}.pdf'
+        filename = f'Fungicida_Registro_Pagina{pagina}_{fecha_hoy}.pdf'
         response['Content-Disposition'] = f'attachment; filename="{filename}"'
         
         html = HTML(string=html, base_url=request.build_absolute_uri())
@@ -610,6 +611,5 @@ def DescargarPDFFungicida(request):
         return response
 
     except Exception as e:
-        linea = Lineas.objects.first()
         messages.error(request, f'Error al generar el PDF: {e}')
-        return redirect('fungicida', linea_id=linea.id)
+        return redirect('listafungicida')

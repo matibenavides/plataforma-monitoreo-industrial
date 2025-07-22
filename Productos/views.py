@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from datetime import date
+from datetime import date, datetime as dt
 from Cloraciones.models import *
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -120,75 +120,57 @@ def registrarProducto(request, linea_id):
 @login_required(login_url='inicio')
 def mostrarListaProducto(request):
 
-    busqueda = request.GET.get("buscar")
-    campo = request.GET.get("campo")
-    lista = GrupoProductos.objects.all().order_by('-id')
-
     # Chequea si el usuario es superuser (admin)
     if request.user.is_superuser:
-        lista = GrupoProductos.objects.all().order_by('-id')
+        grupo_productos = GrupoProductos.objects.all().order_by('-id')
     else:
         # Filtra registros para usuario normal
-        lista = GrupoProductos.objects.filter(trabajador_id=request.user.trabajador).order_by('-id')
+        grupo_productos = GrupoProductos.objects.filter(trabajador_id=request.user.trabajador).order_by('-id')
 
-    # Filtrado de busqueda por campo de listado
-    if campo:
-        if campo == "turno":
-            try:
-                turno_nom = busqueda
-                if turno_nom not in ['A', 'B', 'a', 'b']:
-                    messages.error(request, '¡El turno debe ser A, B!')
-                    return redirect('listaproducto')
-                lista = GrupoProductos.objects.filter(turnos_id__nom_tur__iexact=busqueda)
-            except ValueError:
-                messages.error(request, '¡En filtro de Turnos, solo se acepta A o B!')
-                return redirect('listaproducto')
-        elif campo == "linea":
-            try:
-                linea_num = int(busqueda)
-                if linea_num not in [10, 1]:
-                    messages.error(request, '¡La línea debe ser 10 o 1!')
-                    return redirect('listaproducto')
-                lista = GrupoProductos.objects.filter(lineas_id__num_lin__exact=busqueda)
-            except ValueError:
-                messages.error(request, '¡El valor de línea debe ser un número!')
-                return redirect('listaproducto')
-        elif campo == "trabajador":
-            if busqueda.replace('.','',1).isdigit():
-                messages.error(request, '¡El nombre de trabajador no puede ser un número!')
-                return redirect('listaproducto')
-            lista = GrupoProductos.objects.filter(
-                    Q(trabajador_id__nom_tra__icontains=busqueda) | 
-                    Q(trabajador_id__app_tra__icontains=busqueda)
-                ).distinct()
-        elif campo == "fecha":
-            try:
-                fecha = busqueda.split('-')
-                if len(fecha) != 3:
-                    messages.error(request, '¡El formato de fecha debe ser YYYY-MM-DD!')
-                    return redirect('listaproducto')
-                
-                lista = GrupoProductos.objects.filter(dia_id__dia_dia__exact=busqueda)
-            except:
-                messages.error(request, '¡El formato de fecha debe ser YYYY-MM-DD!')
-        elif campo == "observacion":
-            lista = GrupoProductos.objects.filter(obs_grp__icontains=busqueda)
-        else:
-            lista = GrupoProductos.objects.all().order_by('-id')
-            messages.error(request, '¡Campo de búsqueda inexistente!')
-            return redirect('listaproducto')
+
+    # Filtros
+    turno_filter = request.GET.get('turno')
+    linea_filter = request.GET.get('linea')
+    trabajador_filter = request.GET.get('trabajador')
+    fecha_inicio = request.GET.get('fecha_inicio')
+    fecha_fin = request.GET.get('fecha_fin')
+
+    #Aplicación de filtros
+    if turno_filter:
+        grupo_productos = grupo_productos.filter(turnos_id__nom_tur=turno_filter)
+    if linea_filter:
+        grupo_productos = grupo_productos.filter(lineas_id__num_lin=linea_filter)
+    if trabajador_filter:
+        grupo_productos = grupo_productos.filter(trabajador_id=trabajador_filter)
+    if fecha_inicio:
+        try:
+            fecha_inicio_dt = dt.strptime(fecha_inicio, "%Y-%m-%d").date()
+            grupo_productos = grupo_productos.filter(dia_id__dia_dia__gte=fecha_inicio_dt)
+        except:
+            pass
+    if fecha_fin:
+        try:
+            fecha_fin_dt = dt.strptime(fecha_fin, "%Y-%m-%d").date()
+            grupo_productos = grupo_productos.filter(dia_id__dia_dia__lte=fecha_fin_dt)
+        except:
+            pass
+
+    # Valores únicos para los filtros
+    turnos_unicos = GrupoProductos.objects.values_list('turnos_id__nom_tur', flat=True).distinct().order_by('turnos_id__nom_tur')
+    lineas_unicos = GrupoProductos.objects.values_list('lineas_id__num_lin', flat=True).distinct().order_by('lineas_id__num_lin')
+    trabajador_unicos = Trabajador.objects.all().order_by('nom_tra')
         
-    lista_formato = []
-    for grupo in lista:
-        lista_formato.append({
+    grupo_modificado = []
+    for grupo in grupo_productos:
+        grupo_modificado.append({
             'id': grupo.id,
             'turno': grupo.turnos_id.nom_tur.upper(),
             'linea': grupo.lineas_id.num_lin,
             'trabajador': f"{grupo.trabajador_id.nom_tra.capitalize()} {grupo.trabajador_id.app_tra.capitalize()}",
-            'fecha': grupo.dia_id.dia_dia.strftime('%Y-%m-%d'),
+            'fecha': grupo.dia_id.dia_dia.strftime('%d-%m-%Y'),
         })
 
-    paginator = Paginator(lista_formato, 10)
+    paginator = Paginator(grupo_modificado, 10)
     pagina = request.GET.get("page") or 1
     listas = paginator.get_page(pagina)
     pagina_actual = int(pagina)
@@ -198,6 +180,16 @@ def mostrarListaProducto(request):
         'listas': listas,
         'paginas': paginas,
         'pagina_actual': pagina_actual,
+        'turnos_unicos': turnos_unicos,
+        'lineas_unicos': lineas_unicos,
+        'trabajador_unicos': trabajador_unicos,
+        'filtros_activos':{
+            'turno': turno_filter,
+            'linea': linea_filter,
+            'trabajador': trabajador_filter,
+            'fecha_inicio': fecha_inicio,
+            'fecha_fin': fecha_fin,
+        }
     }
     return render(request, "productos/base/listaproducto.html", datos)
 

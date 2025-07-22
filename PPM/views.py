@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from datetime import date
+from datetime import date, datetime as dt
 from Cloraciones.models import *
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -25,9 +25,6 @@ def mostrarPPM(request, linea_id):
             messages.error(request, 'El id debe ser referente a las líneas de trabajo')
             return redirect('menu')
         
-        # Muestra listado de registros en el mismo template
-        ppm = PPM.objects.all().order_by('-id')
-
         # Chequea si el usuario es superuser (admin)
         if request.user.is_superuser:
             ppm = PPM.objects.all().order_by('-id')
@@ -45,7 +42,7 @@ def mostrarPPM(request, linea_id):
                 'hora': lista.hor_ppm,
                 'ppm': lista.dat_ppm,
                 'ph': lista.phe_ppm,
-                'fecha': lista.dia_id.dia_dia.strftime('%Y-%m-%d'), # Formato (2025-02-25)
+                'fecha': lista.dia_id.dia_dia.strftime('%d-%m-%Y'),
                 'observacion': lista.obs_ppm,
             })
         
@@ -75,14 +72,14 @@ def registrarPPM(request,linea_id):
 
         
 
-        # linea = Lineas.objects.get(id=request.POST['lineaop'])
+        
         turno = Turnos.objects.get(id=request.POST['turnoop'])
         trabajador = request.user.trabajador
         hora = request.POST['hora']
 
         fecha = request.POST['fecha']
         dia_obj, created = Dia.objects.get_or_create(dia_dia=fecha)
-        #Solución, 'Cannot assign "'2025-02-23'": "PPM.dia_id" must be a "Dia" instance.'
+        
 
         ppme = request.POST['ppm']
         phstr = request.POST['ph']
@@ -157,7 +154,7 @@ def visualizarPPM(request, grupo_id):
                 'hora': lista.hor_ppm,
                 'ppm': lista.dat_ppm,
                 'ph': lista.phe_ppm,
-                'fecha': lista.dia_id.dia_dia.strftime('%Y-%m-%d'), # Formato (2025-02-25)
+                'fecha': lista.dia_id.dia_dia.strftime('%d-%m-%Y'),
                 'observacion': lista.obs_ppm,
             })
         
@@ -263,7 +260,8 @@ def eliminarPPM(request, grupo_id):
         linea = Lineas.objects.first()
         messages.error(request, f'¡Error, registro inexistente! {e}')
         return redirect('ppm', linea_id=linea.id)
-    
+
+@login_required(login_url='inicio')
 def eliminarPPMLista(request, grupo_id):
     try:
         ppm = PPM.objects.get(id=grupo_id)
@@ -294,12 +292,8 @@ def eliminarPPMLista(request, grupo_id):
 @login_required(login_url='inicio')
 def DescargarPDFPPM(request):
     try:
-        pagina = request.GET.get("page") or 1
-        busqueda = request.GET.get("buscar")
-        campo = request.GET.get("campo")
         
-        # Consulta base ordenada
-        ppm = PPM.objects.all().order_by('-id')
+        
 
         # Chequea si el usuario es superuser (admin)
         if request.user.is_superuser:
@@ -308,81 +302,55 @@ def DescargarPDFPPM(request):
             # Filtra registros para usuario normal
             ppm = PPM.objects.filter(trabajador_id=request.user.trabajador).order_by('-id')
         
-        # Aplicar filtros si se proporcionan "campo" y "buscar"
-        if campo:
-            if campo == "linea":
-                try:
-                    linea_num = int(busqueda)
-                    if linea_num not in [5, 11]:
-                        messages.error(request, '¡La línea debe ser 5 u 11!')
-                        return redirect('listappm')
-                    ppm = PPM.objects.filter(lineas_id__num_lin__exact=busqueda)
-                except ValueError:
-                    messages.error(request, '¡El valor de línea debe ser un número!')
-                    return redirect('listappm')
-            elif campo == "turno":
-                try:
-                    turno_nom = busqueda
-                    if turno_nom not in ['A', 'B', 'a', 'b']:
-                        messages.error(request, '¡El turno debe ser A, B!')
-                        return redirect('listappm')
-                    #  __iexact para comparar sin importar mayúsculas/minúsculas
-                    ppm = PPM.objects.filter(turnos_id__nom_tur__iexact=busqueda)
-                except ValueError:
-                    messages.error(request, '¡En filtro de Turnos, solo se acepta A o B!')
-                    return redirect('listappm')
-            elif campo == "trabajador":
-                # si es numerico, salta error
-                if busqueda.replace('.','',1).isdigit():
-                    messages.error(request, '¡El nombre de trabajador no puede ser un número!')
-                    return redirect('listappm')
-                    
-                # __icontains para buscar coincidencia parcial y ( | OR ) para ambos campos
-                ppm = PPM.objects.filter(
-                    Q(trabajador_id__nom_tra__icontains=busqueda) | 
-                    Q(trabajador_id__app_tra__icontains=busqueda)
-                ).distinct()
-            elif campo == "ppm":
-                if not busqueda.isdigit():
-                    messages.error(request, '¡El valor de PPM debe ser un número entero!')
-                    return redirect('listappm')
-                    
-                ppm = PPM.objects.filter(dat_ppm__exact=busqueda)
-            elif campo == "ph":
-                if busqueda.replace('.','',1).isdigit() == False:
-                    messages.error(request, '¡El valor de PH debe ser un número!')
-                    return redirect('listappm')
-                
-                # Validar que tenga punto decimal
-                if '.' not in busqueda:
-                    messages.error(request, '¡El valor de PH debe tener punto decimal! Ejemplo: 1.0')
-                    return redirect('listappm')          
-                ppm = PPM.objects.filter(phe_ppm__exact=busqueda)
-            elif campo == "hora":
-                try:
-                    hora = busqueda.split(':')
-                    if len(hora) != 2:
-                        messages.error(request, '¡El formato de hora debe ser HH:MM!')
-                        return redirect('listappm')
-                    
-                    ppm = PPM.objects.filter(hor_ppm__exact=busqueda)
-                except:
-                    messages.error(request, '¡El formato de hora debe ser HH:MM!')
-            elif campo == "fecha":
-                try:
-                    fecha = busqueda.split('-')
-                    if len(fecha) != 3:
-                        messages.error(request, '¡El formato de fecha debe ser YYYY-MM-DD!')
-                        return redirect('listappm')
-                    
-                    ppm = PPM.objects.filter(dia_id__dia_dia__exact=busqueda)
-                except:
-                    messages.error(request, '¡El formato de fecha debe ser YYYY-MM-DD!')
-            elif campo == "observacion":
-                ppm = PPM.objects.filter(obs_ppm__icontains=busqueda)
-            else:
-                messages.error(request, '¡Campo de búsqueda inexistente!')
-                return redirect('listappm')
+        # Filtros
+        turno_filter = request.GET.get('turno')
+        linea_filter = request.GET.get('linea')
+        trabajador_filter = request.GET.get('trabajador')
+        fecha_inicio = request.GET.get('fecha_inicio')
+        fecha_fin = request.GET.get('fecha_fin')
+        ppm_min = request.GET.get('ppm_min')
+        ppm_max = request.GET.get('ppm_max')
+        ph_min = request.GET.get('ph_min')
+        ph_max = request.GET.get('ph_max')
+
+        if turno_filter:
+            ppm = ppm.filter(turnos_id__nom_tur=turno_filter)
+        if linea_filter:
+            ppm = ppm.filter(lineas_id__num_lin=linea_filter)
+        if trabajador_filter:
+            ppm = ppm.filter(trabajador_id=trabajador_filter)
+        if fecha_inicio:
+            try:
+                fecha_inicio_dt = dt.strptime(fecha_inicio, "%Y-%m-%d").date()
+                ppm = ppm.filter(dia_id__dia_dia__gte=fecha_inicio_dt)
+            except:
+                pass
+        if fecha_fin:
+            try:
+                fecha_fin_dt = dt.strptime(fecha_fin,"%Y-%m-%d").date()
+                ppm = ppm.filter(dia_id__dia_dia__lte=fecha_fin_dt)
+            except:
+                pass
+        if ppm_min:
+            try:
+                ppm = ppm.filter(dat_ppm__gte=int(ppm_min))
+            except ValueError:
+                pass
+        if ppm_max:
+            try:
+                ppm = ppm.filter(dat_ppm__lte=int(ppm_max))
+            except ValueError:
+                pass
+        if ph_min:
+            try:
+                ppm = ppm.filter(phe_ppm__gte=float(ph_min))
+            except ValueError:
+                pass
+        if ph_max:
+            try:
+                ppm = ppm.filter(phe_ppm__lte=float(ph_max))
+            except ValueError:
+                pass
         
         # Formatear los datos para el PDF
         lista_formato = []
@@ -395,15 +363,16 @@ def DescargarPDFPPM(request):
                 'hora': item.hor_ppm,
                 'ppm': item.dat_ppm,
                 'ph': item.phe_ppm,
-                'fecha': item.dia_id.dia_dia.strftime('%Y-%m-%d'),
+                'fecha': item.dia_id.dia_dia.strftime('%d-%m-%Y'),
                 'observacion': item.obs_ppm,
             })
         
         # Paginar con 15 registros por página (aplicando el filtro)
+        pagina = request.GET.get("page") or 1
         paginator = Paginator(lista_formato, 15)
         listas = paginator.get_page(pagina)
         
-        fecha_hoy = date.today().strftime('%Y-%m-%d')
+        fecha_hoy = date.today().strftime('%d-%m-%Y')
         
         # Renderizar la plantilla para el PDF
         template = get_template('ppms/form/descargarpdfPPM.html')
@@ -429,98 +398,64 @@ def DescargarPDFPPM(request):
 
 @login_required(login_url='inicio')
 def mostrarListaPPM(request):
-
-    busqueda = request.GET.get("buscar")
-    campo = request.GET.get("campo")
-    lista = PPM.objects.all().order_by('-id')
-
     # Chequea si el usuario es superuser (admin)
     if request.user.is_superuser:
-        lista = PPM.objects.all().order_by('-id')
+        ppm_registros = PPM.objects.all().order_by('-id')
     else:
         # Filtra registros para usuario normal
-        lista = PPM.objects.filter(trabajador_id=request.user.trabajador).order_by('-id')
+        ppm_registros = PPM.objects.filter(trabajador_id=request.user.trabajador).order_by('-id')
 
-    if campo:
-        if campo == "linea":
-            try:
-                linea_num = int(busqueda)
-                if linea_num not in [5, 11]:
-                    messages.error(request, '¡La línea debe ser 5 u 11!')
-                    return redirect('listappm')
-                lista = PPM.objects.filter(lineas_id__num_lin__exact=busqueda)
-            except ValueError:
-                messages.error(request, '¡El valor de línea debe ser un número!')
-                return redirect('listappm')
-        elif campo == "turno":
-            try:
-                turno_nom = busqueda
-                if turno_nom not in ['A', 'B', 'a', 'b']:
-                    messages.error(request, '¡El turno debe ser A, B!')
-                    return redirect('listappm')
-                #  __iexact para comparar sin importar mayúsculas/minúsculas
-                lista = PPM.objects.filter(turnos_id__nom_tur__iexact=busqueda)
-            except ValueError:
-                messages.error(request, '¡En filtro de Turnos, solo se acepta A o B!')
-                return redirect('listappm')
-        elif campo == "trabajador":
-            # si es numerico, salta error
-            if busqueda.replace('.','',1).isdigit():
-                messages.error(request, '¡El nombre de trabajador no puede ser un número!')
-                return redirect('listappm')
-                
-            # __icontains para buscar coincidencia parcial y ( | OR ) para ambos campos
-            lista = PPM.objects.filter(
-                Q(trabajador_id__nom_tra__icontains=busqueda) | 
-                Q(trabajador_id__app_tra__icontains=busqueda)
-            ).distinct()      
-        elif campo == "ppm":
-                if not busqueda.isdigit():
-                    messages.error(request, '¡El valor de PPM debe ser un número entero!')
-                    return redirect('listappm')
-                    
-                lista = PPM.objects.filter(dat_ppm__exact=busqueda)
-        elif campo == "ph":
-            if busqueda.replace('.','',1).isdigit() == False:
-                messages.error(request, '¡El valor de PH debe ser un número!')
-                return redirect('listappm')
-            
-            # Validar que tenga punto decimal
-            if '.' not in busqueda:
-                messages.error(request, '¡El valor de PH debe tener punto decimal! Ejemplo: 1.0')
-                return redirect('listappm')          
-            lista = PPM.objects.filter(phe_ppm__exact=busqueda)
-        elif campo == "hora":
-            try:
-                hora = busqueda.split(':')
-                if len(hora) != 2:
-                    messages.error(request, '¡El formato de hora debe ser HH:MM!')
-                    return redirect('listappm')
-                
-                lista = PPM.objects.filter(hor_ppm__exact=busqueda)
-            except:
-                messages.error(request, '¡El formato de hora debe ser HH:MM!')
 
-        elif campo == "fecha":
-            try:
-                fecha = busqueda.split('-')
-                if len(fecha) != 3:
-                    messages.error(request, '¡El formato de fecha debe ser YYYY-MM-DD!')
-                    return redirect('listappm')
-                
-                lista = PPM.objects.filter(dia_id__dia_dia__exact=busqueda)
-            except:
-                messages.error(request, '¡El formato de fecha debe ser YYYY-MM-DD!')
-            
-        elif campo == "observacion":
-            lista = PPM.objects.filter(obs_ppm__icontains=busqueda)
-        else:
-            lista = PPM.objects.all().order_by('-id')
-            messages.error(request, '¡Campo de búsqueda inexistente!')
+    #Filtros
+    turno_filter = request.GET.get('turno')
+    linea_filter = request.GET.get('linea')
+    trabajador_filter = request.GET.get('trabajador')
+    fecha_inicio = request.GET.get('fecha_inicio')
+    fecha_fin = request.GET.get('fecha_fin')
+    ppm_min = request.GET.get('ppm_min')
+    ppm_max = request.GET.get('ppm_max')
+    ph_min = request.GET.get('ph_min')
+    ph_max = request.GET.get('ph_max')
 
-    lista_formato = []
-    for grupo in lista:
-        lista_formato.append({
+    if turno_filter:
+        ppm_registros = ppm_registros.filter(turnos_id__nom_tur=turno_filter)
+    if linea_filter:
+        ppm_registros = ppm_registros.filter(lineas_id__num_lin=linea_filter)
+    if trabajador_filter:
+        ppm_registros = ppm_registros.filter(trabajador_id=trabajador_filter)
+    if fecha_inicio:
+        try:
+            fecha_inicio_dt = dt.strptime(fecha_inicio, "%Y-%m-%d").date()
+            ppm_registros = ppm_registros.filter(dia_id__dia_dia__gte=fecha_inicio_dt)
+        except:
+            pass
+    if fecha_fin:
+        try:
+            fecha_fin_dt = dt.strptime(fecha_fin,"%Y-%m-%d").date()
+            ppm_registros = ppm_registros.filter(dia_id__dia_dia__lte=fecha_fin_dt)
+        except:
+            pass
+    if ppm_min:
+        ppm_registros = ppm_registros.filter(dat_ppm__gte=int(ppm_min))
+    if ppm_max:
+        ppm_registros = ppm_registros.filter(dat_ppm__lte=int(ppm_max))
+    if ph_min:
+        ppm_registros = ppm_registros.filter(phe_ppm__gte=float(ph_min))
+    if ph_max:
+        ppm_registros = ppm_registros.filter(phe_ppm__lte=float(ph_max))
+
+    
+    # Valores únicos para los filtros
+    turnos_unicos = PPM.objects.values_list('turnos_id__nom_tur', flat=True).distinct().order_by('turnos_id__nom_tur')
+    lineas_unicos = PPM.objects.values_list('lineas_id__num_lin', flat=True).distinct().order_by('lineas_id__num_lin')
+    trabajador_unicos = Trabajador.objects.all().order_by('nom_tra')
+
+
+
+    
+    ppm_formato = []
+    for grupo in ppm_registros:
+        ppm_formato.append({
             'id': grupo.id,
             'turno': grupo.turnos_id.nom_tur.upper(),
             'linea': grupo.lineas_id.num_lin,
@@ -528,11 +463,11 @@ def mostrarListaPPM(request):
             'hora': grupo.hor_ppm,
             'ppm': grupo.dat_ppm,
             'ph': grupo.phe_ppm,                                   
-            'fecha': grupo.dia_id.dia_dia.strftime('%Y-%m-%d'), # Formato (2025-02-25)
+            'fecha': grupo.dia_id.dia_dia.strftime('%d-%m-%Y'),
             'observacion': grupo.obs_ppm,
         })
 
-    paginator = Paginator(lista_formato, 15)
+    paginator = Paginator(ppm_formato, 15)
     pagina = request.GET.get("page") or 1
     listas = paginator.get_page(pagina)
     pagina_actual = int(pagina)
@@ -542,6 +477,24 @@ def mostrarListaPPM(request):
         'listas': listas,
         'paginas': paginas,
         'pagina_actual': pagina_actual,
+        'turnos_unicos': turnos_unicos,
+        'lineas_unicos': lineas_unicos,
+        'trabajador_unicos': trabajador_unicos,
+        'ppm_min': ppm_min,
+        'ppm_max': ppm_max,
+        'ph_min': ph_min,
+        'ph_max': ph_max,
+        'filtros_activos': {
+            'turno': turno_filter,
+            'linea': linea_filter,
+            'trabajador': trabajador_filter,
+            'fecha_inicio': fecha_inicio,
+            'fecha_fin': fecha_fin,
+            'ppm_min': ppm_min,
+            'ppm_max': ppm_max,
+            'ph_min': ph_min,
+            'ph_max': ph_max,
+        }
     }
 
     return render(request, 'ppms/base/listappm.html', datos)

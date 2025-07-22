@@ -56,41 +56,105 @@
 
         
 
+
+
         <div class="container-fluid">
-          <div class="row p-2 pt-3">
-            
-            <div class="d-flex justify-content-between align-items-center">
-              
-              <div class="d-flex gap-3 align-items-center">
-                <!-- Buscador -->
-                 
-                <form method="GET" >
-                  {% csrf_token %}
-                    <div class="input-group">
-                      <input type="text" name="buscar" class="form-control" placeholder="Buscar..." value="{{ request.GET.buscar }}">
-                      <select name="campo" class="form-select">
-                        <option value="linea">Línea</option>
-                        <option value="turno">Turno</option>
-                        <option value="trabajador">Trabajador</option>
-                        <option value="ppm">PPM</option>
-                        <option value="ph">pH</option>
-                        <option value="hora">Hora</option>
-                        <option value="fecha">Fecha</option>
-                        <option value="observacion">Observación</option>
-                      </select>
-                      <button type="submit" class="btn btn-outline-primary">Buscar</button>
+          <div class="row p-3">
+            <div class="col-12">
+              <div class="card shadow-sm border-0 bg-light">
+                <div class="card-body pt-0">
+                  <form method="GET">
+                    {% csrf_token %}
+                    <div class="row g-3 align-items-end">
+                      <!-- Turnos y Líneas -->
+                      <div class="col-md-2">
+                        <div class="mb-2">
+                          <label class="form-label fw-semibold text-muted small">Turno</label>
+                          <select name="turno" class="form-select form-select-sm border-0 shadow-sm">
+                            <option value="">Todos los turnos</option>
+                            {% for turno in turnos_unicos %}
+                              <option value="{{ turno }}" {% if filtros_activos.turno == turno %}selected{% endif %}>{{ turno }}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                        <div>
+                          <label class="form-label fw-semibold text-muted small">Línea</label>
+                          <select name="linea" class="form-select form-select-sm border-0 shadow-sm">
+                            <option value="">Todas las líneas</option>
+                            {% for linea in lineas_unicos %}
+                            <option value="{{ linea }}" {% if filtros_activos.linea|stringformat:"s" == linea|stringformat:"s" %}selected{% endif %}>{{ linea }}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                      </div>
+                      <!-- PPM y pH -->
+                      <div class="col-md-3">
+                        <div class="mb-2">
+                          <label class="form-label fw-semibold text-muted small">PPM</label>
+                          <div class="row g-2">
+                            <div class="col">
+                              <input type="number" name="ppm_min" class="form-control form-control-sm" placeholder="Desde" value="{{ filtros_activos.ppm_min }}"
+                              oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
+                            </div>
+                            <div class="col">
+                              <input type="number" name="ppm_max" class="form-control form-control-sm" placeholder="Hasta" value="{{ filtros_activos.ppm_max }}"
+                              oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3);">
+                            </div>
+                          </div>
+                        </div>
+                        <div>
+                          <label class="form-label fw-semibold text-muted small">pH</label>
+                          <div class="row g-2">
+                            <div class="col">
+                              <input type="text" name="ph_min" class="form-control form-control-sm" placeholder="Desde" value="{{ filtros_activos.ph_min }}"
+                              oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3); formateo(this);">
+                            </div>
+                            <div class="col">
+                              <input type="text" name="ph_max" class="form-control form-control-sm" placeholder="Hasta" value="{{ filtros_activos.ph_max }}"
+                              oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3); formateo(this);">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Fechas -->
+                      <div class="col-md-2">
+                        <div class="mb-2">
+                          <label class="form-label fw-semibold text-muted small">Desde</label>
+                          <input type="date" name="fecha_inicio" class="form-control form-control-sm border-0 shadow-sm" value="{{ filtros_activos.fecha_inicio }}">
+                        </div>
+                        <div>
+                          <label class="form-label fw-semibold text-muted small">Hasta</label>
+                          <input type="date" name="fecha_fin" class="form-control form-control-sm border-0 shadow-sm" value="{{ filtros_activos.fecha_fin }}">
+                        </div>
+                      </div>
+                      <!-- Trabajador -->
+                      <div class="col-md-2 mb-4">
+                        <div class="mb-5">
+                          <label class="form-label fw-semibold text-muted small">Trabajador</label>
+                          <select name="trabajador" class="form-select form-select-sm border-0 shadow-sm">
+                            <option value="">Todos los trabajadores</option>
+                            {% for trabajador in trabajador_unicos %}
+                              <option value="{{ trabajador.id }}" {% if filtros_activos.trabajador|stringformat:"s" == trabajador.id|stringformat:"s" %}selected{% endif %}>{{ trabajador.nom_tra }} {{ trabajador.app_tra }}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                        
+                      </div>
+                      <!-- Botones -->
+                      <div class="col-md-3 d-flex flex-column align-items-end justify-content-end pb-4">
+                        <div class="d-flex flex-column gap-2 mt-4" style="min-width: 160px;">
+                          <button type="submit" class="btn btn-primary btn-sm px-4">
+                            <i class="bi bi-search me-1"></i>Buscar
+                          </button>
+                          <a href="{% url 'listappm' %}" class="btn btn-outline-secondary btn-sm px-4">
+                            <i class="bi bi-arrow-clockwise me-1"></i>Limpiar
+                          </a>
+                        </div>
+                      </div>
                     </div>
-                </form>
-
+                  </form>
+                </div>
               </div>
-
-
-              <div>
-                <a class="btn btn-outline-primary  btn-sm text-decoration-none" href="/archivos_ppm">
-                  <i class="bi bi-file-earmark-ruled"></i> PPM
-                </a>
-              </div>
-              
             </div>
           </div>
         </div>
@@ -104,7 +168,7 @@
                     <tr class="border-info-subtle">
                         <th>#</th>
                         <th>Turno</th>
-                        <th>Linea</th>
+                        <th>Línea</th>
                         <th>Trabajador</th>
                         <th>PPM</th>
                         <th>pH</th>
@@ -114,8 +178,8 @@
                     </tr>
                 </thead>
                 <tbody class="table-group-divider border-primary">
+                  {% if listas %}
                     {% for l in listas %}
-
                         <tr class="border-info-subtle">
                             <td scope="row">{{ l.id }}</td> <!-- forloop.counter -->
                             <td>{{ l.turno }}</td> 
@@ -141,6 +205,11 @@
                         </tr>
                         {% include "ppms/list/modalObservacion.html" %}
                     {% endfor %}
+                  {% else %}
+                    <tr class="border-info-subtle">
+                      <td colspan="13">No hay registros</td>
+                    </tr>
+                  {% endif %}
                 </tbody>
                 
             </table>
@@ -157,6 +226,7 @@
 
   <script src="{% static 'cloraciones/js/toast.js' %}"></script>
   <script src="{% static 'cloraciones/js/modal.js' %}"></script>
+  <script src="{% static 'cloraciones/js/formateo.js' %}"></script>
   
 </body>
 

@@ -5,12 +5,12 @@
         <ul class="pagination mb-0">
             {% comment %} Primera página {% endcomment %}
             <li class="page-item {% if not listas.has_previous %}disabled{% endif %}">
-                <a class="page-link" href="?page=1{% if request.GET.buscar %}&buscar={{ request.GET.buscar }}{% endif %}">Primera</a>
+                <a class="page-link" href="?page=1{% if request.GET.linea %}&linea={{ request.GET.linea }}{% endif %}{% if request.GET.producto %}&producto={{ request.GET.producto }}{% endif %}{% if request.GET.trabajador %}&trabajador={{ request.GET.trabajador }}{% endif %}{% if request.GET.especie %}&especie={{ request.GET.especie }}{% endif %}{% if request.GET.variedad %}&variedad={{ request.GET.variedad }}{% endif %}{% if request.GET.tipo_dilucion %}&tipo_dilucion={{ request.GET.tipo_dilucion }}{% endif %}{% if request.GET.dilucion_min %}&dilucion_min={{ request.GET.dilucion_min }}{% endif %}{% if request.GET.dilucion_max %}&dilucion_max={{ request.GET.dilucion_max }}{% endif %}{% if request.GET.fecha_inicio %}&fecha_inicio={{ request.GET.fecha_inicio }}{% endif %}{% if request.GET.fecha_fin %}&fecha_fin={{ request.GET.fecha_fin }}{% endif %}">Primera</a>
             </li>
 
             {% comment %} Flecha anterior {% endcomment %}
             <li class="page-item {% if not listas.has_previous %}disabled{% endif %}">
-                <a class="page-link" href="{% if listas.has_previous %}?page={{ listas.previous_page_number }}{% else %}#{% endif %}{% if request.GET.buscar %}&buscar={{ request.GET.buscar }}{% endif %}">
+                <a class="page-link" href="{% if listas.has_previous %}?page={{ listas.previous_page_number }}{% else %}#{% endif %}{% if request.GET.linea %}&linea={{ request.GET.linea }}{% endif %}{% if request.GET.producto %}&producto={{ request.GET.producto }}{% endif %}{% if request.GET.trabajador %}&trabajador={{ request.GET.trabajador }}{% endif %}{% if request.GET.especie %}&especie={{ request.GET.especie }}{% endif %}{% if request.GET.variedad %}&variedad={{ request.GET.variedad }}{% endif %}{% if request.GET.tipo_dilucion %}&tipo_dilucion={{ request.GET.tipo_dilucion }}{% endif %}{% if request.GET.dilucion_min %}&dilucion_min={{ request.GET.dilucion_min }}{% endif %}{% if request.GET.dilucion_max %}&dilucion_max={{ request.GET.dilucion_max }}{% endif %}{% if request.GET.fecha_inicio %}&fecha_inicio={{ request.GET.fecha_inicio }}{% endif %}{% if request.GET.fecha_fin %}&fecha_fin={{ request.GET.fecha_fin }}{% endif %}">
                     &laquo;
                 </a>
             </li>
@@ -19,7 +19,7 @@
             {% for pagina in paginas %}
                 {% if pagina_actual == pagina or pagina == 1 or pagina == listas.paginator.num_pages or pagina == pagina_actual|add:-1 or pagina == pagina_actual|add:1 %}
                     <li class="page-item {% if pagina_actual == pagina %}active{% endif %}">
-                        <a class="page-link" href="?page={{ pagina }}{% if request.GET.buscar %}&buscar={{ request.GET.buscar }}{% endif %}">{{ pagina }}</a>
+                        <a class="page-link" href="?page={{ pagina }}{% if request.GET.linea %}&linea={{ request.GET.linea }}{% endif %}{% if request.GET.producto %}&producto={{ request.GET.producto }}{% endif %}{% if request.GET.trabajador %}&trabajador={{ request.GET.trabajador }}{% endif %}{% if request.GET.especie %}&especie={{ request.GET.especie }}{% endif %}{% if request.GET.variedad %}&variedad={{ request.GET.variedad }}{% endif %}{% if request.GET.tipo_dilucion %}&tipo_dilucion={{ request.GET.tipo_dilucion }}{% endif %}{% if request.GET.dilucion_min %}&dilucion_min={{ request.GET.dilucion_min }}{% endif %}{% if request.GET.dilucion_max %}&dilucion_max={{ request.GET.dilucion_max }}{% endif %}{% if request.GET.fecha_inicio %}&fecha_inicio={{ request.GET.fecha_inicio }}{% endif %}{% if request.GET.fecha_fin %}&fecha_fin={{ request.GET.fecha_fin }}{% endif %}">{{ pagina }}</a>
                     </li>
                 {% elif pagina == pagina_actual|add:-2 or pagina == pagina_actual|add:2 %}
                     <li class="page-item disabled">
@@ -30,14 +30,14 @@
 
             {% comment %} Flecha siguiente {% endcomment %}
             <li class="page-item {% if not listas.has_next %}disabled{% endif %}">
-                <a class="page-link" href="{% if listas.has_next %}?page={{ listas.next_page_number }}{% else %}#{% endif %}{% if request.GET.buscar %}&buscar={{ request.GET.buscar }}{% endif %}">
+                <a class="page-link" href="{% if listas.has_next %}?page={{ listas.next_page_number }}{% else %}#{% endif %}{% if request.GET.linea %}&linea={{ request.GET.linea }}{% endif %}{% if request.GET.producto %}&producto={{ request.GET.producto }}{% endif %}{% if request.GET.trabajador %}&trabajador={{ request.GET.trabajador }}{% endif %}{% if request.GET.especie %}&especie={{ request.GET.especie }}{% endif %}{% if request.GET.variedad %}&variedad={{ request.GET.variedad }}{% endif %}{% if request.GET.tipo_dilucion %}&tipo_dilucion={{ request.GET.tipo_dilucion }}{% endif %}{% if request.GET.dilucion_min %}&dilucion_min={{ request.GET.dilucion_min }}{% endif %}{% if request.GET.dilucion_max %}&dilucion_max={{ request.GET.dilucion_max }}{% endif %}{% if request.GET.fecha_inicio %}&fecha_inicio={{ request.GET.fecha_inicio }}{% endif %}{% if request.GET.fecha_fin %}&fecha_fin={{ request.GET.fecha_fin }}{% endif %}">
                     &raquo;
                 </a>
             </li>
 
             {% comment %} Última página {% endcomment %}
             <li class="page-item {% if not listas.has_next %}disabled{% endif %}">
-                <a class="page-link" href="?page={{ listas.paginator.num_pages }}{% if request.GET.buscar %}&buscar={{ request.GET.buscar }}{% endif %}">Última</a>
+                <a class="page-link" href="?page={{ listas.paginator.num_pages }}{% if request.GET.linea %}&linea={{ request.GET.linea }}{% endif %}{% if request.GET.producto %}&producto={{ request.GET.producto }}{% endif %}{% if request.GET.trabajador %}&trabajador={{ request.GET.trabajador }}{% endif %}{% if request.GET.especie %}&especie={{ request.GET.especie }}{% endif %}{% if request.GET.variedad %}&variedad={{ request.GET.variedad }}{% endif %}{% if request.GET.tipo_dilucion %}&tipo_dilucion={{ request.GET.tipo_dilucion }}{% endif %}{% if request.GET.dilucion_min %}&dilucion_min={{ request.GET.dilucion_min }}{% endif %}{% if request.GET.dilucion_max %}&dilucion_max={{ request.GET.dilucion_max }}{% endif %}{% if request.GET.fecha_inicio %}&fecha_inicio={{ request.GET.fecha_inicio }}{% endif %}{% if request.GET.fecha_fin %}&fecha_fin={{ request.GET.fecha_fin }}{% endif %}">Última</a>
             </li>
         </ul>
     </nav>
@@ -45,7 +45,7 @@
     <!-- PDF con los 15 registros de la listilla -->
     <nav aria-label="Page navigation example" style="margin-left: 25px;">
         <ul class="pagination">
-          <li class="page-item"><a href="{% url 'pdffungicida'  %}?page={{ pagina_actual }}" class="page-link" >Exportar
+          <li class="page-item"><a href="{% url 'pdffungicida' %}?page={{ pagina_actual }}{% if request.GET.linea %}&linea={{ request.GET.linea }}{% endif %}{% if request.GET.producto %}&producto={{ request.GET.producto }}{% endif %}{% if request.GET.trabajador %}&trabajador={{ request.GET.trabajador }}{% endif %}{% if request.GET.especie %}&especie={{ request.GET.especie }}{% endif %}{% if request.GET.variedad %}&variedad={{ request.GET.variedad }}{% endif %}{% if request.GET.tipo_dilucion %}&tipo_dilucion={{ request.GET.tipo_dilucion }}{% endif %}{% if request.GET.dilucion_min %}&dilucion_min={{ request.GET.dilucion_min }}{% endif %}{% if request.GET.dilucion_max %}&dilucion_max={{ request.GET.dilucion_max }}{% endif %}{% if request.GET.fecha_inicio %}&fecha_inicio={{ request.GET.fecha_inicio }}{% endif %}{% if request.GET.fecha_fin %}&fecha_fin={{ request.GET.fecha_fin }}{% endif %}" class="page-link" >Exportar
             <i class="bi bi-upload"></i>
           </a></li>
         </ul>

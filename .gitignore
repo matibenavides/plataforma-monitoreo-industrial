@@ -18,6 +18,7 @@ __pycache__
 
 # Archivos de entorno
 .env
+.sonar
 
 #otros
 templates/copiamenutest.html/
