@@ -212,13 +212,15 @@ const initChartKGS = async (params = {}) => {
 document.getElementById("btn-filtrar").addEventListener("click", async () => {
   const linea_id = document.getElementById("linea-select").value;
   const turno_id = document.getElementById("turno-select").value;
-  const dia = document.getElementById("dia-input").value;
+  const fecha_inicio = document.getElementById("dia-inicio").value;
+  const fecha_fin = document.getElementById("dia-fin").value;
   const year = document.getElementById("year-select-ml").value;
 
   const params = {};
   if (linea_id) params.linea_id = linea_id;
   if (turno_id) params.turno_id = turno_id;
-  if (dia) params.dia_id = dia;
+  if (fecha_inicio) params.fecha_inicio = fecha_inicio;
+  if (fecha_fin) params.fecha_fin = fecha_fin;
   if (year) params.year = year;
 
   await initChartTemperatura(params);

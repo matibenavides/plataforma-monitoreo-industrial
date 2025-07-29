@@ -21,7 +21,7 @@ def mostrarPPM(request, linea_id):
         #Proposito por diferentes ids enviados por navbar.
         linea = Lineas.objects.get(id=linea_id)
 
-        if linea.id not in [1,3]:
+        if linea.pk not in [1,3]:
             messages.error(request, 'El id debe ser referente a las líneas de trabajo')
             return redirect('menu')
         

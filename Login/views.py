@@ -204,7 +204,8 @@ def graficoCloroAcido(request):
     # parámetros de filtrados
     linea_id = request.GET.get('linea_id')
     turno_id = request.GET.get('turno_id')
-    fecha_str = request.GET.get('dia_id')
+    fecha_inicio = request.GET.get('fecha_inicio')
+    fecha_fin = request.GET.get('fecha_fin')
     year = request.GET.get('year')
 
     
@@ -228,11 +229,17 @@ def graficoCloroAcido(request):
         registros = registros.filter(grupoclo_id__turnos_id=turno_id)
     if year:
         registros = registros.filter(grupoclo_id__dia_id__dia_dia__year=year)
-    if fecha_str:
+    if fecha_inicio:
         try:
-            fecha_dt = datetime.strptime(fecha_str, "%Y-%m-%d").date()
-            registros = registros.filter(grupoclo_id__dia_id__dia_dia=fecha_dt)
+            fecha_inicio_dt = datetime.strptime(fecha_inicio, "%Y-%m-%d").date()
+            registros = registros.filter(grupoclo_id__dia_id__dia_dia__gte=fecha_inicio_dt)
         except ValueError:
+            pass
+    if fecha_fin:
+        try:
+            fecha_fin_dt = datetime.strptime(fecha_fin,"%Y-%m-%d").date()
+            registros = registros.filter(grupoclo_id__dia_id__dia_dia__lte=fecha_fin_dt)
+        except:
             pass
 
 
@@ -345,7 +352,8 @@ def graficoTemperatura(request):
     # parámetros de filtrados
     linea_id = request.GET.get('linea_id')
     turno_id = request.GET.get('turno_id')
-    fecha_str = request.GET.get('dia_id')
+    fecha_inicio = request.GET.get('fecha_inicio')
+    fecha_fin = request.GET.get('fecha_fin')
     year = request.GET.get('year')
 
 
@@ -372,22 +380,27 @@ def graficoTemperatura(request):
         registros = registros.filter(grupotem_id__turnos_id=turno_id)
     if year:
         registros = registros.filter(grupotem_id__dia_id__dia_dia__year=year)
-    if fecha_str:
+    if fecha_inicio:
         try:
-            fecha_dt = datetime.strptime(fecha_str, "%Y-%m-%d").date()
-            registros = registros.filter(grupotem_id__dia_id__dia_dia=fecha_dt)
+            fecha_inicio_dt = datetime.strptime(fecha_inicio, "%Y-%m-%d").date()
+            registros = registros.filter(grupotem_id__dia_id__dia_dia__gte=fecha_inicio_dt)
         except ValueError:
             pass
-    
+    if fecha_fin:
+        try:
+            fecha_fin_dt = datetime.strptime(fecha_fin,"%Y-%m-%d").date()
+            registros = registros.filter(grupotem_id__dia_id__dia_dia__lte=fecha_fin_dt)
+        except:
+            pass
 
     registros = registros.order_by('hor_tem')
 
     # Array por tipo de temperatura, que guarda por hora y tipo de temperatura
     # [hora, temperatura]
-    pulpa_data = [[registro.hor_tem.hour + registro.hor_tem.minute/60, registro.pul_tem] for registro in registros]
-    agua_data = [[registro.hor_tem.hour + registro.hor_tem.minute/60, registro.agu_tem] for registro in registros]
-    ambiente_data = [[registro.hor_tem.hour + registro.hor_tem.minute/60, registro.amb_tem] for registro in registros]
-    fungicida_data = [[registro.hor_tem.hour + registro.hor_tem.minute/60, registro.est_tem] for registro in registros]
+    pulpa_data = [[registro.hor_tem.hour + registro.hor_tem.minute/60, registro.pul_tem] for registro in registros if registro.hor_tem is not None]
+    agua_data = [[registro.hor_tem.hour + registro.hor_tem.minute/60, registro.agu_tem] for registro in registros if registro.hor_tem is not None]
+    ambiente_data = [[registro.hor_tem.hour + registro.hor_tem.minute/60, registro.amb_tem] for registro in registros if registro.hor_tem is not None]
+    fungicida_data = [[registro.hor_tem.hour + registro.hor_tem.minute/60, registro.est_tem] for registro in registros if registro.hor_tem is not None]
 
     chart = {
         # 'title': {
@@ -518,7 +531,8 @@ def graficoPPM(request):
 
     linea_id = request.GET.get('linea_id')
     turno_id = request.GET.get('turno_id')
-    fecha_str = request.GET.get('dia_id')
+    fecha_inicio = request.GET.get('fecha_inicio')
+    fecha_fin = request.GET.get('fecha_fin')
     year = request.GET.get('year')
 
 
@@ -567,13 +581,21 @@ def graficoPPM(request):
     if year:
         registros = registros.filter(grupoclo_id__dia_id__dia_dia__year=year)
         registrofungi = registrofungi.filter(dia_id__dia_dia__year=year)
-    if fecha_str:
+    if fecha_inicio:
         try:
-            fecha_dt = datetime.strptime(fecha_str, "%Y-%m-%d").date()
-            registros = registros.filter(grupoclo_id__dia_id__dia_dia=fecha_dt)
-            registrofungi = registrofungi.filter(dia_id__dia_dia=fecha_dt)
+            fecha_inicio_dt = datetime.strptime(fecha_inicio, "%Y-%m-%d").date()
+            registros = registros.filter(grupoclo_id__dia_id__dia_dia__gte=fecha_inicio_dt)
+            registrofungi = registrofungi.filter(dia_id__dia_dia__gte=fecha_inicio_dt)
         except ValueError:
             pass
+    if fecha_fin:
+        try:
+            fecha_fin_dt = datetime.strptime(fecha_fin, "%Y-%m-%d").date()
+            registros = registros.filter(grupoclo_id__dia_id__dia_dia__lte=fecha_fin_dt)
+            registrofungi = registrofungi.filter(dia_id__dia_dia__lte=fecha_fin_dt)
+        except ValueError:
+            pass
+
 
     
     registrofungi = registrofungi.order_by('hor_ppm')
@@ -582,17 +604,17 @@ def graficoPPM(request):
     registros_cortapedi = registros.filter(grupoclo_id__sector_id__id=2).order_by('hor_clo')
     registros_retorno = registros.filter(grupoclo_id__sector_id__id=3).order_by('hor_clo')
     
-    estanque_ppm = [[r.hor_clo.hour + r.hor_clo.minute/60, r.ppm_clo] for r in registros_estanque]
-    estanque_ph = [[r.hor_clo.hour + r.hor_clo.minute/60, r.phe_clo] for r in registros_estanque]
+    estanque_ppm = [[r.hor_clo.hour + r.hor_clo.minute/60, r.ppm_clo] for r in registros_estanque if r.hor_clo is not None]
+    estanque_ph = [[r.hor_clo.hour + r.hor_clo.minute/60, r.phe_clo] for r in registros_estanque if r.hor_clo is not None]
 
-    cortapedi_ppm = [[r.hor_clo.hour + r.hor_clo.minute/60, r.ppm_clo] for r in registros_cortapedi]
-    cortapedi_ph = [[r.hor_clo.hour + r.hor_clo.minute/60, r.phe_clo] for r in registros_cortapedi]
+    cortapedi_ppm = [[r.hor_clo.hour + r.hor_clo.minute/60, r.ppm_clo] for r in registros_cortapedi if r.hor_clo is not None]
+    cortapedi_ph = [[r.hor_clo.hour + r.hor_clo.minute/60, r.phe_clo] for r in registros_cortapedi if r.hor_clo is not None]
 
-    retorno_ppm = [[r.hor_clo.hour + r.hor_clo.minute/60, r.ppm_clo] for r in registros_retorno]
-    retorno_ph = [[r.hor_clo.hour + r.hor_clo.minute/60, r.phe_clo] for r in registros_retorno]
+    retorno_ppm = [[r.hor_clo.hour + r.hor_clo.minute/60, r.ppm_clo] for r in registros_retorno if r.hor_clo is not None]
+    retorno_ph = [[r.hor_clo.hour + r.hor_clo.minute/60, r.phe_clo] for r in registros_retorno if r.hor_clo is not None]
     
-    fungi_ppm = [[r.hor_ppm.hour + r.hor_ppm.minute/60, r.dat_ppm] for r in registrofungi]
-    fungi_ph = [[r.hor_ppm.hour + r.hor_ppm.minute/60, r.phe_ppm] for r in registrofungi]
+    fungi_ppm = [[r.hor_ppm.hour + r.hor_ppm.minute/60, r.dat_ppm] for r in registrofungi if r.hor_ppm is not None]
+    fungi_ph = [[r.hor_ppm.hour + r.hor_ppm.minute/60, r.phe_ppm] for r in registrofungi if r.hor_ppm is not None]
 
     chart = {
         # 'title': {
@@ -809,7 +831,10 @@ def graficoKilogramos(request):
     # Filtros
     linea_id = request.GET.get('linea_id')
     turno_id = request.GET.get('turno_id')
+    fecha_inicio = request.GET.get('fecha_inicio')
+    fecha_fin = request.GET.get('fecha_fin')
     year = request.GET.get('year')
+
 
 
 
@@ -834,6 +859,18 @@ def graficoKilogramos(request):
         registros = registros.filter(grupopro_id__turnos_id=turno_id)
     if year:
         registros = registros.filter(grupopro_id__dia_id__dia_dia__year=year)
+    if fecha_inicio:
+        try:
+            fecha_inicio_dt = datetime.strptime(fecha_inicio, "%Y-%m-%d").date()
+            registros = registros.filter(grupopro_id__dia_id__dia_dia__gte=fecha_inicio_dt)
+        except ValueError:
+            pass
+    if fecha_fin:
+        try:
+            fecha_fin_dt = datetime.strptime(fecha_fin,"%Y-%m-%d").date()
+            registros = registros.filter(grupopro_id__dia_id__dia_dia__lte=fecha_fin_dt)
+        except:
+            pass
 
     registros = registros.order_by('grupopro_id__dia_id__dia_dia')
 
@@ -987,7 +1024,8 @@ def graficoKilogramos(request):
 def kpigeneral(request):
     linea_id = request.GET.get('linea_id')
     turno_id = request.GET.get('turno_id')
-    fecha_str = request.GET.get('dia_id')
+    fecha_inicio = request.GET.get('fecha_inicio')
+    fecha_fin = request.GET.get('fecha_fin')
     year = request.GET.get('year')
 
 
@@ -1028,10 +1066,20 @@ def kpigeneral(request):
     if year:
         registros_dosificacion = registros_dosificacion.filter(dia_id__dia_dia__year=year)
         registros_productos = registros_productos.filter(grupopro_id__dia_id__dia_dia__year=year)
-    if fecha_str:
-        fecha_dt = datetime.strptime(fecha_str, "%Y-%m-%d").date()
-        registros_dosificacion = registros_dosificacion.filter(dia_id__dia_dia=fecha_dt)
-        registros_productos = registros_productos.filter(grupopro_id__dia_id__dia_dia=fecha_dt)
+    if fecha_inicio:
+        try:
+            fecha_inicio_dt = datetime.strptime(fecha_inicio,"%Y-%m-%d").date()
+            registros_dosificacion = registros_dosificacion.filter(dia_id__dia_dia__gte=fecha_inicio_dt)
+            registros_productos = registros_productos.filter(grupopro_id__dia_id__dia_dia__gte=fecha_inicio_dt)
+        except ValueError:
+            pass
+    if fecha_fin:
+        try:
+            fecha_fin_dt = datetime.strptime(fecha_fin,"%Y-%m-%d").date()
+            registros_dosificacion = registros_dosificacion.filter(dia_id__dia_dia__lte=fecha_fin_dt)
+            registros_productos = registros_productos.filter(grupopro_id__dia_id__dia_dia__lte=fecha_fin_dt)
+        except ValueError:
+            pass
     if turno_id:
         registros_productos = registros_productos.filter(grupopro_id__turnos_id=turno_id)
 

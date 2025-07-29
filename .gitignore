@@ -5,6 +5,7 @@ env/
 .vscode/
 .cursor
 .cursorrules
+.github
 
 #Bds
 db.sqlite3

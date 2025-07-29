@@ -52,19 +52,20 @@
     
     <div class="container">
         <!-- Filtros -->
-        <div class="card mb-3 shadow-sm d-inline-flex">
+        <div class="card mb-3 mt-3 shadow-sm d-inline-flex border-0 bg-light">
             <div class="card-body py-2">
-                <div class="row g-2 align-items-center">
+                <form class="row g-2 align-items-center" autocomplete="off">
                     <div class="col-auto">
-                        <select class="form-select form-select-sm" id="turno-select">
-                            <option value="">Ambos Turno</option>
+                        <label for="turno-select" class="form-label fw-semibold text-muted small mb-1">Turno</label>
+                        <select class="form-select form-select-sm border-0 shadow-sm" id="turno-select">
+                            <option value="">Ambos Turnos</option>
                             <option value="1">Turno A</option>
                             <option value="2">Turno B</option>
                         </select>
                     </div>
-
                     <div class="col-auto">
-                        <select class="form-select form-select-sm" id="linea-select">
+                        <label for="linea-select" class="form-label fw-semibold text-muted small mb-1">Línea</label>
+                        <select class="form-select form-select-sm border-0 shadow-sm" id="linea-select">
                             <option value="">Todas las Líneas</option>
                             <option value="1">Línea 11</option>
                             <option value="2">Línea 10</option>
@@ -72,22 +73,30 @@
                             <option value="4">Línea 1</option>
                         </select>
                     </div>
-
                     <div class="col-auto">
-                        <input type="date" id="dia-input" required min="1920-01-01" class="form-control form-control-sm text-center">
+                        <label for="dia-inicio" class="form-label fw-semibold text-muted small mb-1">Desde</label>
+                        <input type="date" id="dia-inicio" required min="1920-01-01" class="form-control form-control-sm border-0 shadow-sm text-center">
                     </div>
-
                     <div class="col-auto">
-                        <select class="form-select form-select-sm" id="year-select-ml">
+                        <label for="dia-fin" class="form-label fw-semibold text-muted small mb-1">Hasta</label>
+                        <input type="date" id="dia-fin" required min="1920-01-01" class="form-control form-control-sm border-0 shadow-sm text-center">
+                    </div>
+                    <div class="col-auto">
+                        <label for="year-select-ml" class="form-label fw-semibold text-muted small mb-1">Año</label>
+                        <select class="form-select form-select-sm border-0 shadow-sm" id="year-select-ml">
                             <option value="">Selecciona el año</option>
                             <!-- años generados por js, según registros por backend-->
                         </select>
                     </div>
-
-                    <div class="col-auto">
-                        <button type="button" class="btn btn-light btn-sm" id="btn-filtrar">Filtrar</button>
+                    <div class="col-auto d-flex align-items-end gap-2">
+                        <button type="button" class="btn btn-primary btn-sm fw-semibold" id="btn-filtrar">
+                            <i class="bi bi-funnel-fill me-1"></i>Filtrar
+                        </button>
+                        <button type="reset" class="btn btn-outline-secondary btn-sm fw-semibold" id="btn-limpiar">
+                            <i class="bi bi-arrow-clockwise me-1"></i>Limpiar
+                        </button>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
         <!-- Fin sección de filtros -->
