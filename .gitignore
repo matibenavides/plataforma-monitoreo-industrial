@@ -6,6 +6,7 @@ env/
 .cursor
 .cursorrules
 .github
+.agent
 
 #Bds
 db.sqlite3
