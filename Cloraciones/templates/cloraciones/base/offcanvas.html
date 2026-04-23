@@ -8,7 +8,7 @@
         <strong class="navbar-brand fs-5 fw-semibold" href="#">
             <h4 hidden>Plataforma Monitoreo Industrial</h4>
         </strong>
-        
+
         <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar"
             aria-labelledby="offcanvasNavbarLabel">
             <div class="offcanvas-header rubik-titulo">
@@ -27,10 +27,12 @@
                         <div class="collapse" id="home-collapse">
                             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                                 <li><a href="/menu"
-                                        class="link-body-emphasis d-inline-flex text-decoration-none rounded">Panel Principal</a>
+                                        class="link-body-emphasis d-inline-flex text-decoration-none rounded">Panel
+                                        Principal</a>
                                 </li>
                                 <li><a href="/historial"
-                                        class="link-body-emphasis d-inline-flex text-decoration-none rounded">Control de Acciones</a>
+                                        class="link-body-emphasis d-inline-flex text-decoration-none rounded">Control de
+                                        Acciones</a>
                                 </li>
                             </ul>
                         </div>
@@ -123,7 +125,7 @@
                     </li>
                     <!-- Quinta Lista-->
                     <li class="border-top my-3"></li> <!-- Borde separador-->
-                    
+
                     <li class="mb-1">
                         <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
                             data-bs-toggle="collapse" data-bs-target="#reports-collapse" aria-expanded="true">
@@ -133,54 +135,59 @@
                         <div class="collapse" id="reports-collapse">
                             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                                 <li><a href="/archivos"
-                                        class="link-body-emphasis d-inline-flex text-decoration-none rounded">Control Cloraciones</a>
+                                        class="link-body-emphasis d-inline-flex text-decoration-none rounded">Control
+                                        Cloraciones</a>
                                 </li>
                                 <li><a href="/archivos_temperatura"
-                                        class="link-body-emphasis d-inline-flex text-decoration-none rounded">Control Temperatura</a>
+                                        class="link-body-emphasis d-inline-flex text-decoration-none rounded">Control
+                                        Temperatura</a>
                                 </li>
                                 <li><a href="/archivos_ppm"
-                                        class="link-body-emphasis d-inline-flex text-decoration-none rounded">Control Medición de PPM</a>
+                                        class="link-body-emphasis d-inline-flex text-decoration-none rounded">Control
+                                        Medición de PPM</a>
                                 </li>
                                 <li><a href="/archivos_producto"
-                                        class="link-body-emphasis d-inline-flex text-decoration-none rounded">Control Productos</a>
+                                        class="link-body-emphasis d-inline-flex text-decoration-none rounded">Control
+                                        Productos</a>
                                 </li>
                                 <li><a href="/archivos_fungicida"
-                                        class="link-body-emphasis d-inline-flex text-decoration-none rounded">Control Fungicidas</a>
-                                </li> 
+                                        class="link-body-emphasis d-inline-flex text-decoration-none rounded">Control
+                                        Fungicidas</a>
+                                </li>
                             </ul>
                         </div>
 
                     </li>
 
                     <li class="border-top my-3"></li> <!-- Borde separador-->
-                    
+
                     <li class="mb-1">
                         <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
                             data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
-                            Account
+                            Cuenta
                         </button>
                         <!-- Cuarto collapse de opciones-->
                         <div class="collapse" id="account-collapse">
                             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                                 {% if user.is_superuser %}
-                                    <li><a href="{% url 'registro' %}"
-                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">New...</a>
-                                    </li>
+                                <li><a href="{% url 'registro' %}"
+                                        class="link-body-emphasis d-inline-flex text-decoration-none rounded">Nuevo...</a>
+                                </li>
                                 {% endif %}
                                 <li><a href="#"
-                                        class="link-body-emphasis d-inline-flex text-decoration-none rounded">Profile</a>
+                                        class="link-body-emphasis d-inline-flex text-decoration-none rounded">Perfil</a>
                                 </li>
                                 <li><a href="#"
-                                        class="link-body-emphasis d-inline-flex text-decoration-none rounded">Settings</a>
+                                        class="link-body-emphasis d-inline-flex text-decoration-none rounded">Ajustes</a>
                                 </li>
                                 <li><a href="{% url 'logout' %}"
-                                        class="link-body-emphasis d-inline-flex text-decoration-none rounded">Sign
-                                        out</a></li>
+                                        class="link-body-emphasis d-inline-flex text-decoration-none rounded">Cerrar
+                                        sesión</a></li>
                             </ul>
                         </div>
                     </li>
                 </ul>
-                
+
             </div>
         </div> <!-- offcanvas enlaces dentro-->
     </div> <!-- Contenido de offcanvas + boton-->
