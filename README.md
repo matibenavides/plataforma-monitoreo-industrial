@@ -1,7 +1,28 @@
-#  Plataforma de Monitoreo Industrial — DDC
+#  Plataforma de Monitoreo Industrial
 
-Sistema web de monitoreo y registro de procesos industriales 
-(Falta contexto de que logro con esto e imagenes representativas)
+Plataforma web para el registro y control de procesos operativos en la industria frutícola, enfocada en la gestión de insumos químicos como hipoclorito, ácido y fungicidas, considerando el tipo de fruta en temporada.
+
+Permite centralizar la información productiva y generar reportes en formato PDF para el seguimiento y análisis de cada área.
+
+>  Soluciona la falta de trazabilidad y el uso de registros manuales, permitiendo un control más preciso y ordenado de la operación.
+
+## Vista general
+
+![Dashboard](./dashboard.png)
+
+### Funcionalidades principales
+
+- Monitoreo de temperaturas en intervalos periódicos.
+- Registro y control del consumo de hipoclorito y ácido.
+- Gestión del uso de fungicidas.
+- Seguimiento de producción:
+  - Consumo (L/h)
+  - Kilos procesados
+  - Número de bins
+  - Rendimiento según dosis de fungicida
+- Sistema de usuarios y roles:
+  - Administrador con acceso global a toda la información.
+  - Usuarios operativos que visualizan y gestionan únicamente sus propios registros.
 
 desarrollado con **Django 5.1** y **MySQL**.
 
@@ -23,7 +44,7 @@ desarrollado con **Django 5.1** y **MySQL**.
 
 ---
 
-## ✅ Requisitos previos
+## Requisitos previos
 
 Antes de comenzar asegúrate de tener instalados los siguientes programas:
 
@@ -221,7 +242,7 @@ plataforma-monitoreo-industrial/
 │
 ├── manage.py
 ├── requirements.txt
-├── .env                    # Variables de entorno (NO versionar)
+├── .env                    # Variable de entorno 
 └── .gitignore
 ```
 
