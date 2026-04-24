@@ -30,17 +30,17 @@ desarrollado con **Django 5.1** y **MySQL**.
 
 ## Tabla de contenidos
 
-- [Requisitos previos](#-requisitos-previos)
-- [Instalación del entorno virtual](#-1-instalación-del-entorno-virtual)
-- [Dependencias del sistema (WeasyPrint)](#-2-dependencias-del-sistema-weasyprint)
-- [Instalación de paquetes Python](#-3-instalación-de-paquetes-python)
-- [Configuración de variables de entorno](#-4-configuración-de-variables-de-entorno)
-- [Configuración de la base de datos](#-5-configuración-de-la-base-de-datos)
-- [Migraciones y datos iniciales](#-6-migraciones-y-datos-iniciales)
-- [Crear superusuario](#-7-crear-superusuario)
-- [Ejecutar el servidor](#-8-ejecutar-el-servidor)
-- [Estructura del proyecto](#-estructura-del-proyecto)
-- [Stack tecnológico](#-stack-tecnológico)
+- [Requisitos previos](#requisitos-previos)
+- [Instalación del entorno virtual](#1-instalación-del-entorno-virtual)
+- [Dependencias del sistema (WeasyPrint)](#2-dependencias-del-sistema-weasyprint)
+- [Instalación de paquetes Python](#3-instalación-de-paquetes-python)
+- [Configuración de variables de entorno](#4-configuración-de-variables-de-entorno)
+- [Configuración de la base de datos](#5-configuración-de-la-base-de-datos)
+- [Migraciones y datos iniciales](#6-migraciones-y-datos-iniciales)
+- [Crear superusuario](#7-crear-superusuario)
+- [Ejecutar el servidor](#8-ejecutar-el-servidor)
+- [Estructura del proyecto](#estructura-del-proyecto)
+- [Stack tecnológico](#stack-tecnológico)
 
 ---
 
@@ -78,7 +78,6 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
 ### 1.3 — Crear el entorno virtual
 
 ```powershell
-virtualenv -p python3 env
 python -m venv env
 .\env\Scripts\Activate
 ```
@@ -86,7 +85,7 @@ python -m venv env
 ---
 
 ## 2. Dependencias del sistema (WeasyPrint)
-
+> ⚠️ Estas instrucciones están orientadas a Windows.
 El proyecto utiliza **WeasyPrint** para generación de PDF, que requiere la librería Pango del sistema operativo.
 
 ### 2.1 — Instalar Pango con MSYS2
