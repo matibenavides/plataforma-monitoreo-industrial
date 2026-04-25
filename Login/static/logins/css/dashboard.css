@@ -4,8 +4,15 @@ body {
   font-family: 'Rubik', sans-serif;
 }
 
-body, h1, h2, h3, h4, h5, h6, p, span, li, a, button, option, label, small, strong, em {
-  color: var(--text);
+.kpi-card h6 {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--primary) !important;
+}
+
+.kpi-card h3 {
+  font-weight: 700;
+  color: var(--text) !important;
 }
 
 
@@ -19,26 +26,34 @@ body, h1, h2, h3, h4, h5, h6, p, span, li, a, button, option, label, small, stro
 }
 
 /* Gráficos principales con altura fija */
-#chartKilos, #chartCloroAcido {
+#chartKilos,
+#chartCloroAcido {
   height: 300px;
-  min-height: 0; /* Anula el min-height general */
+  min-height: 0;
+  /* Anula el min-height general */
 }
 
 /* Gráficos más pequeños para las mediciones */
-#chartTemperatura, #chartPPM {
+#chartTemperatura,
+#chartPPM {
   height: 250px;
-  min-height: 0; /* Anula el min-height general */
+  min-height: 0;
+  /* Anula el min-height general */
 }
 
 /* Para otras tarjetas que no son de gráficos */
 .card {
-  height: auto; /* Cambia de height: 100% a auto */
+  height: auto;
+  /* Cambia de height: 100% a auto */
   background-color: var(--quaternary);
   --bs-card-border-width: none;
+  --bs-card-border-radius: 16px;
+  border-radius: 16px;
 }
 
 .card-header {
   background-color: var(--quaternary);
+  border-radius: 16px 16px 0 0 !important;
 }
 
 /* Específico para tarjetas de KPI que necesitan altura 100% */
@@ -49,16 +64,16 @@ body, h1, h2, h3, h4, h5, h6, p, span, li, a, button, option, label, small, stro
 }
 
 .text-primary {
-  color : var(--accent) !important;
+  color: var(--accent) !important;
 }
 
 .text-muted {
-  color : var(--subtext) !important;
+  color: var(--subtext) !important;
 }
 
 .kpi-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+  box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
 }
 
 .nav-pills .nav-link {
@@ -83,9 +98,10 @@ body, h1, h2, h3, h4, h5, h6, p, span, li, a, button, option, label, small, stro
 
 @media (min-width: 1200px) {
   .container {
-    max-width: 1400px;  
+    max-width: 1400px;
   }
 }
+
 @media (min-width: 1400px) {
   .container {
     max-width: 1600px;
