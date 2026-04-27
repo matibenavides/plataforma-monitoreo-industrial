@@ -203,6 +203,18 @@ const initChartKGS = async (params = {}) => {
   }
   
   let option = await getOptionChartKGS(params);
+  
+  if (option && option.yAxis && option.yAxis.axisLabel) {
+      option.yAxis.axisLabel.formatter = function(v) {
+          if (v >= 1e6) {
+              return (v / 1e6).toFixed(1) + 'M';
+          } else if (v >= 1e3) {
+              return (v / 1e3).toFixed(1) + 'K';
+          }
+          return v;
+      };
+  }
+
   charts.kgs.setOption(option);
 };
 

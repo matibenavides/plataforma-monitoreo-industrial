@@ -59,7 +59,7 @@
           {% include "cloraciones/list/toastRequired.html" %}
   
           
-          <div class="d-flex justify-content-between align-items-center">
+          <div class="d-flex justify-content-between align-items-center fade-up">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
               <li class="nav-item" role="presentation">
                 <button class="nav-link active rubik-titulo" id="home-tab" data-bs-toggle="tab"
@@ -77,7 +77,7 @@
   
           
   
-          <div class="tab-content" id="myTabContent">
+          <div class="tab-content fade-up" id="myTabContent">
             {% include "productos/form/tablaproducto.html" %}
           </div>
         </section>
@@ -86,16 +86,19 @@
 
 
 
+    <script src="{% static 'fungicidas/js/jquery.chained.min.js' %}"></script>
     <script>
         $(document).ready(function(){
-            {% for i in filas %}
-                $("#variedad_{{ i }}").chained("#especie_{{ i }}");
-            {% endfor %}
+            // Buscar todos los selects que tengan un id que empiece con "variedad_"
+            $("[id^=variedad_]").each(function() {
+                // Extraer el número del id (ej: 'variedad_1' -> '1')
+                var idNum = $(this).attr("id").split("_")[1];
+                // Aplicar el chained al id 'especie_1' correspondiente
+                $(this).chained("#especie_" + idNum);
+            });
         });
     </script>
         
-    
-    <script src="{% static 'fungicidas/js/jquery.chained.min.js' %}"></script>
     <script src="{% static 'cloraciones/js/toast.js' %}"></script>
     <script src="{% static 'cloraciones/js/localstorage.js' %}"></script>
 </body>

@@ -39,7 +39,7 @@
                 <form action="{% url 'actualizartemperatura' grupo_id=grupo.id %}" method="post">
                     {% csrf_token %}
                     
-                    <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex justify-content-between align-items-center fade-up">
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active rubik-titulo" id="home-tab" data-bs-toggle="tab"
@@ -62,7 +62,7 @@
                         </div>
                     </div>
 
-                    <div class="tab-content" id="myTabContent">
+                    <div class="tab-content fade-up" id="myTabContent">
                         <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"tabindex="0">
                             <div class="col-12 mb-4">
                                 
@@ -108,7 +108,7 @@
                                         <!-- Segunda fila de campos -->
                                         <div class="row g-4">
                                             <!-- Turno -->
-                                            <div class="col-12 col-sm-6 col-lg-3">
+                                            <div class="col-12 col-sm-6 col-lg-3 fade-up delay-1">
                                                 <div class="shadow p-3 mb-3 bg-body-tertiary rounded card_color_est">
                                                     <div class="card">
                                                         <h5 class="card-header">Turno</h5>
@@ -130,7 +130,7 @@
                                             </div>
                             
                                             <!-- Observación -->
-                                            <div class="col-12 col-sm-6 col-lg-6">
+                                            <div class="col-12 col-sm-6 col-lg-6 fade-up delay-2">
                                                 <div class="shadow p-3 mb-3 bg-body-tertiary rounded card_color_est">
                                                     <div class="card">
                                                         <h5 class="card-header">Observación</h5>
@@ -145,7 +145,7 @@
                                             </div>
                             
                                             <!-- Confirmación de Datos -->
-                                            <div class="col-12 col-sm-6 col-lg-3">
+                                            <div class="col-12 col-sm-6 col-lg-3 fade-up delay-3">
                                                 <div class="shadow p-3 mb-3 bg-body-tertiary rounded card_color_est">
                                                     <div class="card">
                                                         <h5 class="card-header">Confirmación de Datos</h5>
@@ -156,14 +156,14 @@
                                                                     <i class="bi bi-arrow-repeat"></i> Actualizar Datos
                                                                 </button>
 
-                                                                {% include "cloraciones/list/modalActualizarDatos.html" %}
+                                                                
                                                             </div>
                                                             <div class="form-floating">
                                                                 <button type="button" class="btn btn-outline-danger btn-s" data-bs-toggle="modal" data-bs-target="#eliminartemperatura">
                                                                     <i class="bi bi-trash"></i> Eliminar Formulario
                                                                 </button>
 
-                                                                {% include "temperaturas/list/modalEliminarTemperatura.html" %}
+                                                            
                                                             </div>
                                                         </div>
                                                     </div>
@@ -178,6 +178,9 @@
                         </div>
                     </div>
                     
+                    <!-- Modales fuera del contenedor principal para evitar problemas de z-index y transform, pero dentro del <form> -->
+                    {% include "cloraciones/list/modalActualizarDatos.html" %}
+                    {% include "temperaturas/list/modalEliminarTemperatura.html" %}
                 </form>
 
                 

@@ -278,14 +278,14 @@ def graficoCloroAcido(request):
 
     # Define color variables based on theme
     colors = {
-        'primary':  '#8a47f5',  
-        'secondary': '#ac86e9',  
-        'accent':    '#e0d0f8',  
+        'primary':  '#6c47d4',  
+        'secondary': '#b39ddb',  
+        'accent':    '#d5caee',  
 
         # Tonos complementarios
-        'contrast1': "#eddffe",   
-        'contrast2': '#c3ace7',   
-        'contrast3': '#fff6ff',   
+        'contrast1': '#1a0050',   
+        'contrast2': '#8a47f5',   
+        'contrast3': '#ede8fb',   
     }
 
         
@@ -392,6 +392,12 @@ def graficoTemperatura(request):
             registros = registros.filter(grupotem_id__dia_id__dia_dia__lte=fecha_fin_dt)
         except:
             pass
+            
+    if not year and not fecha_inicio and not fecha_fin:
+        from datetime import timedelta
+        from django.utils import timezone
+        fecha_hace_una_semana = timezone.now().date() - timedelta(days=7)
+        registros = registros.filter(grupotem_id__dia_id__dia_dia__gte=fecha_hace_una_semana)
 
     registros = registros.order_by('hor_tem')
 
@@ -426,25 +432,7 @@ def graficoTemperatura(request):
             # 'pageButtonItemGap': 8,
             # 'pageButtonPosition': 'end'
         },
-        'dataZoom': {
-            'show': True,
-            'type': 'slider',
-        },
-        'toolbox': {
-            'show': True,
-            'feature': {
-                'saveAsImage': { 'show': True },
-                'restore': { 'show': True },
-                'dataZoom': {
-                    'show': True,
-                    'title': {
-                        'zoom': "Zoom",
-                        'back': "Restaurar",
-                    }
-                },
-            },
-            'bottom': '0%',
-        },
+        'grid': { 'left': 40, 'right': 8, 'top': 32, 'bottom': 24 },
         'dataZoom': [
             {
                 'type': 'inside',
@@ -454,17 +442,9 @@ def graficoTemperatura(request):
         ],
         'xAxis': {
             'type': "value",
-            # 'name': 'Hora',
-            # 'nameLocation': 'middle',
-            # 'nameGap': 35,
-            # 'nameTextStyle': {'fontSize': 14, 'fontWeight': 'bold'},
             'min': 0,
             'max': 24,
             'interval':3,
-            # 'data': ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00',
-            #     '07:00', '08:00', '09:00', '10:00', '11:00', '12:00',
-            #     '13:00', '14:00', '15:00', '16:00', '17:00', '18:00',
-            #     '19:00', '20:00', '21:00', '22:00', '23:00', '24:00'],
             'axisLine': {'lineStyle': {'width': 1}},
             'axisLabel': {'fontSize': 12}
         },
@@ -485,39 +465,31 @@ def graficoTemperatura(request):
         'series': [
             {
                 'name': "T° Pulpa",
-                'type': "scatter",
-                'symbol': "pin",
+                'type': "line",
+                'smooth': True,
                 'data': pulpa_data,
-                'itemStyle': { 'color': '#499894' },
-                'symbolSize': 12,
-                'emphasis': {'focus': 'series'},
+                'itemStyle': { 'color': '#059669' },
             },
             {
                 'name': "T° Vaciado",
-                'type': "scatter",
-                'symbol': "pin",
+                'type': "line",
+                'smooth': True,
                 'data': agua_data,
-                'itemStyle': { 'color': '#4e79a7'},  
-                'symbolSize': 12,
-                'emphasis': {'focus': 'series'},
+                'itemStyle': { 'color': '#34d399'},  
             },
             {
                 'name': "T° Camara",
-                'type': "scatter",
-                'symbol': "pin",
+                'type': "line",
+                'smooth': True,
                 'data': ambiente_data,
-                'itemStyle': { 'color': '#59a14f'}, 
-                'symbolSize': 12,
-                'emphasis': {'focus': 'series'},
+                'itemStyle': { 'color': '#0d9488'}, 
             },
             {
                 'name': "T° Fungicida",
-                'type': "scatter",
-                'symbol': "pin",
+                'type': "line",
+                'smooth': True,
                 'data': fungicida_data,
-                'itemStyle': { 'color': '#364F6B'}, 
-                'symbolSize': 12,
-                'emphasis': {'focus': 'series'},
+                'itemStyle': { 'color': '#0e3a38'}, 
             }
         ]
     }
@@ -596,6 +568,13 @@ def graficoPPM(request):
         except ValueError:
             pass
 
+    if not year and not fecha_inicio and not fecha_fin:
+        from datetime import timedelta
+        from django.utils import timezone
+        fecha_hace_una_semana = timezone.now().date() - timedelta(days=7)
+        registros = registros.filter(grupoclo_id__dia_id__dia_dia__gte=fecha_hace_una_semana)
+        registrofungi = registrofungi.filter(dia_id__dia_dia__gte=fecha_hace_una_semana)
+
 
     
     registrofungi = registrofungi.order_by('hor_ppm')
@@ -640,13 +619,13 @@ def graficoPPM(request):
             
         },
         'grid': {
-            # 'left': '8%',
-            # 'right': '8%',
-            # 'top': '20%',
-            # 'bottom': '15%' # Added to make room for toolbox
+            'left': 44,
+            'right': 44,
+            'top': 32,
+            'bottom': 24
         },
         'toolbox': {
-            'show': True,
+            'show': False,
             'feature': {
                 'saveAsImage': { 'show': True },
                 'restore': { 'show': True },
@@ -684,8 +663,9 @@ def graficoPPM(request):
             {
                 'type': 'value',
                 'name': 'PPM',
+                'nameTextStyle': {'padding': [0, 40, 0, 0]},
                 'min':0,
-                'max':200,
+                'max':300,
                 'position': 'left',
                 'axisLine': {'show': True, 'lineStyle': { 'width': 1}},
                 'splitLine': {'show': True, 'lineStyle': {'color':'#eee', 'type': 'solid'}},
@@ -695,8 +675,9 @@ def graficoPPM(request):
             {
                 'type': 'value',
                 'name': 'pH',
+                'nameTextStyle': {'padding': [0, 0, 0, 30]},
                 'min':0,
-                'max':7,
+                'max':8,
                 'position': 'right',
                 'axisLine': {'show': True, 'lineStyle': { 'width': 1}},
                 'axisLabel': {'formatter': '{value}.0', 'fontSize': 11},
@@ -712,9 +693,9 @@ def graficoPPM(request):
                 'name': 'Estanque',
                 'type': 'line',
                 'yAxisIndex': 0,
-                
-                'itemStyle': {'color': '#499894'},
+                'itemStyle': {'color': '#16a34a'},
                 'smooth': True,
+                'symbol': 'emptyCircle',
                 'emphasis': {'focus': 'series', 'scale': True},
                 'blur': {'itemStyle': {'opacity': 0.1}},  
                 'data': estanque_ppm
@@ -724,9 +705,9 @@ def graficoPPM(request):
                 'name': 'Estanque',
                 'type': 'line',
                 'yAxisIndex': 1,
-
-                'itemStyle': {'color': '#499894'},
+                'itemStyle': {'color': '#16a34a'},
                 'smooth': True,
+                'symbol': 'emptyCircle',
                 'emphasis': {'focus': 'series', 'scale': True},
                 'blur': {'itemStyle': {'opacity': 0.1}},  
                 'data': estanque_ph
@@ -738,9 +719,9 @@ def graficoPPM(request):
                 'name': 'Corta Pedicelo',
                 'type': 'line',
                 'yAxisIndex': 0,
-                
-                'itemStyle': {'color': '#4e79a7'},
+                'itemStyle': {'color': '#22c55e'},
                 'smooth': True,
+                'symbol': 'emptyCircle',
                 'emphasis': {'focus': 'series', 'scale': True},
                 'blur': {'itemStyle': {'opacity': 0.1}},
                 'data': cortapedi_ppm
@@ -750,9 +731,9 @@ def graficoPPM(request):
                 'name': 'Corta Pedicelo',
                 'type': 'line',
                 'yAxisIndex': 1,
-                
-                'itemStyle': {'color': '#4e79a7'},
+                'itemStyle': {'color': '#22c55e'},
                 'smooth': True,
+                'symbol': 'emptyCircle',
                 'emphasis': {'focus': 'series', 'scale': True},
                 'blur': {'itemStyle': {'opacity': 0.1}},
                 'data': cortapedi_ph
@@ -764,9 +745,9 @@ def graficoPPM(request):
                 'name': 'Retorno',
                 'type': 'line',
                 'yAxisIndex': 0,
-
-                'itemStyle': {'color': '#59a14f'},
+                'itemStyle': {'color': '#4ade80'},
                 'smooth': True,
+                'symbol': 'emptyCircle',
                 'emphasis': {'focus': 'series', 'scale': True},
                 'blur': {'itemStyle': {'opacity': 0.1}},
                 'data': retorno_ppm
@@ -776,9 +757,9 @@ def graficoPPM(request):
                 'name': 'Retorno',
                 'type': 'line',
                 'yAxisIndex': 1,
-
-                'itemStyle': {'color': '#59a14f'},
+                'itemStyle': {'color': '#4ade80'},
                 'smooth': True,
+                'symbol': 'emptyCircle',
                 'emphasis': {'focus': 'series', 'scale': True},
                 'blur': {'itemStyle': {'opacity': 0.1}},
                 'data': retorno_ph
@@ -789,9 +770,9 @@ def graficoPPM(request):
                 'name': 'Fungicida',
                 'type': 'line',
                 'yAxisIndex': 0,
-
-                'itemStyle': {'color': '#364F6B'},
+                'itemStyle': {'color': '#166534'},
                 'smooth': True,
+                'symbol': 'emptyCircle',
                 'emphasis': {'focus': 'series', 'scale': True},
                 'blur': {'itemStyle': {'opacity': 0.1}},
                 'data': fungi_ppm
@@ -801,15 +782,13 @@ def graficoPPM(request):
                 'name': 'Fungicida',
                 'type': 'line',
                 'yAxisIndex': 1,
-
-                'itemStyle': {'color': '#364F6B'},
+                'itemStyle': {'color': '#166534'},
                 'smooth': True,
+                'symbol': 'emptyCircle',
                 'emphasis': {'focus': 'series', 'scale': True},
                 'blur': {'itemStyle': {'opacity': 0.1}},
                 'data': fungi_ph
-            },
-
-
+            }
         ],
         
     }
@@ -933,18 +912,15 @@ def graficoKilogramos(request):
             'textStyle': {'color': colors['primary']}
         },
         'xAxis': {
-            'data': ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-            'name': 'Mes',
-            'nameLocation': 'middle',
-            'nameGap': 30,
+            'data': ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
             'axisLine': {'lineStyle': {'color': colors['primary']}},
             'axisLabel': {'color': colors['primary']}
         },
         'yAxis': {
             'type': 'value',
-            'name': 'Kilogramos',
+            'name': 'Kg',
             'axisLine': {'lineStyle': {'color': colors['primary']}},
-            'axisLabel': {'color': colors['primary']}
+            'axisLabel': {'color': colors['primary'], 'fontSize': 10, 'formatter': '{value}'}
         },
         'grid': {
             'left': '3%',

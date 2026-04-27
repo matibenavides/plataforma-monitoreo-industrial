@@ -54,8 +54,6 @@
         </div>
         {% endif %}
 
-        {% comment %} Toast similar para presentar errores en el "motor" de busqueda {% endcomment %}
-        {% comment %} solo usa messages de django {% endcomment %}
         {% if messages %}
           {% for message in messages %}
               <div class="toast-container position-fixed top-0 end-0 p-3">
@@ -80,7 +78,7 @@
             
             <!-- Panel de Filtros -->
             <div class="col-12">
-              <div class="card shadow-sm border-0 bg-light">
+              <div class="card shadow-sm border-0 bg-light fade-up">
                 <div class="card-body pt-0">
                   <div class="row align-items-end">
                     
@@ -156,7 +154,7 @@
         
 
 
-        <div class="table-responsive shadow-lg mb-4 bg-body-tertiary rounded-4">
+        <div class="table-responsive shadow-lg mb-4 bg-body-tertiary rounded-4 fade-up delay-1">
             <table class="table table-hover text-center ">
                 <thead>
                     <tr class="border-info-subtle">
@@ -191,8 +189,6 @@
                               <i class="bi bi-trash"></i>
                             </button>
                             
-                            {% include "temperaturas/list/modalEliminarTemperaturaLista.html" %}
-                            
                         </td>
                     </tr>
                     {% endfor %}
@@ -206,6 +202,13 @@
         </div>
         {% comment %} {% include "cloraciones/list/paginacion.html" %} {% endcomment %}
         {% include "temperaturas/list/paginaciontemperaturalista.html" %}
+
+        <!-- Modales fuera del contenedor principal para evitar problemas de z-index y transform -->
+        {% if listas %}
+            {% for l in listas %}
+                {% include "temperaturas/list/modalEliminarTemperaturaLista.html" %}
+            {% endfor %}
+        {% endif %}
         
       </section>
 

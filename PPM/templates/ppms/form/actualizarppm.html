@@ -54,7 +54,7 @@
 
                 
 
-                <div class="container-fluid">
+                <div class="container-fluid fade-up">
                     <form action="{% url 'actualizarppm' grupo_id=ppm.id %}" method="POST">
                         {% csrf_token %}
                         <div class="card shadow-sm p-3 mb-1">
@@ -139,7 +139,7 @@
                 </div>
 
                 <!-- Tabla -->
-                <div class="table-responsive shadow-lg mb-4 bg-body-tertiary rounded-4">
+                <div class="table-responsive shadow-lg mb-4 bg-body-tertiary rounded-4 fade-up delay-1">
                     <table class="table table-hover text-center ">
                         <thead>
                             <tr class="border-info-subtle">
@@ -178,11 +178,9 @@
                                         <button type="button" class="btn btn-outline-danger btn-s" data-bs-toggle="modal" data-bs-target="#modal-eliminar-{{ l.id }}">
                                             <i class="bi bi-trash"></i>
                                         </button>
-                                        {% include "ppms/list/modalEliminarPPM.html" %}
                                        
                                     </td>
                                 </tr>
-                                {% include "ppms/list/modalObservacion.html" %}
                             {% endfor %}
                         </tbody>
                         
@@ -199,6 +197,14 @@
 
 
     </div>
+
+    <!-- Modales fuera del contenedor principal para evitar problemas de z-index y transform -->
+    {% if listas %}
+        {% for l in listas %}
+            {% include "ppms/list/modalEliminarPPM.html" %}
+            {% include "ppms/list/modalObservacion.html" %}
+        {% endfor %}
+    {% endif %}
 
     <script src="{% static 'cloraciones/js/toast.js' %}"></script>
     <script src="{% static 'cloraciones/js/modal.js' %}"></script>

@@ -10,7 +10,7 @@
   --hover: #e0d5f5;
   --accent: #8a47f5;
   --subtext: #747178;
-  /* --surface: #ffffff; */
+
 }
 
 :root[data-theme="dark"] {
@@ -25,6 +25,50 @@
   --subtext: #98959c;
 }
 
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
 
+::-webkit-scrollbar-track {
+  background: transparent;
+}
 
-/* --surface: #ffffff; */
+::-webkit-scrollbar-thumb {
+  background: #c4b5e8;
+  border-radius: 10px;
+}
+
+/* ── Animations ── */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-up {
+  animation: fadeUp 0.35s ease both;
+}
+
+.delay-1 {
+  animation-delay: 0.07s;
+}
+
+.delay-2 {
+  animation-delay: 0.14s;
+}
+
+.delay-3 {
+  animation-delay: 0.21s;
+}
+
+.delay-4 {
+  animation-delay: 0.28s;
+}

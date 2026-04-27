@@ -20,7 +20,8 @@
   <link rel="stylesheet" href="{% static 'cloraciones/css/buscador.css' %}">
   <link rel="stylesheet" href="{% static 'cloraciones/css/cloracion.css' %}" />
   <link rel="stylesheet" href="{% static 'logins/css/variables.css' %}" />
-  {% comment %} <link rel="stylesheet" href="{% static 'fungicidas/css/fungicida.css' %}" /> {% endcomment %}
+  {% comment %}
+  <link rel="stylesheet" href="{% static 'fungicidas/css/fungicida.css' %}" /> {% endcomment %}
 
   <style>
     @import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
@@ -40,45 +41,45 @@
         </h4>
 
         {% if messages %}
-          {% for message in messages %}
-              <div class="toast-container position-fixed top-0 end-0 p-3">
-                  <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-                      <div class="toast-header">
-                          <strong class="me-auto">Fungicida</strong>
-                          <small>Justo ahora</small>
-                          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                      </div>
-                      <div class="toast-body">
-                          {{ message }}
-                      </div>
-                  </div>
-                  
-              </div>
-          {% endfor %}
+        {% for message in messages %}
+        <div class="toast-container position-fixed top-0 end-0 p-3">
+          <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+              <strong class="me-auto">Fungicida</strong>
+              <small>Justo ahora</small>
+              <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+              {{ message }}
+            </div>
+          </div>
+
+        </div>
+        {% endfor %}
         {% endif %}
 
-        
+
 
         <div class="container-fluid">
           <div class="row p-3">
-            
+
             <!-- Panel de Filtros -->
             <div class="col-12">
-              <div class="card shadow-sm border-0 bg-light">
+              <div class="card shadow-sm border-0 bg-light fade-up">
                 <div class="card-body pt-0">
                   <div class="row align-items-end">
-                    
-                    
+
+
                     <form method="GET" class="row g-3 mt-0">
                       {% csrf_token %}
-                      
+
                       <!-- Filtro por Acción -->
                       <div class="col-md-3 col-lg-2 mt-2">
                         <label class="form-label fw-semibold text-muted small">Acción</label>
                         <select name="accion" class="form-select form-select-sm border-0 shadow-sm">
                           <option value="">Todas las acciones</option>
                           {% for accion in acciones_unicas %}
-                            <option value="{{ accion }}" {% if filtros_activos.accion == accion %}selected{% endif %}>{{ accion }}</option>
+                          <option value="{{ accion }}" {% if filtros_activos.accion == accion %}selected{% endif %}>{{ accion }}</option>
                           {% endfor %}
                         </select>
                       </div>
@@ -89,7 +90,7 @@
                         <select name="usuario" class="form-select form-select-sm border-0 shadow-sm">
                           <option value="">Todos los usuarios</option>
                           {% for usuario in usuarios_unicos %}
-                            <option value="{{ usuario }}" {% if filtros_activos.usuario == usuario %}selected{% endif %}>{{ usuario }}</option>
+                          <option value="{{ usuario }}" {% if filtros_activos.usuario == usuario %}selected{% endif %}>{{ usuario }}</option>
                           {% endfor %}
                         </select>
                       </div>
@@ -97,15 +98,15 @@
                       <!-- Filtro por Fecha Inicio -->
                       <div class="col-md-3 col-lg-2 mt-2">
                         <label class="form-label fw-semibold text-muted small">Desde</label>
-                        <input type="date" name="fecha_inicio" class="form-control form-control-sm border-0 shadow-sm" 
-                               value="{{ filtros_activos.fecha_inicio }}">
+                        <input type="date" name="fecha_inicio" class="form-control form-control-sm border-0 shadow-sm"
+                          value="{{ filtros_activos.fecha_inicio }}">
                       </div>
 
                       <!-- Filtro por Fecha Fin -->
                       <div class="col-md-3 col-lg-2 mt-2">
                         <label class="form-label fw-semibold text-muted small">Hasta</label>
-                        <input type="date" name="fecha_fin" class="form-control form-control-sm border-0 shadow-sm" 
-                               value="{{ filtros_activos.fecha_fin }}">
+                        <input type="date" name="fecha_fin" class="form-control form-control-sm border-0 shadow-sm"
+                          value="{{ filtros_activos.fecha_fin }}">
                       </div>
 
                       <!-- Botones de acción -->
@@ -127,56 +128,57 @@
           </div>
         </div>
 
-        
+
 
         <!-- Tabla -->
-        <div class="table-responsive shadow-lg mb-4 bg-body-tertiary rounded-4">
-            <table class="table table-hover text-center">
-                <thead>
-                    <tr class="border-info-subtle">
-                        <th>Registro ID</th>
-                        <th>Fecha</th>
-                        <th>Acción</th>
-                        
-                        <th>Actividad</th>
-                        <th>Usuario</th>
-                        
-                    </tr>
-                </thead>
-                <tbody class="table-group-divider border-primary">
-                      {% if listas %}
-                        {% for l in listas %}   
-                            <tr class="border-info-subtle">
-                                <td>{{ l.object_id }}</td>
-                                <td>{{ l.fecha }}</td>
-                                <td>{{ l.accion }}</td>
-                                         
-                                <td>{{ l.actividad }}</td>
-                                <td>{{ l.usuario }}</td>
-                        {% endfor %}
-                    {% else %}
-                        <tr class="border-info-subtle">
-                            <td colspan="13">No hay registros</td>
-                        </tr>
-                    {% endif %}
-                </tbody>
-                
-            </table>
-            
+        <div class="table-responsive shadow-lg mb-4 bg-body-tertiary rounded-4 fade-up delay-1">
+          <table class="table table-hover text-center">
+            <thead>
+              <tr class="border-info-subtle">
+                <th>Registro ID</th>
+                <th>Fecha</th>
+                <th>Acción</th>
+
+                <th>Actividad</th>
+                <th>Usuario</th>
+
+              </tr>
+            </thead>
+            <tbody class="table-group-divider border-primary">
+              {% if listas %}
+              {% for l in listas %}
+              <tr class="border-info-subtle">
+                <td>{{ l.object_id }}</td>
+                <td>{{ l.fecha }}</td>
+                <td>{{ l.accion }}</td>
+
+                <td>{{ l.actividad }}</td>
+                <td>{{ l.usuario }}</td>
+                {% endfor %}
+                {% else %}
+              <tr class="border-info-subtle">
+                <td colspan="13">No hay registros</td>
+              </tr>
+              {% endif %}
+            </tbody>
+
+          </table>
+
         </div>
-        
-        
-        
+
+
+
         {% include "productos/list/paginacionproductolista.html" %}
       </section>
 
-      
+
     </div>
 
 
-  <script src="{% static 'cloraciones/js/toast.js' %}"></script>
-  {% comment %} <script src="{% static 'cloraciones/js/modal.js' %}"></script> {% endcomment %}
-  
+    <script src="{% static 'cloraciones/js/toast.js' %}"></script>
+    {% comment %}
+    <script src="{% static 'cloraciones/js/modal.js' %}"></script> {% endcomment %}
+
 </body>
 
 </html>
