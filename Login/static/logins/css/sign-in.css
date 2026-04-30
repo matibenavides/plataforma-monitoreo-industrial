@@ -13,7 +13,7 @@
 
 body {
   font-family: "Rubik", sans-serif;
-  background: var(--bg);
+  background: var(--bg) !important;
   min-height: 100vh;
   display: flex;
   align-items: center;

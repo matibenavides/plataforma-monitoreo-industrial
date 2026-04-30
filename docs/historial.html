@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Control de Acciones</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/demomain.css">
+</head>
+
+<body class="pt-5 fondo page-cloracion">
+
+    <!-- Offcanvas Navbar -->
+    <nav class="navbar bg-body-tertiary transparente fixed-top">
+        <div class="container-fluid ajuste">
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <strong class="navbar-brand fs-5 fw-semibold">
+                <h4 hidden>Plataforma Monitoreo Industrial</h4>
+            </strong>
+
+            <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas-header rubik-titulo">
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Fungicidas</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body rubik-texto">
+                    <ul class="list-unstyled ps-0">
+                        <li class="mb-1">
+                            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">Home</button>
+                            <div class="collapse" id="home-collapse">
+                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                    <li><a href="dashboard.html" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Panel Principal</a></li>
+                                    <li><a href="historial.html" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Control de Acciones</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="border-top my-3"></li>
+
+                        <li class="mb-1">
+                            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#linea11-collapse" aria-expanded="false">Línea 11</button>
+                            <div class="collapse" id="linea11-collapse">
+                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                    <li><a href="cloracion.html" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Cloración</a></li>
+                                    <li><a href="temperatura.html" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Temperatura</a></li>
+                                    <li><a href="ppm.html" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Medición PPM</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="mb-1">
+                            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#linea10-collapse" aria-expanded="false">Línea 10</button>
+                            <div class="collapse" id="linea10-collapse">
+                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                    <li><a href="cloracion.html" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Cloración</a></li>
+                                    <li><a href="producto.html" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Productos</a></li>
+                                    <li><a href="fungicida.html" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Fungicidas</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="mb-1">
+                            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#linea5-collapse" aria-expanded="false">Línea 5</button>
+                            <div class="collapse" id="linea5-collapse">
+                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                    <li><a href="cloracion.html" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Cloración</a></li>
+                                    <li><a href="temperatura.html" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Temperatura</a></li>
+                                    <li><a href="ppm.html" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Medición PPM</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="mb-1">
+                            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#linea1-collapse" aria-expanded="false">Línea 1</button>
+                            <div class="collapse" id="linea1-collapse">
+                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                    <li><a href="producto.html" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Productos</a></li>
+                                    <li><a href="fungicida.html" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Fungicidas</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="border-top my-3"></li>
+
+                        <li class="mb-1">
+                            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#reports-collapse" aria-expanded="true">Reportes</button>
+                            <div class="collapse" id="reports-collapse">
+                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                    <li><a href="control-cloracion.html" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Control Cloraciones</a></li>
+                                    <li><a href="control-temperatura.html" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Control Temperatura</a></li>
+                                    <li><a href="control-ppm.html" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Control Medición de PPM</a></li>
+                                    <li><a href="control-producto.html" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Control Productos</a></li>
+                                    <li><a href="control-fungicida.html" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Control Fungicidas</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="border-top my-3"></li>
+
+                        <li class="mb-1">
+                            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">Cuenta</button>
+                            <div class="collapse" id="account-collapse">
+                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                    <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Nuevo...</a></li>
+                                    <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Perfil</a></li>
+                                    <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Ajustes</a></li>
+                                    <li><a href="index.html" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Cerrar sesión</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-3">
+        <div class="row">
+            <section class="p-3">
+
+                <h4 class="rubik-titulo">
+                    <strong class="ps-4">
+                        <a href="historial.html" class="text-decoration-none text-dark">Control de Acciones</a>
+                    </strong>
+                </h4>
+
+                <div class="container-fluid">
+                    <div class="row p-3">
+
+                        <!-- Panel de Filtros -->
+                        <div class="col-12">
+                            <div class="card shadow-sm border-0 bg-light fade-up">
+                                <div class="card-body pt-0">
+                                    <div class="row align-items-end">
+                                        <form class="row g-3 mt-0" id="form-filtros">
+
+                                            <!-- Filtro por Acción -->
+                                            <div class="col-md-3 col-lg-2 mt-2">
+                                                <label class="form-label fw-semibold text-muted small">Acción</label>
+                                                <select id="filtro-accion" class="form-select form-select-sm border-0 shadow-sm">
+                                                    <option value="">Todas las acciones</option>
+                                                    <option value="CREACIÓN">CREACIÓN</option>
+                                                    <option value="EDICIÓN">EDICIÓN</option>
+                                                    <option value="ELIMINACIÓN">ELIMINACIÓN</option>
+                                                </select>
+                                            </div>
+
+                                            <!-- Filtro por Usuario -->
+                                            <div class="col-md-3 col-lg-2 mt-2">
+                                                <label class="form-label fw-semibold text-muted small">Usuario</label>
+                                                <select id="filtro-usuario" class="form-select form-select-sm border-0 shadow-sm">
+                                                    <option value="">Todos los usuarios</option>
+                                                    <option value="admin">admin</option>
+                                                    <option value="jperez">jperez</option>
+                                                    <option value="mgarcia">mgarcia</option>
+                                                    <option value="rlopez">rlopez</option>
+                                                    <option value="amorales">amorales</option>
+                                                </select>
+                                            </div>
+
+                                            <!-- Filtro por Fecha Inicio -->
+                                            <div class="col-md-3 col-lg-2 mt-2">
+                                                <label class="form-label fw-semibold text-muted small">Desde</label>
+                                                <input type="date" id="filtro-desde" class="form-control form-control-sm border-0 shadow-sm">
+                                            </div>
+
+                                            <!-- Filtro por Fecha Fin -->
+                                            <div class="col-md-3 col-lg-2 mt-2">
+                                                <label class="form-label fw-semibold text-muted small">Hasta</label>
+                                                <input type="date" id="filtro-hasta" class="form-control form-control-sm border-0 shadow-sm">
+                                            </div>
+
+                                            <!-- Botones -->
+                                            <div class="col-md-12 col-lg-4 d-flex align-items-end mt-2 mb-2">
+                                                <div class="d-flex gap-2 w-100">
+                                                    <button type="button" id="btn-buscar" class="btn btn-primary btn-sm w-25 ms-auto">
+                                                        <i class="bi bi-search me-1"></i>Buscar
+                                                    </button>
+                                                    <button type="button" id="btn-limpiar" class="btn btn-outline-secondary btn-sm">
+                                                        <i class="bi bi-arrow-clockwise me-1"></i>Limpiar
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabla -->
+                <div class="table-responsive shadow-lg mb-4 bg-body-tertiary rounded-4 fade-up delay-1">
+                    <table class="table table-hover text-center">
+                        <thead>
+                            <tr class="border-info-subtle">
+                                <th>Registro ID</th>
+                                <th>Fecha</th>
+                                <th>Acción</th>
+                                <th>Actividad</th>
+                                <th>Usuario</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-body" class="table-group-divider border-primary">
+                            <!-- Filas generadas por JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Paginación -->
+                <div class="d-flex justify-content-end mt-3 me-3 fade-up delay-2">
+                    <nav aria-label="Navegación de páginas">
+                        <ul class="pagination mb-0" id="paginacion">
+                            <!-- Generada por JS -->
+                        </ul>
+                    </nav>
+                </div>
+
+            </section>
+        </div>
+    </div>
+
+    <script>
+    // ── Datos ficticios ────────────────────────────────
+    const REGISTROS = [
+        {id:1,  fecha:'29-04-2026 a las 18:45', accion:'CREACIÓN',   actividad:'Cloración – estanque – L11',       usuario:'jperez'},
+        {id:2,  fecha:'29-04-2026 a las 18:30', accion:'CREACIÓN',   actividad:'PPM – 95 – L11',                   usuario:'jperez'},
+        {id:3,  fecha:'29-04-2026 a las 17:55', accion:'EDICIÓN',    actividad:'Temperatura – Turno B – L5',       usuario:'mgarcia'},
+        {id:4,  fecha:'29-04-2026 a las 17:10', accion:'CREACIÓN',   actividad:'Fungicida – SHBR 230 – L10',       usuario:'rlopez'},
+        {id:5,  fecha:'28-04-2026 a las 16:40', accion:'CREACIÓN',   actividad:'Cloración – corta pedicelo – L11', usuario:'jperez'},
+        {id:6,  fecha:'28-04-2026 a las 16:00', accion:'CREACIÓN',   actividad:'Cloración – retorno – L5',         usuario:'mgarcia'},
+        {id:7,  fecha:'28-04-2026 a las 15:30', accion:'ELIMINACIÓN',actividad:'Producto – E305 – L1',             usuario:'admin'},
+        {id:8,  fecha:'28-04-2026 a las 15:00', accion:'CREACIÓN',   actividad:'PPM – 112 – L10',                  usuario:'rlopez'},
+        {id:9,  fecha:'27-04-2026 a las 14:20', accion:'EDICIÓN',    actividad:'Fungicida – SHBR tebu 430 – L10',  usuario:'amorales'},
+        {id:10, fecha:'27-04-2026 a las 13:45', accion:'CREACIÓN',   actividad:'Temperatura – Turno A – L11',      usuario:'jperez'},
+        {id:11, fecha:'27-04-2026 a las 12:00', accion:'CREACIÓN',   actividad:'Cloración – estanque – L5',        usuario:'mgarcia'},
+        {id:12, fecha:'26-04-2026 a las 11:30', accion:'CREACIÓN',   actividad:'Producto – Ciruela – L1',          usuario:'admin'},
+        {id:13, fecha:'26-04-2026 a las 10:55', accion:'EDICIÓN',    actividad:'PPM – 88 – L5',                    usuario:'rlopez'},
+        {id:14, fecha:'26-04-2026 a las 10:10', accion:'CREACIÓN',   actividad:'Cloración – retorno – L11',        usuario:'jperez'},
+        {id:15, fecha:'25-04-2026 a las 09:40', accion:'CREACIÓN',   actividad:'Temperatura – Turno B – L10',      usuario:'amorales'},
+        {id:16, fecha:'25-04-2026 a las 09:00', accion:'ELIMINACIÓN',actividad:'Cloración – corta pedicelo – L10', usuario:'admin'},
+        {id:17, fecha:'24-04-2026 a las 08:30', accion:'CREACIÓN',   actividad:'PPM – 130 – L11',                  usuario:'mgarcia'},
+        {id:18, fecha:'24-04-2026 a las 08:00', accion:'CREACIÓN',   actividad:'Fungicida – SHBR pyr 40% – L5',   usuario:'rlopez'},
+        {id:19, fecha:'23-04-2026 a las 17:15', accion:'EDICIÓN',    actividad:'Producto – Pera – L10',            usuario:'jperez'},
+        {id:20, fecha:'23-04-2026 a las 16:45', accion:'CREACIÓN',   actividad:'Cloración – estanque – L10',       usuario:'amorales'},
+        {id:21, fecha:'22-04-2026 a las 15:30', accion:'CREACIÓN',   actividad:'Temperatura – Turno A – L5',       usuario:'mgarcia'},
+        {id:22, fecha:'22-04-2026 a las 14:00', accion:'CREACIÓN',   actividad:'PPM – 105 – L10',                  usuario:'rlopez'},
+        {id:23, fecha:'21-04-2026 a las 13:20', accion:'ELIMINACIÓN',actividad:'Fungicida – SHBR 230 – L1',        usuario:'admin'},
+        {id:24, fecha:'21-04-2026 a las 12:40', accion:'CREACIÓN',   actividad:'Cloración – retorno – L10',        usuario:'jperez'},
+        {id:25, fecha:'20-04-2026 a las 11:50', accion:'EDICIÓN',    actividad:'Temperatura – Turno B – L11',      usuario:'amorales'},
+    ];
+
+    const POR_PAGINA = 20;
+    let paginaActual = 1;
+    let datosFiltrados = [...REGISTROS];
+
+    function renderTabla() {
+        const inicio = (paginaActual - 1) * POR_PAGINA;
+        const fin    = inicio + POR_PAGINA;
+        const pagina = datosFiltrados.slice(inicio, fin);
+        const tbody  = document.getElementById('tabla-body');
+
+        if (pagina.length === 0) {
+            tbody.innerHTML = '<tr class="border-info-subtle"><td colspan="5">No hay registros</td></tr>';
+            return;
+        }
+
+        tbody.innerHTML = pagina.map(r => `
+            <tr class="border-info-subtle">
+                <td>${r.id}</td>
+                <td>${r.fecha}</td>
+                <td>${r.accion}</td>
+                <td>${r.actividad}</td>
+                <td>${r.usuario}</td>
+            </tr>
+        `).join('');
+    }
+
+    function renderPaginacion() {
+        const totalPaginas = Math.ceil(datosFiltrados.length / POR_PAGINA);
+        const ul = document.getElementById('paginacion');
+
+        const btn = (label, page, disabled, active) => `
+            <li class="page-item ${disabled ? 'disabled' : ''} ${active ? 'active' : ''}">
+                <a class="page-link" href="#" data-page="${page}">${label}</a>
+            </li>`;
+
+        let html = btn('Primera', 1, paginaActual === 1, false);
+        html += btn('&laquo;', paginaActual - 1, paginaActual === 1, false);
+
+        for (let p = 1; p <= totalPaginas; p++) {
+            const cerca = p === 1 || p === totalPaginas ||
+                          Math.abs(p - paginaActual) <= 1;
+            const puntos = Math.abs(p - paginaActual) === 2;
+
+            if (cerca) {
+                html += btn(p, p, false, p === paginaActual);
+            } else if (puntos) {
+                html += '<li class="page-item disabled"><span class="page-link">...</span></li>';
+            }
+        }
+
+        html += btn('&raquo;', paginaActual + 1, paginaActual === totalPaginas, false);
+        html += btn('Última',  totalPaginas, paginaActual === totalPaginas, false);
+
+        ul.innerHTML = html;
+
+        ul.querySelectorAll('a[data-page]').forEach(a => {
+            a.addEventListener('click', e => {
+                e.preventDefault();
+                const p = parseInt(a.dataset.page);
+                if (!isNaN(p) && p >= 1 && p <= totalPaginas) {
+                    paginaActual = p;
+                    renderTabla();
+                    renderPaginacion();
+                }
+            });
+        });
+    }
+
+    function aplicarFiltros() {
+        const accion  = document.getElementById('filtro-accion').value;
+        const usuario = document.getElementById('filtro-usuario').value;
+
+        datosFiltrados = REGISTROS.filter(r => {
+            return (!accion  || r.accion  === accion) &&
+                   (!usuario || r.usuario === usuario);
+        });
+
+        paginaActual = 1;
+        renderTabla();
+        renderPaginacion();
+    }
+
+    document.getElementById('btn-buscar').addEventListener('click', aplicarFiltros);
+    document.getElementById('btn-limpiar').addEventListener('click', () => {
+        document.getElementById('filtro-accion').value  = '';
+        document.getElementById('filtro-usuario').value = '';
+        document.getElementById('filtro-desde').value   = '';
+        document.getElementById('filtro-hasta').value   = '';
+        datosFiltrados = [...REGISTROS];
+        paginaActual   = 1;
+        renderTabla();
+        renderPaginacion();
+    });
+
+    // Init
+    renderTabla();
+    renderPaginacion();
+    </script>
+
+</body>
+</html>

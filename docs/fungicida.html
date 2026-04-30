@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registros Fungicida</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        crossorigin="anonymous" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/demomain.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body class="page-cloracion pt-5 fondo font-sans-serif">
+
+    <!-- Offcanvas Navbar -->
+    <nav class="navbar bg-body-tertiary transparente fixed-top">
+        <div class="container-fluid ajuste">
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+                aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <strong class="navbar-brand fs-5 fw-semibold">
+                <h4 hidden>Plataforma Monitoreo Industrial</h4>
+            </strong>
+
+            <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar"
+                aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas-header rubik-titulo">
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Fungicidas</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body rubik-texto">
+                    <ul class="list-unstyled ps-0">
+                        <li class="mb-1">
+                            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                                data-bs-toggle="collapse" data-bs-target="#home-collapse"
+                                aria-expanded="true">Home</button>
+                            <div class="collapse" id="home-collapse">
+                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                    <li><a href="dashboard.html"
+                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Panel
+                                            Principal</a></li>
+                                    <li><a href="historial.html"
+                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Control
+                                            de Acciones</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="border-top my-3"></li>
+
+                        <li class="mb-1">
+                            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                                data-bs-toggle="collapse" data-bs-target="#linea11-collapse" aria-expanded="false">Línea
+                                11</button>
+                            <div class="collapse" id="linea11-collapse">
+                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                    <li><a href="cloracion.html"
+                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Cloración</a>
+                                    </li>
+                                    <li><a href="temperatura.html"
+                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Temperatura</a>
+                                    </li>
+                                    <li><a href="ppm.html"
+                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Medición
+                                            PPM</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="mb-1">
+                            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                                data-bs-toggle="collapse" data-bs-target="#linea10-collapse" aria-expanded="false">Línea
+                                10</button>
+                            <div class="collapse" id="linea10-collapse">
+                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                    <li><a href="cloracion.html"
+                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Cloración</a>
+                                    </li>
+                                    <li><a href="producto.html"
+                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Productos</a>
+                                    </li>
+                                    <li><a href="fungicida.html"
+                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Fungicidas</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="mb-1">
+                            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                                data-bs-toggle="collapse" data-bs-target="#linea5-collapse" aria-expanded="false">Línea
+                                5</button>
+                            <div class="collapse" id="linea5-collapse">
+                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                    <li><a href="cloracion.html"
+                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Cloración</a>
+                                    </li>
+                                    <li><a href="temperatura.html"
+                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Temperatura</a>
+                                    </li>
+                                    <li><a href="ppm.html"
+                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Medición
+                                            PPM</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="mb-1">
+                            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                                data-bs-toggle="collapse" data-bs-target="#linea1-collapse" aria-expanded="false">Línea
+                                1</button>
+                            <div class="collapse" id="linea1-collapse">
+                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                    <li><a href="producto.html"
+                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Productos</a>
+                                    </li>
+                                    <li><a href="fungicida.html"
+                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Fungicidas</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="border-top my-3"></li>
+
+                        <li class="mb-1">
+                            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                                data-bs-toggle="collapse" data-bs-target="#reports-collapse"
+                                aria-expanded="true">Reportes</button>
+                            <div class="collapse" id="reports-collapse">
+                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                    <li><a href="control-cloracion.html"
+                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Control
+                                            Cloraciones</a></li>
+                                    <li><a href="control-temperatura.html"
+                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Control
+                                            Temperatura</a></li>
+                                    <li><a href="control-ppm.html"
+                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Control
+                                            Medición de PPM</a></li>
+                                    <li><a href="control-producto.html"
+                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Control
+                                            Productos</a></li>
+                                    <li><a href="control-fungicida.html"
+                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Control
+                                            Fungicidas</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="border-top my-3"></li>
+
+                        <li class="mb-1">
+                            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                                data-bs-toggle="collapse" data-bs-target="#account-collapse"
+                                aria-expanded="false">Cuenta</button>
+                            <div class="collapse" id="account-collapse">
+                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                    <li><a href="#"
+                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Nuevo...</a>
+                                    </li>
+                                    <li><a href="#"
+                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Perfil</a>
+                                    </li>
+                                    <li><a href="#"
+                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Ajustes</a>
+                                    </li>
+                                    <li><a href="index.html"
+                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Cerrar
+                                            sesión</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-3">
+        <div class="row">
+            <section class="p-3">
+                <h4 class="rubik-titulo ps-4">
+                    <strong>Control Dosificación Fungicida</strong>
+                </h4>
+                <form action="#" onsubmit="return false;">
+                    <div class="container-fluid">
+                        <div class="card shadow-sm p-3 mb-1 pb-0 fade-up">
+
+                            <div class="row justify-content-md-center">
+
+                                <div class="col-12 col-md-3 col-lg-3">
+                                    <div class="input-group mb-2">
+                                        <span class="input-group-text">Especie</span>
+                                        <select class="form-select" name="especie" id="especie" required>
+                                            <option selected value="">Selecciona Especie</option>
+                                            <option value="1">Ciruela</option>
+                                            <option value="2">Pera</option>
+                                            <option value="3">Cereza</option>
+                                            <option value="4">Nectarine</option>
+                                        </select>
+                                    </div>
+                                    <div class="input-group mb-2">
+                                        <span class="input-group-text">Variedad</span>
+                                        <select class="form-select" name="variedad" id="variedad" required>
+                                            <option selected value="">Selecciona Variedad</option>
+                                            <!--Ciruela -->
+                                            <option value="1" data-chained="1">Reina Claudia</option>
+                                            <option value="2" data-chained="1">Mirabel</option>
+                                            <option value="3" data-chained="1">Damascena</option>
+                                            <option value="4" data-chained="1">Red Beauty</option>
+                                            <!--Pera -->
+                                            <option value="5" data-chained="2">Packham's</option>
+                                            <option value="6" data-chained="2">Anjou</option>
+                                            <option value="7" data-chained="2">Abate Fetel</option>
+                                            <option value="8" data-chained="2">Red Bartlett</option>
+                                            <!--Cereza -->
+                                            <option value="9" data-chained="3">Lapins</option>
+                                            <option value="10" data-chained="3">Sweetheart</option>
+                                            <option value="11" data-chained="3">Santina</option>
+                                            <option value="12" data-chained="3">Regina</option>
+                                            <!--Nectarine -->
+                                            <option value="13" data-chained="4">Nectajewel</option>
+                                            <option value="14" data-chained="4">Majestic Pearl</option>
+                                            <option value="15" data-chained="4">Fantasia</option>
+                                            <option value="16" data-chained="4">Suncrest</option>
+                                            <option value="17" data-chained="4">Redgold</option>
+                                            <option value="18" data-chained="4">Independence</option>
+
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-12 col-md-3 col-lg-3">
+                                    <div class="input-group mb-2">
+                                        <span class="input-group-text">Hora</span>
+                                        <input type="time" class="form-control text-center" name="hora" required>
+                                    </div>
+                                    <div class="input-group mb-2">
+                                        <span class="input-group-text">Fecha</span>
+                                        <input type="date" required min="1920-01-01" class="form-control text-center"
+                                            name="fecha">
+                                    </div>
+                                </div>
+
+
+                                <div class="col-12 col-md-2 col-lg-3">
+                                    <div class="input-group mb-2">
+                                        <span class="input-group-text">Producto</span>
+                                        <select class="form-select" name="producto" required>
+                                            <option selected value="">Selecciona fungicida</option>
+                                            <option value="1">shield brite 230</option>
+                                            <option value="2">shield brite 430</option>
+                                            <option value="3">shield brite pyr 40%</option>
+                                            <option value="4">cera primafresh</option>
+                                        </select>
+                                    </div>
+                                    <div class="input-group mb-2">
+                                        <span class="input-group-text">Dilución (Lts)</span>
+                                        <input type="number" class="form-control text-center" name="agua"
+                                            placeholder="Agua"
+                                            oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                                        <input type="number" class="form-control text-center" name="cera"
+                                            placeholder="Cera"
+                                            oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                                    </div>
+                                </div>
+
+
+                                <div class="col-12 col-md-2">
+                                    <div class="card shadow-sm p-3">
+                                        <button type="submit" class="btn btn-outline-primary">
+                                            <i class="bi bi-file-earmark-ruled"> Registrar</i>
+                                        </button>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="row">
+                                    <div class="col-12 col-md-10 mx-auto">
+                                        <div class="card shadow-sm p-1 mb-2">
+                                            <!-- Encabezado que activa el collapse -->
+                                            <a class="btn btn-toggle d-inline-flex align-items-center justify-content-center w-100 rounded border-0 collapsed"
+                                                data-bs-toggle="collapse" data-bs-target="#med" aria-expanded="true">
+                                                Mediciones del producto
+                                            </a>
+                                            <!-- Contenido colapsable -->
+                                            <div class="collapse show" id="med">
+                                                <div class="card card-body">
+                                                    <div class="row g-2">
+                                                        <div class="col-12 col-md-4">
+                                                            <div class="input-group">
+                                                                <span class="input-group-text">Peso Inicial</span>
+                                                                <input type="number" class="form-control text-center"
+                                                                    name="peso_inicial" placeholder="Peso inicial"
+                                                                    required
+                                                                    oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-4">
+                                                            <div class="input-group">
+                                                                <span class="input-group-text">Peso Final</span>
+                                                                <input type="number" class="form-control text-center"
+                                                                    name="peso_final" placeholder="Peso final" required
+                                                                    oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-4">
+                                                            <div class="input-group">
+                                                                <span class="input-group-text">CC Producto</span>
+                                                                <input type="number" class="form-control text-center"
+                                                                    name="cc_producto" placeholder="CC" required
+                                                                    oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4);">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="card shadow-sm p-1 mb-4 fade-up delay-1">
+                            <a class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                                data-bs-toggle="collapse" data-bs-target="#obs" aria-expanded="false">
+                                Observación
+                            </a>
+                            <div class="collapse" id="obs">
+                                <div class="card card-body">
+                                    <textarea class="form-control" id="observacion" maxlength="500" style="height: 89px"
+                                        name="observacion"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                </form>
+
+                <!-- Tabla -->
+                <div class="table-responsive shadow-lg mb-4 bg-body-tertiary rounded-4 fade-up delay-2">
+                    <table class="table table-hover text-center table-bordered table-registros">
+                        <thead>
+                            <tr class="border-info-subtle">
+                                <th>#</th>
+                                <th>Fecha</th>
+                                <th>Hora</th>
+                                <th>Producto</th>
+                                <th>Peso Inicial</th>
+                                <th>Peso Final</th>
+                                <th>CC producto</th>
+                                <th>Línea</th>
+                                <th>Especie</th>
+                                <th>Variedad</th>
+                                <th>Dilución</th>
+                                <th>Trabajador</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-group-divider border-primary">
+                            <tr class="border-info-subtle">
+                                <td scope="row">134</td>
+                                <td>30-03-2026</td>
+                                <td>14:20</td>
+                                <td>Shield Brite 230</td>
+                                <td>979</td>
+                                <td>652</td>
+                                <td>327</td>
+                                <td>11</td>
+                                <td>Peras</td>
+                                <td>Packham'S</td>
+                                <td>
+                                    <span class="badge bg-info text-dark badge-sm">Agua: 0 Lts</span>
+                                    <span class="badge bg-warning text-dark badge-sm">Cera: 327 Lts</span>
+                                </td>
+                                <td>Matias Benavides</td>
+                                <td>
+                                    <button type="button" class="btn btn-outline-primary btn-s" data-bs-toggle="modal"
+                                        data-bs-target="#modal-{{ l.id }}">
+                                        <i class="bi-chat-left-text"></i>
+                                    </button>
+                                    <a href="#"
+                                        class="btn btn-outline-info btn-s">
+                                        <i class="bi bi-arrow-repeat"></i>
+                                    </a>
+                                    <button type="button" class="btn btn-outline-danger btn-s" data-bs-toggle="modal"
+                                        data-bs-target="#modal-eliminar-{{ l.id }}">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+
+                                </td>
+                            </tr>
+
+                            <tr class="border-info-subtle">
+                                <td scope="row">133</td>
+                                <td>28-03-2026</td>
+                                <td>18:45</td>
+                                <td>Shield Brite Pyr 40%</td>
+                                <td>886</td>
+                                <td>586</td>
+                                <td>300</td>
+                                <td>10</td>
+                                <td>Ciruelas</td>
+                                <td>Damascena</td>
+                                <td>
+                                    <span class="badge bg-info text-dark badge-sm">Agua: 300 Lts</span>
+                                    <span class="badge bg-warning text-dark badge-sm">Cera: 0 Lts</span>
+                                </td>
+                                <td>Juan Pérez</td>
+                                <td>
+                                    <button type="button" class="btn btn-outline-primary btn-s" data-bs-toggle="modal"
+                                        data-bs-target="#modal-{{ l.id }}">
+                                        <i class="bi-chat-left-text"></i>
+                                    </button>
+                                    <a href="#"
+                                        class="btn btn-outline-info btn-s">
+                                        <i class="bi bi-arrow-repeat"></i>
+                                    </a>
+                                    <button type="button" class="btn btn-outline-danger btn-s" data-bs-toggle="modal"
+                                        data-bs-target="#modal-eliminar-{{ l.id }}">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+
+                                </td>
+                            </tr>
+
+                            <tr class="border-info-subtle">
+                                <td scope="row">132</td>
+                                <td>26-03-2026</td>
+                                <td>12:10</td>
+                                <td>Shield Brite Pyr 40%</td>
+                                <td>724</td>
+                                <td>647</td>
+                                <td>77</td>
+                                <td>10</td>
+                                <td>Peras</td>
+                                <td>Packham'S</td>
+                                <td>
+                                    <span class="badge bg-info text-dark badge-sm">Agua: 77 Lts</span>
+                                    <span class="badge bg-warning text-dark badge-sm">Cera: 0 Lts</span>
+                                </td>
+                                <td>Matias Benavides</td>
+                                <td>
+                                    <button type="button" class="btn btn-outline-primary btn-s" data-bs-toggle="modal"
+                                        data-bs-target="#modal-{{ l.id }}">
+                                        <i class="bi-chat-left-text"></i>
+                                    </button>
+                                    <a href="#"
+                                        class="btn btn-outline-info btn-s">
+                                        <i class="bi bi-arrow-repeat"></i>
+                                    </a>
+                                    <button type="button" class="btn btn-outline-danger btn-s" data-bs-toggle="modal"
+                                        data-bs-target="#modal-eliminar-{{ l.id }}">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+
+                                </td>
+                            </tr>
+
+                            <tr class="border-info-subtle">
+                                <td scope="row">131</td>
+                                <td>26-03-2026</td>
+                                <td>09:10</td>
+                                <td>Cera Primafresh</td>
+                                <td>337</td>
+                                <td>0</td>
+                                <td>339</td>
+                                <td>5</td>
+                                <td>Peras</td>
+                                <td>Red Bartlett</td>
+                                <td>
+                                    <span class="badge bg-info text-dark badge-sm">Agua: 0 Lts</span>
+                                    <span class="badge bg-warning text-dark badge-sm">Cera: 339 Lts</span>
+                                </td>
+                                <td>Matias Benavides</td>
+                                <td>
+                                    <button type="button" class="btn btn-outline-primary btn-s" data-bs-toggle="modal"
+                                        data-bs-target="#modal-{{ l.id }}">
+                                        <i class="bi-chat-left-text"></i>
+                                    </button>
+                                    <a href="#"
+                                        class="btn btn-outline-info btn-s">
+                                        <i class="bi bi-arrow-repeat"></i>
+                                    </a>
+                                    <button type="button" class="btn btn-outline-danger btn-s" data-bs-toggle="modal"
+                                        data-bs-target="#modal-eliminar-{{ l.id }}">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+
+                                </td>
+                            </tr>
+
+                            <tr class="border-info-subtle">
+                                <td scope="row">130</td>
+                                <td>25-03-2026</td>
+                                <td>17:30</td>
+                                <td>Shield Brite Tebu</td>
+                                <td>562</td>
+                                <td>444</td>
+                                <td>118</td>
+                                <td>10</td>
+                                <td>Ciruelas</td>
+                                <td>Reina Claudia</td>
+                                <td>
+                                    <span class="badge bg-info text-dark badge-sm">Agua: 118 Lts</span>
+                                    <span class="badge bg-warning text-dark badge-sm">Cera: 0 Lts</span>
+                                </td>
+                                <td>Matias Benavides</td>
+                                <td>
+                                    <button type="button" class="btn btn-outline-primary btn-s" data-bs-toggle="modal"
+                                        data-bs-target="#modal-{{ l.id }}">
+                                        <i class="bi-chat-left-text"></i>
+                                    </button>
+                                    <a href="#"
+                                        class="btn btn-outline-info btn-s">
+                                        <i class="bi bi-arrow-repeat"></i>
+                                    </a>
+                                    <button type="button" class="btn btn-outline-danger btn-s" data-bs-toggle="modal"
+                                        data-bs-target="#modal-eliminar-{{ l.id }}">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                <!-- Paginación -->
+                <div class="d-flex justify-content-end mt-3 me-3 fade-up delay-2">
+                    <nav aria-label="Navegación de páginas">
+                        <ul class="pagination mb-0" id="paginacion">
+                            <li class="page-item"><a class="page-link" href="#">Primera</a></li>
+                            <li class="page-item"><a class="page-link" href="#">«</a></li>
+                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#">»</a></li>
+                            <li class="page-item"><a class="page-link" href="#">Última</a></li>
+                        </ul>
+                    </nav>
+                    <!-- PDF  -->
+                    <nav aria-label="Page navigation example" style="margin-left: 25px;">
+                        <ul class="pagination">
+                            <li class="page-item"><a href="#" class="page-link">Exportar
+                                    <i class="bi bi-upload"></i>
+                                </a></li>
+                        </ul>
+                    </nav>
+                </div>
+
+
+            </section>
+        </div>
+
+
+    </div>
+
+
+    <script>
+        /*! Chained 2.0.0-beta.3 - MIT license - Copyright 2010-2017 Mika Tuupola */
+        !function (a, b, c, d) { "use strict"; a.fn.chained = function (b) { return this.each(function () { function c() { var c = !0, f = a("option:selected", d).val(); a(d).html(e.html()); var g = ""; a(b).each(function () { var b = a("option:selected", this).val(); b && (g.length > 0 && (g += "+"), g += b) }); var h; h = a.isArray(b) ? a(b[0]).first() : a(b).first(); var i = a("option:selected", h).val(); a("option", d).each(function () { if ("" !== a(this).val()) { var b = [], d = String(a(this).data("chained")); d && (b = d.split(" ")), b.indexOf(g) > -1 || b.indexOf(i) > -1 ? a(this).val() === f && (a(this).prop("selected", !0), c = !1) : a(this).remove() } }), 1 === a("option", d).length && "" === a(d).val() ? a(d).prop("disabled", !0) : a(d).prop("disabled", !1), c && a(d).trigger("change") } var d = this, e = a(d).clone(); a(b).each(function () { a(this).bind("change", function () { c() }), a("option:selected", this).length || a("option", this).first().attr("selected", "selected"), c() }) }) }, a.fn.chainedTo = a.fn.chained, a.fn.chained.defaults = {} }(window.jQuery || window.Zepto, window, document);
+    </script>
+    <script>
+        $(function () {
+            $("#variedad").chained("#especie");
+        });
+    </script>
+
+    <script src="assets/js/toast.js"></script>
+    <script src="assets/js/modal.js"></script>
+    <script src="assets/js/formateo.js"></script>
+</body>
+
+</html>
